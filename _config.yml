@@ -82,6 +82,6 @@ index_generator:
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:goumang2010/goumang2010.github.io.git
-  branch: master
+  repo: git@github.com:goumang2010/ChuuneWiki.git
+  branch: gh-pages
   message:
