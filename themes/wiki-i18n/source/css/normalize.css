@@ -54,6 +54,18 @@ video {
   display: inline-block;
 }
 
+
+h2,
+h3,
+h4,
+h5 {
+  border-bottom: 1px solid #aaa;
+  padding-left: 3px;
+}
+
+p {
+  padding-left: 5px;
+}
 /**
  * Add the correct display in iOS 4-7.
  */
