@@ -162,26 +162,53 @@ propsData| e       | f       |----
 ### instance
 #### index.js
 定义Vue类，将instance文件夹中定义的各Mixin函数注入Vue类，并导出，该类将在实例初始化执行原型上的_init方法(init.js定义)。
-##### initMixin
+```
+initMixin(Vue)
+stateMixin(Vue)
+eventsMixin(Vue)
+lifecycleMixin(Vue)
+renderMixin(Vue)
+```
+- [initMixin](#initMixin)
 定义原型上_init方法，进行必要的初始化，并执行instance文件夹中个文件定义的初始化函数，将Vue实例（组件）this注入。
-###### initLifecycle
+
+#### init.js
+##### initMixin<a name="initMixin" />
+```
+initLifecycle(vm)
+initEvents(vm)
+callHook(vm, 'beforeCreate')
+initState(vm)
+callHook(vm, 'created')
+initRender(vm)
+```
+- initLifecycle
 初始化组件的生命周期变量，包括$parent，$root，$children，$refs，内部变量_watcher，\_inactive，\_isMounted，\_isDestroyed，\_isBeingDestroyed
-###### initEvents
+- initEvents
 通过updateListeners监听vm.$options.\_parentListeners，其中原型上的$on，$off（eventsMixin中定义）作为updateListeners的add和remove参数
-###### callHook -beforeCreate
+- callHook -beforeCreate
 通过callHook（lifecycle.js定义）执行beforeCreate钩子，即执行$options['beforeCreate']数组中的每个handler，并发射'hook:beforeCreate'事件。
-###### initState
+- [initState](#initState)
+#### state.js
+##### initState<a name="initState" />
 state.js定义，从[observer文件夹](#observer)中引入set,del,observe,defineReactive,observerState,重置_watchers属性为空数组，并执行以下函数
 - initProps
+处理$options上传入的prop相关，使其加载到vm实例上。
+1. 在$options上取props、propsData。```observerState.shouldConvert = isRoot```如果不是根组件，该prop的值上就不建立观测者
+2. ```const keys = vm.$options._propKeys = Object.keys(props)```
+3. 遍历keys，生产环境：``` defineReactive(vm, key, validateProp(key, props, propsData, vm))```，为该属性添加观测者，并转化为get，set
+4. 若非生产环境，且```vm.$parent && !observerState.isSettingProps```(isSettingProps默认为false), 则通过传入defineReactive 的customSetter提示警告：不要改变prop的值，因为该组件有父组件, 父组件重新渲染会重写prop，所以应该是用该prop上的data和计算属性。
+5. ```observerState.shouldConvert = true```
 - initData
+1. 取$options.data为data，若为function，则绑定vm为this，执行后置为data，并绑定在vm.\_data。
+2. data不是PlainObject，提示'data functions should return an object.'
+3. ```const keys = Object.keys(data);const props = vm.$options.props```,遍历keys，若props上已存在该key，则提示使用prop default value而不是data
+4. 若props上无该key，则使用proxy，定义vm[key]的get，set，在vm.\_data上存取该属性。
+5. ```observe(data)```为data设立观测者
+6. ```data.__ob__ && data.__ob__.vmCount++```使观测者vmCount+1
 - initComputed
 - initMethods
 - initWatch
-
-
-###### callHook
-###### initRender
-
 ### observer<a name="observer" />
 #### array.js
 预先准备arrayMethods对象，根据Array原型重定义push、unshift、splice方法，当这些方法造成元素增减时，通过第1步定义的__ob__属性取得observer对象并调用observeArray方法，该原型方法将对数组中每个元素执行[observe](#observe)函数，若元素上没有观测者对象，则会递归建立（防止新增元素没有对应的observer对象），然后执行ob.dep.notify()，触发dep的subs中每个watcher对象的update方法。
@@ -262,7 +289,7 @@ options?: Object = {}
 ```
 ##### 初始化
 以下剖析watcher对象上的各属性的初始化：
-- this.getter<a name="watchergetter" /a>
+- this.getter<a name="watchergetter" />
 若expOrFn为函数，则将其直接赋为实例的getter，否则通过[parsePath](#parsePath)得到一个获取对象路径的函数赋与this.getter，如果表达式中包含.$或不是字符串，则getter的赋值将失败，此时将getter赋为空函数，并且若process.env.NODE_ENV不是production，则提示警告：
 `Failed watching path: "${expOrFn}"
 Watcher only accepts simple dot-delimited paths. or full control, use a function instead.`
@@ -302,7 +329,7 @@ this.active为true方可执行该方法。
 5. 执行this.cleanupDeps()
 6. 返回2中得到的value
 
-###### addDep<a name="addDep" /a>
+###### addDep<a name="addDep" />
 当本watcher对象变为Dep.target时，将由dep对象的depend方法触发。
 共有4个实例属性与此相关：
 ```
@@ -352,7 +379,7 @@ removeSub (sub: Watcher) {
 #### notify
 将this.subs中每个watcher对象执行update方法
 
-#### depend<a name="depend" /a>
+#### depend<a name="depend" />
 如果Dep.target(watcher对象)存在，调用target的[addDep](#addDep)方法，并将Dep实例this传入,该方法将会确保dep对象出现在watcher对象的newDeps数组中，dep id在newDepIds中，且watcher对象在subs数组中。
 
 #### 静态属性方法
@@ -382,13 +409,13 @@ Dep.target = _target
 ##### bind
 仅用于返回一个新函数并绑定传入的this，通过判断参数数量，从而比原生的快
 
-##### isObject<a name="isObject" /a>
+##### isObject<a name="isObject" />
 ```
 export function isObject (obj: mixed): boolean {
   return obj !== null && typeof obj === 'object'
 }
 ```
-##### isPlainObject<a name="isPlainObject" /a>
+##### isPlainObject<a name="isPlainObject" />
 ```
 const toString = Object.prototype.toString
 const OBJECT_STRING = '[object Object]'
@@ -396,7 +423,7 @@ export function isPlainObject (obj: any): boolean {
   return toString.call(obj) === OBJECT_STRING
 }
 ```
-##### remove<a name="remove" /a>
+##### remove<a name="remove" />
 ```
 export function remove (arr: Array<any>, item: any): Array<any> | void {
   if (arr.length) {
@@ -407,9 +434,37 @@ export function remove (arr: Array<any>, item: any): Array<any> | void {
   }
 }
 ```
-
+##### hasOwn
+```
+const hasOwnProperty = Object.prototype.hasOwnProperty
+export function hasOwn (obj: Object, key: string): boolean {
+  return hasOwnProperty.call(obj, key)
+}
+```
+##### hyphenate
+将驼峰转化为连字符,最多接受两个驼峰
+```
+const hyphenateRE = /([^-])([A-Z])/g
+export const hyphenate = cached((str: string): string => {
+  return str
+    .replace(hyphenateRE, '$1-$2')
+    .replace(hyphenateRE, '$1-$2')
+    .toLowerCase()
+})
+```
+##### cached
+闭包缓存
+```
+export function cached (fn: Function): Function {
+  const cache = Object.create(null)
+  return function cachedFn (str: string): any {
+    const hit = cache[str]
+    return hit || (cache[str] = fn(str))
+  }
+}
+```
 #### lang.js
-##### parsePath<a name="parsePath" /a>
+##### parsePath<a name="parsePath" />
 传入路径path，若其中包含*.$则直接返回，否则返回一个函数，传入obj，返回obj根据path路径得到的值
 ```
 const bailRE = /[^\w\.\$]/
@@ -428,7 +483,7 @@ export function parsePath (path: string): any {
   }
 }
 ```
-##### def<a name="def" /a>
+##### def<a name="def" />
 ```
 export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
   Object.defineProperty(obj, key, {
@@ -440,18 +495,57 @@ export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
 }
 ```
 #### env.js
-##### nextTick<a name="nextTick" /a>
+##### nextTick<a name="nextTick" />
 1. 定义nextTickHandler，执行内部callbacks中的所有任务。
 2. 定义timerFunc，若Promise存在使用Promise.resolve().then(nextTickHandler).
 3. 否则使用MutationObserver
 4. 否则使用setTimeout
 使用pending作为flag，若true，则直接把任务加入callbacks即可，因为正在执行，否则触发timerFunc
 
-##### hasProto<a name="hasProto" /a>
+##### hasProto<a name="hasProto" />
 ```
 // can we use __proto__?
 export const hasProto = '__proto__' in {}
 ```
+#### props.js
+##### validateProp<a name="validateProp" />
+参数：
+```
+key: string,
+propOptions: Object,
+propsData: Object,
+vm?: Component
+```
+propOptions: $options.props 一般形式：
+```
+{
+    key1 : {
+          type: Number,
+          default: 100
+        }
+  }
+```
+注意type为构造函数而非字符串
+1. ```const prop = propOptions[key];const absent = !hasOwn(propsData, key);let value = propsData[key]```
+2. 检查getType(prop.type)，若为Boolean：若propsData无此key，且prop无该key的默认值(default属性)，则```value = false```;若value为''或value为key的连字符形式，则```value = true```
+3. value仍为undefined，```value = getPropDefaultValue(vm, prop, key)```因为默认值是函数，value为函数计算的结果，所以是一个新值，所以暂时置observerState.shouldConvert为true，然后```observe(value)```,为这个新值添加观测者。[observe](#observe)
+4. 如果非生产环境，执行assertProp
+5. 返回value。
+
+##### getPropDefaultValue
+参数：```vm: ?Component, prop: PropOptions, name: string```
+1. prop没有default属性，直接返回undefined
+2. def = prop.default为object，且在非生产环境下，警告不要使用Object/Array，而要使用一个工厂函数返回默认值。
+3. 若prop.default为function，判断prop.type，为Function直接返回默认值，不是则返回```def.call(vm)```
+
+##### getType
+```
+function getType (fn) {
+  const match = fn && fn.toString().match(/^\s*function (\w+)/)
+  return match && match[1]
+}
+```
+##### assertProp
 
 ### vdom
 #### updateListeners
