@@ -183,7 +183,23 @@ state.js定义，从[observer文件夹](#observer)中引入set,del,observe,defin
 ###### initRender
 
 ### observer<a name="observer" />
+#### array.js
+预先准备arrayMethods对象，根据Array原型重定义push、unshift、splice方法，当这些方法造成元素增减时，通过第1步定义的__ob__属性取得observer对象并调用observeArray方法，该原型方法将对数组中每个元素执行[observe](#observe)函数，若元素上没有观测者对象，则会递归建立（防止新增元素没有对应的observer对象），然后执行ob.dep.notify()，触发dep的subs中每个watcher对象的update方法。
 #### index.js
+##### Observer类
+在传入value上面建立观测者对象
+###### 实例属性
+保存其附加到的value，内部保存一个dep对象，这样调用dep.notify()，则可触发dep对象subs数组中所有watcher对象的update方法，从而完成回调。
+```
+this.value = value
+this.dep = new Dep()
+this.vmCount = 0
+```
+###### 初始化
+1. 将observer对象作为value的__ob__属性。
+2. 若value为数组：取得在array.js中导出的arrayMethods对象，在模块内而后通过[hasProto](#hasProto)方法检查value的__proto__属性是否存在，若存在，则将arrayMethods对象直接赋为value的__proto__，否则，将arrayMethods的属性复制到value上，从而实现数组增减的监听。然后调用observeArray方法，对数组中每个元素执行[observe](#observe)函数，若元素上没有观测者对象，则会递归建立。
+3. 若value不是数组，则执行walk方法，对value上的每个属性都执行defineReactive函数，
+4. 这样将由defineReactive为入口形成递归，无论初始的value为数组还是对象，只要其属性或子元素是object，都会执行defineReactive，从而添加监听的getter，setter
 ##### observe<a name="observe" />
 尝试为一个值建立一个observer实例或是或者直接返回一个已经存在的observer。
 传入值value若不是[object](#isObject)则直接返回，若value存在```__ob__```属性并且```__ob__```为Observer实例，则返回```__ob__```。
@@ -202,15 +218,17 @@ key: string,
 val: any,
 customSetter?: Function
 ```
-内部新建Dep对象dep
-内部通过[observe](#observe)得到observer对象childOb
+内部新建dep对象
+内部通过[observe](#observe)得到val的observer对象childOb
 通过Object.getOwnPropertyDescriptor得到参数对象obj上该属性的描述，如果configurable为false则直接return
 重定义对象obj上的属性的get,set方法
 ###### get
-1. 执行原始的get方法
-2. 如果存在Dep.target， 则执行[dep.depend()](#depend)。
-3. 如果childOb存在，则执行childOb.dep.depend()
-
+1. 若存在原始的get方法，则执行get方法得到value，否则直接把原始的val赋为value。
+2. 如果存在Dep.target， 则执行[dep.depend()](#depend)。如果同时childOb存在，则执行childOb.dep.depend()，主要作用是将Dep.target加入dep对象的subs数组中。若同时value为数组，则触发其每个元素observer对象的depend方法
+3. 返回value。
+###### set
+1. 若存在原始的get方法，则执行get方法得到value，否则直接把原始的val赋为value，比较value和newVal，相同则直接返回。
+2.
 #### scheduler.js
 ```
 const queue: Array<Watcher> = []
@@ -220,7 +238,7 @@ let waiting = false
 let flushing = false
 let index = 0
 ```
-该模块定义静态Watcher实例数组queue ，waiting作为flag，控制是否将flushSchedulerQueue加入异步调度，flushing则判断是否queue正在执行，has记录已加入队列但尚未执行的watcher，circular记录每个watcher 运行的次数
+该模块定义静态watcher对象数组queue ，waiting作为flag，控制是否将flushSchedulerQueue加入异步调度，flushing则判断是否queue正在执行，has记录已加入队列但尚未执行的watcher，circular记录每个watcher 运行的次数
 ##### flushSchedulerQueue
 置flushing为true，开始处理队列
 1. 对queue中的watcher对象按照id从小到大排序，这样组件会从父到子更新，用户watcher先于render watcher，父组件watcher运行时将子组件销毁，则子组件watcher可被跳过。
@@ -230,7 +248,7 @@ let index = 0
 ##### resetSchedulerState
 清空queue，has,circular,置waiting及flushing为false
 ##### queueWatcher
-通过flushing判断，如果flushSchedulerQueue正在处理queue，则将watcher实例插入queue的已排序位置，否则直接压入最后，因为flushSchedulerQueue自然会进行排序。
+通过flushing判断，如果flushSchedulerQueue正在处理queue，则将watcher对象插入queue的已排序位置，否则直接压入最后，因为flushSchedulerQueue自然会进行排序。
 如果waiting为false，表示尚未将flushSchedulerQueue加入异步调度，则使用[nextTick](#nextTick)将其加入。
 
 #### watcher.js
@@ -242,45 +260,24 @@ expOrFn: string | Function,
 cb: Function,
 options?: Object = {}
 ```
-以下剖析Watcher实例上的各属性的初始化：
-##### this.getter
+##### 初始化
+以下剖析watcher对象上的各属性的初始化：
+- this.getter<a name="watchergetter" /a>
 若expOrFn为函数，则将其直接赋为实例的getter，否则通过[parsePath](#parsePath)得到一个获取对象路径的函数赋与this.getter，如果表达式中包含.$或不是字符串，则getter的赋值将失败，此时将getter赋为空函数，并且若process.env.NODE_ENV不是production，则提示警告：
 `Failed watching path: "${expOrFn}"
 Watcher only accepts simple dot-delimited paths. or full control, use a function instead.`
+该方法执行时会触发[defineReactive](#defineReactive)定义的参数obj属性路径path下的get方法，这样该属性绑定的闭包dep、属性val的__ob__.dep、若是数组则包含数组元素的dep,都将执行depend方法，监听本watcher，本watcher也将收集这些dep对象存于deps。
+这样，当按照expOrFnobj得到的属性val变动时，将触发闭包dep的notify方法，从而执行本watcher对象的update。
 
-##### this.value
+- this.value
 ```
 this.value = this.lazy
       ? undefined
       : this.get()
 ```
 ##### 原型方法
-###### addDep<a name="addDep" /a>
-共有4个实例属性与此相关：
-```
-deps: Array<Dep>; // 旧依赖数组
-newDeps: Array<Dep>; // 新依赖数组
-depIds: Set; // 旧依赖Ids
-newDepIds: Set; // 新依赖Ids
-```
-该方法传入1个Dep实例dep，如果newDepIds无此id，则实例压入newDeps，id压入newDepIds，若旧ids中无此id，则执行dep.addSub(this)，将Watcher实例加入dep的subs数组中
-###### cleanupDeps
-1. 遍历deps中每个dep 的id，若this.newDepIds不复存在id，则执行dep.removeSub(this)
-2. 将newDeps及newDepIds分别赋与deps及depIds，然后置空newDeps及newDepIds
-###### get
-1. 通过pushTarget将watcher实例设为Dep.target
-2. 调用this.getter，this绑定当前实例，并传入当前实例作为参数
-3. 如果deep为true，执行traverse(value)
-4. 通过popTarget，将压入targetStack中的旧Watcher实例取出，并恢复为Dep.target
-5. 执行this.cleanupDeps()
-6. 返回2中得到的value
-###### run
-this.active为true方可执行该方法。
-1. 通过this.get()取得value
-2. ```value !== this.value ||isObject(value) || this.deep```为true则继续执行
-3. 执行回调```this.cb.call(this.vm, value, oldValue)```
 ###### update
-在dep实例的notify方法中会调用subs数组中对象的update方法
+在dep实例的notify方法中会触发subs数组中watcher对象的update方法
 ```
 if (this.lazy) {
   this.dirty = true
@@ -290,13 +287,54 @@ if (this.lazy) {
   queueWatcher(this)
 }
 ```
+[queueWatcher](#queueWatcher)会将watcher对象加入异步队列，延迟调用run方法。
+###### run
+this.active为true方可执行该方法。
+1. 通过this.get()取得value
+2. ```value !== this.value ||isObject(value) || this.deep```为true则继续执行
+3. 执行回调```this.cb.call(this.vm, value, oldValue)```
+
+###### get
+1. 通过pushTarget将watcher对象设为Dep.target
+2. 调用[this.getter](#watchergetter)，this绑定当前实例，并传入当前实例作为参数
+3. 如果deep为true，执行traverse(value)
+4. 通过popTarget，将压入targetStack中的旧watcher对象取出，并恢复为Dep.target
+5. 执行this.cleanupDeps()
+6. 返回2中得到的value
+
+###### addDep<a name="addDep" /a>
+当本watcher对象变为Dep.target时，将由dep对象的depend方法触发。
+共有4个实例属性与此相关：
+```
+deps: Array<Dep>; // 旧依赖数组
+newDeps: Array<Dep>; // 新依赖数组
+depIds: Set; // 旧依赖Ids
+newDepIds: Set; // 新依赖Ids
+```
+该方法传入1个Dep实例dep，如果newDepIds无此id，则实例压入newDeps，id压入newDepIds，若旧ids中无此id，则执行dep.addSub(this)，将watcher对象加入dep的subs数组中
+
+###### cleanupDeps
+1. 遍历deps中每个dep 的id，若this.newDepIds不复存在id，则执行dep.removeSub(this),这样dep再notify时将不会执行本watcher的callback。
+2. 将newDeps及newDepIds分别赋与deps及depIds，然后置空newDeps及newDepIds。
+3. 这样由update/run/get触发的traverse方法收集到的dep对象全部转入deps，并清除了旧deps内的dep对象对本watcher的引用（移出subs数组）
+
+###### depend
+```
+depend () {
+  let i = this.deps.length
+  while (i--) {
+    this.deps[i].depend()
+  }
+}
+```
 
 ##### Helper
 ###### traverse
-传入val，读取val.__ob__.dep.id，并保存于模块定义 的seenObjects中（Set，非重复），递归读取val的每个属性或数组元素，执行同样操作
+传入val，读取val.__ob__.dep.id，并保存于模块定义 的seenObjects中（Set，非重复），递归读取val的每个属性或数组元素，执行同样操作。由于存在__ob__,在读取val属性的时候会执行defineReactive定义的get方法，进而执行：defineReactive函数闭包中的dep对象、val.__ob__.dep，若val为数组，则还有数组元素__ob__的dep，以上dep对象的depend方法，确保Dep.target(watcher对象)在subs数组中，dep对象出现在watcher对象的newDeps数组中。
+这样，当任何这些属性变化时，将触发对应闭包的dep对象的notify方法，执行当前watcher的update。
 #### dep.js
 定义Dep类，初始化时this.id为模块保存的uid+1
-，this.subs为Watcher实例的数组，初始化时置为空数组。
+，this.subs为watcher对象的数组，初始化时置为空数组。
 #### addSub
 ```
 addSub (sub: Watcher) {
@@ -312,21 +350,22 @@ removeSub (sub: Watcher) {
 [remove](#remove)
 
 #### notify
-将this.subs中每个Watcher实例执行update方法
+将this.subs中每个watcher对象执行update方法
 
 #### depend<a name="depend" /a>
-如果Dep.target存在，调用target的addDep方法，并将Dep实例this传入
+如果Dep.target(watcher对象)存在，调用target的[addDep](#addDep)方法，并将Dep实例this传入,该方法将会确保dep对象出现在watcher对象的newDeps数组中，dep id在newDepIds中，且watcher对象在subs数组中。
 
-Dep类的静态属性target为Watcher实例，开始置为null。
+#### 静态属性方法
+Dep类的静态属性target为watcher对象，开始置为null。
 此外该模块还设置const targetStack = []
 
-#### pushTarget
-传入Watcher实例_target
+##### pushTarget
+传入watcher对象_target
 ```
 if (Dep.target) targetStack.push(Dep.target)
 Dep.target = _target
 ```
-#### pushTarget
+##### pushTarget
 ```
   Dep.target = targetStack.pop()
 ```
@@ -389,6 +428,17 @@ export function parsePath (path: string): any {
   }
 }
 ```
+##### def<a name="def" /a>
+```
+export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
+  Object.defineProperty(obj, key, {
+    value: val,
+    enumerable: !!enumerable,
+    writable: true,
+    configurable: true
+  })
+}
+```
 #### env.js
 ##### nextTick<a name="nextTick" /a>
 1. 定义nextTickHandler，执行内部callbacks中的所有任务。
@@ -396,6 +446,12 @@ export function parsePath (path: string): any {
 3. 否则使用MutationObserver
 4. 否则使用setTimeout
 使用pending作为flag，若true，则直接把任务加入callbacks即可，因为正在执行，否则触发timerFunc
+
+##### hasProto<a name="hasProto" /a>
+```
+// can we use __proto__?
+export const hasProto = '__proto__' in {}
+```
 
 ### vdom
 #### updateListeners
