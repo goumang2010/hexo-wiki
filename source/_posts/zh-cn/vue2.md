@@ -191,24 +191,114 @@ initRender(vm)
 - [initState](#initState)
 #### state.js
 ##### initState<a name="initState" />
-state.js定义，从[observer文件夹](#observer)中引入set,del,observe,defineReactive,observerState,重置_watchers属性为空数组，并执行以下函数
-- initProps
+state.js定义，从[observer文件夹](#observer)中引入set,del,observe,defineReactive,observerState,重置_watchers属性为空数组，并执行Props,Data,Computed,Methods,Watch的初始化函数
+[initProps](#initProps)
+[initData](#initData)
+[initComputed](#initComputed)
+[initMethods](#initMethods)
+[initWatch](#initWatch)
+```
+export function initState (vm: Component) {
+  vm._watchers = []
+  initProps(vm)
+  initData(vm)
+  initComputed(vm)
+  initMethods(vm)
+  initWatch(vm)
+}
+```
+##### initProps<a name="initProps" />
 处理$options上传入的prop相关，使其加载到vm实例上。
 1. 在$options上取props、propsData。```observerState.shouldConvert = isRoot```如果不是根组件，该prop的值上就不建立观测者
 2. ```const keys = vm.$options._propKeys = Object.keys(props)```
-3. 遍历keys，生产环境：``` defineReactive(vm, key, validateProp(key, props, propsData, vm))```，为该属性添加观测者，并转化为get，set
+3. 遍历keys，生产环境：``` defineReactive(vm, key, validateProp(key, props, propsData, vm))```，该属性添加观测者，其本身及后代都会转化为getter，setter
 4. 若非生产环境，且```vm.$parent && !observerState.isSettingProps```(isSettingProps默认为false), 则通过传入defineReactive 的customSetter提示警告：不要改变prop的值，因为该组件有父组件, 父组件重新渲染会重写prop，所以应该是用该prop上的data和计算属性。
 5. ```observerState.shouldConvert = true```
-- initData
+##### initData<a name="initData" />
 1. 取$options.data为data，若为function，则绑定vm为this，执行后置为data，并绑定在vm.\_data。
 2. data不是PlainObject，提示'data functions should return an object.'
 3. ```const keys = Object.keys(data);const props = vm.$options.props```,遍历keys，若props上已存在该key，则提示使用prop default value而不是data
 4. 若props上无该key，则使用proxy，定义vm[key]的get，set，在vm.\_data上存取该属性。
-5. ```observe(data)```为data设立观测者
+5. ```observe(data)```为data设立观测者，data的属性及其后代则都会被转化getter，setter
 6. ```data.__ob__ && data.__ob__.vmCount++```使观测者vmCount+1
-- initComputed
-- initMethods
-- initWatch
+##### initComputed<a name="initComputed" />
+在模块内预定义：
+```
+const computedSharedDefinition = {
+  enumerable: true,
+  configurable: true,
+  get: noop,
+  set: noop
+}
+```
+1. 取$options.computed为computed
+2. computed存在，则遍历computed属性
+3. 若属性值的类型为function，调用makeComputedGetter传入该属性值，加工后作为get，set为noop（空函数）
+4. 若属性值的类型不是function：该值不存在get属性，则get和set都设为noop
+5. 若属性值的类型不是function：该值存在get：属性值上未声明cache为false，调用makeComputedGetter传入属性值的get返回getter，否则直接将vm注入get方法中，并返回新的函数作为get。若存在set属性，同样注入vm后作为新set，否则置为noop。
+6. 将修改后的computedSharedDefinition作为新的属性值绑定在vm上。
+
+##### makeComputedGetter<a name="makeComputedGetter" />
+传入参数：```getter: Function, owner: Component```
+该函数加工getter，返回一个新的函数作为getter
+1. 在该属性上建立watcher钩子```const watcher = new Watcher(owner, getter, noop, {lazy: true})```
+2. 新getter函数内：watcher.dirty为true，则执行```watcher.evaluate()```,该watcher因为定义时传入lazy:true,所以dirty默认为true,在执行evaluate后会置为false。
+3. 新getter函数内：若Dep.target存在，即是某个watcher在初始化或运行时需要读取该computed值，则调用watcher.depend()，使第1步建立的闭包watcher收集的所有deps对象（evaluate时通过遍历后代触发getter收集的）都监听该watcher（Dep.target也会收集到该闭包watcher的deps）。从而deps中的对象notify时（原getter指向的vm中data或props某个属性变化时），会同时执行该watcher及闭包watcher。
+4. 返回watcher.value，watcher.value在evaluate时，被赋予原始getter的执行结果。
+
+##### initMethods<a name="initMethods" />
+1. ```const methods = vm.$options.methods```
+2. methods存在，则遍历它的属性值，不为null，则直接注入vm为this，把返回的新的函数，使用原key绑定在vm上
+```
+function initMethods (vm: Component) {
+  const methods = vm.$options.methods
+  if (methods) {
+    for (const key in methods) {
+      if (methods[key] != null) {
+        vm[key] = bind(methods[key], vm)
+      } else if (process.env.NODE_ENV !== 'production') {
+        warn(`Method "${key}" is undefined in options.`, vm)
+      }
+    }
+  }
+}
+```
+##### initWatch<a name="initWatch" />
+1. ```const watch = vm.$options.watch```
+2. 遍历watch的每个属性，若为数组，则展开，分别传入[createWatcher](#createWatcher)函数
+```
+function createWatcher (vm: Component, key: string, handler: any) {
+  let options
+  if (isPlainObject(handler)) {
+    options = handler
+    handler = handler.handler
+  }
+  if (typeof handler === 'string') {
+    handler = vm[handler]
+  }
+  vm.$watch(key, handler, options)
+}
+```
+##### Vue.prototype.$watch
+使用传入的expOrFn和cb建立一个闭包watcher对象，若options.immediate为true，则立即执行回调
+```
+Vue.prototype.$watch = function (
+  expOrFn: string | Function,
+  cb: Function,
+  options?: Object
+): Function {
+  const vm: Component = this
+  options = options || {}
+  options.user = true
+  const watcher = new Watcher(vm, expOrFn, cb, options)
+  if (options.immediate) {
+    cb.call(vm, watcher.value)
+  }
+  return function unwatchFn () {
+    watcher.teardown()
+  }
+}
+```
 ### observer<a name="observer" />
 #### array.js
 预先准备arrayMethods对象，根据Array原型重定义push、unshift、splice方法，当这些方法造成元素增减时，通过第1步定义的__ob__属性取得observer对象并调用observeArray方法，该原型方法将对数组中每个元素执行[observe](#observe)函数，若元素上没有观测者对象，则会递归建立（防止新增元素没有对应的observer对象），然后执行ob.dep.notify()，触发dep的subs中每个watcher对象的update方法。
@@ -227,8 +317,9 @@ this.vmCount = 0
 2. 若value为数组：取得在array.js中导出的arrayMethods对象，在模块内而后通过[hasProto](#hasProto)方法检查value的__proto__属性是否存在，若存在，则将arrayMethods对象直接赋为value的__proto__，否则，将arrayMethods的属性复制到value上，从而实现数组增减的监听。然后调用observeArray方法，对数组中每个元素执行[observe](#observe)函数，若元素上没有观测者对象，则会递归建立。
 3. 若value不是数组，则执行walk方法，对value上的每个属性都执行defineReactive函数，
 4. 这样将由defineReactive为入口形成递归，无论初始的value为数组还是对象，只要其属性或子元素是object，都会执行defineReactive，从而添加监听的getter，setter
+
 ##### observe<a name="observe" />
-尝试为一个值建立一个observer实例或是或者直接返回一个已经存在的observer。
+尝试为一个值建立一个observer实例或是或者直接返回一个已经存在的observer。注意该函数将会在传入值上通过new Observer递归建立观测者，在其属性及属性后代上使用getter，setter监听。
 传入值value若不是[object](#isObject)则直接返回，若value存在```__ob__```属性并且```__ob__```为Observer实例，则返回```__ob__```。
 否则判断value是否合法，合法则返回new Observer(value)。
 判断value是否合法：
@@ -251,11 +342,15 @@ customSetter?: Function
 重定义对象obj上的属性的get,set方法
 ###### get
 1. 若存在原始的get方法，则执行get方法得到value，否则直接把原始的val赋为value。
-2. 如果存在Dep.target， 则执行[dep.depend()](#depend)。如果同时childOb存在，则执行childOb.dep.depend()，主要作用是将Dep.target加入dep对象的subs数组中。若同时value为数组，则触发其每个元素observer对象的depend方法
+2. 如果存在Dep.target， 则执行[dep.depend()](#depend)。如果同时childOb存在，则执行childOb.dep.depend()，主要作用是将Dep.target加入dep对象的subs数组中。若同时value为数组，则触发其每个元素observer对象的depend方法。在每个watcher对象初始化时会将自己置为Dep.target，然后通过get调用这步，从而使得闭包dep的subs中包含该watcher对象。
 3. 返回value。
 ###### set
 1. 若存在原始的get方法，则执行get方法得到value，否则直接把原始的val赋为value，比较value和newVal，相同则直接返回。
-2.
+2. 若非生产环境， customSetter存在则执行customSetter
+3. 原始setter存在则执行原始setter
+4. 对新值newVal建立观测者对象```childOb = observe(newVal)```
+5. 执行闭包中dep的notify方法，触发其中的watcher update，从而执行回调。这样就实现了，该属性值变化时，执行预先加入dep中的watcher
+
 #### scheduler.js
 ```
 const queue: Array<Watcher> = []
@@ -287,6 +382,7 @@ expOrFn: string | Function,
 cb: Function,
 options?: Object = {}
 ```
+expOrFn为指向被监视对象的路径或是函数，但都是表示找到被监视对象的方法。被监视对象必须为已转化getter，setter的对象（props或data），这样执行get方法时，才能将当前watcher加入到其闭包dep的监听数组中，从而实现调用setter时执行cb。
 ##### 初始化
 以下剖析watcher对象上的各属性的初始化：
 - this.getter<a name="watchergetter" />
@@ -302,6 +398,7 @@ this.value = this.lazy
       ? undefined
       : this.get()
 ```
+lazy为false或未定义，则会执行this.get()，这个方法将触发[this.getter](#watchergetter)，达到监听属性变化的目的。
 ##### 原型方法
 ###### update
 在dep实例的notify方法中会触发subs数组中watcher对象的update方法
@@ -362,6 +459,15 @@ depend () {
 #### dep.js
 定义Dep类，初始化时this.id为模块保存的uid+1
 ，this.subs为watcher对象的数组，初始化时置为空数组。
+##### Dep.target<a name="Deptarget" />
+Dep.target的类型为Watcher，默认为null，只有dep.js中pushTarget可以设置该值，pushTarget函数仅被watcher对象的get方法调用。而get方法设置Dep.target的目的是为了deep为true时，可以在属性及属性的后代上递归建立observer并通过get，set监听后代变化，后代变化时即可调用该watcher。
+- Dep.target为某个watcher对象时仅限以下场景：
+1.  某个非lazy的watcher初始化时
+2.  watcher对象执行run方法（准备执行回调钩子时）
+3.  lazy watcher执行evaluate时。
+- 用到Dep.target的场景：
+1. dep.depend -> Dep.target.addDep,而调用dep.depend()即为以上Dep.target存在值的场景
+2. 以上场景中读取了computed属性，则Dep.target会被加入到computed属性getter闭包中watcher对象所收集的Dep对象的监听数组（subs）中。也就是说，某个watcher执行时需要读取某个computed属性，那么这个watcher会在computed属性改变时一同执行。
 #### addSub
 ```
 addSub (sub: Watcher) {
