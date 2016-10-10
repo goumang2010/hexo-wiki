@@ -189,6 +189,7 @@ initRender(vm)
 - callHook -beforeCreate
 通过callHook（lifecycle.js定义）执行beforeCreate钩子，即执行$options['beforeCreate']数组中的每个handler，并发射'hook:beforeCreate'事件。
 - [initState](#initState)
+
 #### state.js
 ##### initState<a name="initState" />
 state.js定义，从[observer文件夹](#observer)中引入set,del,observe,defineReactive,observerState,重置_watchers属性为空数组，并执行Props,Data,Computed,Methods,Watch的初始化函数
@@ -221,6 +222,7 @@ export function initState (vm: Component) {
 4. 若props上无该key，则使用proxy，定义vm[key]的get，set，在vm.\_data上存取该属性。
 5. ```observe(data)```为data设立观测者，data的属性及其后代则都会被转化getter，setter
 6. ```data.__ob__ && data.__ob__.vmCount++```使观测者vmCount+1
+
 ##### initComputed<a name="initComputed" />
 在模块内预定义：
 ```
@@ -328,6 +330,7 @@ this.vmCount = 0
 - value为数组或[plainObject](#isPlainObject)
 - Object.isExtensible(value)为true
 - value不是vue实例（通过```value._isVue```判断）
+
 ##### defineReactive
 传入参数：
 ```
@@ -344,6 +347,7 @@ customSetter?: Function
 1. 若存在原始的get方法，则执行get方法得到value，否则直接把原始的val赋为value。
 2. 如果存在Dep.target， 则执行[dep.depend()](#depend)。如果同时childOb存在，则执行childOb.dep.depend()，主要作用是将Dep.target加入dep对象的subs数组中。若同时value为数组，则触发其每个元素observer对象的depend方法。在每个watcher对象初始化时会将自己置为Dep.target，然后通过get调用这步，从而使得闭包dep的subs中包含该watcher对象。
 3. 返回value。
+
 ###### set
 1. 若存在原始的get方法，则执行get方法得到value，否则直接把原始的val赋为value，比较value和newVal，相同则直接返回。
 2. 若非生产环境， customSetter存在则执行customSetter
@@ -468,6 +472,7 @@ Dep.target的类型为Watcher，默认为null，只有dep.js中pushTarget可以�
 - 用到Dep.target的场景：
 1. dep.depend -> Dep.target.addDep,而调用dep.depend()即为以上Dep.target存在值的场景
 2. 以上场景中读取了computed属性，则Dep.target会被加入到computed属性getter闭包中watcher对象所收集的Dep对象的监听数组（subs）中。也就是说，某个watcher执行时需要读取某个computed属性，那么这个watcher会在computed属性改变时一同执行。
+
 #### addSub
 ```
 addSub (sub: Watcher) {
