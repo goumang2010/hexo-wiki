@@ -182,13 +182,128 @@ initState(vm)
 callHook(vm, 'created')
 initRender(vm)
 ```
-- initLifecycle
-初始化组件的生命周期变量，包括$parent，$root，$children，$refs，内部变量_watcher，\_inactive，\_isMounted，\_isDestroyed，\_isBeingDestroyed
-- initEvents
-通过updateListeners监听vm.$options.\_parentListeners，其中原型上的$on，$off（eventsMixin中定义）作为updateListeners的add和remove参数
-- callHook -beforeCreate
+- [initLifecycle](#initLifecycle)
+- [initEvents](#initEvents)
+- [callHook](#callHook) -beforeCreate
 通过callHook（lifecycle.js定义）执行beforeCreate钩子，即执行$options['beforeCreate']数组中的每个handler，并发射'hook:beforeCreate'事件。
 - [initState](#initState)
+- [callHook](#callHook) -created
+通过callHook执行created钩子。
+- [initRender](#initRender)
+
+#### events.js
+##### initEvents
+1. vm.\_events置为无原型空对象
+2. 通过updateListeners监听vm.$options.\_parentListeners，其中原型上的$on，$off（eventsMixin中定义）作为updateListeners的add和remove参数
+```
+// init parent attached events
+const listeners = vm.$options._parentListeners
+const on = bind(vm.$on, vm)
+const off = bind(vm.$off, vm)
+vm._updateListeners = (listeners, oldListeners) => {
+  updateListeners(listeners, oldListeners || {}, on, off)
+}
+if (listeners) {
+  vm._updateListeners(listeners)
+}
+```
+
+#### lifecycle.js
+##### initLifecycle<a name="initLifecycle" />
+1. 从$options.parent开始，递归其上$options.abstract为true的$parent属性,找到第一个非abstract的parent
+2. ```parent.$children.push(vm)```
+3. 初始化组件的生命周期变量，包括$parent，$root，$children，$refs，内部变量_watcher，\_inactive，\_isMounted，\_isDestroyed，\_isBeingDestroyed
+
+##### lifecycleMixin<a name="lifecycleMixin" />
+定义Vue原型上的_mount，\_update，\_updateFromParent，$forceUpdate，$destroy方法
+
+- Vue.prototype.\_mount
+  参数：
+  ```
+  el?: Element | void,
+  hydrating?: boolean
+  ```
+  返回：Component
+  1. ```const vm: Component = this
+      vm.$el = el```
+  2. 若$options.render不存在，将$options.render置为[emptyVNode](#emptyVNode)（空节点），若非生产环境，且$options.template存在，则提示应使用render函数或预先编译template，$options.template不存在则提示装载组件错误
+  3. 使用[callHook](#callHook)执行beforeMount钩子。
+  4. ```vm._watcher = new Watcher(vm, () => {
+      vm._update(vm._render(), hydrating)
+    }, noop)``` ，vm.\_update(vm.\_render(), hydrating)会在该方法经过的观测者的dep捕获。因为在这个过程中会执行vm.\_render()，该方法会调用组件定义的render函数，render函数中包含对data或props的读取（如{{data.XX}}将会转化成render的createElement参数的某个属性值），这样因为其读取的所用到的data和props已转化getter，setter，故该watcher会被这些相关数据的dep捕获。但这些数据发生变化时，setter就会促发本watcher的get方法（vm.\_update(vm.\_render(), hydrating)，从而重新渲染）和回调noop(无用)。
+  5. ```hydrating = false```
+  6. vm为根节点，使用[callHook](#callHook)执行mounted钩子。
+  7. 返回vm
+
+
+- Vue.prototype.\_update
+
+
+- Vue.prototype.\_updateFromParent
+
+- Vue.prototype.$forceUpdate
+
+- Vue.prototype.$destroy
+
+##### callHook<a name="callHook" />
+执行$options上挂载的钩子数组中的所有handler。
+```
+export function callHook (vm: Component, hook: string) {
+  const handlers = vm.$options[hook]
+  if (handlers) {
+    for (let i = 0, j = handlers.length; i < j; i++) {
+      handlers[i].call(vm)
+    }
+  }
+  vm.$emit('hook:' + hook)
+}
+```
+
+#### render.js
+##### initRender<a name="initRender" />
+1.
+  <pre>vm.$vnode = null // the placeholder node in parent tree
+  vm.\_vnode = null // the root of the child tree
+  vm.\_staticTrees = null
+  vm.\_renderContext = vm.$options.\_parentVnode && vm.$options.\_parentVnode.context
+  </pre>
+2. 使用[resolveSlots](#resolveSlots)将$options.\_renderChildren按照slot分类并挂载到vm.$slots。
+3. 将公共createElement方法注入vm实例，并挂载到vm.$createElement
+4. $options.el存在，```vm.$mount(vm.$options.el)``` $mount为封装的Vue.prototype.\_mount原型方法，定义在[lifecycleMixin](#lifecycleMixin)中。
+
+##### resolveSlots<a name="resolveSlots" />
+参数：
+```
+renderChildren: ?VNodeChildren,
+context: ?Component
+```
+返回值：```{ [key: string]: Array<VNode> }```
+将renderChildren标准化处理后，按照slot分类，并返回分类对象。
+1. ```const slots = {}```，作为结果，在处理完成后返回slots。
+2. ```const children = normalizeChildren(renderChildren) || []``` 调用[normalizeChildren](#normalizeChildren)将renderChildren转为vnode对象的数组，并存于children。
+3. 遍历children中每一个vnode对象child
+ - 若child的context属性和传入的context相同（context即是父组件预留的插槽名称），并且child的data属性、data属性的slot属性存在，则把slot属性值赋予name变量，搜索slots中对应name变量的属性值，若不存在，则置为空数组，该属性值引用设为slot，如果child的tag属性值为'template'，则将child的children压入slot，否则将child本身压入slot。
+ - 若不满足上面的条件，则将child压入defaultSlot
+4. 若defaultSlot中存在元素，且不是一个空白元素，```slots.default = defaultSlot```
+
+##### renderMixin<a name="renderMixin" />
+
+- Vue.prototype.\_render
+
+1. ```    const {
+      render,
+      staticRenderFns,
+      _parentVnode
+    } = vm.$options``` 解构$options取render，staticRenderFns，\_parentVnode
+2.  vm.\_isMounted为true，将$slots（[initRender](#initRender)进行的初始化）中每一个属性进行通过[cloneVNodes](#cloneVNodes)克隆，并重新挂载到$slots上面。
+3. ```if (staticRenderFns && !vm._staticTrees) {
+      vm._staticTrees = []
+    }```
+4. ```vm.$vnode = _parentVnode```
+5. ```vnode = render.call(vm._renderProxy, vm.$createElement)```,将vm.\_renderProxy注入render函数作为this，$createElement（[initRender](#initRender)中定义）作为参数，执行render函数。\_renderProxy在[initMixin](#initMixin)中定义，若为生产环境，则其就是vm。
+6. vnode不是VNode的实例，非生产环境下提示'Multiple root nodes returned from render function. Render function should return a single root node.'
+7. ```vnode.parent = _parentVnode```
+8. 返回vnode
 
 #### state.js
 ##### initState<a name="initState" />
@@ -208,6 +323,7 @@ export function initState (vm: Component) {
   initWatch(vm)
 }
 ```
+
 ##### initProps<a name="initProps" />
 处理$options上传入的prop相关，使其加载到vm实例上。
 1. 在$options上取props、propsData。```observerState.shouldConvert = isRoot```如果不是根组件，该prop的值上就不建立观测者
@@ -215,6 +331,7 @@ export function initState (vm: Component) {
 3. 遍历keys，生产环境：``` defineReactive(vm, key, validateProp(key, props, propsData, vm))```，该属性添加观测者，其本身及后代都会转化为getter，setter
 4. 若非生产环境，且```vm.$parent && !observerState.isSettingProps```(isSettingProps默认为false), 则通过传入defineReactive 的customSetter提示警告：不要改变prop的值，因为该组件有父组件, 父组件重新渲染会重写prop，所以应该是用该prop上的data和计算属性。
 5. ```observerState.shouldConvert = true```
+
 ##### initData<a name="initData" />
 1. 取$options.data为data，若为function，则绑定vm为this，执行后置为data，并绑定在vm.\_data。
 2. data不是PlainObject，提示'data functions should return an object.'
@@ -386,7 +503,7 @@ expOrFn: string | Function,
 cb: Function,
 options?: Object = {}
 ```
-expOrFn为指向被监视对象的路径或是函数，但都是表示找到被监视对象的方法。被监视对象必须为已转化getter，setter的对象（props或data），这样执行get方法时，才能将当前watcher加入到其闭包dep的监听数组中，从而实现调用setter时执行cb。
+expOrFn为指向被监视对象的路径或是函数，但都是表示找到被监视对象的方法。被监视对象必须为已转化getter，setter的对象（props或data），这样执行get方法时，才能将当前watcher加入到其闭包dep的监听数组中，从而实现调用setter时执行cb。注意无需把监视对象返回，只要expOrFn中读取了该对象，即会被该对象的闭包dep捕获（lazy为true时不会被在初始化阶段捕获）
 ##### 初始化
 以下剖析watcher对象上的各属性的初始化：
 - this.getter<a name="watchergetter" />
@@ -460,9 +577,11 @@ depend () {
 ###### traverse
 传入val，读取val.__ob__.dep.id，并保存于模块定义 的seenObjects中（Set，非重复），递归读取val的每个属性或数组元素，执行同样操作。由于存在__ob__,在读取val属性的时候会执行defineReactive定义的get方法，进而执行：defineReactive函数闭包中的dep对象、val.__ob__.dep，若val为数组，则还有数组元素__ob__的dep，以上dep对象的depend方法，确保Dep.target(watcher对象)在subs数组中，dep对象出现在watcher对象的newDeps数组中。
 这样，当任何这些属性变化时，将触发对应闭包的dep对象的notify方法，执行当前watcher的update。
+
 #### dep.js
 定义Dep类，初始化时this.id为模块保存的uid+1
 ，this.subs为watcher对象的数组，初始化时置为空数组。
+
 ##### Dep.target<a name="Deptarget" />
 Dep.target的类型为Watcher，默认为null，只有dep.js中pushTarget可以设置该值，pushTarget函数仅被watcher对象的get方法调用。而get方法设置Dep.target的目的是为了deep为true时，可以在属性及属性的后代上递归建立observer并通过get，set监听后代变化，后代变化时即可调用该watcher。
 - Dep.target为某个watcher对象时仅限以下场景：
@@ -512,10 +631,13 @@ Dep.target = _target
 #### debug.js
 ##### formatComponentName
 获取vm实例的名字，如果$root属性等于自身，则返回'root instance'，否则按以下顺序取名字：`$options.name`，`$options._componentTag，name`，'anonymous component'
+
 ##### formatLocation
 如果名字为'anonymous component'，则提示` - use the "name" option for better debugging messages.`
+
 ##### warn
 如果console存在并且没有设置silent模式，则打印传入的警告信息及vm实例的位置
+
 #### shared/util.js
 ##### bind
 仅用于返回一个新函数并绑定传入的this，通过判断参数数量，从而比原生的快
@@ -534,6 +656,13 @@ export function isPlainObject (obj: any): boolean {
   return toString.call(obj) === OBJECT_STRING
 }
 ```
+##### isPrimitive<a name="isPrimitive" />
+```
+export function isPrimitive (value: any): boolean {
+  return typeof value === 'string' || typeof value === 'number'
+}
+```
+
 ##### remove<a name="remove" />
 ```
 export function remove (arr: Array<any>, item: any): Array<any> | void {
@@ -574,6 +703,7 @@ export function cached (fn: Function): Function {
   }
 }
 ```
+
 #### lang.js
 ##### parsePath<a name="parsePath" />
 传入路径path，若其中包含*.$则直接返回，否则返回一个函数，传入obj，返回obj根据path路径得到的值
@@ -594,6 +724,7 @@ export function parsePath (path: string): any {
   }
 }
 ```
+
 ##### def<a name="def" />
 ```
 export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
@@ -605,6 +736,7 @@ export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
   })
 }
 ```
+
 #### env.js
 ##### nextTick<a name="nextTick" />
 1. 定义nextTickHandler，执行内部callbacks中的所有任务。
@@ -618,6 +750,7 @@ export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
 // can we use __proto__?
 export const hasProto = '__proto__' in {}
 ```
+
 #### props.js
 ##### validateProp<a name="validateProp" />
 参数：
@@ -656,9 +789,173 @@ function getType (fn) {
   return match && match[1]
 }
 ```
+
 ##### assertProp
 
 ### vdom
+#### create-element.js
+##### createElement
+检查data，调用_createElement并返回结果，返回结果为vnode对象
+
+##### \_createElement
+参数：
+```
+context: Component,
+tag?: string | Class<Component> | Function | Object,
+data?: VNodeData,
+children?: VNodeChildren | void
+```
+1. 传入的data上有__ob__属性，非生产环境下提示：Avoid using observed data object as vnode data Always create fresh vnode data objects in each render!，并直接返回。
+2. tag不存在，返回空节点[emptyVNode](#emptyVNode)。
+3. tag若为字符串:
+  1. ```const ns = config.getTagNamespace(tag)```getTagNamespace仅仅识别MathML和svg元素，若是一般元素，则返回undefined
+  2. tag若是保留标签（html或svg标签）```return new VNode(tag, data, normalizeChildren(children, ns),undefined, undefined, ns,context)```[normalizeChildren](#normalizeChildren)
+  3. 若tag不是保留标签，// TODO
+4. tag不为字符串，直接构造组件，调用```createComponent(tag, data, context, children)```并返回。
+
+#### create-component.js
+##### createComponent
+
+
+#### helpers.js
+##### normalizeChildren<a name="normalizeChildren" />
+参数：
+```
+children: any,
+ns: string | void,
+nestedIndex: number | void
+```
+返回值：```Array<VNode> | void```
+1. ```  if (isPrimitive(children)) {
+    return [createTextVNode(children)]
+  }``` [isPrimitive](#isPrimitive)判断children是否为基本类型（number和string），返回```[createTextVNode(children)]```
+2. 若children为数组，遍历它每个元素，在此之前创建空数组res保存处理结果，在进行如下处理后，将res返回。
+ - 若元素val仍为数组，则递归调用normalizeChildren。
+ - 否则，若val为基本类型，则检测res最后一个元素，若其存在，并且有text属性（为文本节点），则直接把val转化为字符串并追加到text属性后面。最后一个元素不存在，或不是文本节点，则使用[createTextVNode](#createTextVNode)创建文本节点并加入到res中。
+ - 若元素val为VNode对象，
+   - 先判断它是否为文本节点，若其实文本节点，且res中最后一个也是文本节点，则把它合并到res最后一个元素上。
+   - 若val非文本节点，进行如下操作后，将其加入res中:
+     - 检查第二个参数ns是否存在，若存在，则使用[applyNS](#applyNS)设置命名空间
+     - 设置默认key```// default key for nested array children (likely generated by v-for)
+          if (c.tag && c.key == null && nestedIndex != null) {
+            c.key = `__vlist_${nestedIndex}_${i}__`
+          }```
+
+
+##### createTextVNode<a name="createTextVNode" />
+接受一个字符串，包装为vnode对象并返回。
+```
+function createTextVNode (val) {
+  return new VNode(undefined, undefined, undefined, String(val))
+}
+```
+
+##### applyNS<a name="applyNS" />
+若节点不存在命名空间，则把它及它的所有子节点的命名空间置为传入的ns。
+```
+function applyNS (vnode, ns) {
+  if (vnode.tag && !vnode.ns) {
+    vnode.ns = ns
+    if (vnode.children) {
+      for (let i = 0, l = vnode.children.length; i < l; i++) {
+        applyNS(vnode.children[i], ns)
+      }
+    }
+  }
+}
+```
+
+#### vnode.js
+##### VNode类<a name="VNode-class" />
+```
+tag: string | void;
+data: VNodeData | void;
+children: Array<VNode> | void;
+text: string | void;
+elm: Node | void;
+ns: string | void;
+context: Component | void; // rendered in this component's scope
+key: string | number | void;
+componentOptions: VNodeComponentOptions | void;
+child: Component | void; // component instance
+parent: VNode | void; // compoennt placeholder node
+raw: boolean; // contains raw HTML? (server only)
+isStatic: boolean; // hoisted static node
+isRootInsert: boolean; // necessary for enter transition check
+isComment: boolean; // empty comment placeholder?
+isCloned: boolean; // is a cloned node? 标记是否为克隆节点
+```
+初始化：
+```
+this.tag = tag
+this.data = data
+this.children = children
+this.text = text
+this.elm = elm
+this.ns = ns
+this.context = context
+this.key = data && data.key
+this.componentOptions = componentOptions
+this.child = undefined
+this.parent = undefined
+this.raw = false
+this.isStatic = false
+this.isRootInsert = true
+this.isComment = false
+this.isCloned = false
+```
+该类仅保存这些信息，没有原型方法。
+
+##### emptyVNode<a name="emptyVNode" />
+返回一个空节点
+```
+export const emptyVNode = () => {
+  const node = new VNode()
+  node.text = ''
+  node.isComment = true
+  return node
+}
+```
+
+##### cloneVNodes<a name="cloneVNodes" />
+调用cloneVNode克隆vnode数组
+```
+export function cloneVNodes (vnodes: Array<VNode>): Array<VNode> {
+  const res = new Array(vnodes.length)
+  for (let i = 0; i < vnodes.length; i++) {
+    res[i] = cloneVNode(vnodes[i])
+  }
+  return res
+}
+```
+
+##### cloneVNode
+暴力浅克隆，仅适用于静态节点
+```
+// optimized shallow clone
+// used for static nodes and slot nodes because they may be reused across
+// multiple renders, cloning them avoids errors when DOM manipulations rely
+// on their elm reference.
+export function cloneVNode (vnode: VNode): VNode {
+  const cloned = new VNode(
+    vnode.tag,
+    vnode.data,
+    vnode.children,
+    vnode.text,
+    vnode.elm,
+    vnode.ns,
+    vnode.context,
+    vnode.componentOptions
+  )
+  cloned.isStatic = vnode.isStatic
+  cloned.key = vnode.key
+  cloned.isCloned = true
+  return cloned
+}
+```
+
+
+
 #### updateListeners
 共传入4个参数。
 on：新的监听键值对
