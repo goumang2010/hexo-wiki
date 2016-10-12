@@ -159,6 +159,36 @@ propsData| e       | f       |----
 ### config.js
 各项设置开关
 
+### global-api
+#### extend.js
+##### initExtend<a name="initExtend">
+```
+Vue.cid = 0
+let cid = 1
+```
+每个实例构造函数，包括Vue类本身，都有一个独一无二的cid。这使得我们可以通过原型继承来包装子级构造函数并缓存它们。
+
+- Vue.extend
+返回一个继承Vue类的构造函数。
+参数：```extendOptions: Object```
+1. 将this（this为基类本身，因为该方法是基类的属性，this不一定为Vue，因为Vue的子类因为`Sub.extend = Super.extend`也同样有该静态方法）置为Super，若Super.cid === 0，则说明现在构造的这个类是第一个继承Vue的，故置isFirstExtend为true。
+2. 若该类是第一个继承Vue的，并且extendOptions.\_Ctor存在，则直接返回extendOptions.\_Ctor。
+3. `let name = extendOptions.name || Super.options.name`
+4. 非生产环境，使用正则判断，name应以字母开头，其后是单词或'-'，否则提示'Invalid component name'
+5. 创建继承类Sub，其构造函数内部与Vue一致，执行`this._init(options)`
+6. 设置原型`Sub.prototype = Object.create(Super.prototype);Sub.prototype.constructor = Sub`
+7. `Sub.cid = cid++`cid是initExtend闭包中的变量，从1开始，这样，类的静态属性cid就表示其创建顺序，Vue本身的cid为0
+8. 调用[mergeOptions](#mergeOptions)融合extendOptions和Super.options，置为Sub.options
+9. `Sub.extend = Super.extend`, 子类同样设置该静态方法。
+10. 在子类注册asset类型。<pre> config.\_assetTypes.forEach(function (type) {
+      Sub[type] = Super[type]
+    })</pre> 其实目前type只有component，directive，filter
+11. 若name存在，挂载自身从而可以循环查找。`Sub.options.components[name] = Sub`
+12. `Sub.superOptions = Super.options` 挂载superOptions，这样在实例化时可以检查父级option是否已经更新了
+13. `Sub.extendOptions = extendOptions`
+14. isFirstExtend为true（根据第1步，能进行到这部，说明extendOptions上无_Ctor属性），`extendOptions._Ctor = Sub`
+15. 返回Sub
+
 ### instance
 #### index.js
 定义Vue类，将instance文件夹中定义的各Mixin函数注入Vue类，并导出，该类将在实例初始化执行原型上的_init方法(init.js定义)。
@@ -173,7 +203,7 @@ renderMixin(Vue)
 定义原型上_init方法，进行必要的初始化，并执行instance文件夹中个文件定义的初始化函数，将Vue实例（组件）this注入。
 
 #### init.js
-##### initMixin<a name="initMixin" />
+##### initMixin<a name="initMixin">
 ```
 initLifecycle(vm)
 initEvents(vm)
@@ -209,12 +239,12 @@ if (listeners) {
 ```
 
 #### lifecycle.js
-##### initLifecycle<a name="initLifecycle" />
+##### initLifecycle<a name="initLifecycle">
 1. 从$options.parent开始，递归其上$options.abstract为true的$parent属性,找到第一个非abstract的parent
 2. ```parent.$children.push(vm)```
 3. 初始化组件的生命周期变量，包括$parent，$root，$children，$refs，内部变量_watcher，\_inactive，\_isMounted，\_isDestroyed，\_isBeingDestroyed
 
-##### lifecycleMixin<a name="lifecycleMixin" />
+##### lifecycleMixin<a name="lifecycleMixin">
 定义Vue原型上的_mount，\_update，\_updateFromParent，$forceUpdate，$destroy方法
 
 - Vue.prototype.\_mount
@@ -230,14 +260,19 @@ if (listeners) {
   3. 使用[callHook](#callHook)执行beforeMount钩子。
   4. ```vm._watcher = new Watcher(vm, () => {
       vm._update(vm._render(), hydrating)
-    }, noop)``` ，vm.\_update(vm.\_render(), hydrating)会在该方法经过的观测者的dep捕获。因为在这个过程中会执行vm.\_render()，该方法会调用组件定义的render函数，render函数中包含对data或props的读取（如{{data.XX}}将会转化成render的createElement参数的某个属性值），这样因为其读取的所用到的data和props已转化getter，setter，故该watcher会被这些相关数据的dep捕获。但这些数据发生变化时，setter就会促发本watcher的get方法（vm.\_update(vm.\_render(), hydrating)，从而重新渲染）和回调noop(无用)。
+    }, noop)``` ，vm.\_update(vm.\_render(), hydrating)会在该方法经过的观测者的dep捕获。因为在这个过程中会执行vm.\_render()，该方法会调用组件定义的render函数，render函数中包含对data或props的读取（如{{data.XX}}将会转化成render的createElement参数的某个属性值），这样因为其读取的所用到的data和props已转化getter，setter，故该watcher会被这些相关数据的dep捕获。但这些数据发生变化时，setter就会促发本watcher的get方法（vm.\_update(vm.\_render(), hydrating)，从而重新渲染）和回调noop(无用)。注意在此过程中，[createElement](#createElement)会按照render函数的指示生成并返回vnode对象，经过vm.\_update渲染到$el上。
   5. ```hydrating = false```
   6. vm为根节点，使用[callHook](#callHook)执行mounted钩子。
   7. 返回vm
 
-
 - Vue.prototype.\_update
-
+  1. 使用[callHook](#callHook)执行beforeUpdate钩子。
+  2. `const prevEl = vm.$el`注意$el为在[initRender](#initRender)传入Vue.prototype.\_mount中的vm.$options.el
+  3. `const prevActiveInstance = activeInstance;activeInstance = vm;` activeInstance为lifecycle.js所定义的模块变量。
+  4. `const prevVnode = vm._vnode;vm._vnode = vnode;`
+  5. prevVnode不存在，重新构建`vm.$el = vm.__patch__(vm.$el, vnode, hydrating)`,否则在上个vnode基础上打补丁`vm.$el = vm.__patch__(prevVnode, vnode)`,`__patch__`方法在`src\entries\web-runtime.js`加载，非服务端则调用[patch](#patch)方法。
+  6. 恢复activeInstance`activeInstance = prevActiveInstance`
+// TODO
 
 - Vue.prototype.\_updateFromParent
 
@@ -245,7 +280,7 @@ if (listeners) {
 
 - Vue.prototype.$destroy
 
-##### callHook<a name="callHook" />
+##### callHook<a name="callHook">
 执行$options上挂载的钩子数组中的所有handler。
 ```
 export function callHook (vm: Component, hook: string) {
@@ -260,7 +295,7 @@ export function callHook (vm: Component, hook: string) {
 ```
 
 #### render.js
-##### initRender<a name="initRender" />
+##### initRender<a name="initRender">
 1.
   <pre>vm.$vnode = null // the placeholder node in parent tree
   vm.\_vnode = null // the root of the child tree
@@ -271,7 +306,7 @@ export function callHook (vm: Component, hook: string) {
 3. 将公共createElement方法注入vm实例，并挂载到vm.$createElement
 4. $options.el存在，```vm.$mount(vm.$options.el)``` $mount为封装的Vue.prototype.\_mount原型方法，定义在[lifecycleMixin](#lifecycleMixin)中。
 
-##### resolveSlots<a name="resolveSlots" />
+##### resolveSlots<a name="resolveSlots">
 参数：
 ```
 renderChildren: ?VNodeChildren,
@@ -286,7 +321,7 @@ context: ?Component
  - 若不满足上面的条件，则将child压入defaultSlot
 4. 若defaultSlot中存在元素，且不是一个空白元素，```slots.default = defaultSlot```
 
-##### renderMixin<a name="renderMixin" />
+##### renderMixin<a name="renderMixin">
 
 - Vue.prototype.\_render
 
@@ -306,7 +341,7 @@ context: ?Component
 8. 返回vnode
 
 #### state.js
-##### initState<a name="initState" />
+##### initState<a name="initState">
 state.js定义，从[observer文件夹](#observer)中引入set,del,observe,defineReactive,observerState,重置_watchers属性为空数组，并执行Props,Data,Computed,Methods,Watch的初始化函数
 [initProps](#initProps)
 [initData](#initData)
@@ -324,7 +359,7 @@ export function initState (vm: Component) {
 }
 ```
 
-##### initProps<a name="initProps" />
+##### initProps<a name="initProps">
 处理$options上传入的prop相关，使其加载到vm实例上。
 1. 在$options上取props、propsData。```observerState.shouldConvert = isRoot```如果不是根组件，该prop的值上就不建立观测者
 2. ```const keys = vm.$options._propKeys = Object.keys(props)```
@@ -332,7 +367,7 @@ export function initState (vm: Component) {
 4. 若非生产环境，且```vm.$parent && !observerState.isSettingProps```(isSettingProps默认为false), 则通过传入defineReactive 的customSetter提示警告：不要改变prop的值，因为该组件有父组件, 父组件重新渲染会重写prop，所以应该是用该prop上的data和计算属性。
 5. ```observerState.shouldConvert = true```
 
-##### initData<a name="initData" />
+##### initData<a name="initData">
 1. 取$options.data为data，若为function，则绑定vm为this，执行后置为data，并绑定在vm.\_data。
 2. data不是PlainObject，提示'data functions should return an object.'
 3. ```const keys = Object.keys(data);const props = vm.$options.props```,遍历keys，若props上已存在该key，则提示使用prop default value而不是data
@@ -340,7 +375,7 @@ export function initState (vm: Component) {
 5. ```observe(data)```为data设立观测者，data的属性及其后代则都会被转化getter，setter
 6. ```data.__ob__ && data.__ob__.vmCount++```使观测者vmCount+1
 
-##### initComputed<a name="initComputed" />
+##### initComputed<a name="initComputed">
 在模块内预定义：
 ```
 const computedSharedDefinition = {
@@ -357,7 +392,7 @@ const computedSharedDefinition = {
 5. 若属性值的类型不是function：该值存在get：属性值上未声明cache为false，调用makeComputedGetter传入属性值的get返回getter，否则直接将vm注入get方法中，并返回新的函数作为get。若存在set属性，同样注入vm后作为新set，否则置为noop。
 6. 将修改后的computedSharedDefinition作为新的属性值绑定在vm上。
 
-##### makeComputedGetter<a name="makeComputedGetter" />
+##### makeComputedGetter<a name="makeComputedGetter">
 传入参数：```getter: Function, owner: Component```
 该函数加工getter，返回一个新的函数作为getter
 1. 在该属性上建立watcher钩子```const watcher = new Watcher(owner, getter, noop, {lazy: true})```
@@ -365,7 +400,7 @@ const computedSharedDefinition = {
 3. 新getter函数内：若Dep.target存在，即是某个watcher在初始化或运行时需要读取该computed值，则调用watcher.depend()，使第1步建立的闭包watcher收集的所有deps对象（evaluate时通过遍历后代触发getter收集的）都监听该watcher（Dep.target也会收集到该闭包watcher的deps）。从而deps中的对象notify时（原getter指向的vm中data或props某个属性变化时），会同时执行该watcher及闭包watcher。
 4. 返回watcher.value，watcher.value在evaluate时，被赋予原始getter的执行结果。
 
-##### initMethods<a name="initMethods" />
+##### initMethods<a name="initMethods">
 1. ```const methods = vm.$options.methods```
 2. methods存在，则遍历它的属性值，不为null，则直接注入vm为this，把返回的新的函数，使用原key绑定在vm上
 ```
@@ -382,7 +417,7 @@ function initMethods (vm: Component) {
   }
 }
 ```
-##### initWatch<a name="initWatch" />
+##### initWatch<a name="initWatch">
 1. ```const watch = vm.$options.watch```
 2. 遍历watch的每个属性，若为数组，则展开，分别传入[createWatcher](#createWatcher)函数
 ```
@@ -418,9 +453,9 @@ Vue.prototype.$watch = function (
   }
 }
 ```
-### observer<a name="observer" />
+### observer<a name="observer">
 #### array.js
-预先准备arrayMethods对象，根据Array原型重定义push、unshift、splice方法，当这些方法造成元素增减时，通过第1步定义的__ob__属性取得observer对象并调用observeArray方法，该原型方法将对数组中每个元素执行[observe](#observe)函数，若元素上没有观测者对象，则会递归建立（防止新增元素没有对应的observer对象），然后执行ob.dep.notify()，触发dep的subs中每个watcher对象的update方法。
+预先准备arrayMethods对象，根据Array原型重定义push、unshift、splice方法，当这些方法造成元素增减时，通过第1步定义的`__ob__`属性取得observer对象并调用observeArray方法，该原型方法将对数组中每个元素执行[observe](#observe)函数，若元素上没有观测者对象，则会递归建立（防止新增元素没有对应的observer对象），然后执行ob.dep.notify()，触发dep的subs中每个watcher对象的update方法。
 #### index.js
 ##### Observer类
 在传入value上面建立观测者对象
@@ -432,14 +467,14 @@ this.dep = new Dep()
 this.vmCount = 0
 ```
 ###### 初始化
-1. 将observer对象作为value的__ob__属性。
+1. 将observer对象作为value的`__ob__`属性。
 2. 若value为数组：取得在array.js中导出的arrayMethods对象，在模块内而后通过[hasProto](#hasProto)方法检查value的__proto__属性是否存在，若存在，则将arrayMethods对象直接赋为value的__proto__，否则，将arrayMethods的属性复制到value上，从而实现数组增减的监听。然后调用observeArray方法，对数组中每个元素执行[observe](#observe)函数，若元素上没有观测者对象，则会递归建立。
 3. 若value不是数组，则执行walk方法，对value上的每个属性都执行defineReactive函数，
 4. 这样将由defineReactive为入口形成递归，无论初始的value为数组还是对象，只要其属性或子元素是object，都会执行defineReactive，从而添加监听的getter，setter
 
-##### observe<a name="observe" />
+##### observe<a name="observe">
 尝试为一个值建立一个observer实例或是或者直接返回一个已经存在的observer。注意该函数将会在传入值上通过new Observer递归建立观测者，在其属性及属性后代上使用getter，setter监听。
-传入值value若不是[object](#isObject)则直接返回，若value存在```__ob__```属性并且```__ob__```为Observer实例，则返回```__ob__```。
+传入值value若不是[object](#isObject)则直接返回，若value存在`__ob__`属性并且`__ob__`为Observer实例，则返回`__ob__`。
 否则判断value是否合法，合法则返回new Observer(value)。
 判断value是否合法：
 - observerState.shouldConvert为true
@@ -506,11 +541,11 @@ options?: Object = {}
 expOrFn为指向被监视对象的路径或是函数，但都是表示找到被监视对象的方法。被监视对象必须为已转化getter，setter的对象（props或data），这样执行get方法时，才能将当前watcher加入到其闭包dep的监听数组中，从而实现调用setter时执行cb。注意无需把监视对象返回，只要expOrFn中读取了该对象，即会被该对象的闭包dep捕获（lazy为true时不会被在初始化阶段捕获）
 ##### 初始化
 以下剖析watcher对象上的各属性的初始化：
-- this.getter<a name="watchergetter" />
+- this.getter<a name="watchergetter">
 若expOrFn为函数，则将其直接赋为实例的getter，否则通过[parsePath](#parsePath)得到一个获取对象路径的函数赋与this.getter，如果表达式中包含.$或不是字符串，则getter的赋值将失败，此时将getter赋为空函数，并且若process.env.NODE_ENV不是production，则提示警告：
 `Failed watching path: "${expOrFn}"
 Watcher only accepts simple dot-delimited paths. or full control, use a function instead.`
-该方法执行时会触发[defineReactive](#defineReactive)定义的参数obj属性路径path下的get方法，这样该属性绑定的闭包dep、属性val的__ob__.dep、若是数组则包含数组元素的dep,都将执行depend方法，监听本watcher，本watcher也将收集这些dep对象存于deps。
+该方法执行时会触发[defineReactive](#defineReactive)定义的参数obj属性路径path下的get方法，这样该属性绑定的闭包dep、属性val的`__ob__.dep`、若是数组则包含数组元素的dep,都将执行depend方法，监听本watcher，本watcher也将收集这些dep对象存于deps。
 这样，当按照expOrFnobj得到的属性val变动时，将触发闭包dep的notify方法，从而执行本watcher对象的update。
 
 - this.value
@@ -547,7 +582,7 @@ this.active为true方可执行该方法。
 5. 执行this.cleanupDeps()
 6. 返回2中得到的value
 
-###### addDep<a name="addDep" />
+###### addDep<a name="addDep">
 当本watcher对象变为Dep.target时，将由dep对象的depend方法触发。
 共有4个实例属性与此相关：
 ```
@@ -575,14 +610,14 @@ depend () {
 
 ##### Helper
 ###### traverse
-传入val，读取val.__ob__.dep.id，并保存于模块定义 的seenObjects中（Set，非重复），递归读取val的每个属性或数组元素，执行同样操作。由于存在__ob__,在读取val属性的时候会执行defineReactive定义的get方法，进而执行：defineReactive函数闭包中的dep对象、val.__ob__.dep，若val为数组，则还有数组元素__ob__的dep，以上dep对象的depend方法，确保Dep.target(watcher对象)在subs数组中，dep对象出现在watcher对象的newDeps数组中。
+传入val，读取`val.__ob__.dep.id`，并保存于模块定义 的seenObjects中（Set，非重复），递归读取val的每个属性或数组元素，执行同样操作。由于存在`__ob__`,在读取val属性的时候会执行defineReactive定义的get方法，进而执行：defineReactive函数闭包中的dep对象、val.__ob__.dep，若val为数组，则还有数组元素`__ob__`的dep，以上dep对象的depend方法，确保Dep.target(watcher对象)在subs数组中，dep对象出现在watcher对象的newDeps数组中。
 这样，当任何这些属性变化时，将触发对应闭包的dep对象的notify方法，执行当前watcher的update。
 
 #### dep.js
 定义Dep类，初始化时this.id为模块保存的uid+1
 ，this.subs为watcher对象的数组，初始化时置为空数组。
 
-##### Dep.target<a name="Deptarget" />
+##### Dep.target<a name="Deptarget">
 Dep.target的类型为Watcher，默认为null，只有dep.js中pushTarget可以设置该值，pushTarget函数仅被watcher对象的get方法调用。而get方法设置Dep.target的目的是为了deep为true时，可以在属性及属性的后代上递归建立observer并通过get，set监听后代变化，后代变化时即可调用该watcher。
 - Dep.target为某个watcher对象时仅限以下场景：
 1.  某个非lazy的watcher初始化时
@@ -609,7 +644,7 @@ removeSub (sub: Watcher) {
 #### notify
 将this.subs中每个watcher对象执行update方法
 
-#### depend<a name="depend" />
+#### depend<a name="depend">
 如果Dep.target(watcher对象)存在，调用target的[addDep](#addDep)方法，并将Dep实例this传入,该方法将会确保dep对象出现在watcher对象的newDeps数组中，dep id在newDepIds中，且watcher对象在subs数组中。
 
 #### 静态属性方法
@@ -642,13 +677,13 @@ Dep.target = _target
 ##### bind
 仅用于返回一个新函数并绑定传入的this，通过判断参数数量，从而比原生的快
 
-##### isObject<a name="isObject" />
+##### isObject<a name="isObject">
 ```
 export function isObject (obj: mixed): boolean {
   return obj !== null && typeof obj === 'object'
 }
 ```
-##### isPlainObject<a name="isPlainObject" />
+##### isPlainObject<a name="isPlainObject">
 ```
 const toString = Object.prototype.toString
 const OBJECT_STRING = '[object Object]'
@@ -656,14 +691,14 @@ export function isPlainObject (obj: any): boolean {
   return toString.call(obj) === OBJECT_STRING
 }
 ```
-##### isPrimitive<a name="isPrimitive" />
+##### isPrimitive<a name="isPrimitive">
 ```
 export function isPrimitive (value: any): boolean {
   return typeof value === 'string' || typeof value === 'number'
 }
 ```
 
-##### remove<a name="remove" />
+##### remove<a name="remove">
 ```
 export function remove (arr: Array<any>, item: any): Array<any> | void {
   if (arr.length) {
@@ -674,6 +709,7 @@ export function remove (arr: Array<any>, item: any): Array<any> | void {
   }
 }
 ```
+
 ##### hasOwn
 ```
 const hasOwnProperty = Object.prototype.hasOwnProperty
@@ -681,6 +717,25 @@ export function hasOwn (obj: Object, key: string): boolean {
   return hasOwnProperty.call(obj, key)
 }
 ```
+
+##### camelize<a name="camelize">
+将连字符变为驼峰形式
+```
+const camelizeRE = /-(\w)/g
+export const camelize = cached((str: string): string => {
+  return str.replace(camelizeRE, (_, c) => c ? c.toUpperCase() : '')
+})
+```
+
+##### capitalize<a name="capitalize">
+将字符串的首字母大写
+```
+export const capitalize = cached((str: string): string => {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+})
+```
+
+
 ##### hyphenate
 将驼峰转化为连字符,最多接受两个驼峰
 ```
@@ -692,6 +747,7 @@ export const hyphenate = cached((str: string): string => {
     .toLowerCase()
 })
 ```
+
 ##### cached
 闭包缓存
 ```
@@ -705,7 +761,7 @@ export function cached (fn: Function): Function {
 ```
 
 #### lang.js
-##### parsePath<a name="parsePath" />
+##### parsePath<a name="parsePath">
 传入路径path，若其中包含*.$则直接返回，否则返回一个函数，传入obj，返回obj根据path路径得到的值
 ```
 const bailRE = /[^\w\.\$]/
@@ -725,7 +781,7 @@ export function parsePath (path: string): any {
 }
 ```
 
-##### def<a name="def" />
+##### def<a name="def">
 ```
 export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
   Object.defineProperty(obj, key, {
@@ -738,21 +794,46 @@ export function def (obj: Object, key: string, val: any, enumerable?: boolean) {
 ```
 
 #### env.js
-##### nextTick<a name="nextTick" />
+##### nextTick<a name="nextTick">
 1. 定义nextTickHandler，执行内部callbacks中的所有任务。
 2. 定义timerFunc，若Promise存在使用Promise.resolve().then(nextTickHandler).
 3. 否则使用MutationObserver
 4. 否则使用setTimeout
 使用pending作为flag，若true，则直接把任务加入callbacks即可，因为正在执行，否则触发timerFunc
 
-##### hasProto<a name="hasProto" />
+##### hasProto<a name="hasProto">
 ```
 // can we use __proto__?
 export const hasProto = '__proto__' in {}
 ```
 
+#### options.js
+
+##### mergeOptions<a name="mergeOptions">
+参数：
+```
+parent: Object,
+child: Object,
+vm?: Component
+```
+
+##### resolveAsset<a name="validateProp">
+处理assets，assets包括directives，components，transitions，filters
+该函数仅仅是从传入的options中按照type和id取得asset并返回
+参数：
+```
+options: Object,
+type: string,
+id: string,
+warnMissing?: boolean
+```
+1. 判断```options[type][id]```是否存在，若不存在,将id使用[camelize](#camelize)变为驼峰形式，再次尝试
+2. 若仍未找到，使用[capitalize](#capitalize)将驼峰形式id首字母大写，再次尝试寻找。
+3. 找到返回。未找到且在非生产环境，提示：Failed to resolve ....
+
+
 #### props.js
-##### validateProp<a name="validateProp" />
+##### validateProp<a name="validateProp">
 参数：
 ```
 key: string,
@@ -805,20 +886,44 @@ tag?: string | Class<Component> | Function | Object,
 data?: VNodeData,
 children?: VNodeChildren | void
 ```
-1. 传入的data上有__ob__属性，非生产环境下提示：Avoid using observed data object as vnode data Always create fresh vnode data objects in each render!，并直接返回。
+1. 传入的data上有`__ob__`属性，非生产环境下提示：Avoid using observed data object as vnode data Always create fresh vnode data objects in each render!，并直接返回。
 2. tag不存在，返回空节点[emptyVNode](#emptyVNode)。
 3. tag若为字符串:
   1. ```const ns = config.getTagNamespace(tag)```getTagNamespace仅仅识别MathML和svg元素，若是一般元素，则返回undefined
   2. tag若是保留标签（html或svg标签）```return new VNode(tag, data, normalizeChildren(children, ns),undefined, undefined, ns,context)```[normalizeChildren](#normalizeChildren)
-  3. 若tag不是保留标签，// TODO
+  3. 若tag不是保留标签，调用resolveAsset,尝试寻找$options.components[tag],即寻找该tag所代表的组件asset，赋予Ctor，然后调用[createComponent](#createComponent)返回```createComponent(Ctor, data, context, children, tag)```。
+  4. 若tag既不是保留标签，也找不到对应的组件的asset，则有可能是未知命名空间的奇怪元素，同第2步，直接构造VNode返回，在运行时再尝试解析
+
 4. tag不为字符串，直接构造组件，调用```createComponent(tag, data, context, children)```并返回。
 
 #### create-component.js
 ##### createComponent
+参数：
+```
+Ctor: Class<Component> | Function | Object | void,
+data?: VNodeData,
+context: Component,
+children?: VNodeChildren,
+tag?: string
+```
+1. 不存在Ctor，直接返回。
+2. Ctor为对象，调用Vue.extend（在[initExtend](#initExtend)中定义），以Ctor为extendOption创建Vue的子类，并覆盖Ctor
+3. 经过以上两步，Ctor的类型只可能是function，即组件类或异步组件的工厂函数，若类型不是function，在非生产环境下提示'Invalid Component definition'
+4. 如果Ctor.cid不存在，说明其为异步组件，若其resolved属性存在，`Ctor = Ctor.resolved`,否则，调用[resolveAsyncComponent](#resolveAsyncComponent)
+5. // TODO
 
+##### resolveAsyncComponent
+处理异步组件。
+参数：
+```
+factory: Function,
+cb: Function
+```
+返回`Class<Component>`
+// TODO
 
 #### helpers.js
-##### normalizeChildren<a name="normalizeChildren" />
+##### normalizeChildren<a name="normalizeChildren">
 参数：
 ```
 children: any,
@@ -842,7 +947,7 @@ nestedIndex: number | void
           }```
 
 
-##### createTextVNode<a name="createTextVNode" />
+##### createTextVNode<a name="createTextVNode">
 接受一个字符串，包装为vnode对象并返回。
 ```
 function createTextVNode (val) {
@@ -850,7 +955,7 @@ function createTextVNode (val) {
 }
 ```
 
-##### applyNS<a name="applyNS" />
+##### applyNS<a name="applyNS">
 若节点不存在命名空间，则把它及它的所有子节点的命名空间置为传入的ns。
 ```
 function applyNS (vnode, ns) {
@@ -865,8 +970,51 @@ function applyNS (vnode, ns) {
 }
 ```
 
+#### patch.js
+构建并返回<a name="patch">patch函数</a>
+
+##### createPatchFunction
+
+patch
+`const insertedVnodeQueue = []`
+参数：oldVnode, vnode, hydrating, removeOnly
+1. oldVnode不存在，调用createElm渲染新的根元素`createElm(vnode, insertedVnodeQueue)`
+2. oldVnode存在 // TODO
+
+##### createElm<a name="createElm">
+参数：`vnode, insertedVnodeQueue, nested`
+1. `const data = vnode.data` data及相关属性若不为null，执行data.hook.init(vnode)
+2. 执行了init hook后，如果vnode是一个子组件，那么它肯定已经有一个子实例（vnode.child存在，表示它的组件实例），并mount上去了，子组件也已放置vnode.elm，调用[initComponent](#initComponent)，把vnode.elm返回。
+3. `const children = vnode.children;const tag = vnode.tag;`
+4. tag存在，则调用createElement（document.createElement）或createElementNS（document.createElementNS）生成DOM，并挂载到vnode.elm上。
+5. `createChildren(vnode, vnode.children, insertedVnodeQueue)`递归创建子节点DOM并附加到vnode.elm上。
+6. vnode.data存在，调用[invokeCreateHooks](#invokeCreateHooks)
+7. tag不存在：vnode.isComment为true，调用dom方法createComment，根据vnode.text生成注释节点，赋予vnode.elm，否则调用createTextNode生成文本节点。
+8. 返回vnode.elm
+
+
+##### invokeCreateHooks<a name="invokeCreateHooks">
+// TODO
+
+##### createChildren
+参数：vnode, children, insertedVnodeQueue
+1. children为数组，则遍历它们，递归调用[createElm](#createElm)生成DOM，并使用appendChild加入到vnode.elm中。
+2. vnode.text存在（文本或数值），调用createTextNode将其包装成文本节点，加入到vnode.elm中。
+
+##### setScope
+在vnode.elm上添加scopeId属性，从而使scoped CSS能正常施加。
+参数：vnode
+1. vnode.context.$options.\_scopeId存在，`setAttribute(vnode.elm, vnode.context.$options._scopeId, '')`
+2. activeInstance.$options.\_scopeId存在，且activeInstance与vnode.context不同，`setAttribute(vnode.elm, activeInstance.$options._scopeId, '')`,把父级的scopeId属性也加上
+3. `setScope(vnode)` 调用[setScope](#setScope) 在dom上添加scopedId属性
+4. `createChildren(vnode, children, insertedVnodeQueue)`
+
+##### initComponent
+参数：`vnode, insertedVnodeQueue`
+// TODO
+
 #### vnode.js
-##### VNode类<a name="VNode-class" />
+##### VNode类<a name="VNode-class">
 ```
 tag: string | void;
 data: VNodeData | void;
@@ -906,7 +1054,7 @@ this.isCloned = false
 ```
 该类仅保存这些信息，没有原型方法。
 
-##### emptyVNode<a name="emptyVNode" />
+##### emptyVNode<a name="emptyVNode">
 返回一个空节点
 ```
 export const emptyVNode = () => {
@@ -917,7 +1065,7 @@ export const emptyVNode = () => {
 }
 ```
 
-##### cloneVNodes<a name="cloneVNodes" />
+##### cloneVNodes<a name="cloneVNodes">
 调用cloneVNode克隆vnode数组
 ```
 export function cloneVNodes (vnodes: Array<VNode>): Array<VNode> {
