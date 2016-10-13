@@ -1104,30 +1104,49 @@ function applyNS (vnode, ns) {
 ```
 
 #### patch.js
-构建并返回<a name="patch">patch函数</a>
+通过工厂createPatchFunction构建并返回patch函数
 
-##### createPatchFunction
 
-patch
+
+
+##### patch<a name="patch">
 `const insertedVnodeQueue = []`
 参数：oldVnode, vnode, hydrating, removeOnly
 1. oldVnode不存在，调用createElm渲染新的根元素`createElm(vnode, insertedVnodeQueue)`
-2. oldVnode存在 // TODO
+2. oldVnode存在： 判断oldVnode.nodeType是否存在，nodeType存在表示为真实元素（Vnode上无nodeType属性）
+3. 不是真实元素，并调用[sameVnode](#sameVnode)判断Vnode是相同的（除了data可能不同）：调用[patchVnode](#patchVnode)处理
+//TODO
+
+##### patchVnode<a name="patchVnode">
+参数： `oldVnode, vnode, insertedVnodeQueue, removeOnly`
+
+1. `oldVnode === vnode`，引用地址都相同，还更新个啥，直接返回
+2. // TODO
+
+##### sameVnode<a name="sameVnode">
 
 ##### createElm<a name="createElm">
 参数：`vnode, insertedVnodeQueue, nested`
 1. `const data = vnode.data` data及相关属性若不为null，执行data.hook.init(vnode), 这个钩子会直接调用Vue.$mount构造这个vnode代表的子组件。
-2. [data.hook.init](#hook.init)存在并执行后，如果vnode是一个子组件，那么它肯定已经有一个子实例（vnode.child存在，表示它的组件实例），并mount上去了，子组件也已放置vnode.elm，调用[initComponent](#initComponent)，把vnode.elm返回。
+2. [data.hook.init](#hook.init)存在并执行后，如果vnode是一个子组件，那么它肯定已经有一个子实例（vnode.child存在，表示它的组件实例），并mount上去了，子组件也已放置在vnode.elm，调用[initComponent](#initComponent)，把vnode.elm返回。
 3. `const children = vnode.children;const tag = vnode.tag;`
 4. tag存在，则调用createElement（document.createElement）或createElementNS（document.createElementNS）生成DOM，并挂载到vnode.elm上。
 5. `createChildren(vnode, vnode.children, insertedVnodeQueue)`递归创建子节点DOM并附加到vnode.elm上。
-6. vnode.data存在，调用[invokeCreateHooks](#invokeCreateHooks)
+6. vnode.data存在，调用[invokeCreateHooks](#invokeCreateHooks)，填充DOM的样式、属性事件等。
 7. tag不存在：vnode.isComment为true，调用dom方法createComment，根据vnode.text生成注释节点，赋予vnode.elm，否则调用createTextNode生成文本节点。
 8. 返回vnode.elm
 
 
 ##### invokeCreateHooks<a name="invokeCreateHooks">
-// TODO
+1. cbs为上层的createPatchFunction定义并的闭包变量，一般形式为<pre>{
+  create: [function updateAttrs(oldVnode,vnode){...}, function updateClass (){...} ...],
+  update: [...],
+  postpatch: [...],
+  remove: [...],
+  destroy: [...]
+ }</pre>这些数组中的函数，若是浏览器端，则取自/platforms/web/runtime/modules 因为服务器渲染和web渲染并不相同
+2. `cbs.create[i](emptyNode, vnode)` 填充DOM的样式、属性、事件、过渡效果等
+3. vnode.data.hook存在：create钩子存在，`i.create(emptyNode, vnode)`;insert钩子存在，`insertedVnodeQueue.push(vnode)`
 
 ##### createChildren
 参数：vnode, children, insertedVnodeQueue
@@ -1144,7 +1163,24 @@ patch
 
 ##### initComponent
 参数：`vnode, insertedVnodeQueue`
-// TODO
+1. vnode.data.pendingInsert存在，将其压入insertedVnodeQueue
+2. `vnode.elm = vnode.child.$el`
+3. 调用[isPatchable](#isPatchable)检查vnode是否可通过修补更新，若可以，调用[invokeCreateHooks](#invokeCreateHooks)
+
+
+
+##### isPatchable<a name="isPatchable">
+不断的查找vnode.child.\_vnode.child，\_vnode属性在vm.\_update中赋值，child存在表示vnode曾经已经渲染并mount过，所以_vnode表示当时的vnode状态，这样不断取child，直到child不存在，就追溯到了最开始的状态，这时若vnode的tag属性存在（有构造函数或vue类配置object），这样可通过这个构造函数来生成组件，则说明可修补，之所以要追溯到最原始的vnode，是应为，一旦渲染过一次，vnode的tag就会变成'vue-component-....'这种字符串（在[createComponent](#createComponent)中处理的）。
+
+```
+function isPatchable (vnode) {
+  while (vnode.child) {
+    vnode = vnode.child._vnode
+  }
+  return isDef(vnode.tag)
+}
+```
+
 
 #### vnode.js
 ##### VNode类<a name="VNode-class">
