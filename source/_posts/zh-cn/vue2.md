@@ -270,9 +270,13 @@ if (listeners) {
   2. `const prevEl = vm.$el`注意$el为在[initRender](#initRender)传入Vue.prototype.\_mount中的vm.$options.el
   3. `const prevActiveInstance = activeInstance;activeInstance = vm;` activeInstance为lifecycle.js所定义的模块变量。
   4. `const prevVnode = vm._vnode;vm._vnode = vnode;`
-  5. prevVnode不存在，重新构建`vm.$el = vm.__patch__(vm.$el, vnode, hydrating)`,否则在上个vnode基础上打补丁`vm.$el = vm.__patch__(prevVnode, vnode)`,`__patch__`方法在`src\entries\web-runtime.js`加载，非服务端则调用[patch](#patch)方法。
+  5. prevVnode不存在，重新构建`vm.$el = vm.__patch__(vm.$el, vnode, hydrating)`,否则在上个vnode基础上打补丁`vm.$el = vm.__patch__(prevVnode, vnode)`,`__patch__`方法在`src\entries\web-runtime.js`加载，非服务端会调用[patch](#patch)方法，该步骤使用虚拟DOM算法来更新真实DOM或重新生成真实DOM。
   6. 恢复activeInstance`activeInstance = prevActiveInstance`
-// TODO
+  7. 更新`__vue__`引用：prevEl存在，`prevEl.__vue__ = null`;`vm.$el`存在，·`vm.$el.__vue__ = vm`,将vm实例引用赋予__vue__属性。
+  8. 父亲若为HOC，则也更新父亲的$el。HOC:Higher order components .一个向已存在的组件添加功能的函数。<pre>if (vm.$vnode && vm.$parent && vm.$vnode === vm.$parent.\_vnode) {
+      vm.$parent.$el = vm.$el
+    }</pre>
+  9. \_isMounted若已为true(根节点在此之前即为true，子节点会在渲染的过程中变为true)，使用[callHook](#callHook)执行updated钩子。
 
 - Vue.prototype.\_updateFromParent
 
@@ -817,7 +821,7 @@ child: Object,
 vm?: Component
 ```
 
-##### resolveAsset<a name="validateProp">
+##### resolveAsset<a name="resolveAsset">
 处理assets，assets包括directives，components，transitions，filters
 该函数仅仅是从传入的options中按照type和id取得asset并返回
 参数：
@@ -853,8 +857,8 @@ propOptions: $options.props 一般形式：
 注意type为构造函数而非字符串
 1. ```const prop = propOptions[key];const absent = !hasOwn(propsData, key);let value = propsData[key]```
 2. 检查getType(prop.type)，若为Boolean：若propsData无此key，且prop无该key的默认值(default属性)，则```value = false```;若value为''或value为key的连字符形式，则```value = true```
-3. value仍为undefined，```value = getPropDefaultValue(vm, prop, key)```因为默认值是函数，value为函数计算的结果，所以是一个新值，所以暂时置observerState.shouldConvert为true，然后```observe(value)```,为这个新值添加观测者。[observe](#observe)
-4. 如果非生产环境，执行assertProp
+3. value仍为undefined，```value = getPropDefaultValue(vm, prop, key)```因为默认值是函数，value为函数计算的结果，所以是一个新值，所以暂时置observerState.shouldConvert为true，然后```observe(value)```,为这个新值添加观测者,它的属性都会转化getter，setter。[observe](#observe)
+4. 如果非生产环境，执行assertProp // TODO
 5. 返回value。
 
 ##### getPropDefaultValue
@@ -906,11 +910,140 @@ context: Component,
 children?: VNodeChildren,
 tag?: string
 ```
+
 1. 不存在Ctor，直接返回。
 2. Ctor为对象，调用Vue.extend（在[initExtend](#initExtend)中定义），以Ctor为extendOption创建Vue的子类，并覆盖Ctor
 3. 经过以上两步，Ctor的类型只可能是function，即组件类或异步组件的工厂函数，若类型不是function，在非生产环境下提示'Invalid Component definition'
 4. 如果Ctor.cid不存在，说明其为异步组件，若其resolved属性存在，`Ctor = Ctor.resolved`,否则，调用[resolveAsyncComponent](#resolveAsyncComponent)
-5. // TODO
+5. 调用[extractProps](#extractProps)提取props，存于propsData，为构建vnode准备。
+6. 如果该子组件为函数式组件（Ctor.options.functional为true），调用[createFunctionalComponent](#createFunctionalComponent)并返回。参照：https://github.com/vuejs/vue/releases/tag/v2.0.0-alpha.5
+7. `const listeners = data.on;data.on = data.nativeOn` // TODO
+8. Ctor.options.abstract为true，则组件为抽象组件，除了props & listeners外都不保，所以`data = {}`
+9. `mergeHooks(data)` 调用[mergeHooks](#mergeHooks),补充可能缺少的钩子
+10. 构造vnode：
+  - tag：`vue-component-${Ctor.cid}${name ? `-${name}` : ''}`
+  - data: data
+  - children: undefined
+  - text: undefined
+  - elm： undefined
+  - ns： undefined
+  - context： context
+  - componentOptions：{ Ctor, propsData, listeners, tag, children }
+11. 返回构造的vnode
+
+##### mergeHooks
+参数： `data: VNodeData`
+
+1. data.hook不存在，则置为{}
+2. 在create-component.js模块已预先定义```const hooks = { init, prepatch, insert, destroy }
+ const hooksToMerge = Object.keys(hooks)```init, prepatch, insert, destroy为已经定义好的钩子。遍历hooksToMerge，键值为(key,ours)
+3. data.hook[key]存在，调用[mergeHook](#mergeHook)，传入ours, fromParent，得到的函数赋予data.hook[key]； 否则直接把模块中预定义的ours赋予data.hook[key]。
+
+##### mergeHook
+```
+function mergeHook (a: Function, b: Function): Function {
+  // since all hooks have at most two args, use fixed args
+  // to avoid having to use fn.apply().
+  return (_, __) => {
+    a(_, __)
+    b(_, __)
+  }
+}
+```
+
+##### hook.init<a name="hooks.init">
+参数： `vnode: VNodeWithData, hydrating: boolean`
+
+1. 调用createComponentInstanceForVnode生成组件实例并挂载至vnode.child
+2. `child.$mount(hydrating ? vnode.elm : undefined, hydrating)` 这个会调用子组件的_mount,形成递归，完成子组件的后代组件的渲染和监控。
+
+##### createComponentInstanceForVnode
+在init钩子中调用，通过vnode构造组件
+参数：
+```
+vnode: any, // we know it's MountedComponentVNode but flow doesn't
+parent: any // activeInstance in lifecycle state
+```
+1. 处理options
+ ```  const vnodeComponentOptions = vnode.componentOptions
+  const options: InternalComponentOptions = {
+    _isComponent: true,
+    parent,
+    propsData: vnodeComponentOptions.propsData,
+    _componentTag: vnodeComponentOptions.tag,
+    _parentVnode: vnode,
+    _parentListeners: vnodeComponentOptions.listeners,
+    _renderChildren: vnodeComponentOptions.children
+  }
+  // check inline-template render functions
+  const inlineTemplate = vnode.data.inlineTemplate
+  if (inlineTemplate) {
+    options.render = inlineTemplate.render
+    options.staticRenderFns = inlineTemplate.staticRenderFns
+  }
+  ```
+2. 通过组件类来构造组件`return new vnodeComponentOptions.Ctor(options)`
+
+
+##### createFunctionalComponent
+参数：
+```
+Ctor: Class<Component>,
+propsData: ?Object,
+data: VNodeData,
+context: Component,
+children?: VNodeChildren
+```
+返回：`VNode | void`
+
+1. 遍历Ctor.options.props，调用[validateProp](#validateProp)验证每个prop，并转每个prop属性的getter setter
+2. 执行Ctor.options.render，this绑定null，传入的参数createElement为绑定this为Object.create(context)的[createElement](#createElement)，render的第二个参数为：```{
+    props,
+    data,
+    parent: context,
+    children: normalizeChildren(children),
+    slots: () => resolveSlots(children, context)
+  }
+  ```
+3. 返回render执行后得到的vnode
+
+##### extractProps
+遍历子组件类的props，按照其中的key，从父组件vnode中提取数据并返回。注意这里仅仅是提取数据，默认值处理及数据验证将在子组件自己那里进行。
+参数： `data: VNodeData, Ctor: Class<Component>`
+1. 取Ctor.options.props为propOptions，不存在则直接返回。
+2. 将data解构为attrs, props, domProps，如果三者中有任何一个存在，则遍历propOptions。
+3. 调用[checkProp](#checkProp), 按照props，attrs，domProps顺序将propOptions中对应的key提取，并组成对象res
+4. 返回res
+
+#### checkProp
+参数：
+```
+res: Object,
+hash: ?Object,
+key: string,
+altKey: string,
+preserve?: boolean
+```
+
+返回：boolean
+```
+if (hash) {
+  if (hasOwn(hash, key)) {
+    res[key] = hash[key]
+    if (!preserve) {
+      delete hash[key]
+    }
+    return true
+  } else if (hasOwn(hash, altKey)) {
+    res[key] = hash[altKey]
+    if (!preserve) {
+      delete hash[altKey]
+    }
+    return true
+  }
+}
+return false
+```
 
 ##### resolveAsyncComponent
 处理异步组件。
@@ -983,8 +1116,8 @@ patch
 
 ##### createElm<a name="createElm">
 参数：`vnode, insertedVnodeQueue, nested`
-1. `const data = vnode.data` data及相关属性若不为null，执行data.hook.init(vnode)
-2. 执行了init hook后，如果vnode是一个子组件，那么它肯定已经有一个子实例（vnode.child存在，表示它的组件实例），并mount上去了，子组件也已放置vnode.elm，调用[initComponent](#initComponent)，把vnode.elm返回。
+1. `const data = vnode.data` data及相关属性若不为null，执行data.hook.init(vnode), 这个钩子会直接调用Vue.$mount构造这个vnode代表的子组件。
+2. [data.hook.init](#hook.init)存在并执行后，如果vnode是一个子组件，那么它肯定已经有一个子实例（vnode.child存在，表示它的组件实例），并mount上去了，子组件也已放置vnode.elm，调用[initComponent](#initComponent)，把vnode.elm返回。
 3. `const children = vnode.children;const tag = vnode.tag;`
 4. tag存在，则调用createElement（document.createElement）或createElementNS（document.createElementNS）生成DOM，并挂载到vnode.elm上。
 5. `createChildren(vnode, vnode.children, insertedVnodeQueue)`递归创建子节点DOM并附加到vnode.elm上。
