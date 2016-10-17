@@ -443,6 +443,7 @@ function initMethods (vm: Component) {
   }
 }
 ```
+
 ##### initWatch<a name="initWatch">
 1. ```const watch = vm.$options.watch```
 2. 遍历watch的每个属性，若为数组，则展开，分别传入[createWatcher](#createWatcher)函数
@@ -459,6 +460,7 @@ function createWatcher (vm: Component, key: string, handler: any) {
   vm.$watch(key, handler, options)
 }
 ```
+
 ##### Vue.prototype.$watch
 使用传入的expOrFn和cb建立一个闭包watcher对象，若options.immediate为true，则立即执行回调
 ```
@@ -479,6 +481,7 @@ Vue.prototype.$watch = function (
   }
 }
 ```
+
 ### observer<a name="observer">
 #### array.js
 预先准备arrayMethods对象，根据Array原型重定义push、unshift、splice方法，当这些方法造成元素增减时，通过第1步定义的`__ob__`属性取得observer对象并调用observeArray方法，该原型方法将对数组中每个元素执行[observe](#observe)函数，若元素上没有观测者对象，则会递归建立（防止新增元素没有对应的observer对象），然后执行ob.dep.notify()，触发dep的subs中每个watcher对象的update方法。
@@ -492,6 +495,7 @@ this.value = value
 this.dep = new Dep()
 this.vmCount = 0
 ```
+
 ###### 初始化
 1. 将observer对象作为value的`__ob__`属性。
 2. 若value为数组：取得在array.js中导出的arrayMethods对象，在模块内而后通过[hasProto](#hasProto)方法检查value的__proto__属性是否存在，若存在，则将arrayMethods对象直接赋为value的__proto__，否则，将arrayMethods的属性复制到value上，从而实现数组增减的监听。然后调用observeArray方法，对数组中每个元素执行[observe](#observe)函数，若元素上没有观测者对象，则会递归建立。
@@ -521,6 +525,7 @@ customSetter?: Function
 内部通过[observe](#observe)得到val的observer对象childOb
 通过Object.getOwnPropertyDescriptor得到参数对象obj上该属性的描述，如果configurable为false则直接return
 重定义对象obj上的属性的get,set方法
+
 ###### get
 1. 若存在原始的get方法，则执行get方法得到value，否则直接把原始的val赋为value。
 2. 如果存在Dep.target， 则执行[dep.depend()](#depend)。如果同时childOb存在，则执行childOb.dep.depend()，主要作用是将Dep.target加入dep对象的subs数组中。若同时value为数组，则触发其每个元素observer对象的depend方法。在每个watcher对象初始化时会将自己置为Dep.target，然后通过get调用这步，从而使得闭包dep的subs中包含该watcher对象。
@@ -543,14 +548,17 @@ let flushing = false
 let index = 0
 ```
 该模块定义静态watcher对象数组queue ，waiting作为flag，控制是否将flushSchedulerQueue加入异步调度，flushing则判断是否queue正在执行，has记录已加入队列但尚未执行的watcher，circular记录每个watcher 运行的次数
+
 ##### flushSchedulerQueue
 置flushing为true，开始处理队列
 1. 对queue中的watcher对象按照id从小到大排序，这样组件会从父到子更新，用户watcher先于render watcher，父组件watcher运行时将子组件销毁，则子组件watcher可被跳过。
 2. 将queue中的watcher对象执行watcher.run()，注意每次循环会重取queue.length，从而执行新加入的对象
 3. 若非生产环境，则使用circular[id]记录每个watcher 运行的次数，若执行次数过多，大于（config.\_maxUpdateCount），且在执行时不断加入队列（has判断）,则提示检查是否为死循环。
 4. 执行resetSchedulerState
+
 ##### resetSchedulerState
 清空queue，has,circular,置waiting及flushing为false
+
 ##### queueWatcher
 通过flushing判断，如果flushSchedulerQueue正在处理queue，则将watcher对象插入queue的已排序位置，否则直接压入最后，因为flushSchedulerQueue自然会进行排序。
 如果waiting为false，表示尚未将flushSchedulerQueue加入异步调度，则使用[nextTick](#nextTick)将其加入。
@@ -565,6 +573,7 @@ cb: Function,
 options?: Object = {}
 ```
 expOrFn为指向被监视对象的路径或是函数，但都是表示找到被监视对象的方法。被监视对象必须为已转化getter，setter的对象（props或data），这样执行get方法时，才能将当前watcher加入到其闭包dep的监听数组中，从而实现调用setter时执行cb。注意无需把监视对象返回，只要expOrFn中读取了该对象，即会被该对象的闭包dep捕获（lazy为true时不会被在初始化阶段捕获）
+
 ##### 初始化
 以下剖析watcher对象上的各属性的初始化：
 - this.getter<a name="watchergetter">
@@ -581,6 +590,7 @@ this.value = this.lazy
       : this.get()
 ```
 lazy为false或未定义，则会执行this.get()，这个方法将触发[this.getter](#watchergetter)，达到监听属性变化的目的。
+
 ##### 原型方法
 ###### update
 在dep实例的notify方法中会触发subs数组中watcher对象的update方法
@@ -594,6 +604,7 @@ if (this.lazy) {
 }
 ```
 [queueWatcher](#queueWatcher)会将watcher对象加入异步队列，延迟调用run方法。
+
 ###### run
 this.active为true方可执行该方法。
 1. 通过this.get()取得value
@@ -659,6 +670,7 @@ addSub (sub: Watcher) {
   this.subs.push(sub)
 }
 ```
+
 #### removeSub
 ```
 removeSub (sub: Watcher) {
@@ -683,6 +695,7 @@ Dep类的静态属性target为watcher对象，开始置为null。
 if (Dep.target) targetStack.push(Dep.target)
 Dep.target = _target
 ```
+
 ##### pushTarget
 ```
   Dep.target = targetStack.pop()
@@ -709,6 +722,7 @@ export function isObject (obj: mixed): boolean {
   return obj !== null && typeof obj === 'object'
 }
 ```
+
 ##### isPlainObject<a name="isPlainObject">
 ```
 const toString = Object.prototype.toString
@@ -717,6 +731,7 @@ export function isPlainObject (obj: any): boolean {
   return toString.call(obj) === OBJECT_STRING
 }
 ```
+
 ##### isPrimitive<a name="isPrimitive">
 ```
 export function isPrimitive (value: any): boolean {
@@ -972,6 +987,7 @@ function mergeHook (a: Function, b: Function): Function {
   }
 }
 ```
+
 ##### hook.prepatch<a name="hooks.prepatch">
 参数：
 ```
@@ -996,23 +1012,23 @@ vnode: any, // we know it's MountedComponentVNode but flow doesn't
 parent: any // activeInstance in lifecycle state
 ```
 1. 处理options
- ```  const vnodeComponentOptions = vnode.componentOptions
-  const options: InternalComponentOptions = {
-    _isComponent: true,
-    parent,
-    propsData: vnodeComponentOptions.propsData,
-    _componentTag: vnodeComponentOptions.tag,
-    _parentVnode: vnode,
-    _parentListeners: vnodeComponentOptions.listeners,
-    _renderChildren: vnodeComponentOptions.children
-  }
-  // check inline-template render functions
-  const inlineTemplate = vnode.data.inlineTemplate
-  if (inlineTemplate) {
-    options.render = inlineTemplate.render
-    options.staticRenderFns = inlineTemplate.staticRenderFns
-  }
-  ```
+   <pre> const vnodeComponentOptions = vnode.componentOptions
+    const options: InternalComponentOptions = {
+      \_isComponent: true,
+      parent,
+      propsData: vnodeComponentOptions.propsData,
+      \_componentTag: vnodeComponentOptions.tag,
+      \_parentVnode: vnode,
+      \_parentListeners: vnodeComponentOptions.listeners,
+      \_renderChildren: vnodeComponentOptions.children
+    }
+    // check inline-template render functions
+    const inlineTemplate = vnode.data.inlineTemplate
+    if (inlineTemplate) {
+      options.render = inlineTemplate.render
+      options.staticRenderFns = inlineTemplate.staticRenderFns
+    }
+    </pre>
 2. 通过组件类来构造组件`return new vnodeComponentOptions.Ctor(options)`
 
 
@@ -1147,10 +1163,11 @@ nestedIndex: number | void
    - 先判断它是否为文本节点，若其实文本节点，且res中最后一个也是文本节点，则把它合并到res最后一个元素上。
    - 若val非文本节点，进行如下操作后，将其加入res中:
      - 检查第二个参数ns是否存在，若存在，则使用[applyNS](#applyNS)设置命名空间
-     - 设置默认key```// default key for nested array children (likely generated by v-for)
+     - 设置默认key
+         <pre>// default key for nested array children (likely generated by v-for)
           if (c.tag && c.key == null && nestedIndex != null) {
             c.key = `__vlist_${nestedIndex}_${i}__`
-          }```
+          }</pre>
 
 
 ##### createTextVNode<a name="createTextVNode">
@@ -1178,13 +1195,15 @@ function applyNS (vnode, ns) {
 
 #### patch.js
 通过工厂createPatchFunction构建并返回patch函数
-cbs<a name="cbs-patch">为闭包变量，一般形式为<pre>{
+cbs<a name="cbs-patch">为闭包变量，一般形式为
+<pre>{
   create: [function updateAttrs(oldVnode,vnode){...}, function updateClass (){...} ...],
   update: [...],
   postpatch: [...],
   remove: [...],
   destroy: [...]
- }</pre>这些数组中的函数，若是浏览器端，则取自/platforms/web/runtime/modules 因为服务器渲染和web渲染并不相同
+ }</pre>
+ 这些数组中的函数，若是浏览器端，则取自/platforms/web/runtime/modules 因为服务器渲染和web渲染并不相同
 
 
 
@@ -1353,7 +1372,8 @@ export function cloneVNode (vnode: VNode): VNode {
   return cloned
 }
 ```
-流程及测试
+
+## 流程及测试
 
 ```
 import Vue from 'vue'
