@@ -224,7 +224,7 @@ initRender(vm)
 #### events.js
 ##### initEvents
 1. vm.\_events置为无原型空对象
-2. 通过updateListeners监听vm.$options.\_parentListeners，其中原型上的$on，$off（eventsMixin中定义）作为updateListeners的add和remove参数
+2. 定义<a name= "\_updateListeners" >vm.\_updateListeners</a>，通过updateListeners监听vm.$options.\_parentListeners，其中原型上的$on，$off（eventsMixin中定义）作为updateListeners的add和remove参数
 ```
 // init parent attached events
 const listeners = vm.$options._parentListeners
@@ -278,9 +278,31 @@ if (listeners) {
     }</pre>
   9. \_isMounted若已为true(根节点在此之前即为true，子节点会在渲染的过程中变为true)，使用[callHook](#callHook)执行updated钩子。
 
-- Vue.prototype.\_updateFromParent
+- Vue.prototype.\_updateFromParent<a name="\_updateFromParent">
+  根据新的vnode传入的参数更新组件实例,在vnode的_update过程中，通过默认的[prepatch](#hooks.prepatch)钩子调用。
+  参数：
+  ```
+  propsData: ?Object, // vnode.componentOptions.propsData
+  listeners: ?Object, // vnode.componentOptions.listeners
+  parentVnode: VNode, // vnode
+  renderChildren: ?VNodeChildren //vnode.componentOptions.children
+  ```
+  1. `const vm: Component = this;const hasChildren = !!(vm.$options._renderChildren || renderChildren)`
+  2. 更新option的_parentVnode和_renderChildren：`vm.$options._parentVnode = parentVnode;vm.$options._renderChildren = renderChildren`
+  3. 更新props：propsData并且vm.$options.props存在，`observerState.shouldConvert = false`，从而在vm[key]赋值时，如果这个key上本来没有贯彻者，则不会再建立观测者。非生产环境下，`observerState.isSettingProps = true`// TODO 遍历vm.$options.\_propKeys ，调用[validateProp](#validateProp)生成新值并挂载到vm上。`observerState.shouldConvert = true` 非生产环境下，`observerState.isSettingProps = false`
+  4. 新listeners存在，将新listeners赋予vm.$options.\_parentListeners，调用原型方法[_updateListeners](#_updateListeners)更新listeners
+  5. hasChildren存在，调用[resolveSlots](#resolveSlots)，处理renderChildren，并挂载到vm.$slots。然后执行$forceUpdate，该操作会执行该组件的_update,从而和上层组件的_update形成递归，不断执行子组件实例的_update，注意子组件实例_update，render出的vnode是子组件的根vnode（tag名称是子组件模板最上层标签，如div），和上层组件vnode中的组件vnode（tag名称为vue-component...）已不是同一个组件,所以这并不是一个死循环，而是向后代组件的递归遍历。
 
 - Vue.prototype.$forceUpdate
+  强制更新
+  ```
+    Vue.prototype.$forceUpdate = function () {
+    const vm: Component = this
+    if (vm._watcher) {
+      vm._watcher.update()
+    }
+  }
+  ```
 
 - Vue.prototype.$destroy
 
@@ -894,7 +916,7 @@ children?: VNodeChildren | void
 2. tag不存在，返回空节点[emptyVNode](#emptyVNode)。
 3. tag若为字符串:
   1. ```const ns = config.getTagNamespace(tag)```getTagNamespace仅仅识别MathML和svg元素，若是一般元素，则返回undefined
-  2. tag若是保留标签（html或svg标签）```return new VNode(tag, data, normalizeChildren(children, ns),undefined, undefined, ns,context)```[normalizeChildren](#normalizeChildren)
+  2. tag若是保留标签（html或svg标签）```return new VNode(tag, data, normalizeChildren(children, ns),undefined, undefined, ns,context)```[ ](#normalizeChildren)
   3. 若tag不是保留标签，调用resolveAsset,尝试寻找$options.components[tag],即寻找该tag所代表的组件asset，赋予Ctor，然后调用[createComponent](#createComponent)返回```createComponent(Ctor, data, context, children, tag)```。
   4. 若tag既不是保留标签，也找不到对应的组件的asset，则有可能是未知命名空间的奇怪元素，同第2步，直接构造VNode返回，在运行时再尝试解析
 
@@ -950,12 +972,21 @@ function mergeHook (a: Function, b: Function): Function {
   }
 }
 ```
+##### hook.prepatch<a name="hooks.prepatch">
+参数：
+```
+oldVnode: MountedComponentVNode,
+vnode: MountedComponentVNode
+```
+1. 先将旧vnode的组件实例赋予新的vnode：`const child = vnode.child = oldVnode.child`
+2. 调用child的原型方法[_updateFromParent](#_updateFromParent)，传入vnode.componentOptions相关参数，这样就更新了组件实例。
 
 ##### hook.init<a name="hooks.init">
 参数： `vnode: VNodeWithData, hydrating: boolean`
 
 1. 调用createComponentInstanceForVnode生成组件实例并挂载至vnode.child
 2. `child.$mount(hydrating ? vnode.elm : undefined, hydrating)` 这个会调用子组件的_mount,形成递归，完成子组件的后代组件的渲染和监控。
+3. 这个钩子在patch -> createElm中的调用，所以一个vm实例中的组件是在其patch的时候才会递归渲染，在render函数执行后，子组件的vnode只是一个空壳，其生成实例后，才会挂载到vnode.child，注意实例内部也有自己的根vnode，和上层子组件的vnode并不是一个。
 
 ##### createComponentInstanceForVnode
 在init钩子中调用，通过vnode构造组件
@@ -1056,6 +1087,48 @@ cb: Function
 // TODO
 
 #### helpers.js
+##### updateListeners<a name="updateListeners">
+  共传入4个参数:
+  ```
+  on: Object, // 新的监听键值对
+  oldOn: Object, // 旧的监听键值对
+  add: Function, // 添加事件监听的方法
+  remove: Function // 移除事件监听的方法
+  ```
+
+  on及oldOn的一般形式：
+  ```{
+      'event_name': {
+        fn: handler
+        invoker: (...args) => { handler.apply(null,args)}
+      }
+    } 或 {
+        'event_name': [...handlers]
+    } 或 {
+        'event_name': handler
+    }
+  ```
+
+  1. 遍历on中的所有name，`cur = on[name];old = oldOn[name]`，若cur不存在，且在非生产环境下，则`Handler for event "${name}" is undefined.`
+  2. old不存在，即原监听事件不存在：`capture = name.charAt(0) === '!';event = capture ? name.slice(1) : name`。
+    - 若cur为数组，即如上例中第二种形式，则调用[arrInvoker](#arrInvoker)，合并handler，挂载到cur.invoker，并执行add。`add(event, (cur.invoker = arrInvoker(cur)), capture)`
+    - cur不是数组，但其上invoker属性不存在,则其为上例中第三种形式，这时`fn = cur;cur = on[name] = {};cur.fn = fn;cur.invoker = fnInvoker(cur)`,[fnInvoker](#fnInvoker)仅仅是包装一层，判断参数数量，优化速度。
+  3. old存在，且`cur !== old`，使用cur覆盖old中存在的任何东西，而后`on[name] = old`
+  4. 检测oldOn中存在，但on中已经不存在的name, 调用remove。
+
+##### arrInvoker<a name="arrInvoker">
+  接受一个handler组成的数组：`arr: Array<Function>`
+  返回一个新的handler函数，该函数接受事件ev，遍历arr中的所有handler，若ev只有一个，则`arr[i](ev)` 否则 `arr[i].apply(null, arguments)`,即是合并handlers后返回一个新的handler
+
+##### fnInvoker<a name="fnInvoker">
+  接受一个handler：`o: { fn: Function }`
+  ```
+  return function (ev) {
+  const single = arguments.length === 1
+  single ? o.fn(ev) : o.fn.apply(null, arguments)
+ }
+ ```
+
 ##### normalizeChildren<a name="normalizeChildren">
 参数：
 ```
@@ -1105,7 +1178,13 @@ function applyNS (vnode, ns) {
 
 #### patch.js
 通过工厂createPatchFunction构建并返回patch函数
-
+cbs<a name="cbs-patch">为闭包变量，一般形式为<pre>{
+  create: [function updateAttrs(oldVnode,vnode){...}, function updateClass (){...} ...],
+  update: [...],
+  postpatch: [...],
+  remove: [...],
+  destroy: [...]
+ }</pre>这些数组中的函数，若是浏览器端，则取自/platforms/web/runtime/modules 因为服务器渲染和web渲染并不相同
 
 
 
@@ -1114,19 +1193,25 @@ function applyNS (vnode, ns) {
 参数：oldVnode, vnode, hydrating, removeOnly
 1. oldVnode不存在，调用createElm渲染新的根元素`createElm(vnode, insertedVnodeQueue)`
 2. oldVnode存在： 判断oldVnode.nodeType是否存在，nodeType存在表示为真实元素（Vnode上无nodeType属性）
-3. 不是真实元素，并调用[sameVnode](#sameVnode)判断Vnode是相同的（除了data可能不同）：调用[patchVnode](#patchVnode)处理
+3. 不是真实元素(为虚拟元素)，并调用[sameVnode](#sameVnode)判断Vnode是相同的（除了data可能不同）：调用[patchVnode](#patchVnode)处理
 //TODO
 
 ##### patchVnode<a name="patchVnode">
-参数： `oldVnode, vnode, insertedVnodeQueue, removeOnly`
+  参数： `oldVnode, vnode, insertedVnodeQueue, removeOnly`
 
-1. `oldVnode === vnode`，引用地址都相同，还更新个啥，直接返回
-2. // TODO
+  1. `oldVnode === vnode`，引用地址都相同，还更新个啥，直接返回
+  2. 新旧vnode都是静态的，且key相同，新vnode的isCloned为true，则无需渲染，直接` vnode.elm = oldVnode.elm`
+  3. 如果vnode.data.hook.prepatch存在（正常情况下，会在第一次渲染时采用create-component.js中的[prepatch](#hooks.prepatch),执行完后，组件实例和组件实例的后代都会被递归更新）
+  4. `const elm = vnode.elm = oldVnode.elm` 直接把旧vnode上已渲染好的DOM赋予vnode.elm
+  5. vnode.data存在并且vnode可修补（调用[isPatchable](#isPatchable)检查），则遍历cbs.update，（[cbs](#cbs-patch)为闭包变量，直接操作DOM）。执行cbs.update中的每个回调，vnode.data.hook.update存在，则也执行这个钩子。至此真实DOM通过cbs.update更新完成。
+  6. `const oldCh = oldVnode.children;const ch = vnode.children` vnode.text不存在，说明其不是文本节点：
+    - oldCh和ch都存在
 
 ##### sameVnode<a name="sameVnode">
 
 ##### createElm<a name="createElm">
 参数：`vnode, insertedVnodeQueue, nested`
+
 1. `const data = vnode.data` data及相关属性若不为null，执行data.hook.init(vnode), 这个钩子会直接调用Vue.$mount构造这个vnode代表的子组件。
 2. [data.hook.init](#hook.init)存在并执行后，如果vnode是一个子组件，那么它肯定已经有一个子实例（vnode.child存在，表示它的组件实例），并mount上去了，子组件也已放置在vnode.elm，调用[initComponent](#initComponent)，把vnode.elm返回。
 3. `const children = vnode.children;const tag = vnode.tag;`
@@ -1138,13 +1223,7 @@ function applyNS (vnode, ns) {
 
 
 ##### invokeCreateHooks<a name="invokeCreateHooks">
-1. cbs为上层的createPatchFunction定义并的闭包变量，一般形式为<pre>{
-  create: [function updateAttrs(oldVnode,vnode){...}, function updateClass (){...} ...],
-  update: [...],
-  postpatch: [...],
-  remove: [...],
-  destroy: [...]
- }</pre>这些数组中的函数，若是浏览器端，则取自/platforms/web/runtime/modules 因为服务器渲染和web渲染并不相同
+1. cbs为上层的createPatchFunction定义并的闭包变量。参见[cbs](#cbs-patch)
 2. `cbs.create[i](emptyNode, vnode)` 填充DOM的样式、属性、事件、过渡效果等
 3. vnode.data.hook存在：create钩子存在，`i.create(emptyNode, vnode)`;insert钩子存在，`insertedVnodeQueue.push(vnode)`
 
@@ -1170,7 +1249,10 @@ function applyNS (vnode, ns) {
 
 
 ##### isPatchable<a name="isPatchable">
-不断的查找vnode.child.\_vnode.child，\_vnode属性在vm.\_update中赋值，child存在表示vnode曾经已经渲染并mount过，所以_vnode表示当时的vnode状态，这样不断取child，直到child不存在，就追溯到了最开始的状态，这时若vnode的tag属性存在（有构造函数或vue类配置object），这样可通过这个构造函数来生成组件，则说明可修补，之所以要追溯到最原始的vnode，是应为，一旦渲染过一次，vnode的tag就会变成'vue-component-....'这种字符串（在[createComponent](#createComponent)中处理的）。
+  不断的查找vnode.child.\_vnode.child，\_vnode属性在vm.\_update中赋值，child存在表示vnode曾经已经渲染并mount过，所以_vnode表示当时的vnode状态，这样不断取child，直到child不存在，就追溯到了最开始的状态，这时若vnode的tag属性存在（有构造函数或vue类配置object），这样可通过这个构造函数来生成组件，则说明可修补，之所以要追溯到最原始的vnode，是应为，一旦渲染过一次，vnode的tag就会变成'vue-component-....'这种字符串（在[createComponent](#createComponent)中处理的）。
+
+  若vnode并不是组件，则其也没有child属性，但它的tag一定存在，所以一定也可修补。
+
 
 ```
 function isPatchable (vnode) {
@@ -1184,6 +1266,7 @@ function isPatchable (vnode) {
 
 #### vnode.js
 ##### VNode类<a name="VNode-class">
+虚拟DOM对象的类。
 ```
 tag: string | void;
 data: VNodeData | void;
@@ -1270,20 +1353,123 @@ export function cloneVNode (vnode: VNode): VNode {
   return cloned
 }
 ```
+流程及测试
 
+```
+import Vue from 'vue'
 
+  describe('dataChange', () => {
+    it('should force update', done => {
+      const vm = new Vue({
+        data: {
+          a: {},
+          ok: true
 
-#### updateListeners
-共传入4个参数。
-on：新的监听键值对
-oldOn：旧的监听键值对
-add：添加事件监听的方法
-remove： 移除事件监听的方法
-on及oldOn的一般形式：{
-    'event_name': {
-      fn: handler
-      invoker: (...args) => { handler.apply(null,args)}
-    }
-  } 或 {
-      'event_name': [...handlers]
-    }
+        },
+        template: '<div><test v-if="ok"><p>test1slottt</p></test><p>{{ a.b }}</p></div>',
+        components: {
+          test: {
+            template: '<em><a></a><test2><p>test1111inner</p></test2> t11111<slot></slot></em>',
+            data: {testdata: 'test2-slot'},
+            components : {
+              test2 :{
+                template: '<b><slot></slot>{{testdata}}</b>'
+              }
+            }
+
+          }
+        }
+      }).$mount()
+      // expect(vm.$el.textContent).toBe('')
+      vm.a.b = 'foo'
+      console.log('render completed-------------------------');
+      // console.log(vm.$el);
+      waitForUpdate(() => {
+        // should not work because adding new property
+        // expect(vm.$el.textContent).toBe('')
+
+        vm.$forceUpdate()
+      }).then(() => {
+        // expect(vm.$el.textContent).toBe('foo')
+      }).then(done)
+    })
+  })
+  ```
+  结果及流程：
+  ```
+LOG: 'creatingElement:p;children:test1slottt'
+LOG: 'creatingElement:test;children:[object Object]'
+LOG: 'creatingComponent:vue-component-1-test;children:[object Object]'
+LOG: 'creatingElement:p;children:'
+LOG: 'creatingElement:div;children:[object Object],[object Object]'
+LOG: 'render complete:div'
+LOG: 'updating:div'
+LOG: 'patch:div'
+LOG: 'render and update by watcher'
+LOG: 'render function:function anonymous() {
+with(this){return _h('em',[_m(0),_h('test2',[_m(1)])," t11111",_t("default")])}
+}'
+LOG: 'creatingElement:a;children:undefined'
+LOG: 'creatingElement:p;children:test1111inner'
+LOG: 'creatingElement:test2;children:[object Object]'
+LOG: 'creatingComponent:vue-component-2-test2;children:[object Object]'
+LOG: 'creatingElement:em;children:[object Object],[object Object], t11111,[object Object]'
+LOG: 'render complete:em'
+LOG: 'updating:em'
+LOG: 'patch:em'
+LOG: 'render and update by watcher'
+LOG: 'render function:function anonymous() {
+with(this){return _h('b',[_t("default"),_s(testdata)])}
+}'
+LOG: 'creatingElement:b;children:[object Object],'
+LOG: 'render complete:b'
+LOG: 'updating:b'
+LOG: 'patch:b'
+LOG: 'render completed-------------------------'
+LOG: '$forceUpdate:undefined'
+LOG: 'render and update by watcher'
+LOG: 'render function:function anonymous() {
+with(this){return _h('div',[(ok)?_h('test',[_m(0)]):_e(),_h('p',[_s(a.b)])])}
+}'
+LOG: 'creatingElement:test;children:[object Object]'
+LOG: 'creatingComponent:vue-component-1-test;children:[object Object]'
+LOG: 'creatingElement:p;children:foo'
+LOG: 'creatingElement:div;children:[object Object],[object Object]'
+LOG: 'render complete:div'
+LOG: 'updating:div'
+LOG: 'patch:div'
+LOG: 'patchVnode:div;data:undefined'
+LOG: 'patchVnode:vue-component-1-test;data:[object Object]'
+LOG: 'prepatch:vue-component-1-test'
+LOG: '_updateFromParent:vue-component-1-test'
+LOG: '$forceUpdate:[object Object]'
+LOG: 'patchVnode:p;data:undefined'
+LOG: 'render and update by watcher'
+LOG: 'render function:function anonymous() {
+with(this){return _h('em',[_m(0),_h('test2',[_m(1)])," t11111",_t("default")])}
+}'
+LOG: 'creatingElement:test2;children:[object Object]'
+LOG: 'creatingComponent:vue-component-2-test2;children:[object Object]'
+LOG: 'creatingElement:em;children:[object Object],[object Object], t11111,[object Object]'
+LOG: 'render complete:em'
+LOG: 'updating:em'
+LOG: 'patch:em'
+LOG: 'patchVnode:em;data:undefined'
+LOG: 'patchVnode:a;data:undefined'
+LOG: 'patchVnode:vue-component-2-test2;data:[object Object]'
+LOG: 'prepatch:vue-component-2-test2'
+LOG: '_updateFromParent:vue-component-2-test2'
+LOG: '$forceUpdate:[object Object]'
+LOG: 'patchVnode:undefined;data:undefined'
+LOG: 'patchVnode:p;data:undefined'
+LOG: 'render and update by watcher'
+LOG: 'render function:function anonymous() {
+with(this){return _h('b',[_t("default"),_s(testdata)])}
+}'
+LOG: 'creatingElement:b;children:[object Object],'
+LOG: 'render complete:b'
+LOG: 'updating:b'
+LOG: 'patch:b'
+LOG: 'patchVnode:b;data:undefined'
+LOG: 'patchVnode:p;data:undefined'
+```
