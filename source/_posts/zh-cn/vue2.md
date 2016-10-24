@@ -140,7 +140,72 @@ git checkout next
     └── util.js
 </pre>
 
+## entries
+### web-compiler.js
+默认导出compile函数，将模板编译成render函数。
+参数：
+```
+template: string,
+options?: CompilerOptions
+```
+注入modules和directives后调用/platforms/web/compiler/index.js中compile函数进行编译，而该compile函数仅仅将一些web平台的modules和directive及一些工具函数确保注入options后，调用/compiler/index.js中的[compile函数](#compile)，该函数是真正进行编译的函数。
+
+### web-runtime.js
+首先从'core/index'中获取Vue类
+1. 安装从web/util/index,js导出的web平台专有的工具函数。
+2. 安装平台运行时专有的指令和组件。分别从web/runtime/directives/和web/runtime/components/导出，组件就是web的过渡效果，指令为v-model和v-show，将它们分别加入Vue.options.components和Vue.options.directives
+3. 安装平台patch函数，config.\_isServer不为true，安装'web/runtime/patch'导出的patch，该patch实际上是通过向[createPatchFunction](#createPatchFunction)传入web/runtime/node-ops（dom基本操作），core/vdom/modules/index（基本指令生成的）.
+4. 构造Vue.prototype.$mount： 若非服务端，调用[query](#domQuery)加工el，这时el为Element，即DOM元素，然后调用[\_mount](#_mount)
+5. 使devtools发射init事件。```devtools.emit('init', Vue)```
+6. 经过以上修饰，导出Vue类
+
+### web-runtime-with-compiler.js
+闭包缓存[query](#domQuery)函数，返回`el.innerHTML`, 为idToTemplate。重构web-runtime已定义的Vue.prototype.$mount,加入编译模板template过程：
+1. 调用[query](#domQuery)加工el，取得el对应的DOM，若该DOM为document.body（body标签对应的元素）或document.documentElement（html标签对应的元素），则直接返回，在非生产环境下提示，不能将Vue挂载到html或body标签上。
+2. 实例$options上若不存在render函数，则取this.$options.template为template, 若template存在:
+  - template为字符串，且第一个字母为#，说明其为id选择器，调用idToTemplate，取其代表元素的innerHTML赋予template
+  - template.nodeType存在，说明其为DOM元素，直接取其innerHTML赋予template
+  - 若不是以上两种情况，非生产环境下提示：·`invalid template option`
+3. template不存在，但el存在，调用getOuterHTML并传入el，即是el.outerHTML,若该属性不存在，在el上建立个父节点（容器），然后取容器的innerHTML。
+4. 经过以上过程，template存在，则调用compileToFunctions编译template生成render函数和staticRenderFns，并统统挂到$options上
+5. 执行原定义的Vue.prototype.$mount。
+
+
+### web-server-renderer.js
+导出createRenderer和createBundleRenderer函数
+
+## platforms - web
+### compiler
+// TODO
+### util
+#### query<a name= "domQuery" >
+传入el
+1. 若el不是string，直接返回el
+2. 调用```document.querySelector(el)```, 若不存在，则提示无法找到，并创建一个div后返回。
+3. 将找到的dom返回。
+
+### runtime
+#### directives
+该目录中的内容将在web-runtime.js中加入到Vue.options.directives中，然后通过vdom处理。
+##### model
+导出inserted及componentUpdated函数
+- inserted
+  1. 若非生产环境，且vnode的tag属性不是input，select，textarea或组件时，提示v-model无法应用于除这些之外的元素
+  2. tag为select，则调用setSelected
+
+###### setSelected
+// TODO
+
+## compiler
+导出真正进行模板编译的compile函数<a name="compile" >
+1. 调用parse转化模板为[ASTElement](https://en.wikipedia.org/wiki/Abstract_syntax_tree)
+// TODO
+
+### parse
+// TODO
+
 ## vm实例
+入口为：/src/core/index.js导出的[Vue类](#coreVue)
 
 ### $parent
 若$parent为undefined,则其为根实例。
@@ -153,7 +218,7 @@ propsData| e       | f       |----
 \_propKeys| h       | i       |----
 
 ## core
-### index.js
+### index.js<a name="coreVue">
 从instance/index.js导入Vue类，根据配置文件（process.env.VUE_ENV）设置vue原型上$isServer的get方法，设置Vue静态变量version，导出Vue类。
 
 ### config.js
@@ -247,7 +312,7 @@ if (listeners) {
 ##### lifecycleMixin<a name="lifecycleMixin">
 定义Vue原型上的_mount，\_update，\_updateFromParent，$forceUpdate，$destroy方法
 
-- Vue.prototype.\_mount
+- Vue.prototype.\_mount<a name="\_mount" >
   参数：
   ```
   el?: Element | void,
@@ -1000,7 +1065,7 @@ vnode: MountedComponentVNode
 ##### hook.init<a name="hooks.init">
 参数： `vnode: VNodeWithData, hydrating: boolean`
 
-1. 调用createComponentInstanceForVnode生成组件实例并挂载至vnode.child
+1. 调用createComponentInstanceForVnode生成组件vm实例并挂载至vnode.child
 2. `child.$mount(hydrating ? vnode.elm : undefined, hydrating)` 这个会调用子组件的_mount,形成递归，完成子组件的后代组件的渲染和监控。
 3. 这个钩子在patch -> createElm中的调用，所以一个vm实例中的组件是在其patch的时候才会递归渲染，在render函数执行后，子组件的vnode只是一个空壳，其生成实例后，才会挂载到vnode.child，注意实例内部也有自己的根vnode，和上层子组件的vnode并不是一个。
 
@@ -1044,14 +1109,15 @@ children?: VNodeChildren
 返回：`VNode | void`
 
 1. 遍历Ctor.options.props，调用[validateProp](#validateProp)验证每个prop，并转每个prop属性的getter setter
-2. 执行Ctor.options.render，this绑定null，传入的参数createElement为绑定this为Object.create(context)的[createElement](#createElement)，render的第二个参数为：```{
+2. 执行Ctor.options.render，this绑定null，传入的参数createElement为绑定this为Object.create(context)的[createElement](#createElement)，render的第二个参数为：<pre>
+  {
     props,
     data,
     parent: context,
     children: normalizeChildren(children),
     slots: () => resolveSlots(children, context)
   }
-  ```
+  </pre>
 3. 返回render执行后得到的vnode
 
 ##### extractProps
@@ -1194,7 +1260,7 @@ function applyNS (vnode, ns) {
 ```
 
 #### patch.js
-通过工厂createPatchFunction构建并返回patch函数
+通过工厂createPatchFunction<a name="createPatchFunction" >构建并返回patch函数
 cbs<a name="cbs-patch">为闭包变量，一般形式为
 <pre>{
   create: [function updateAttrs(oldVnode,vnode){...}, function updateClass (){...} ...],
@@ -1224,9 +1290,59 @@ cbs<a name="cbs-patch">为闭包变量，一般形式为
   4. `const elm = vnode.elm = oldVnode.elm` 直接把旧vnode上已渲染好的DOM赋予vnode.elm
   5. vnode.data存在并且vnode可修补（调用[isPatchable](#isPatchable)检查），则遍历cbs.update，（[cbs](#cbs-patch)为闭包变量，直接操作DOM）。执行cbs.update中的每个回调，vnode.data.hook.update存在，则也执行这个钩子。至此真实DOM通过cbs.update更新完成。
   6. `const oldCh = oldVnode.children;const ch = vnode.children` vnode.text不存在，说明其不是文本节点：
-    - oldCh和ch都存在
+    - oldCh和ch都存在，且不相同，调用[updateChildren](#updateChildren)递归更新子节点
+    - ch存在，oldCh不存在，调用addVnodes插入子级DOM
+
+
+##### updateChildren<a name="updateChildren">
+定义各种flag：
+```
+let oldStartIdx = 0
+let newStartIdx = 0
+let oldEndIdx = oldCh.length - 1
+let oldStartVnode = oldCh[0]
+let oldEndVnode = oldCh[oldEndIdx]
+let newEndIdx = newCh.length - 1
+let newStartVnode = newCh[0]
+let newEndVnode = newCh[newEndIdx]
+let oldKeyToIdx, idxInOld, elmToMove, before
+```
+paichu
+oldStartIdx -> oldEndIdx
+
+newStartIdx -> newEndIdx
+
+这四个flag，各自不断向中间接近，直到重合，分别取有值的位置为oldStartVnode， oldEndVnode， newStartVnode， newEndVnode：
+1. sameVnode(oldStartVnode, newStartVnode) -> patchVnode递归更新
+2. oldStartVnode, newStartVnode已不再相同：sameVnode(oldEndVnode, newEndVnode) -> patchVnode递归更新
+3. 两个头部和尾部都已不是相同类型vnode：但sameVnode(oldStartVnode, newEndVnode)，这时说明是oldStartVnode的这个vnode向右移动了位置，同样调用patchVnode递归更新,然后```nodeOps.insertBefore(parentElm, oldStartVnode.elm, nodeOps.nextSibling(oldEndVnode.elm))```,这样直接操作DOM实施这一过程。
+4. 以上情况都排除，但sameVnode(oldEndVnode, newStartVnode) 说明oldEndVnode左移了，同样调用patchVnode递归更新,然后```nodeOps.insertBefore(parentElm, oldEndVnode.elm, oldStartVnode.elm)```操作该vnode对应的DOM左移
+5. 以上情况都排除：通过比较key来找出已乱序的children，注意key若非在render函数中声明，则是在[normalizeChildren](#normalizeChildren中定义的，格式为：```\_\_vlist${nestedIndex}\_${i}\_\_```
+  - newStartVnode.key在剩余old队列vnode中不存在，则说明是新值的元素，直接建立并插入到oldStartVnode.elm前面。
+  - newStartVnode.key在剩余old队列vnode中存在，tag不相同，则视为新元素，直接建立并插入到oldStartVnode.elm前面。（同上）
+  - tag相同，调用patchVnode递归更新，并将newStartVnode.elm插入oldStartVnode.elm之前，置```oldCh[idxInOld] = undefined```
+6. 在以上循环结束后，进行修正 //TODO
+
+##### addVnodes<a name="addVnodes">
+```
+function addVnodes (parentElm, before, vnodes, startIdx, endIdx, insertedVnodeQueue) {
+  for (; startIdx <= endIdx; ++startIdx) {
+    nodeOps.insertBefore(parentElm, createElm(vnodes[startIdx], insertedVnodeQueue), before)
+  }
+}
+```
+
 
 ##### sameVnode<a name="sameVnode">
+```
+return (
+  vnode1.key === vnode2.key &&
+  vnode1.tag === vnode2.tag &&
+  vnode1.isComment === vnode2.isComment &&
+  !vnode1.data === !vnode2.data
+)
+```
+若这些相同，则可判断其为相同的vnode，但数据可能不一样，可以运用patchVnode处理。
 
 ##### createElm<a name="createElm">
 参数：`vnode, insertedVnodeQueue, nested`
@@ -1264,6 +1380,7 @@ cbs<a name="cbs-patch">为闭包变量，一般形式为
 1. vnode.data.pendingInsert存在，将其压入insertedVnodeQueue
 2. `vnode.elm = vnode.child.$el`
 3. 调用[isPatchable](#isPatchable)检查vnode是否可通过修补更新，若可以，调用[invokeCreateHooks](#invokeCreateHooks)
+4. 不可修补： 调用registerRef
 
 
 
