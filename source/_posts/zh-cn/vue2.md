@@ -217,6 +217,10 @@ vm?: Component
 2. 调用optimize进行优化
 3. 调用generate根据ast树生成代码并返回。
 
+### codegen
+#### index.js
+导出generate函数
+
 ### parser
 #### index.js
 导出parse 生成Options，并调用parseHTML，转化DOM为ASTElement，同时也解析其中的指令。
@@ -242,7 +246,41 @@ const element: ASTElement = {
   - 执行processAttrs
 
 ###### processAttrs
+1. 遍历el.attrsList,使用/^v-|^@|^:/匹配元素的name属性
+2. 若可匹配上 `el.hasBindings = true`,再使用/\.[^\.]+/g匹配，把如a.b.c转化为{a:true,b:true,c:true}，存为modifiers
+3. 若name可匹配v-bind，将name中已转化的路径去除。
+  - modifiers中含有prop属性，则 `isProp = true` name转化为驼峰，并修正innerHtml为innerHTML。
+  - 若isProp为true或platformMustUseProp(name)，el.props加入{name, value}，否则el.attrs加入{name, value}
+4. 若name可匹配v-on，将name中的v-on代表的符号去除，仅剩路径，调用addHandler(el, name, value, modifiers)
+5. 以上都未匹配，说明为常规指令，使用`/^v-|^@|^:/`将name中代表指令的部分剔除，使用`/:(.*)$/`匹配参数arg，调用addDirective(el, name, value, arg, modifiers)
 
+###### addDirective
+参数
+```
+el: ASTElement,
+name: string,
+value: string,
+arg: ?string,
+modifiers: ?{ [key: string]: true }
+```
+向el.directives 中加入{ name, value, arg, modifiers }
+
+###### addHandler
+参数
+```
+el: ASTElement,
+name: string,
+value: string,
+modifiers: ?{ [key: string]: true },
+important: ?boolean
+```
+
+1. modifiers.capture存在，删除modifiers.capture，name前置！
+2. modifiers.native存在，`events = el.nativeEvents`,否则 `events = el.events`
+3. `const newHandler = { value, modifiers };const handlers = events[name];`
+4. handlers为数组，important为true，handlers头部加入newHandler，否则尾部加入newHandler
+5. handlers不是数组，将其变为数组`important ? [newHandler, handlers] : [handlers, newHandler]`
+6. handlers不存在`events[name] = newHandler`
 
 ###### processFor
 1. 取出v-for属性为exp，通过正则，将要遍历的对象赋予el.for
