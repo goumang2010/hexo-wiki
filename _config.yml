@@ -85,3 +85,6 @@ deploy:
   repo: git@github.com:goumang2010/ChuuneWiki.git
   branch: gh-pages
   message:
+
+marked:
+  gfm: true
