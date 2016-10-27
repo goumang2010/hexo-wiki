@@ -152,9 +152,9 @@ options?: CompilerOptions
 
 ### web-runtime.js
 首先从'core/index'中获取Vue类
-1. 安装从web/util/index,js导出的web平台专有的工具函数。
-2. 安装平台运行时专有的指令和组件。分别从web/runtime/directives/和web/runtime/components/导出，组件就是web的过渡效果，指令为v-model和v-show，将它们分别加入Vue.options.components和Vue.options.directives
-3. 安装平台patch函数，config.\_isServer不为true，安装'web/runtime/patch'导出的patch，该patch实际上是通过向[createPatchFunction](#createPatchFunction)传入web/runtime/node-ops（dom基本操作），core/vdom/modules/index（基本指令生成的）.
+1. 安装从web/util/index.js导出的web平台专有的工具函数。
+2. 安装平台运行时专有的指令和组件。分别从web/runtime/directives/和web/runtime/components/导出，组件就是web的过渡效果，指令为v-model和v-show，将它们分别加入Vue.options.components和Vue.options.directives。供patch生成DOM
+3. 安装平台patch函数，config.\_isServer不为true，安装'web/runtime/patch'导出的patch，该patch实际上是通过向[createPatchFunction](#createPatchFunction)传入web/runtime/node-ops（dom基本操作），core/vdom/modules/index（基本指令）生成的.
 4. 构造Vue.prototype.$mount： 若非服务端，调用[query](#domQuery)加工el，这时el为Element，即DOM元素，然后调用[\_mount](#_mount)
 5. 使devtools发射init事件。```devtools.emit('init', Vue)```
 6. 经过以上修饰，导出Vue类
@@ -186,6 +186,7 @@ template: string,
 options?: CompilerOptions,
 vm?: Component
 ```
+不能使用构造函数来构建，提示错误
 
 1. 使用compile编译模板，通过makeFunction将编译后的render字符串转化为函数放至res.render
 2. 遍历编译后的staticRenderFns数组，将其转化为函数，重新构建数组挂在res上。
@@ -207,7 +208,7 @@ vm?: Component
 - inserted
   1. 若非生产环境，且vnode的tag属性不是input，select，textarea或组件时，提示v-model无法应用于除这些之外的元素
   2. tag为select，则调用setSelected
-
+// TODO
 ###### setSelected
 // TODO
 
@@ -215,7 +216,7 @@ vm?: Component
 导出真正进行模板编译的compile函数<a name="compile" >
 1. 调用parse转化模板为[ASTElement](https://en.wikipedia.org/wiki/Abstract_syntax_tree)
 2. 调用optimize进行优化
-3. 调用generate根据ast树生成代码并返回。
+3. 调用generate根据ast树生成render函数代码并返回。
 
 ### codegen
 #### index.js
@@ -1713,7 +1714,12 @@ import Vue from 'vue'
           ok: true
 
         },
-        template: '<div><test v-if="ok"><p>test1slottt</p></test><p>{{ a.b }}</p></div>',
+        template: '<div>
+        <test v-if="ok">
+          <p>test1slottt</p>
+        </test>
+        <p>{{ a.b }}</p>
+        </div>',
         components: {
           test: {
             template: '<em><a></a><test2><p>test1111inner</p></test2> t11111<slot></slot></em>',
