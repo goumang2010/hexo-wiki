@@ -1,3 +1,12 @@
 .article {
 
 }
+
+.article pre, samp {
+   font-family: monospace, monospace; /* 1 */
+   font-size: 1em; /* 2 */
+   background: #444;
+   color: white;
+   padding: 5px 10px;
+   border-radius: 2px;
+}
