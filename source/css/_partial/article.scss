@@ -1,12 +1,4 @@
-.article {
-
-}
-
-.article pre, samp {
-   font-family: monospace, monospace; /* 1 */
-   font-size: 1em; /* 2 */
-   background: #444;
-   color: white;
-   padding: 5px 10px;
-   border-radius: 2px;
+.article h1,.article h2,.article h3,.article h4,.article h5,.article h6{
+    padding-bottom: 0.3em; 
+    border-bottom: 1px solid #eee;
 }
