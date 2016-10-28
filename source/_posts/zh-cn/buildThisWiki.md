@@ -1,13 +1,12 @@
 ﻿---
-title: BuildThisWiki
+title: wiki
+excerpt: 如何构建该Wiki。
 ---
-如何构建该Wiki
+> 该博客采用[Hexo](https://hexo.io/)构建! 使用[wiki-i18n](https://github.com/xcatliu/hexo-theme-wiki-i18n)主题。
 
-该博客采用[Hexo](https://hexo.io/)构建! 使用[wiki-i18n](https://github.com/xcatliu/hexo-theme-wiki-i18n)主题。
+# 如何建立一个相同的Wiki
 
-## 如何建立一个相同的Wiki
-
-### 安装hexo
+## 安装hexo
 
 ``` bash
 $ npm install hexo-cli -g
@@ -19,7 +18,7 @@ $ hexo --help
 ```
 
 查看命令行帮助
-### 克隆该git项目或主题作者的git博客项目
+## 克隆该git项目或主题作者的git博客项目
 - 运行命令：
 
 ``` bash
@@ -38,7 +37,7 @@ $ git clone git@github.com:xcatliu/js-index.git
 $ npm install
 ```
 
-### 建立自己的GitHub项目
+## 建立自己的GitHub项目
 - 在github上建立项目，并获得git地址，如：git@github.com:yourname/project.git(默认已添加SSH key)
 - 修改.git/config或使用 ：
 
@@ -56,7 +55,7 @@ $ git push origin master
 ```
 
 
-### 去除修改原有信息
+## 去除修改原有信息
 
 1. 删除source/_posts/中所有的md文件；
 2. 更改_config.yml文件，将站点信息更改为你想要的：
@@ -76,17 +75,17 @@ author_link:</pre>
 将其中的链接替换为本身项目的。
 
 
-### 修改样式
+## 修改样式
 结合浏览器调试工具，修改 themes/wiki-i18n/source/css/normalize.css，达到你想要的效果
 
-### 生成并调试
+## 生成并调试
 ``` bash
 $ npm run start
 ```
 
 在浏览器中打开http://localhost:4000 ,进行查看和迭代修改
 
-### 提交部署
+## 提交部署
 - 将master分支上的更改进行提交
 - 运行：
 
