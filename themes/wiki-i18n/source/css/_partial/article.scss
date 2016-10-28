@@ -2,3 +2,27 @@
     padding-bottom: 0.3em; 
     border-bottom: 1px solid #eee;
 }
+
+.article .toc {
+    display: -moz-inline-block;
+    display: inline-block;
+    padding: 7px;
+    border: 1px solid #aaa;
+    background-color: #f9f9f9;
+    font-size: 95%;
+    margin-bottom: 30px;
+}
+
+.article .toc ul {
+	text-align: left;
+	list-style-type: none;
+    list-style-image: none;
+    margin-left: 0;
+    padding: 0;
+    text-align: left;
+    margin: .3em 0;
+}
+
+.article .toc ul ul{
+	margin: 0 0 0 2em;
+}
