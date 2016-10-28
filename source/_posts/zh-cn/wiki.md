@@ -1,8 +1,10 @@
 ﻿---
-title: buildThisWiki
+title: wiki
 excerpt: 如何构建该Wiki。
 ---
-> 该博客采用[Hexo](https://hexo.io/)构建! 使用[wiki-i18n](https://github.com/xcatliu/hexo-theme-wiki-i18n)主题。
+
+该博客采用[Hexo](https://hexo.io/)构建! 使用[wiki-i18n](https://github.com/xcatliu/hexo-theme-wiki-i18n)主题。
+
 
 # 如何建立一个相同的Wiki
 
