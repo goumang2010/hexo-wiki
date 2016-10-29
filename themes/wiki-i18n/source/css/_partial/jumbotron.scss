@@ -1,4 +1,3 @@
-@import 'variables';
 
 .jumbotron {
   background-color: $color-dark-gray;
@@ -7,6 +6,7 @@
   overflow: hidden;
   text-align: center;
   color: $color-text-white;
+  width: 100%;
 
   a {
     color: $color-text-white;
