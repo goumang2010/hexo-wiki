@@ -1,6 +1,6 @@
 /* global hexo */
-var fs = require('fs');
-var path = require('path');
+const fs = require('fs');
+const path = require('path');
 
 hexo.extend.helper.register('is_root', isRoot);
 hexo.extend.helper.register('get_langs', getLangs);
@@ -27,8 +27,9 @@ function switchLang(lang) {
 }
 
 function readFile(p) {
-  if(!(path.isAbsolute(p))) {
-    p = path.join(process.cwd(), p);
+  let _p = p;
+  if (!(path.isAbsolute(_p))) {
+    _p = path.join(process.cwd(), _p);
   }
-  return fs.readFileSync(p, {encoding: 'utf8'});
+  return fs.readFileSync(_p, { encoding: 'utf8' });
 }
