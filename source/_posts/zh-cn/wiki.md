@@ -1,6 +1,8 @@
 ﻿---
-title: wiki
+title: build
 excerpt: 如何构建该Wiki。
+categories:
+- wiki
 ---
 
 该博客采用[Hexo](https://hexo.io/)构建! 使用[wiki-i18n](https://github.com/xcatliu/hexo-theme-wiki-i18n)主题。

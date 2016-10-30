@@ -1,6 +1,8 @@
 ---
 title: Vue2
 excerpt: Vue2源码梳理，各个函数注释及Q&A
+categories:
+- FE
 ---
 
 # 获取Vue2源码
