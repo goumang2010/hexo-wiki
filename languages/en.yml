@@ -1,6 +1,9 @@
 archives: Archives
 explore: Explore
 new: New
+cate:
+  title: Cate
+  path: source/index.en.md
 github: GitHub
 search: Search...
 

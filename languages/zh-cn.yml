@@ -2,6 +2,9 @@ title: Chuune Wiki
 archives: 归档
 explore: 探索
 new: 最新
+cate:
+  title: 目录
+  path: source/index.zh.md
 github: GitHub
 search: 搜索
 
