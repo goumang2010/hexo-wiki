@@ -4,6 +4,10 @@
   <body>
   <%- partial('_partial/header') %>
   <%- partial('_partial/jumbotron') %>
+  <%- partial('_partial/cates', {
+    title: __('cate.title'),
+    path: __('cate.path')
+  }) %>
   <%- partial('_partial/cards', {
     title: __('new'),
     items: page.posts,
