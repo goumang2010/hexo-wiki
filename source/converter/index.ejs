@@ -47,15 +47,19 @@ div > button {
 	});
 
 	function convert(srctxt) {
+		if (!srctxt) {
+			return '';
+		}
 		var _src = srctxt;
-		return '---\ntitle: \nexcerpt: \ncategories: \n- FE\n---\n\n' + _src.replace(/^(\*+)\s*(.+?)\s*\n/mg, '$1 $2\n')
-					.replace(/^(#+)\s*(.+?)\s*\n/mg, function(m, p1, p2) {
-						return (p1.replace(/#/g, '-')+ ' ' + p2 +'\n');
-					})
-					.replace(/<\/?pre>/g, '```\n')
-					.replace(/\n*\s*(=+)\s*(.+?)(\s*=+\s*)\n+/mg, function(m, p1, p2, p3) {
-						return ('\n\n' + p1.replace(/=/g, '#') + ' ' + p2 +'\n');
-					});
+		return '---\ntitle: \nexcerpt: \ncategories: \n- FE\n---\n\n' + 
+		_src.replace(/^(\*+)\s*(.+?)\s*\n/mg, '$1 $2\n')
+			.replace(/^(#+)\s*(.+?)\s*\n/mg, function(m, p1, p2) {
+				return (p1.replace(/#/g, '-')+ ' ' + p2 +'\n');
+			})
+			.replace(/\n*<\/?pre>\n*/g, '\n```\n')
+			.replace(/\n*\s*(=+)\s*(.+?)(\s*=+\s*)\n+/mg, function(m, p1, p2, p3) {
+				return ('\n\n' + p1.replace(/=/g, '#') + ' ' + p2 +'\n');
+			});
 	}
 	
 </script>

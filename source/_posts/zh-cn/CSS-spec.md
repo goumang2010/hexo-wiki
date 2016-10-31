@@ -1,6 +1,6 @@
 ---
-title: CSS规范
-excerpt: CSS规范阅读
+title: 
+excerpt: 
 categories: 
 - FE
 ---
@@ -10,11 +10,12 @@ http://www.w3.org/TR/2011/REC-CSS2-20110607/#minitoc
 # 介绍
 CSS语句由选择器和声明组成
 ```
-<LINK rel="stylesheet" href="bach.css" type="text/css">```
-
+<LINK rel="stylesheet" href="bach.css" type="text/css">
+```
 注意src与href区别，src用于替换当前元素，href是链接,href是并行处理,src串行处理
 ```
-<script src="javascripts/resume.js"></script>```
+<script src="javascripts/resume.js"></script>
+```
 
 # 选择器
 http://www.w3.org/TR/2011/REC-CSS2-20110607/selector.html
@@ -33,7 +34,8 @@ http://www.w3.org/TR/2011/REC-CSS2-20110607/selector.html
 ，在p元素note类前插入"Note: "
 http://www.w3.org/TR/2011/REC-CSS2-20110607/generate.html
 ```
-p.note:before { content: "Note: " }```
+p.note:before { content: "Note: " }
+```
 
 # Media types
 <table border="1" summary="Relationship between media groups and media types">
@@ -75,7 +77,8 @@ http://www.w3.org/TR/2011/REC-CSS2-20110607/cascade.html
 在css中引用其他的css
 ```
 @import url("fineprint.css") print;
-@import url("bluish.css") projection, tv;```
+@import url("bluish.css") projection, tv;
+```
 
 ## 级联
 - 找 target media type
@@ -98,7 +101,8 @@ a b c d 逐级比较覆盖
  ul ol li.red  {}  /* a=0 b=0 c=1 d=3 -> specificity = 0,0,1,3 */
  li.red.level  {}  /* a=0 b=0 c=2 d=1 -> specificity = 0,0,2,1 */
  #x34y         {}  /* a=0 b=1 c=0 d=0 -> specificity = 0,1,0,0 */
- style=""          /* a=1 b=0 c=0 d=0 -> specificity = 1,0,0,0 */```
+ style=""          /* a=1 b=0 c=0 d=0 -> specificity = 1,0,0,0 */
+```
 
 ## 其他
 html的非css的属性往往会被UA置于样式表的头部，而可能被样式表之后的内容所覆盖
