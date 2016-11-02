@@ -1,6 +1,6 @@
 ---
 title: quiz
-excerpt: 
+excerpt: quiz
 categories: 
 - FE
 ---

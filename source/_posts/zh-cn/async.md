@@ -1,6 +1,6 @@
 ---
 title: async
-excerpt: 
+excerpt: async
 categories: 
 - FE
 ---

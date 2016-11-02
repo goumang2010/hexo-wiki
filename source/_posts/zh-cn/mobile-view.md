@@ -1,6 +1,6 @@
 ---
 title: mobile-view
-excerpt: 
+excerpt: mobile-view
 categories: 
 - FE
 ---

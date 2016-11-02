@@ -1,6 +1,6 @@
 ---
 title: typescript
-excerpt: 
+excerpt: typescript
 categories: 
 - FE
 ---

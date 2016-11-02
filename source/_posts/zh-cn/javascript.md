@@ -1,6 +1,6 @@
 ---
 title: javascript
-excerpt: 
+excerpt: javascript
 categories: 
 - FE
 ---

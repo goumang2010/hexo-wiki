@@ -1,6 +1,6 @@
 ---
 title: bootstrap
-excerpt: 
+excerpt: bootstrap
 categories: 
 - FE
 ---
