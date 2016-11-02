@@ -59,6 +59,9 @@ div > button {
 			.replace(/\n*<\/?pre>\n*/g, '\n```\n')
 			.replace(/\n*\s*(=+)\s*(.+?)(\s*=+\s*)\n+/mg, function(m, p1, p2, p3) {
 				return ('\n\n' + p1.replace(/=/g, '#') + ' ' + p2 +'\n');
+			})
+			.replace(/\[\[\s*(.+)\s*\]\]/g, function(m, p1) {
+				return '[' + p1 + '](' + p1 +')';
 			});
 	}
 	
