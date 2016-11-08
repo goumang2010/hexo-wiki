@@ -1,6 +1,7 @@
 ---
 title: git
 excerpt: git
+github: https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/git.md
 categories: 
 - FE
 ---
