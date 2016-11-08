@@ -20,6 +20,8 @@ root: /
 permalink: :category/:title.html
 permalink_defaults:
 
+github: https://github.com/goumang2010/hexo-wiki
+
 # Directory
 source_dir: source
 public_dir: public
