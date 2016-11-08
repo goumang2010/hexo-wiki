@@ -7,10 +7,11 @@ cate:
   path: source/index.zh.md
 github: GitHub
 search: 搜索
+edit: 编辑
 
 jumbotron:
   title: 深♂入学习Computer Science的Wiki
   create: 新建一项
-  convert: 转换器
+  convert: MediaWiki转换器
 
 more: 查看更多

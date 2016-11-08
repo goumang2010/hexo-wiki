@@ -6,10 +6,11 @@ cate:
   path: source/index.en.md
 github: GitHub
 search: Search...
+edit: Edit
 
 jumbotron:
   title: Wiki Of Deep♂ Learning FE&CS etc.
   create: Create an item
-  convert: Converter
+  convert: MediaWiki Converter
 
 more: Show more
