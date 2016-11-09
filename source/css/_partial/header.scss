@@ -31,7 +31,7 @@
   padding: 0.5rem;
 }
 
-.header-search-form {
+.header-search-div {
   display: inline-block;
 }
 
@@ -46,6 +46,20 @@
   &:focus {
     background: lighten($color-orange, 40%);
   }
+}
+
+.header-search-box {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+}
+.header-search-box > ul {
+    margin-top: 25px;
+}
+
+.header-search-box a {
+    color: white;
+    text-decoration: none;
 }
 
 .header-lang-select-wrap {
