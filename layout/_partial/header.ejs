@@ -16,9 +16,10 @@
       <a class="no-style header-link" target="_blank" href="<%= page.github || (config.github + '/edit/master/source/' + (page.source || '../' + __('cate.path'))) %>"><%= __('edit') %></a>
       <a class="no-style header-link" href="<%= url_for('/readme') %>">README</a>
       <a class="no-style header-link" target="_blank" href="<%= config.github %>"><%= __('github') %></a>
-      <form id="header-search-form" class="header-search-form">
+      <div id="header-search-div" class="header-search-div">
         <input id="header-search-input" class="header-search-input" type="text" placeholder="<%= __('search') %>"/>
-      </form>
+        <div id="header-search-box" class="header-search-box"><ul></ul></div>
+      </div>
       <div class="header-lang-select-wrap header-link">
         <label>
         <% if (is_root()) { %>
