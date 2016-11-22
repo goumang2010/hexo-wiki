@@ -1,6 +1,6 @@
 ---
-title: 
-excerpt: 
+title: linux-config
+excerpt: linux-config
 categories: 
 - FE
 ---
