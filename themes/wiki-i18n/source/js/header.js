@@ -46,7 +46,7 @@
     boxUl.innerHTML = '';
     data.forEach(function(post) {
       let li = document.createElement('li');
-      li.innerHTML = `<a href="/${post.path}">'${post.title}</a>`;
+      li.innerHTML = `<a href="/${post.path}">${post.title}</a>`;
       boxUl.append(li);
     });
   }

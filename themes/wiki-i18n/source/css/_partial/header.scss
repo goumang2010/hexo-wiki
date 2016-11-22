@@ -36,10 +36,13 @@
 }
 
 .header-search-input {
-  padding: 0.4rem 0.5rem 0.1rem;
+  padding: 0.4rem 0.5rem 0.4rem;
   border: 0;
   background: lighten($color-orange, 25%);
   width: 16rem;
+  min-height: 16px;
+  margin-bottom: 10px;
+  font-size: 13px;
   &:hover {
     background: lighten($color-orange, 30%);
   }
@@ -52,9 +55,11 @@
     position: absolute;
     background: rgba(0, 0, 0, 0.8);
     display: none;
+    min-width: 17rem;
 }
 .header-search-box > ul {
-    margin-top: 25px;
+    margin-top: 10px;
+    list-style-type: decimal;
 }
 
 .header-search-box a {
