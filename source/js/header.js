@@ -1,4 +1,4 @@
-(function() {
+(function($) {
   const input = document.getElementById('header-search-input');
   const box = document.getElementById('header-search-box');
   const boxUl = box.children[0];
@@ -83,4 +83,34 @@
     let option = e.target.querySelector(`[value="${e.target.value}"]`);
     location.href = option.dataset.href;
   });
-}());
+
+
+  // Mobile nav
+  // console.log($);
+  var $container = $('body'),
+    isMobileNavAnim = false,
+    mobileNavAnimDuration = 200;
+  var startMobileNavAnim = function(){
+    isMobileNavAnim = true;
+  };
+
+  var stopMobileNavAnim = function(){
+    setTimeout(function(){
+      isMobileNavAnim = false;
+    }, mobileNavAnimDuration);
+  }
+  var $mnav = $('#mobile-nav');
+  $('#main-nav-toggle').on('click', function(){
+    if (isMobileNavAnim) return;
+    startMobileNavAnim();
+    $container.toggleClass('mobile-nav-on');
+    $mnav.show();
+    stopMobileNavAnim();
+  });
+
+  $('body').on('click', function(){
+    if (isMobileNavAnim || !$container.hasClass('mobile-nav-on')) return;
+    $container.removeClass('mobile-nav-on');
+    $mnav.hide();
+  });
+})(jQuery);
