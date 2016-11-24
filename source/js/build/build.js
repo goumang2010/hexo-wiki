@@ -4,8 +4,6 @@ var path = require('path');
 var rollup = require('rollup');
 var uglify = require('uglify-js');
 
-var env = require('./env.js');
-
 var version = require('../../../../../package.json').version;
 
 var config = require('./config.js');
