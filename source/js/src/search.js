@@ -1,9 +1,7 @@
-import {
-    bindEvent
-} from './utils.js';
+import { bindEvent } from './utils.js';
 const input = document.getElementById('header-search-input');
 const box = document.getElementById('header-search-box');
-const boxUl = box.children[0];
+const boxUl = document.getElementById('header-search-list');
 
 // http://chaoo.oschina.io/2016/11/09/%E8%87%AA%E5%AE%9A%E4%B9%89HEXO%E7%AB%99%E5%86%85%E6%90%9C%E7%B4%A2Javascript-json.html
 // xhr加载数据
@@ -45,11 +43,15 @@ function regtest(raw, regExp) {
 // 渲染到页面
 function render(data) {
     boxUl.innerHTML = '';
-    data.forEach(function (post) {
-        let li = document.createElement('li');
-        li.innerHTML = `<a href="/${post.path}">${post.title}</a>`;
-        boxUl.append(li);
-    });
+    try {
+        data.forEach(function (post) {
+            let li = document.createElement('li');
+            li.innerHTML = `<a href="/${post.path}">${post.title}</a>`;
+            boxUl.appendChild(li);
+        });
+    } catch (err) {
+        console.log(err);
+    }
 }
 
 // 查询
@@ -71,50 +73,8 @@ function search(key) {
     }
 }
 
-input.addEventListener('input', (e) => {
+bindEvent(input, 'keyup', (e) => {
     e.preventDefault();
     e.stopPropagation();
     search(input.value);
 });
-
-let select = document.getElementById('header-lang-select');
-bindEvent(select, 'change', (e) => {
-    e.preventDefault();
-    let option = e.target.querySelector(`[value="${e.target.value}"]`);
-    location.href = option.dataset.href;
-});
-
-// Mobile nav
-// console.log($);
-const $ = window.$;
-const $container = $('body');
-let isMobileNavAnim = false;
-let mobileNavAnimDuration = 200;
-let startMobileNavAnim = function () {
-    isMobileNavAnim = true;
-};
-
-let stopMobileNavAnim = function () {
-    setTimeout(function () {
-        isMobileNavAnim = false;
-    }, mobileNavAnimDuration);
-};
-let $mnav = $('#mobile-nav');
-$('#main-nav-toggle').on('click', function () {
-    if (isMobileNavAnim) return;
-    startMobileNavAnim();
-    $container.toggleClass('mobile-nav-on');
-    $mnav.show();
-    stopMobileNavAnim();
-});
-// $(input).val('kkkk');
-bindClickEvent($container, function () {
-    if (isMobileNavAnim || !$container.hasClass('mobile-nav-on')) return;
-    $container.removeClass('mobile-nav-on');
-    $mnav.hide();
-});
-
-function bindClickEvent($ele, callback) {
-    $ele.on('click', callback);
-    $ele.on('touch', callback);
-}

@@ -3,7 +3,7 @@ var path = require('path');
 var babel = require('rollup-plugin-babel');
 var eslint = require('rollup-plugin-eslint');
 
-var env = require('./env.js');
+var env = process.env.NODE_ENV || 'production';
 
 var config = {
     entry: path.join(__dirname, '../src/index.js'),

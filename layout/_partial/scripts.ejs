@@ -5,4 +5,8 @@
     config: <%- JSON.stringify(config) %>,
   };
 </script>
-<%- js('js/dist/custom.min.js') %>
+<% if (process.env.NODE_ENV === 'dev') { %>
+<%- js('js/dist/custom.js') %>
+<% } else { %>
+	<%- js('js/dist/custom.min.js') %>
+<% } %>
