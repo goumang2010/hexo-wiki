@@ -6,9 +6,10 @@
     "version": "3.2.2"
   },
   "scripts": {
-    "jsdev": "node_modules/.bin/rollup -w -m -c themes/wiki-i18n/source/js/build/config.js --env=dev",
+    "rollupwatch": "node_modules/.bin/rollup -w -m -c themes/wiki-i18n/source/js/build/config.js",
+    "jsdev": "SET NODE_ENV=dev&& npm run rollupwatch",
     "jsbuild": "node themes/wiki-i18n/source/js/build/build.js",
-    "start": "hexo clean && hexo generate && hexo serve --watch",
+    "start": "SET NODE_ENV=dev&& hexo clean && hexo generate && hexo serve --watch",
     "deploy": "npm run jsbuild && npm run test && hexo clean && hexo generate && hexo deploy",
     "lint": "eslint . && echo 'ESLint Passed!\\n'",
     "test": "npm run lint"
@@ -39,7 +40,6 @@
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.3.0",
     "eslint-plugin-standard": "^2.0.1",
-    "minimist": "^1.2.0",
     "rollup": "^0.36.3",
     "rollup-plugin-babel": "^2.6.1",
     "rollup-plugin-eslint": "^3.0.0",

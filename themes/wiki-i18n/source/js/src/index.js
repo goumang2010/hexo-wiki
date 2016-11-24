@@ -1,1 +1,3 @@
-import * as d from './header.js';
+import './lang.js';
+import './mobile.js';
+import './search.js';
