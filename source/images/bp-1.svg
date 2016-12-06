@@ -1,0 +1,474 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- 由 Microsoft Visio, SVG Export 生成 埋点流程图.svg Page-1 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="11.6929in" height="8.26772in"
+		viewBox="0 0 841.89 595.276" xml:space="preserve" color-interpolation-filters="sRGB" class="st20">
+	<v:documentProperties v:langID="2052" v:metric="true" v:viewMarkup="false">
+		<v:userDefs>
+			<v:ud v:nameU="msvSubprocessMaster" v:prompt="" v:val="VT4(Rectangle)"/>
+			<v:ud v:nameU="msvNoAutoConnect" v:val="VT0(1):26"/>
+		</v:userDefs>
+	</v:documentProperties>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {visibility:visible}
+		.st2 {fill:#5b9bd5;fill-opacity:0.22;filter:url(#filter_2);stroke:#5b9bd5;stroke-opacity:0.22}
+		.st3 {fill:#5b9bd5;stroke:#c7c8c8;stroke-width:0.25}
+		.st4 {fill:#feffff;font-family:黑体;font-size:1.5em}
+		.st5 {fill:#feffff;font-family:Calibri;font-size:1.5em}
+		.st6 {fill:#a4c8e8;stroke:#c7c8c8;stroke-width:0.25}
+		.st7 {fill:#3382c8;stroke:#c7c8c8;stroke-width:0.25}
+		.st8 {fill:#5b9bd5;fill-opacity:0.25;filter:url(#filter_2);stroke:#5b9bd5;stroke-opacity:0.25}
+		.st9 {fill:#ffffff;stroke:#40709c;stroke-width:0.75}
+		.st10 {fill:none;stroke:none;stroke-width:0.25}
+		.st11 {fill:#000000;font-family:黑体;font-size:1.16666em}
+		.st12 {fill:#000000;font-family:Calibri;font-size:1.16666em}
+		.st13 {font-family:黑体;font-size:1em}
+		.st14 {font-size:1em}
+		.st15 {fill:#5b9bd5;fill-opacity:0.22;filter:url(#filter_2)}
+		.st16 {fill:none;filter:url(#filter_2);stroke:#5b9bd5;stroke-opacity:0.22}
+		.st17 {fill:#5b9bd5}
+		.st18 {stroke:#c7c8c8;stroke-width:0.25}
+		.st19 {fill:#1e4a73;font-family:黑体;font-size:1.16666em}
+		.st20 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<defs id="Filters">
+		<filter id="filter_2">
+			<feGaussianBlur stdDeviation="2"/>
+		</filter>
+	</defs>
+	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
+		<v:userDefs>
+			<v:ud v:nameU="msvThemeOrder" v:val="VT0(0):26"/>
+		</v:userDefs>
+		<title>页-1</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
+				v:shadowOffsetY="-8.50394"/>
+		<v:layer v:name="连接线" v:index="0"/>
+		<v:layer v:name="流程图" v:index="1"/>
+		<g id="shape1-1" v:mID="1" v:groupContext="shape" transform="translate(184.252,-255.118)">
+			<title>矩形</title>
+			<desc>管理平台</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="56.6929" cy="552.756" width="113.39" height="85.0394"/>
+			<g id="shadow1-2" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+					transform="matrix(1,0,0,1,0.345598,1.97279)" class="st1">
+				<rect x="0" y="510.236" width="113.386" height="85.0394" class="st2"/>
+			</g>
+			<rect x="0" y="510.236" width="113.386" height="85.0394" class="st3"/>
+			<text x="20.69" y="558.75" class="st4" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>管理平台</text>		</g>
+		<g id="shape2-7" v:mID="2" v:groupContext="shape" transform="translate(496.063,-255.118)">
+			<title>矩形.2</title>
+			<desc>JS SDK</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="56.6929" cy="552.756" width="113.39" height="85.0394"/>
+			<g id="shadow2-8" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+					transform="matrix(1,0,0,1,0.345598,1.97279)" class="st1">
+				<rect x="0" y="510.236" width="113.386" height="85.0394" class="st2"/>
+			</g>
+			<rect x="0" y="510.236" width="113.386" height="85.0394" class="st3"/>
+			<text x="33.31" y="558.16" class="st5" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>JS SDK</text>		</g>
+		<g id="group3-13" transform="translate(340.157,-99.2126)" v:mID="3" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<title>圆柱形</title>
+			<desc>埋点数据库</desc>
+			<g id="shape4-14" v:mID="4" v:groupContext="shape">
+				<title>工作表.4</title>
+				<v:userDefs>
+					<v:ud v:nameU="ControlHalfHeight" v:prompt="" v:val="VT0(0.11811023622047):24"/>
+					<v:ud v:nameU="FillForegnd" v:prompt="" v:val="VT5(1)"/>
+					<v:ud v:nameU="FillForegnd" v:prompt="" v:val="VT5(#5b9bd5)"/>
+				</v:userDefs>
+				<g id="shadow4-15" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+						transform="matrix(1,0,0,1,0.345598,1.97279)" class="st1">
+					<path d="M0 586.77 A56.6929 8.50394 -180 1 0 113.39 586.77 L113.39 518.74 L0 518.74 L0 586.77 Z" class="st2"/>
+				</g>
+				<path d="M0 586.77 A56.6929 8.50394 -180 1 0 113.39 586.77 L113.39 518.74 L0 518.74 L0 586.77 Z" class="st3"/>
+			</g>
+			<g id="shape3-19" v:mID="3" v:groupContext="groupContent">
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="56.6929" cy="552.756" width="113.39" height="85.0394"/>
+				<g id="shadow3-20" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+						transform="matrix(1,0,0,1,0.345598,1.97279)" class="st1">
+					<ellipse cx="56.6929" cy="518.74" rx="56.6929" ry="8.50394" class="st2"/>
+				</g>
+				<ellipse cx="56.6929" cy="518.74" rx="56.6929" ry="8.50394" class="st3"/>
+				<text x="11.69" y="558.75" class="st4" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>埋点数据库</text>			</g>
+		</g>
+		<g id="group5-25" transform="translate(283.465,-439.37)" v:mID="5" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<title>立方体</title>
+			<desc>网站</desc>
+			<g id="shape6-26" v:mID="6" v:groupContext="shape">
+				<title>工作表.6</title>
+				<v:userDefs>
+					<v:ud v:nameU="ControlHeight" v:prompt="" v:val="VT0(0.94488188976378):24"/>
+					<v:ud v:nameU="FillForegnd" v:prompt="" v:val="VT5(1)"/>
+					<v:ud v:nameU="FillForegnd" v:prompt="" v:val="VT5(#5b9bd5)"/>
+				</v:userDefs>
+				<g id="shadow6-27" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+						transform="matrix(1,0,0,1,0.345598,1.97279)" class="st1">
+					<path d="M0 527.24 L96.38 527.24 L113.39 510.24 L17.01 510.24 L0 527.24 Z" class="st2"/>
+				</g>
+				<path d="M0 527.24 L96.38 527.24 L113.39 510.24 L17.01 510.24 L0 527.24 Z" class="st6"/>
+			</g>
+			<g id="shape7-31" v:mID="7" v:groupContext="shape">
+				<title>工作表.7</title>
+				<v:userDefs>
+					<v:ud v:nameU="ControlHeight" v:prompt="" v:val="VT0(0.94488188976378):24"/>
+					<v:ud v:nameU="FillForegnd" v:prompt="" v:val="VT5(1)"/>
+					<v:ud v:nameU="FillForegnd" v:prompt="" v:val="VT5(#5b9bd5)"/>
+				</v:userDefs>
+				<g id="shadow7-32" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+						transform="matrix(1,0,0,1,0.345598,1.97279)" class="st1">
+					<path d="M96.38 595.28 L113.39 578.27 L113.39 510.24 L96.38 527.24 L96.38 595.28 Z" class="st2"/>
+				</g>
+				<path d="M96.38 595.28 L113.39 578.27 L113.39 510.24 L96.38 527.24 L96.38 595.28 Z" class="st7"/>
+			</g>
+			<g id="shape5-36" v:mID="5" v:groupContext="groupContent">
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="48.189" cy="561.26" width="96.38" height="68.0315"/>
+				<g id="shadow5-37" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+						transform="matrix(1,0,0,1,0.345598,1.97279)" class="st1">
+					<rect x="0" y="527.244" width="96.378" height="68.0315" class="st2"/>
+				</g>
+				<rect x="0" y="527.244" width="96.378" height="68.0315" class="st3"/>
+				<text x="30.19" y="567.25" class="st4" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>网站</text>			</g>
+		</g>
+		<g id="group8-42" transform="translate(694.488,-439.37)" v:mID="8" v:groupContext="group">
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<title>圆柱形.8</title>
+			<desc>日志收集</desc>
+			<g id="shape9-43" v:mID="9" v:groupContext="shape">
+				<title>工作表.9</title>
+				<v:userDefs>
+					<v:ud v:nameU="ControlHalfHeight" v:prompt="" v:val="VT0(0.11811023622047):24"/>
+					<v:ud v:nameU="FillForegnd" v:prompt="" v:val="VT5(1)"/>
+					<v:ud v:nameU="FillForegnd" v:prompt="" v:val="VT5(#5b9bd5)"/>
+				</v:userDefs>
+				<g id="shadow9-44" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+						transform="matrix(1,0,0,1,0.345598,1.97279)" class="st1">
+					<path d="M0 586.77 A42.5197 8.50394 -180 1 0 85.04 586.77 L85.04 518.74 L0 518.74 L0 586.77 Z" class="st2"/>
+				</g>
+				<path d="M0 586.77 A42.5197 8.50394 -180 1 0 85.04 586.77 L85.04 518.74 L0 518.74 L0 586.77 Z" class="st3"/>
+			</g>
+			<g id="shape8-48" v:mID="8" v:groupContext="groupContent">
+				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+				<v:textRect cx="42.5197" cy="552.756" width="85.04" height="85.0394"/>
+				<g id="shadow8-49" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+						transform="matrix(1,0,0,1,0.345598,1.97279)" class="st1">
+					<ellipse cx="42.5197" cy="518.74" rx="42.5197" ry="8.50394" class="st2"/>
+				</g>
+				<ellipse cx="42.5197" cy="518.74" rx="42.5197" ry="8.50394" class="st3"/>
+				<text x="6.52" y="558.75" class="st4" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>日志收集</text>			</g>
+		</g>
+		<g id="shape13-54" v:mID="13" v:groupContext="shape" transform="translate(-163.49,-195.845) rotate(-42.7974)">
+			<title>普通箭头</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(2):26"/>
+			</v:userDefs>
+			<g id="shadow13-55" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+					transform="matrix(1,0,0,1,-1.08674,1.68236)" class="st1">
+				<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L104.31 589.61 L104.31 595.28 L104.31 600.94 L11.34 600.94 L11.34
+							 606.61 L0 595.28 Z" class="st8"/>
+			</g>
+			<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L104.31 589.61 L104.31 595.28 L104.31 600.94 L11.34 600.94 L11.34 606.61
+						 L0 595.28 Z" class="st9"/>
+		</g>
+		<g id="shape14-59" v:mID="14" v:groupContext="shape" transform="translate(269.291,-226.772)">
+			<title>工作表.14</title>
+			<desc>储存埋点信息</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="76" cy="585.276" width="152.01" height="20"/>
+			<rect x="0" y="575.276" width="152" height="20" class="st10"/>
+			<text x="34" y="589.93" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>储存埋点信息</text>		</g>
+		<g id="shape19-62" v:mID="19" v:groupContext="shape" transform="translate(28.3889,917.215) rotate(-150.945)">
+			<title>普通箭头.19</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(2):26"/>
+			</v:userDefs>
+			<g id="shadow19-63" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+					transform="matrix(1,0,0,1,-1.26018,-1.55669)" class="st1">
+				<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L87.55 589.61 L87.55 595.28 L87.55 600.94 L11.34 600.94 L11.34 606.61
+							 L0 595.28 Z" class="st8"/>
+			</g>
+			<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L87.55 589.61 L87.55 595.28 L87.55 600.94 L11.34 600.94 L11.34 606.61
+						 L0 595.28 Z" class="st9"/>
+		</g>
+		<g id="shape20-67" v:mID="20" v:groupContext="shape" transform="translate(501.404,-153.965) rotate(27.4744)">
+			<title>普通箭头.20</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(2):26"/>
+			</v:userDefs>
+			<g id="shadow20-68" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+					transform="matrix(1,0,0,1,1.21677,1.59085)" class="st1">
+				<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L79.87 589.61 L79.87 595.28 L79.87 600.94 L11.34 600.94 L11.34 606.61
+							 L0 595.28 Z" class="st8"/>
+			</g>
+			<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L79.87 589.61 L79.87 595.28 L79.87 600.94 L11.34 600.94 L11.34 606.61
+						 L0 595.28 Z" class="st9"/>
+		</g>
+		<g id="shape21-72" v:mID="21" v:groupContext="shape" transform="translate(145.638,-164.252)">
+			<title>工作表.21</title>
+			<desc>读取页面埋点信息</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="76" cy="585.276" width="152.01" height="20"/>
+			<rect x="0" y="575.276" width="152" height="20" class="st10"/>
+			<text x="20" y="589.93" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>读取页面埋点信息</text>		</g>
+		<g id="shape22-75" v:mID="22" v:groupContext="shape" transform="translate(912.926,838.726) rotate(144.462)">
+			<title>普通箭头.22</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(2):26"/>
+			</v:userDefs>
+			<g id="shadow22-76" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+					transform="matrix(1,0,0,1,0.865437,-1.8062)" class="st1">
+				<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L121.92 589.61 L121.92 595.28 L121.92 600.94 L11.34 600.94 L11.34
+							 606.61 L0 595.28 Z" class="st8"/>
+			</g>
+			<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L121.92 589.61 L121.92 595.28 L121.92 600.94 L11.34 600.94 L11.34 606.61
+						 L0 595.28 Z" class="st9"/>
+		</g>
+		<g id="shape23-80" v:mID="23" v:groupContext="shape" transform="translate(547.622,-188.425)">
+			<title>工作表.23</title>
+			<desc>读取页面埋点信息</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="76" cy="585.276" width="152.01" height="20"/>
+			<rect x="0" y="575.276" width="152" height="20" class="st10"/>
+			<text x="20" y="589.93" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>读取页面埋点信息</text>		</g>
+		<g id="shape24-83" v:mID="24" v:groupContext="shape" transform="translate(651.348,-359.377) rotate(28.369)">
+			<title>普通箭头.24</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(2):26"/>
+			</v:userDefs>
+			<g id="shadow24-84" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+					transform="matrix(1,5.55112E-17,-5.55112E-17,1,1.24146,1.57166)" class="st1">
+				<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L161.08 589.61 L161.08 595.28 L161.08 600.94 L11.34 600.94 L11.34
+							 606.61 L0 595.28 Z" class="st8"/>
+			</g>
+			<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L161.08 589.61 L161.08 595.28 L161.08 600.94 L11.34 600.94 L11.34 606.61
+						 L0 595.28 Z" class="st9"/>
+		</g>
+		<g id="shape25-88" v:mID="25" v:groupContext="shape" transform="translate(322.803,-344.331)">
+			<title>工作表.25</title>
+			<desc>SDK随网站页面加载</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="76" cy="585.276" width="152.01" height="20"/>
+			<rect x="0" y="575.276" width="152" height="20" class="st10"/>
+			<text x="15.84" y="589.93" class="st12" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>SDK<tspan
+						class="st13">随网站页面加载</tspan></text>		</g>
+		<g id="shape26-92" v:mID="26" v:groupContext="shape" transform="translate(145.638,-398.11)">
+			<title>工作表.26</title>
+			<desc>读取页面</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="76" cy="585.276" width="152.01" height="20"/>
+			<rect x="0" y="575.276" width="152" height="20" class="st10"/>
+			<text x="48" y="589.93" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>读取页面</text>		</g>
+		<g id="shape27-95" v:mID="27" v:groupContext="shape" transform="translate(981.363,691.669) rotate(151.189)">
+			<title>普通箭头.27</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(2):26"/>
+			</v:userDefs>
+			<g id="shadow27-96" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+					transform="matrix(1,-5.55112E-17,5.55112E-17,1,0.647907,-1.89514)" class="st1">
+				<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L129.4 589.61 L129.4 595.28 L129.4 600.94 L11.34 600.94 L11.34 606.61
+							 L0 595.28 Z" class="st8"/>
+			</g>
+			<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L129.4 589.61 L129.4 595.28 L129.4 600.94 L11.34 600.94 L11.34 606.61
+						 L0 595.28 Z" class="st9"/>
+		</g>
+		<g id="shape29-100" v:mID="29" v:groupContext="shape" transform="translate(269.911,764.731) rotate(-151.631)">
+			<title>普通箭头.29</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(2):26"/>
+			</v:userDefs>
+			<g id="shadow29-101" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+					transform="matrix(1,0,0,1,-1.24146,-1.57166)" class="st1">
+				<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L161.08 589.61 L161.08 595.28 L161.08 600.94 L11.34 600.94 L11.34
+							 606.61 L0 595.28 Z" class="st8"/>
+			</g>
+			<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L161.08 589.61 L161.08 595.28 L161.08 600.94 L11.34 600.94 L11.34 606.61
+						 L0 595.28 Z" class="st9"/>
+		</g>
+		<g id="shape30-105" v:mID="30" v:groupContext="shape" transform="translate(457.449,-419.37)">
+			<title>工作表.30</title>
+			<desc>SDK捕获网站用户行为</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="76" cy="585.276" width="152.01" height="20"/>
+			<rect x="0" y="575.276" width="152" height="20" class="st10"/>
+			<text x="8.84" y="589.93" class="st12" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>SDK<tspan
+						class="st13">捕获网站用户行为</tspan></text>		</g>
+		<g id="shape31-109" v:mID="31" v:groupContext="shape" transform="translate(669.323,-354.331)">
+			<title>工作表.31</title>
+			<desc>用户行为触发埋点数据上报</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="56.6929" cy="585.276" width="113.39" height="20"/>
+			<rect x="0" y="575.276" width="113.386" height="20" class="st10"/>
+			<text x="7.69" y="580.16" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>用户行为触发埋<tspan
+						x="21.69" dy="1.298em" class="st14">点数据上报</tspan></text>		</g>
+		<g id="shape33-113" v:mID="33" v:groupContext="shape" v:layerMember="1" transform="translate(99.2126,-453.543)">
+			<title> 人员 </title>
+			<desc>用户</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ConnGap" v:prompt="" v:val="VT0(0.00012908222537757):24"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="17.0079" cy="608.596" width="39.17" height="26.6409"/>
+			<g id="shadow33-114" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+					transform="matrix(1,0,0,1,0.345598,1.97279)" class="st1">
+				<path d="M27.48 545.88 L6.54 545.88 C5.03 545.88 3.64 546.38 2.54 547.22 C1.77 547.8 1.13 548.55 0.69 549.41 C0.25
+							 550.27 0 551.24 0 552.27 L0 576.53 L5.73 576.53 L5.73 595.28 L28.07 595.28 L28.07 576.53 L34.02 576.53
+							 L34.02 552.27 C34.02 550.79 33.5 549.43 32.64 548.35 C32.04 547.6 31.27 546.98 30.39 546.55 C29.52 546.12
+							 28.53 545.88 27.48 545.88 ZM26.79 533.86 A9.78293 9.45354 -180 1 0 7.22 533.86 A9.78293 9.45354 -180
+							 1 0 26.79 533.86 Z" class="st15"/>
+				<path d="M27.48 545.88 L6.54 545.88 C5.03 545.88 3.64 546.38 2.54 547.22 C1.77 547.8 1.13 548.55 0.69 549.41 C0.25
+							 550.27 0 551.24 0 552.27 L0 576.53 L5.73 576.53 L5.73 595.28 L28.07 595.28 L28.07 576.53 L34.02 576.53
+							 L34.02 552.27 C34.02 550.79 33.5 549.43 32.64 548.35 C32.04 547.6 31.27 546.98 30.39 546.55 C29.52 546.12
+							 28.53 545.88 27.48 545.88" class="st16"/>
+				<path d="M17.01 595.28 L17.01 580.3" class="st16"/>
+				<path d="M5.73 576.53 L5.73 563.61" class="st16"/>
+				<path d="M28.07 576.53 L28.07 563.61" class="st16"/>
+				<path d="M26.79 533.86 A9.78293 9.45354 -180 1 0 7.22 533.86 A9.78293 9.45354 -180 1 0 26.79 533.86" class="st16"/>
+			</g>
+			<path d="M27.48 545.88 L6.54 545.88 C5.03 545.88 3.64 546.38 2.54 547.22 C1.77 547.8 1.13 548.55 0.69 549.41 C0.25 550.27
+						 0 551.24 0 552.27 L0 576.53 L5.73 576.53 L5.73 595.28 L28.07 595.28 L28.07 576.53 L34.02 576.53 L34.02 552.27
+						 C34.02 550.79 33.5 549.43 32.64 548.35 C32.04 547.6 31.27 546.98 30.39 546.55 C29.52 546.12 28.53 545.88
+						 27.48 545.88 ZM26.79 533.86 A9.78293 9.45354 -180 1 0 7.22 533.86 A9.78293 9.45354 -180 1 0 26.79 533.86
+						 Z" class="st17"/>
+			<path d="M27.48 545.88 L6.54 545.88 C5.03 545.88 3.64 546.38 2.54 547.22 C1.77 547.8 1.13 548.55 0.69 549.41 C0.25 550.27
+						 0 551.24 0 552.27 L0 576.53 L5.73 576.53 L5.73 595.28 L28.07 595.28 L28.07 576.53 L34.02 576.53 L34.02 552.27
+						 C34.02 550.79 33.5 549.43 32.64 548.35 C32.04 547.6 31.27 546.98 30.39 546.55 C29.52 546.12 28.53 545.88
+						 27.48 545.88" class="st18"/>
+			<path d="M17.01 595.28 L17.01 580.3" class="st18"/>
+			<path d="M5.73 576.53 L5.73 563.61" class="st18"/>
+			<path d="M28.07 576.53 L28.07 563.61" class="st18"/>
+			<path d="M26.79 533.86 A9.78293 9.45354 -180 1 0 7.22 533.86 A9.78293 9.45354 -180 1 0 26.79 533.86" class="st18"/>
+			<text x="3.01" y="613.26" class="st19" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>用户</text>		</g>
+		<g id="shape34-130" v:mID="34" v:groupContext="shape" v:layerMember="1" transform="translate(42.5197,-262.205)">
+			<title> 人员 .34</title>
+			<desc>运营</desc>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ConnGap" v:prompt="" v:val="VT0(0.00012908222537757):24"/>
+			</v:userDefs>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="17.0079" cy="608.596" width="39.17" height="26.6409"/>
+			<g id="shadow34-131" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+					transform="matrix(1,0,0,1,0.345598,1.97279)" class="st1">
+				<path d="M27.48 545.88 L6.54 545.88 C5.03 545.88 3.64 546.38 2.54 547.22 C1.77 547.8 1.13 548.55 0.69 549.41 C0.25
+							 550.27 0 551.24 0 552.27 L0 576.53 L5.73 576.53 L5.73 595.28 L28.07 595.28 L28.07 576.53 L34.02 576.53
+							 L34.02 552.27 C34.02 550.79 33.5 549.43 32.64 548.35 C32.04 547.6 31.27 546.98 30.39 546.55 C29.52 546.12
+							 28.53 545.88 27.48 545.88 ZM26.79 533.86 A9.78293 9.45354 -180 1 0 7.22 533.86 A9.78293 9.45354 -180
+							 1 0 26.79 533.86 Z" class="st15"/>
+				<path d="M27.48 545.88 L6.54 545.88 C5.03 545.88 3.64 546.38 2.54 547.22 C1.77 547.8 1.13 548.55 0.69 549.41 C0.25
+							 550.27 0 551.24 0 552.27 L0 576.53 L5.73 576.53 L5.73 595.28 L28.07 595.28 L28.07 576.53 L34.02 576.53
+							 L34.02 552.27 C34.02 550.79 33.5 549.43 32.64 548.35 C32.04 547.6 31.27 546.98 30.39 546.55 C29.52 546.12
+							 28.53 545.88 27.48 545.88" class="st16"/>
+				<path d="M17.01 595.28 L17.01 580.3" class="st16"/>
+				<path d="M5.73 576.53 L5.73 563.61" class="st16"/>
+				<path d="M28.07 576.53 L28.07 563.61" class="st16"/>
+				<path d="M26.79 533.86 A9.78293 9.45354 -180 1 0 7.22 533.86 A9.78293 9.45354 -180 1 0 26.79 533.86" class="st16"/>
+			</g>
+			<path d="M27.48 545.88 L6.54 545.88 C5.03 545.88 3.64 546.38 2.54 547.22 C1.77 547.8 1.13 548.55 0.69 549.41 C0.25 550.27
+						 0 551.24 0 552.27 L0 576.53 L5.73 576.53 L5.73 595.28 L28.07 595.28 L28.07 576.53 L34.02 576.53 L34.02 552.27
+						 C34.02 550.79 33.5 549.43 32.64 548.35 C32.04 547.6 31.27 546.98 30.39 546.55 C29.52 546.12 28.53 545.88
+						 27.48 545.88 ZM26.79 533.86 A9.78293 9.45354 -180 1 0 7.22 533.86 A9.78293 9.45354 -180 1 0 26.79 533.86
+						 Z" class="st17"/>
+			<path d="M27.48 545.88 L6.54 545.88 C5.03 545.88 3.64 546.38 2.54 547.22 C1.77 547.8 1.13 548.55 0.69 549.41 C0.25 550.27
+						 0 551.24 0 552.27 L0 576.53 L5.73 576.53 L5.73 595.28 L28.07 595.28 L28.07 576.53 L34.02 576.53 L34.02 552.27
+						 C34.02 550.79 33.5 549.43 32.64 548.35 C32.04 547.6 31.27 546.98 30.39 546.55 C29.52 546.12 28.53 545.88
+						 27.48 545.88" class="st18"/>
+			<path d="M17.01 595.28 L17.01 580.3" class="st18"/>
+			<path d="M5.73 576.53 L5.73 563.61" class="st18"/>
+			<path d="M28.07 576.53 L28.07 563.61" class="st18"/>
+			<path d="M26.79 533.86 A9.78293 9.45354 -180 1 0 7.22 533.86 A9.78293 9.45354 -180 1 0 26.79 533.86" class="st18"/>
+			<text x="3.01" y="613.26" class="st19" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>运营</text>		</g>
+		<g id="shape35-147" v:mID="35" v:groupContext="shape" transform="translate(269.291,708.661) rotate(180)">
+			<title>普通箭头.35</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(2):26"/>
+			</v:userDefs>
+			<g id="shadow35-148" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+					transform="matrix(1,0,0,1,-0.345598,-1.97279)" class="st1">
+				<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L113.39 589.61 L113.39 595.28 L113.39 600.94 L11.34 600.94 L11.34
+							 606.61 L0 595.28 Z" class="st8"/>
+			</g>
+			<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L113.39 589.61 L113.39 595.28 L113.39 600.94 L11.34 600.94 L11.34 606.61
+						 L0 595.28 Z" class="st9"/>
+		</g>
+		<g id="shape36-152" v:mID="36" v:groupContext="shape" transform="translate(132.346,-504.409)">
+			<title>工作表.36</title>
+			<desc>使用业务</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="76" cy="585.276" width="152.01" height="20"/>
+			<rect x="0" y="575.276" width="152" height="20" class="st10"/>
+			<text x="48" y="589.93" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>使用业务</text>		</g>
+		<g id="shape38-155" v:mID="38" v:groupContext="shape" transform="translate(54.3937,-313.071)">
+			<title>工作表.38</title>
+			<desc>设置页面埋点</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="76" cy="585.276" width="152.01" height="20"/>
+			<rect x="0" y="575.276" width="152" height="20" class="st10"/>
+			<text x="34" y="589.93" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>设置页面埋点</text>		</g>
+		<g id="shape39-158" v:mID="39" v:groupContext="shape" transform="translate(184.252,892.913) rotate(180)">
+			<title>普通箭头.39</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(2):26"/>
+			</v:userDefs>
+			<g id="shadow39-159" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+					transform="matrix(1,0,0,1,-0.345598,-1.97279)" class="st1">
+				<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L85.04 589.61 L85.04 595.28 L85.04 600.94 L11.34 600.94 L11.34 606.61
+							 L0 595.28 Z" class="st8"/>
+			</g>
+			<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L85.04 589.61 L85.04 595.28 L85.04 600.94 L11.34 600.94 L11.34 606.61
+						 L0 595.28 Z" class="st9"/>
+		</g>
+		<g id="shape1000-163" v:mID="1000" v:groupContext="shape" transform="translate(90.7087,-269.291)">
+			<title>普通箭头.1000</title>
+			<v:userDefs>
+				<v:ud v:nameU="visVersion" v:val="VT0(15):26"/>
+				<v:ud v:nameU="ArrowType" v:prompt="" v:val="VT0(2):26"/>
+			</v:userDefs>
+			<g id="shadow1000-164" v:groupContext="shadow" v:shadowOffsetX="0.345598" v:shadowOffsetY="-1.97279" v:shadowType="1"
+					transform="matrix(1,0,0,1,0.345598,1.97279)" class="st1">
+				<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L79.37 589.61 L79.37 595.28 L79.37 600.94 L11.34 600.94 L11.34 606.61
+							 L0 595.28 Z" class="st8"/>
+			</g>
+			<path d="M0 595.28 L11.34 583.94 L11.34 589.61 L79.37 589.61 L79.37 595.28 L79.37 600.94 L11.34 600.94 L11.34 606.61
+						 L0 595.28 Z" class="st9"/>
+		</g>
+		<g id="shape1001-168" v:mID="1001" v:groupContext="shape" transform="translate(73.7008,-226.772)">
+			<title>工作表.1001</title>
+			<desc>查看热力图分析用户行为</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="56.6929" cy="585.276" width="113.39" height="20"/>
+			<rect x="0" y="575.276" width="113.386" height="20" class="st10"/>
+			<text x="7.69" y="580.16" class="st11" v:langID="2052"><v:paragraph v:horizAlign="1"/><v:tabList/>查看热力图，分<tspan
+						x="21.69" dy="1.298em" class="st14">析用户行为</tspan></text>		</g>
+	</g>
+</svg>

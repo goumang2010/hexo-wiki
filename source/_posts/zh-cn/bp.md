@@ -7,7 +7,7 @@ categories:
 
 # 操作流程
 目前尚处于测试阶段。
-![](/images/bp-1.png)
+![](/images/bp-1.svg)
 
 ##  增加埋点
 1.  管理平台地址（测试）： http://bi.test.gomeplus.com/
