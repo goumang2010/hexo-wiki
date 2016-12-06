@@ -1,4 +1,4 @@
-import { bindEvent } from './utils.js';
+import { bindEvent } from './utils';
 
 const select = document.getElementById('header-lang-select');
 
