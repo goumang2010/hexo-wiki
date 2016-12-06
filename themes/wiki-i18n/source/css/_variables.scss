@@ -1,13 +1,17 @@
 $color-yellow: #f3df49;
 $color-orange: #CF8B54;
 $color-dark-gray: #333;
+$color-blue: #66ccff;
 $color-white-gray: darken(white, 10%);
 $color-light-white-gray: darken(white, 5%);
 $color-dark-white-gray: darken(white, 15%);
+$color-black: rgba(0,0,0,0.2);
 
 $color-text-white: $color-white-gray;
+$color-text-white-hover: white;
 $color-text-base: $color-dark-gray;
 $color-text-yellow: darken($color-yellow, 10%);
+$color-text-blue: $color-blue;
 
 $font-size-base: 10px;
 $font-size-normal: 1.6rem;

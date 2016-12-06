@@ -1,7 +1,9 @@
 
 .header {
-  background: $color-orange;
-  color: #fff;
+  background: $color-black;
+  color: $color-text-white;
+  position: absolute;
+  width: 100%;
 }
 
 #main-nav-toggle {
@@ -29,10 +31,18 @@
 .header-link {
   display: inline-block;
   padding: 0.5rem;
+  margin-bottom: 5px;
+  &:hover {
+    color: $color-text-white-hover;
+  }
 }
 
 .header-search-div {
   display: inline-block;
+  position: absolute;
+  top: 50%;
+  margin-top: -16px;
+  margin-left: 10px;
 }
 
 .header-search-input {
@@ -41,7 +51,6 @@
   background: lighten($color-orange, 25%);
   width: 16rem;
   min-height: 16px;
-  margin-bottom: 10px;
   font-size: 13px;
   &:hover {
     background: lighten($color-orange, 30%);
