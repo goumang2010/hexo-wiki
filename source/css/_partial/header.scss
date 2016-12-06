@@ -10,8 +10,10 @@
   position: fixed;
   top: 0;
   background: $color-black;
+  -pie-background: $color-black; /* For IE*/
   color: $color-text-white;
   width: 100%;
+  behavior: url(/tools/css3pie/PIE.htc);
 }
 
 #main-nav-toggle {
@@ -70,10 +72,13 @@
 }
 
 .header-search-box {
+    behavior: url(/tools/css3pie/PIE.htc);
     position: absolute;
-    background: rgba(0, 0, 0, 0.8);
+    background-color: RGBA(0, 0, 0, 0.8);
+    -pie-background: RGBA(0, 0, 0, 0.8);
     display: none;
     min-width: 17rem;
+
 }
 .header-search-box > ul {
     margin-top: 10px;
