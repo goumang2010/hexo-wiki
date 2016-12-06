@@ -2,16 +2,17 @@
 .header-index {
   background: $color-black-transparent;
   color: $color-text-white;
-  position: absolute;
+  position: fixed;
   top: 0;
   width: 100%;
 }
 .header-page {
+  position: fixed;
+  top: 0;
   background: $color-black;
   color: $color-text-white;
   width: 100%;
 }
-
 
 #main-nav-toggle {
   display: none;
