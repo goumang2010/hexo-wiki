@@ -1,12 +1,14 @@
 ---
 title: BP
-excerpt: BP
+excerpt: 埋点管理平台前端构建及js SDK
 categories: 
 - FE
 ---
 
 # 操作流程
 目前尚处于测试阶段。
+![](/images/bp-1.png)
+
 ##  增加埋点
 1.  管理平台地址（测试）： http://bi.test.gomeplus.com/
 2.  使用域的账户和密码登录，并通知管理员开头相关权限。
