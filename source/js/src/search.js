@@ -1,4 +1,4 @@
-import { bindEvent } from './utils.js';
+import { bindEvent, Xget } from './utils';
 const input = document.getElementById('header-search-input');
 const box = document.getElementById('header-search-box');
 const boxUl = document.getElementById('header-search-list');
@@ -8,24 +8,17 @@ const boxUl = document.getElementById('header-search-list');
 let searchData;
 
 function loadData(success) {
-    if (!searchData) {
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', '/content.json', true);
-        xhr.onload = function () {
-            if (this.status >= 200 && this.status < 300) {
-                let res = JSON.parse(this.response || this.responseText);
-                searchData = (res instanceof Array) ? res : res.posts;
-                success(searchData);
-            } else {
-                console.error(this.statusText);
-            }
-        };
-        xhr.onerror = function () {
-            console.error(this.statusText);
-        };
-        xhr.send();
-    } else {
+    if (searchData && (searchData.length > 0)) {
         success(searchData);
+    } else {
+        let getJson = new Xget('/content.json', null, {
+            callback(data) {
+                if ((searchData = data.posts) && (searchData.length > 0)) {
+                    success(searchData);
+                }
+            }
+        });
+        getJson.send();
     }
 }
 
@@ -65,6 +58,7 @@ function search(key) {
                 return matcher(post, regExp);
             });
             box.style.display = 'block';
+
             render(result);
         });
     } else {
