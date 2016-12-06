@@ -73,8 +73,12 @@ function search(key) {
     }
 }
 
-bindEvent(input, 'keyup', (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+bindEvent(input, 'keyup', (event) => {
     search(input.value);
+    if (event.preventDefault) {
+        event.preventDefault();
+        event.stopPropagation();
+    } else {
+        event.returnValue = false
+    }
 });
