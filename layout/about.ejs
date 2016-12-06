@@ -2,7 +2,9 @@
 <html>
 <%- partial('_partial/head') %>
   <body>
-  <%- partial('_partial/header') %>
+  <%- partial('_partial/header', {
+    index: false
+  }) %>
 	<section class="container">
 	  <h2>README</h2>
 	  <article class="markdown-body article">

@@ -2,7 +2,9 @@
 <html>
 <%- partial('_partial/head') %>
   <body>
-  <%- partial('_partial/header') %>
+  <%- partial('_partial/header', {
+    index: true
+  }) %>
   <%- partial('_partial/jumbotron') %>
   <%- partial('_partial/cards', {
     title: __('new'),
