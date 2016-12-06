@@ -12,20 +12,20 @@ var config = {
     plugins: [
         // eslint(),
         commonjs({
-          include: 'node_modules/**',
-          extensions: [
-            '.js'
-          ]
+            include: 'node_modules/**',
+            extensions: [
+                '.js'
+            ]
         }),
         nodeResolve({
-          jsnext: true,
-          main: true,
-          // builtins: false,
-          browser: true,
-          extensions: [
-            '.js',
-            '.json'
-          ]
+            jsnext: true,
+            main: true,
+            // builtins: false,
+            browser: true,
+            extensions: [
+                '.js',
+                '.json'
+            ]
         }),
         babel()
     ]

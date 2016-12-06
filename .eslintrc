@@ -17,6 +17,7 @@
 		"no-unused-vars": 0,
 		"no-throw-literal": 0,
 		"no-unreachable": 0,
+		"no-new-func": 0,
 		"space-before-function-paren": 0,
 		"no-extend-native": ["error", {
 			"exceptions": ["Object", "Date", "String", "Array", "Function"]

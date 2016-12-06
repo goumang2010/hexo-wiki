@@ -73,6 +73,6 @@ bindEvent(input, 'keyup', (event) => {
         event.preventDefault();
         event.stopPropagation();
     } else {
-        event.returnValue = false
+        event.returnValue = false;
     }
 });
