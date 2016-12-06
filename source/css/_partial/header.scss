@@ -33,6 +33,7 @@
   margin: 0;
   font-size: $font-size-big;
   display: inline-block;
+  vertical-align: middle;
 }
 
 .header-link {
@@ -46,7 +47,7 @@
 .header-search-div {
     display: inline-block;
     margin-left: 1rem;
-    padding-bottom: 0.6rem;
+    padding-bottom: 0.4rem;
     vertical-align: middle;
 }
 
