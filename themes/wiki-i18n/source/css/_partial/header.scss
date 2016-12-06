@@ -29,11 +29,15 @@
   margin: 0 -0.5rem;
 }
 
+.header-content > *{
+  display: inline-block;
+  vertical-align: middle;
+}
+
+
 .header-logo {
   margin: 0;
   font-size: $font-size-big;
-  display: inline-block;
-  vertical-align: middle;
 }
 
 .header-link {
@@ -45,10 +49,8 @@
 }
 
 .header-search-div {
-    display: inline-block;
     margin-left: 1rem;
     padding-bottom: 0.4rem;
-    vertical-align: middle;
 }
 
 .header-search-input {
@@ -83,7 +85,6 @@
 }
 
 .header-lang-select-wrap {
-  display: inline-block;
   position: relative;
   padding-top: 0.6rem;
   float: right;
