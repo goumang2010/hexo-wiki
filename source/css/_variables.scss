@@ -5,7 +5,8 @@ $color-blue: #66ccff;
 $color-white-gray: darken(white, 10%);
 $color-light-white-gray: darken(white, 5%);
 $color-dark-white-gray: darken(white, 15%);
-$color-black: rgba(0,0,0,0.2);
+$color-black-transparent: rgba(0,0,0,0.2);
+$color-black: rgba(0,0,0,0.9);
 
 $color-text-white: $color-white-gray;
 $color-text-white-hover: white;
