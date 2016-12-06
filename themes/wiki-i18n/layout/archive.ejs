@@ -2,7 +2,9 @@
 <html>
 <%- partial('_partial/head') %>
   <body>
-  <%- partial('_partial/header') %>
+  <%- partial('_partial/header', {
+    index: false
+  }) %>
   <div class="container">
     <h2 class="archive-title"><%= __('archives') %></h2>
   </div>

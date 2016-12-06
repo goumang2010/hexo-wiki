@@ -1,10 +1,17 @@
 
-.header {
-  background: $color-black;
+.header-index {
+  background: $color-black-transparent;
   color: $color-text-white;
   position: absolute;
+  top: 0;
   width: 100%;
 }
+.header-page {
+  background: $color-black;
+  color: $color-text-white;
+  width: 100%;
+}
+
 
 #main-nav-toggle {
   display: none;
@@ -30,19 +37,17 @@
 
 .header-link {
   display: inline-block;
-  padding: 0.5rem;
-  margin-bottom: 5px;
+  padding: 0.5rem 0.5rem 0.7rem;
   &:hover {
     color: $color-text-white-hover;
   }
 }
 
 .header-search-div {
-  display: inline-block;
-  position: absolute;
-  top: 50%;
-  margin-top: -16px;
-  margin-left: 10px;
+    display: inline-block;
+    margin-left: 1rem;
+    padding-bottom: 0.6rem;
+    vertical-align: middle;
 }
 
 .header-search-input {
@@ -79,9 +84,8 @@
 .header-lang-select-wrap {
   display: inline-block;
   position: relative;
-  top: 0.5rem;
+  padding-top: 0.6rem;
   float: right;
-  text-align: center;
 }
 
 .header-lang-select {
