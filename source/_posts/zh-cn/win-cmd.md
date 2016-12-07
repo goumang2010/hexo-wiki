@@ -11,3 +11,6 @@ categories:
 bcdedit -set loadoptions DDISABLE_INTEGRITY_CHECKS
 bcdedit -set TESTSIGNING ON
 ```
+# netstate
+## 查找端口被占用程序
+如查看4000端口被占用情况：`netstat -aon|findstr "4000"`
