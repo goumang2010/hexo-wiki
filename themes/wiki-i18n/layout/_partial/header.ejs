@@ -36,15 +36,14 @@
         <select id="header-lang-select" class="header-lang-select">
         <% if (is_root()) { %>
           <option disabled selected value class="hidden">Choose a language</option>
-          <% get_langs().forEach(lang => { %>
-            <option value="<%= lang %>" data-href="<%= switch_lang(lang) %>"><%= site.data.languages[lang] %></option>
+          <% get_langs().forEach((lang) => { %>
+            <option value="<%= switch_lang(lang) %>" ><%= site.data.languages[lang] %></option>
           <% }) %>
         <% } else { %>
           <% get_langs().forEach(lang => { %>
             <option
-              value="<%= lang %>"
+              value="<%= switch_lang(lang) %>"
               <%= lang === page.lang ? 'selected' : ''%>
-              data-href="<%= switch_lang(lang) %>"
             >
               <%= site.data.languages[lang] %>
             </option>
