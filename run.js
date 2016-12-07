@@ -5,26 +5,35 @@ var {
 } = require('child_process');
 
 let cmd = [];
+let rollupwatch = `node_modules/.bin/rollup -w -m -c themes/wiki-i18n/source/js/build/config.js`;
+let winrollupwatch = `node_modules\\.bin\\rollup -w -m -c themes/wiki-i18n/source/js/build/config.js`;
+
 let hexowatch = `hexo clean && hexo generate && hexo serve --watch`;
 
 switch (os.platform()) {
 case 'darwin':
-    exec('echo NODE_ENV=dev&& npm run rollupwatch > rollupwatch.command; chmod +x rollupwatch.command; open rollupwatch.command');
+    exec('echo NODE_ENV=dev&& ${rollupwatch} > rollupwatch.command; chmod +x rollupwatch.command; open rollupwatch.command');
     cmd.push('NODE_ENV=dev', hexowatch);
     break;
 case 'linux':
-    exec(`npm run rollupwatch`);
+    exec(`${rollupwatch}`);
     cmd.push('NODE_ENV=dev', hexowatch);
     break;
 case 'win32':
-    exec(`start cmd.exe /K "SET NODE_ENV=dev&& npm run rollupwatch"`);
-    cmd.push('SET NODE_ENV=dev', hexowatch);
+    exec(`start cmd.exe /K "SET NODE_ENV=dev&& ${winrollupwatch}"`);
+    exec(`start cmd.exe /K "SET NODE_ENV=dev&& ${hexowatch}"`);
+    console.log('waiting for http server...');
+    setTimeout(function(){
+        execSync(`start http://localhost:4000`);
+        console.log('this terminal is for git');
+        process.exit();
+    }, 8000);
     break;
 default:
     throw new Error('Unsupported platform: ' + os.platform());
 }
 
-exec(cmd.join('&&'), (error, stdout, stderr) => {
-    console.log(error);
-    stderr.pipe(process.stdout);
+cmd.length && exec(cmd.join('&&'), (error, stdout, stderr) => {
+    error && console.log(error);
+    stderr && stderr.pipe(process.stdout);
 }).stdout.pipe(process.stdout);

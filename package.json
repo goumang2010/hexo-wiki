@@ -6,8 +6,6 @@
     "version": "3.2.2"
   },
   "scripts": {
-    "rollupwatch": "node_modules/.bin/rollup -w -m -c themes/wiki-i18n/source/js/build/config.js",
-    "jsdev": "SET NODE_ENV=dev&& npm run rollupwatch",
     "jsbuild": "node themes/wiki-i18n/source/js/build/build.js",
     "start": "node run.js",
     "deploy": "npm run jsbuild && npm run test && hexo clean && hexo generate && hexo deploy",
