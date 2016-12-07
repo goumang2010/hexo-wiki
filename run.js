@@ -12,7 +12,7 @@ let hexowatch = `hexo clean && hexo generate && hexo serve --watch`;
 
 switch (os.platform()) {
 case 'darwin':
-    exec('echo NODE_ENV=dev&& ${rollupwatch} > rollupwatch.command; chmod +x rollupwatch.command; open rollupwatch.command');
+    exec(`echo NODE_ENV=dev&& ${rollupwatch} > rollupwatch.command; chmod +x rollupwatch.command; open rollupwatch.command`);
     cmd.push('NODE_ENV=dev', hexowatch);
     break;
 case 'linux':
@@ -23,7 +23,7 @@ case 'win32':
     exec(`start cmd.exe /K "SET NODE_ENV=dev&& ${winrollupwatch}"`);
     exec(`start cmd.exe /K "SET NODE_ENV=dev&& ${hexowatch}"`);
     console.log('waiting for http server...');
-    setTimeout(function(){
+    setTimeout(function() {
         execSync(`start http://localhost:4000`);
         console.log('this terminal is for git');
         process.exit();
