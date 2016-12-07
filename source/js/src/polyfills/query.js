@@ -1,5 +1,5 @@
 // http://stackoverflow.com/questions/28194786/how-to-make-document-queryselector-work-in-ie6
-if (!document.querySelector)
+if (!document.querySelector) {
     document.querySelector = function(selector) {
         var head = document.documentElement.firstChild;
         var styleTag = document.createElement("STYLE");
@@ -9,12 +9,11 @@ if (!document.querySelector)
         styleTag.styleSheet.cssText = selector + "{x:expression(document.__qsResult.push(this))}";
         window.scrollBy(0, 0);
         head.removeChild(styleTag);
-
-        // Return first result only               
         return document.__qsResult[0] || null;
-    }
+    };
+}
 
-if (!document.querySelectorAll)
+if (!document.querySelectorAll) {
     document.querySelectorAll = function(selector) {
         var head = document.documentElement.firstChild;
         var styleTag = document.createElement("STYLE");
@@ -26,8 +25,9 @@ if (!document.querySelectorAll)
         head.removeChild(styleTag);
 
         var result = [];
-        for (var i in document.__qsResult)
+        for (var i in document.__qsResult) {
             result.push(document.__qsResult[i]);
+        }
         return result;
-    }
-    
+    };
+}

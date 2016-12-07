@@ -1,6 +1,6 @@
 // Mobile nav
 // console.log($);
-import { CtrlClass, bindClickEvent} from './utils';
+import {CtrlClass, bindClickEvent} from './utils';
 
 const $container = document.body;
 const bodyClass = new CtrlClass($container);
@@ -31,4 +31,3 @@ bindClickEvent($container, function () {
     bodyClass.removeClass('mobile-nav-on');
     mnavClass.hide();
 });
- 
