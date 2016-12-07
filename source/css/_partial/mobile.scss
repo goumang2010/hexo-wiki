@@ -5,6 +5,8 @@
     content: "\f0c9";
   }
   @media #{($mq-mobile)} {
+  	margin: -1rem;
+    padding: 1rem;
     display: inline-block;
   }
 }
@@ -13,7 +15,7 @@
 }
 @media #{($mq-mobile)} {
 	#mobile-nav {
-		position: absolute;
+		position: fixed;
 		top: 0;
 		left: 0;
 		width: $mobile-nav-width;
