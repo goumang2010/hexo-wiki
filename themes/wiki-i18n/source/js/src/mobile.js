@@ -11,11 +11,13 @@ bindClickEvent(document.querySelector('#main-nav-toggle'), function () {
     bodyClass.toggleClass('mobile-nav-on');
     mnavClass.show();
     show = true;
-});
+}, true);
 
 bindClickEvent($container, function () {
     if (show === false) return;
-    bodyClass.removeClass('mobile-nav-on');
-    mnavClass.hide();
-    show = false;
+    setTimeout(function() {
+        bodyClass.removeClass('mobile-nav-on');
+        mnavClass.hide();
+        show = false;
+    }, 100);
 });
