@@ -13,15 +13,19 @@ export const bindEvent = (element, event, cb, capture) => {
     return cb;
 };
 
-export const bindClickEvent = (element, cb, capture) => {
+export const bindClickEvent = (element, cb, stop, capture) => {
     let eventType = isMobile ? 'touchstart' : 'click';
-    return bindEvent(element, eventType, function(event) {
-        cb.apply(this, arguments);
-        if (event.preventDefault) {
-            event.preventDefault();
-            event.stopPropagation();
-        } else {
-            event.returnValue = false;
-        }
-    }, capture);
+    if (stop) {
+        return bindEvent(element, eventType, function(event) {
+            cb.apply(this, arguments);
+            if (event.preventDefault) {
+                event.preventDefault();
+                event.stopPropagation();
+            } else {
+                event.returnValue = false;
+            }
+        }, capture);
+    } else {
+        return bindEvent(element, eventType, cb, capture);
+    }
 };
