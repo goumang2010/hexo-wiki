@@ -1,7 +1,9 @@
 // Mobile nav
 // console.log($);
-const $ = window.$;
-const $container = $('body');
+import { CtrlClass, bindClickEvent} from './utils';
+
+const $container = document.body;
+const bodyClass = new CtrlClass($container);
 let isMobileNavAnim = false;
 let mobileNavAnimDuration = 200;
 let startMobileNavAnim = function () {
@@ -13,22 +15,20 @@ let stopMobileNavAnim = function () {
         isMobileNavAnim = false;
     }, mobileNavAnimDuration);
 };
-let $mnav = $('#mobile-nav');
-$('#main-nav-toggle').on('click', function () {
+let mnavClass = new CtrlClass(document.querySelector('#mobile-nav'));
+
+bindClickEvent(document.querySelector('#main-nav-toggle'), function () {
     if (isMobileNavAnim) return;
     startMobileNavAnim();
-    $container.toggleClass('mobile-nav-on');
-    $mnav.show();
+    bodyClass.toggleClass('mobile-nav-on');
+    mnavClass.show();
     stopMobileNavAnim();
 });
+
 // $(input).val('kkkk');
 bindClickEvent($container, function () {
-    if (isMobileNavAnim || !$container.hasClass('mobile-nav-on')) return;
-    $container.removeClass('mobile-nav-on');
-    $mnav.hide();
+    if (isMobileNavAnim || !bodyClass.hasClass('mobile-nav-on')) return;
+    bodyClass.removeClass('mobile-nav-on');
+    mnavClass.hide();
 });
-
-function bindClickEvent($ele, callback) {
-    $ele.on('click', callback);
-    $ele.on('touch', callback);
-}
+ 
