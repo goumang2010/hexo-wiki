@@ -14,3 +14,8 @@ bcdedit -set TESTSIGNING ON
 # netstate
 ## 查找端口被占用程序
 如查看4000端口被占用情况：`netstat -aon|findstr "4000"`
+
+# start
+## 打开并运行命令
+- 打开新terminal：`start cmd.exe /K "SET NODE_ENV=dev&& npm run rollupwatch`
+- 打开网址： `start http://localhost:4000` 注意需要加上http(s)才能被认为是网址
