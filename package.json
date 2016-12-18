@@ -8,11 +8,13 @@
   "scripts": {
     "jsbuild": "node themes/wiki-i18n/source/js/build/build.js",
     "start": "node run.js",
+    "hexo": "hexo clean && hexo generate && hexo serve --watch",
     "deploy": "npm run jsbuild && npm run test && hexo clean && hexo generate && hexo deploy",
     "lint": "eslint . && echo 'ESLint Passed!\\n'",
     "test": "npm run lint"
   },
   "dependencies": {
+    "github-markdown-css": "^2.4.1",
     "hexo": "^3.2.0",
     "hexo-deployer-git": "^0.2.0",
     "hexo-front-matter-excerpt": "^0.2.0",
@@ -29,6 +31,7 @@
     "hexo-renderer-stylus": "^0.3.1",
     "hexo-server": "^0.2.0",
     "hexo-tag-bootstrap": "0.0.8",
+    "normalize.css": "^5.0.0",
     "yaml-front-matter": "^3.4.0"
   },
   "devDependencies": {
