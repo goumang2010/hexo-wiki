@@ -25,7 +25,7 @@
     "hexo-generator-index-i18n": "^0.1.1",
     "hexo-generator-json-content": "^2.2.0",
     "hexo-generator-tag": "^0.2.0",
-    "hexo-media-marked": "^0.1.8",
+    "hexo-media-marked": "^0.2.0",
     "hexo-renderer-ejs": "^0.2.0",
     "hexo-renderer-sass": "^0.2.0",
     "hexo-renderer-stylus": "^0.3.1",
