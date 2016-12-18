@@ -1,4 +1,4 @@
-import { bindEvent, Xget } from './utils';
+import { bindEvent, Xget } from '../utils';
 const input = document.getElementById('header-search-input');
 const box = document.getElementById('header-search-box');
 const boxUl = document.getElementById('header-search-list');

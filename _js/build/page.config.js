@@ -8,7 +8,7 @@ var nodeResolve = require('rollup-plugin-node-resolve');
 var env = process.env.NODE_ENV || 'production';
 
 var config = {
-    entry: path.join(__dirname, '../src/index.js'),
+    entry: path.join(__dirname, '../src/page/index.js'),
     plugins: [
         // eslint(),
         commonjs({
@@ -35,7 +35,7 @@ if (env === 'dev') {
     module.exports = Object.assign({
         format: 'umd',
         moduleName: 'customModule',
-        dest: path.join(__dirname, '../dist/custom.js')
+        dest: path.join(__dirname, '../../dist/custom.js')
     }, config);
 } else {
     module.exports = config;

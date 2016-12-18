@@ -1,12 +1,17 @@
 {
 	"presets": [
+		"stage-0",
   		["latest", {
     		"es2015": {
       			"modules": false
     		}
-  		}]
+  		}],
 	],
+ 	"plugins": [
+ 		"external-helpers", "transform-decorators-legacy"
+  	],
 	"ignore": [
-		"dist/*.js"
+		"dist/*.js",
+    "node_modules/**"
 	]
 }

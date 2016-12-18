@@ -1,5 +1,5 @@
 // Mobile nav
-import {CtrlClass, bindClickEvent} from './utils';
+import {CtrlClass, bindClickEvent} from '../utils';
 
 const $container = document.body;
 const bodyClass = new CtrlClass($container);
