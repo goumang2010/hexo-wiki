@@ -11,7 +11,7 @@ var rawargs = process.argv.slice(2);
 
 var args = {
     name: 'goumang2010',
-    email: '',
+    email: 'goumang2010@live.com',
     repo: {
         url: rawargs[0] || ('https://' + process.env.GH_TOKEN + '@' + process.env.GH_REF),
         branch: 'gh-pages'
