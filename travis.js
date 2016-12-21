@@ -13,7 +13,7 @@ var args = {
     name: 'goumang2010',
     email: '',
     repo: {
-        url: rawargs[0],
+        url: rawargs[0] || ('https://' + process.env.GH_TOKEN + '@' + process.env.GH_REF),
         branch: 'gh-pages'
     }
 };
