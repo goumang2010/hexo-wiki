@@ -31,6 +31,12 @@ function write(dest, code) {
     });
 };
 
+var distDir = path.join(__dirname, '../dist');
+
+if (!fs.existsSync(distDir)) {
+    fs.mkdirSync(distDir);
+}
+
 rollup.rollup(config).then(function (bundle) {
     return bundle.generate({
         banner: banner,
@@ -38,7 +44,7 @@ rollup.rollup(config).then(function (bundle) {
         moduleName: 'customMudule'
     }).code;
 }).then(function (code) {
-    write(path.join(__dirname, '../dist/custom.js'), code);
+    write(path.join(distDir, 'custom.js'), code);
     return code;
 }).then(function (code) {
     return uglify.minify(code, {
@@ -49,7 +55,7 @@ rollup.rollup(config).then(function (bundle) {
         }
     }).code;
 }).then(function (code) {
-    write(path.join(__dirname, '../dist/custom.min.js'), code);
+    write(path.join(distDir, 'custom.min.js'), code);
     return code;
 }).catch(function (err) {
     console.log(err);
