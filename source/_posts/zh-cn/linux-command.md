@@ -99,3 +99,16 @@ cat /proc/meminfo
 chmod -R 755 /home/ftp/data/Resume
 ```
 将/home/ftp/data/Resume下所有文件及目录递归的设置为755权限（读取执行全权，所有者可写入）
+
+# 快捷键
+## 复制粘贴
+- 终端
+  
+  复制：Ctrl + Shift + C
+
+  粘贴：Ctrl + Shift + V
+- 控制台
+
+  复制：Ctrl + Insert 或鼠标选中。
+
+  粘贴：Shift + Insert或单击鼠标滚轮。
