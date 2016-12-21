@@ -1,6 +1,7 @@
+[![Build Status][travis-image]][travis-url]
 
 该博客采用[Hexo](https://hexo.io/)构建! 使用[wiki-i18n](https://github.com/xcatliu/hexo-theme-wiki-i18n)主题。
-
+网址：http://w.chuune.cn
 
 # 如何建立一个相同的Wiki
 
@@ -92,3 +93,7 @@ $ npm run deploy
 ```
 
 项目即部署到github page中，通过cname上配置的域名即可查看（该主题不可通过yourname.github.io/project查看，有样式问题）
+
+
+[travis-image]: https://img.shields.io/travis/goumang2010/hexo-wiki.svg?style=flat-square
+[travis-url]: https://travis-ci.org/goumang2010/hexo-wiki
