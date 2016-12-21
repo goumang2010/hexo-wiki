@@ -7,4 +7,4 @@ node_modules/
 public/
 .deploy*/
 npm-debug*
-*dist/
+themes/wiki-i18n/source/js/dist/*
