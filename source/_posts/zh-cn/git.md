@@ -30,14 +30,12 @@ apt-get install git-core
 
 ## 克隆拉取
 * 将项目克隆至本地：
-```
-git clone git@github.com:goumang2010/NetClipBoard.git
-```
+```git clone git@github.com:goumang2010/NetClipBoard.git```
+
   （goumang2010为用户名，NetClipBoard为项目名称）
 * 拉取commit并与本地同步（首先需进入git仓库所在目录：cd /home/ftp/data/NetClipBoard/） ：
-```
-git pull
-```
+
+```git pull```
 
 ## 添加提交
 * 添加所有文件及修改：
@@ -52,34 +50,32 @@ git commit -m "your message"
 ## 远程推送
 参照：[https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/](https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/)
 * 设置远程目录：
-```
- 
-git remote add origin git@github.com:xxx.git
-```
+
+```git remote add origin git@github.com:xxx.git```
+
 * 推送至远程目录
-```
-git push origin master
-```
+
+```git push origin master```
+
 * 修改远程目录
-```
-git remote set-url origin [https://github.com/USERNAME/OTHERREPOSITORY.git](https://github.com/USERNAME/OTHERREPOSITORY.git)
-```
+
+```git remote set-url origin [https://github.com/USERNAME/OTHERREPOSITORY.git](https://github.com/USERNAME/OTHERREPOSITORY.git)```
+
 参考：[https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/](https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/)
 
 ## pull request
 - fork原项目
 - 新建分支并切换至该分支<br />
-```
-git branch newbranchname
-```
 
 ```
+git branch newbranchname
 git checkout newbranchname
 ```
+
 - 推送分支到远程 
-```
-git push --set-upstream origin newbranchname
-```
+
+```git push --set-upstream origin newbranchname```
+
 - 在github界面上发起pull request
 参考:[http://blog.csdn.net/zhangdaiscott/article/details/17438153](http://blog.csdn.net/zhangdaiscott/article/details/17438153)
 
@@ -87,7 +83,6 @@ git push --set-upstream origin newbranchname
 ### 撤销合并
 撤销上次合并并保留工作区修改：
 
-```
-git reset --merge ORIG_HEAD
-```
+```git reset --merge ORIG_HEAD```
+
 http://stackoverflow.com/questions/2389361/undo-a-git-merge-that-hasnt-been-pushed-yet
