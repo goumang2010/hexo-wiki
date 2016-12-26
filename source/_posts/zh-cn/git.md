@@ -1,7 +1,6 @@
 ---
 title: git
 excerpt: git
-github: https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/git.md
 categories: 
 - FE
 ---
@@ -83,3 +82,12 @@ git push --set-upstream origin newbranchname
 ```
 - 在github界面上发起pull request
 参考:[http://blog.csdn.net/zhangdaiscott/article/details/17438153](http://blog.csdn.net/zhangdaiscott/article/details/17438153)
+
+## 撤销
+### 撤销合并
+撤销上次合并并保留工作区修改：
+
+```
+git reset --merge ORIG_HEAD
+```
+http://stackoverflow.com/questions/2389361/undo-a-git-merge-that-hasnt-been-pushed-yet
