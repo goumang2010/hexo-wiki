@@ -79,6 +79,16 @@ git checkout newbranchname
 - 在github界面上发起pull request
 参考:[http://blog.csdn.net/zhangdaiscott/article/details/17438153](http://blog.csdn.net/zhangdaiscott/article/details/17438153)
 
+## 合并
+###单个文件
+
+```
+git checkout A
+git checkout --patch B f
+```
+
+http://stackoverflow.com/questions/10784523/how-do-i-merge-changes-to-a-single-file-rather-than-merging-commits
+
 ## 撤销
 ### 撤销合并
 撤销上次合并并保留工作区修改：
