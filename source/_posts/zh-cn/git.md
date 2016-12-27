@@ -80,7 +80,7 @@ git checkout newbranchname
 参考:[http://blog.csdn.net/zhangdaiscott/article/details/17438153](http://blog.csdn.net/zhangdaiscott/article/details/17438153)
 
 ## 合并
-###单个文件
+### 单个文件
 
 ```
 git checkout A
@@ -88,6 +88,17 @@ git checkout --patch B f
 ```
 
 http://stackoverflow.com/questions/10784523/how-do-i-merge-changes-to-a-single-file-rather-than-merging-commits
+
+### 强制
+#### 保留当前
+
+```git merge -s ours branchB```
+
+#### 保留远程
+
+```git merge -X theirs```
+
+http://stackoverflow.com/questions/173919/is-there-a-theirs-version-of-git-merge-s-ours
 
 ## 撤销
 ### 撤销合并
