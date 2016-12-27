@@ -96,7 +96,9 @@ http://stackoverflow.com/questions/10784523/how-do-i-merge-changes-to-a-single-f
 
 #### 保留远程
 
-```git merge -X theirs```
+```git merge -s recursive -X theirs branchB```
+
+如果连递归也不用，遇到不同直接采用他方的： ```git merge -X theirs branchB```
 
 http://stackoverflow.com/questions/173919/is-there-a-theirs-version-of-git-merge-s-ours
 
