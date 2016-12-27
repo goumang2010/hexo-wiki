@@ -89,7 +89,7 @@ git checkout --patch B f
 
 http://stackoverflow.com/questions/10784523/how-do-i-merge-changes-to-a-single-file-rather-than-merging-commits
 
-### 强制
+### 强制合并
 #### 保留当前
 
 ```git merge -s ours branchB```
@@ -100,10 +100,16 @@ http://stackoverflow.com/questions/10784523/how-do-i-merge-changes-to-a-single-f
 
 http://stackoverflow.com/questions/173919/is-there-a-theirs-version-of-git-merge-s-ours
 
-## 撤销
 ### 撤销合并
 撤销上次合并并保留工作区修改：
 
 ```git reset --merge ORIG_HEAD```
 
 http://stackoverflow.com/questions/2389361/undo-a-git-merge-that-hasnt-been-pushed-yet
+
+## 清理 
+### 清理未跟踪的文件
+
+```git clean -fd```
+
+http://stackoverflow.com/questions/61212/how-to-remove-local-untracked-files-from-the-current-git-branch
