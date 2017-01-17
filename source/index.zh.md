@@ -20,7 +20,7 @@
 * [TypeScript类型库](TypeScript类型库)
 * [TypeScript特性](TypeScript特性)
 * [JSON](JSON)
-* [Ajax](Ajax)
+* [Ajax](/FE/Ajax.html)
 * [Polyfill](Polyfill)
 
 ## 框架
@@ -184,4 +184,3 @@
 ## 飞机装配
 ### 自动钻铆
 我于2016年1月离开SACI，不再更新A03内网wiki内容，已有内容存于: [自动钻铆wiki](/FE/autorivet.html) 。仅留下索引，纪念我两年来的奋斗。
-
