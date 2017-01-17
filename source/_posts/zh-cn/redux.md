@@ -47,4 +47,11 @@ currentListeners并赋予nextListeners
 
 ## observable
 1. 将subscribe函数引用存储于outerSubscribe
-2. 
+2. 返回对象，包括subscribe方法，[$$observable]方法，返回自身
+
+### subscribe
+参数：`observer`
+一个必须含有next方法的对象
+1. observer不是对象，则提示observer应该是个对象。
+2. 定义并调用observeState，该函数将当前state传入observer.next
+3. 将observeState作为listener，传入outerSubscribe，并作为unsubscribe返回。
