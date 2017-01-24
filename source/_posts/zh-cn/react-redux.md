@@ -25,7 +25,7 @@ categories:
 参数：WrappedComponent
 
 1. 构建selectorFactory的option
-5. 构建Connect组件：
+2. 构建Connect组件：
     - `this.version = version`
     - `this.state = {}`
     - `this.store = this.props[storeKey] || this.context[storeKey]` context由最上级的provider组件提供
@@ -33,7 +33,16 @@ categories:
     - `this.setWrappedInstance = this.setWrappedInstance.bind(this)` 确保setWrappedInstance的this绑定当前实例，从而wrappedInstance可以被正确设置
     - `this.getState = this.store.getState.bind(this.store);` 确保getState被正确的绑定在store上
     - 执行initSelector和initSubscription
+    - 设置Connect的静态属性
+        ``` Connect.WrappedComponent = WrappedComponent
+            Connect.displayName = displayName
+            Connect.childContextTypes = childContextTypes
+            Connect.contextTypes = contextTypes
+            Connect.propTypes = contextTypes
+        ```
+3. process.env.NODE_ENV不为production，则处理热更新.即定义componentWillUpdate方法,如果version与实例this.version不同，则执行initSelector,如果订阅者this.subscription存在,执行this.subscription.tryUnsubscribe(),然后重新订阅this.initSubscription(),shouldHandleStateChanges为true，执行订阅者的订阅this.subscription.trySubscribe()，从而让父级的订阅器收集到当前container的onStateChange
 
+4. `return hoistStatics(Connect, WrappedComponent)` 将WrappedComponent中的非react静态属性复制给Connect, 并返回Connect组件
 
 #### setWrappedInstance
 传入引用ref
@@ -57,8 +66,18 @@ shouldHandleStateChanges（connectAdvanced的参数options中的属性，指示H
 3. 如果selector.shouldComponentUpdate为true，则定义组件componentDidUpdate，在渲染完毕后执行subscription.notifyNestedSubs,然后清除componentDidUpdate
 4. 通过react组件的setState刷新UI
 
+#### addExtraProps
+1. `if (!withRef && !renderCountProp) return props` 若既不需要使用getWrappedInstance暴露WrappedComponent，或是renderCountProp也是默认值，直接返回传入的props
+2. withRef为true，浅复制props，将props的ref属性设为this.setWrappedInstance
+3. renderCountProp存在，props的renderCountProp属性置为this.renderCount++（初始为0）
+
 #### render
-// TODO
+1. 置selector.shouldComponentUpdate为false
+2. 若selector.error存在，抛出错误
+3. `return createElement(WrappedComponent, this.addExtraProps(selector.props))`
+注意是使用的createElement的一种重载。
+
+
 
 # utils
 ## Subscription.js
@@ -117,6 +136,15 @@ unsubscribe不存在，若parentSub存在 ，将unsubscribe置为`this.parentSub
 # connect
 ## connect
 ### createConnect
+传入
+```
+  connectHOC = connectAdvanced,
+  mapStateToPropsFactories = defaultMapStateToPropsFactories,
+  mapDispatchToPropsFactories = defaultMapDispatchToPropsFactories,
+  mergePropsFactories = defaultMergePropsFactories,
+  selectorFactory = defaultSelectorFactory
+```
+构建connect函数
 
 
 ## selectorFactory
@@ -189,4 +217,33 @@ unsubscribe不存在，若parentSub存在 ，将unsubscribe置为`this.parentSub
 5. 返回mergedProps
 
 
-## wrapMapToPropsConstant
+## wrapMapToProps
+### wrapMapToPropsConstant
+
+### getDependsOnOwnProps
+
+
+### wrapMapToPropsFunc
+参数：mapToProps, methodName
+返回代理选择器函数initProxySelector 
+```
+(dispatch: any, {displayName}: {
+    displayName: any;
+}) => (stateOrDispatch: any, ownProps: any) => any
+```
+1. 定义proxy
+    ``` 
+    return proxy.dependsOnOwnProps
+        ? proxy.mapToProps(stateOrDispatch, ownProps)
+        : proxy.mapToProps(stateOrDispatch)
+    ```
+2. proxy.dependsOnOwnProps通过调用getDependsOnOwnProps生成。
+3. 定义detectFactoryAndVerify函数作为proxy.mapToProps，在proxy执行时调用
+4. 返回proxy。proxy执行后即是返回计算后的props，无论传入mapToProps是多少阶的高阶函数。
+
+#### detectFactoryAndVerify
+1. `proxy.mapToProps = mapToProps`
+2. `let props = proxy(stateOrDispatch, ownProps)` 此处即是执行了mapToProps(stateOrDispatch, ownProps)或mapToProps(stateOrDispatch)
+3. 如果结果props仍为函数,将props赋予proxy.mapToProps，递归执行proxy(stateOrDispatch, ownProps),在此步后, props必然已不是函数
+4. 非生产环境下，通过verifyPlainObject验证props
+5. 返回props
