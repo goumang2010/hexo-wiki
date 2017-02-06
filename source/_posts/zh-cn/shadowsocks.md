@@ -17,7 +17,7 @@ apt-get install build-essential autoconf libtool libssl-dev
 
 # 克隆shadowsocks-libev仓库
 ```
-git clone [https://github.com/madeye/shadowsocks-libev.git](https://github.com/madeye/shadowsocks-libev.git)
+git clone https://github.com/madeye/shadowsocks-libev.git
 ```
 
 # 编译安装
