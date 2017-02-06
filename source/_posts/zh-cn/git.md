@@ -94,9 +94,15 @@ http://stackoverflow.com/questions/10784523/how-do-i-merge-changes-to-a-single-f
 
 ```git merge -s ours branchB```
 
+git pull类似：
+```git pull -s ours```
+
 #### 保留远程
 
 ```git merge -s recursive -X theirs branchB```
+
+git pull类似：
+```git pull -s recursive -X theirs```
 
 如果连递归也不用，遇到不同直接采用他方的： ```git merge -X theirs branchB```
 
@@ -115,3 +121,15 @@ http://stackoverflow.com/questions/2389361/undo-a-git-merge-that-hasnt-been-push
 ```git clean -fd```
 
 http://stackoverflow.com/questions/61212/how-to-remove-local-untracked-files-from-the-current-git-branch
+
+# 子模块
+## subtree
+1. 建立subtree：
+```git subtree add -P folderpath repourl branch```
+2. 获取远程分支的refs：
+```git fetch repourl branch```
+3. 将branch中的更改拉取到文件夹中：
+```git subtree pull -P folderpath repourl branch```
+4. make some changes
+5. 修改推送回远程分支
+```git subtree push -P folderpath repourl branch```
