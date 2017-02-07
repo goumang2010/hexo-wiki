@@ -25,12 +25,14 @@ rewrite ^/(.*)  [http://node.chuune.top](http://node.chuune.top):3000$uri last;
 ```
 将任意字符不区分大小写重写为：[http://node.chuune.top](http://node.chuune.top):3000加上相对路径($uri),参数会自动添加
 * 反向代理：
-```
-- 将所有包转发给http://localhost:3000
-proxy_pass http://localhost:3000;
-- 将原始地址(及经过的其他代理)写入header的X-Forwarded-For中，以此在后端可以读取该参数获得前端的实际IP
-proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
-```
+
+ - 将所有包转发给http://localhost:3000
+ 
+  `proxy_pass http://localhost:3000;`
+ - 将原始地址(及经过的其他代理)写入header的X-Forwarded-For中，以此在后端可以读取该参数获得前端的实际IP
+ 
+  `proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;`
+
 
 ## php.ini
 修改一下文件：
