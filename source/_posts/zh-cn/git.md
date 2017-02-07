@@ -124,9 +124,9 @@ http://stackoverflow.com/questions/61212/how-to-remove-local-untracked-files-fro
 
 # 子模块
 ## subtree
-1. 建立subtree：
+1. 建立subtree, 注意folderpath不应该存在，但其上级必须存在：
 ```git subtree add -P folderpath repourl branch```
-2. 将branch中的更改拉取到文件夹中：
+2. 将branch中的更改拉取到文件夹中，在add时会自动执行这项，注意两者的历史必须一致，否则将覆盖根目录，删除出subtree外的其他东西：
 ```git subtree pull -P folderpath repourl branch```
 3. make some changes and commit them
 4. 修改推送回远程分支
