@@ -1,4 +1,9 @@
-import { bindEvent, bindClickEvent, Xget, debounce } from './utils';
+import {
+    bindEvent,
+    bindClickEvent,
+    Xget,
+    debounce
+} from './utils';
 const input = document.getElementById('header-search-input');
 const box = document.getElementById('header-search-box');
 const boxUl = document.getElementById('header-search-list');
@@ -6,7 +11,6 @@ const boxUl = document.getElementById('header-search-list');
 // http://chaoo.oschina.io/2016/11/09/%E8%87%AA%E5%AE%9A%E4%B9%89HEXO%E7%AB%99%E5%86%85%E6%90%9C%E7%B4%A2Javascript-json.html
 // xhr加载数据
 let searchData;
-
 
 export var loadData = function (callback = () => {}) {
     if (searchData && (searchData.length > 0)) {
@@ -22,7 +26,7 @@ export var loadData = function (callback = () => {}) {
         });
         getJson.send();
     }
-}
+};
 
 loadData();
 
@@ -64,17 +68,17 @@ export function searchKey(key, callback) {
                     result.push({
                         pri: 0,
                         post
-                    })
+                    });
                 } else if (regtest(post.title, regExp)) {
                     result.push({
                         pri: 1,
                         post
-                    })
+                    });
                 } else if (regtest(post.text, regExp)) {
                     result.push({
                         pri: 2,
                         post
-                    })
+                    });
                 }
             }
             callback(result.sort((a, b) => a.pri - b.pri).map(x => x.post));
@@ -93,7 +97,7 @@ function _search(key) {
             render([]);
             box.style.display = 'none';
         }
-    })
+    });
 }
 
 const search = debounce(_search, 200);
@@ -108,11 +112,11 @@ bindEvent(input, 'keyup', (event) => {
     }
 });
 
-bindClickEvent(document.body, function(e) {
+bindClickEvent(document.body, function (e) {
     box.style.display = 'none';
 });
 
-bindClickEvent(input, function(e) {
+bindClickEvent(input, function (e) {
     if (input.value) {
         box.style.display = 'block';
     }
