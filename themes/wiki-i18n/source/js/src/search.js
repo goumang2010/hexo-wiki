@@ -45,6 +45,10 @@ function render(data) {
     }
 }
 
+function trim(str) {
+    return str.toLowerCase().replace(/^\s+|\s+$/g, '');
+}
+
 // 查询
 export function searchKey(key, callback) {
     // 关键字 => 正则，空格隔开的看作多个关键字
@@ -52,8 +56,28 @@ export function searchKey(key, callback) {
     if (key !== '') {
         let regExp = new RegExp(key.replace(/[ ]/g, '|'), 'gmi');
         loadData(function (data) {
-            let result = data.filter((post) => regtest(post.title, regExp)).concat(data.filter((post) => regtest(post.text, regExp) && !regtest(post.title, regExp)));
-            callback(result);
+            let result = [];
+            for (let post of data) {
+                let title = post.title;
+                key = trim(key);
+                if (key === trim(title)) {
+                    result.push({
+                        pri: 0,
+                        post
+                    })
+                } else if (regtest(post.title, regExp)) {
+                    result.push({
+                        pri: 1,
+                        post
+                    })
+                } else if (regtest(post.text, regExp)) {
+                    result.push({
+                        pri: 2,
+                        post
+                    })
+                }
+            }
+            callback(result.sort((a, b) => a.pri - b.pri).map(x => x.post));
         });
     } else {
         callback([]);
