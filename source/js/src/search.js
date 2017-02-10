@@ -7,14 +7,16 @@ const boxUl = document.getElementById('header-search-list');
 // xhr加载数据
 let searchData;
 
-function loadData(success) {
+
+export var loadData = function (callback = () => {}) {
     if (searchData && (searchData.length > 0)) {
-        success(searchData);
+        loadData = (cb) => cb(searchData);
+        return loadData(callback);
     } else {
         let getJson = new Xget('/content.json', null, {
             callback(data) {
                 if ((searchData = data.posts) && (searchData.length > 0)) {
-                    success(searchData);
+                    callback(searchData);
                 }
             }
         });
@@ -22,11 +24,7 @@ function loadData(success) {
     }
 }
 
-// 匹配文章内容返回结果
-function matcher(post, regExp) {
-    // 匹配优先级：title  > text
-    return regtest(post.title, regExp) || regtest(post.text, regExp);
-}
+loadData();
 
 function regtest(raw, regExp) {
     regExp.lastIndex = 0;
@@ -48,23 +46,30 @@ function render(data) {
 }
 
 // 查询
-function search(key) {
+export function searchKey(key, callback) {
     // 关键字 => 正则，空格隔开的看作多个关键字
     // a b c => /a|b|c/gmi
     if (key !== '') {
         let regExp = new RegExp(key.replace(/[ ]/g, '|'), 'gmi');
         loadData(function (data) {
-            let result = data.filter(function (post) {
-                return matcher(post, regExp);
-            });
-            box.style.display = 'block';
-
-            render(result);
+            let result = data.filter((post) => regtest(post.title, regExp)).concat(data.filter((post) => regtest(post.text, regExp) && !regtest(post.title, regExp)));
+            callback(result);
         });
     } else {
-        render([]);
-        box.style.display = 'none';
+        callback([]);
     }
+}
+
+function search(key) {
+    searchKey(key, (result) => {
+        if (result.length) {
+            box.style.display = 'block';
+            render(result);
+        } else {
+            render([]);
+            box.style.display = 'none';
+        }
+    })
 }
 
 bindEvent(input, 'keyup', (event) => {
