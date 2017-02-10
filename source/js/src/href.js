@@ -1,7 +1,9 @@
-import {searchKey} from './search.js';
-import {bindClickEvent} from './utils';
-
-
+import {
+    searchKey
+} from './search.js';
+import {
+    bindClickEvent
+} from './utils';
 
 function getUrl(name, callback) {
     return searchKey(name, (results) => {
@@ -10,13 +12,13 @@ function getUrl(name, callback) {
             callback(res);
         }
     });
-} 
+}
 
-bindClickEvent(document.body, function(e) {
+bindClickEvent(document.body, function (e) {
     let target = e.target;
-    if(target.tagName.toLowerCase() === 'a') {
+    if (target.tagName.toLowerCase() === 'a') {
         let href;
-        if(/^[^#/]+$/.test(href = target.getAttribute('href'))) {
+        if (/^[^#/]+$/.test(href = target.getAttribute('href'))) {
             getUrl(href, (res) => {
                 target.href = '/' + res;
             });
