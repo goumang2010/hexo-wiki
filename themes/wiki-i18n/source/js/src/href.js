@@ -18,7 +18,7 @@ bindClickEvent(document.body, function(e) {
         let href;
         if(/^[^#/]+$/.test(href = target.getAttribute('href'))) {
             getUrl(href, (res) => {
-                target.href = res;
+                target.href = '/' + res;
             });
         }
     }
