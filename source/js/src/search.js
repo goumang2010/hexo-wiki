@@ -1,4 +1,4 @@
-import { bindEvent, Xget, debounce } from './utils';
+import { bindEvent, bindClickEvent, Xget, debounce } from './utils';
 const input = document.getElementById('header-search-input');
 const box = document.getElementById('header-search-box');
 const boxUl = document.getElementById('header-search-list');
@@ -107,3 +107,13 @@ bindEvent(input, 'keyup', (event) => {
         event.returnValue = false;
     }
 });
+
+bindClickEvent(document.body, function(e) {
+    box.style.display = 'none';
+});
+
+bindClickEvent(input, function(e) {
+    if (input.value) {
+        box.style.display = 'block';
+    }
+}, true);
