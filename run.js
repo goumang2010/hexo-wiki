@@ -4,6 +4,12 @@ var {
     execSync
 } = require('child_process');
 
+let _exec = exec;
+exec = function(...args) {
+    console.log(`[cmd] ${args[0]}`);
+    return _exec.apply(this, args);
+}
+
 let cmd = [];
 let rollupwatch = `node_modules/.bin/rollup -w -m -c themes/wiki-i18n/source/js/build/config.js`;
 let winrollupwatch = `node_modules\\.bin\\rollup -w -m -c themes/wiki-i18n/source/js/build/config.js`;
