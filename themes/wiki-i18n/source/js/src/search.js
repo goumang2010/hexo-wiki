@@ -1,4 +1,4 @@
-import { bindEvent, Xget } from './utils';
+import { bindEvent, Xget, debounce } from './utils';
 const input = document.getElementById('header-search-input');
 const box = document.getElementById('header-search-box');
 const boxUl = document.getElementById('header-search-list');
@@ -60,7 +60,7 @@ export function searchKey(key, callback) {
     }
 }
 
-function search(key) {
+function _search(key) {
     searchKey(key, (result) => {
         if (result.length) {
             box.style.display = 'block';
@@ -71,6 +71,8 @@ function search(key) {
         }
     })
 }
+
+const search = debounce(_search, 200);
 
 bindEvent(input, 'keyup', (event) => {
     search(input.value);
