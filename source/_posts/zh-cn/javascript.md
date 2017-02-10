@@ -9,6 +9,7 @@ categories:
 
 # 事件监听
 * DOM直接调用
+
 ```
     
 doms[i].click= function()
@@ -16,7 +17,9 @@ doms[i].click= function()
         ....
      }
 ```
+
 * addEventListener方式和IE私有的attachEvent方式
+
 ```
     try
      {
@@ -31,6 +34,7 @@ doms[i].click= function()
 ```
 
 # 类型检测
+
 ```
 var  isType =  function  (type) {
    return  function  (obj) {

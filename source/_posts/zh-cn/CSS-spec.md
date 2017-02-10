@@ -1,5 +1,5 @@
 ---
-title: CSS规范
+title: CSS-spec
 excerpt: CSS规范阅读
 categories: 
 - FE
