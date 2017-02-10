@@ -54,5 +54,5 @@ export function debounce(fn, delay) {
         timer = setTimeout(() => {
             fn.apply(this, args);
         }, delay);
-    }
+    };
 }
