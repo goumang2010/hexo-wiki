@@ -16,7 +16,7 @@ script:
   - hexo generate
 
 after_script:
-  - node travis.js
+  - node publish.js
 # E: Build LifeCycle
 
 branches:

@@ -59,7 +59,7 @@ git commit -m "your message"
 
 * 修改远程目录
 
-```git remote set-url origin [https://github.com/USERNAME/OTHERREPOSITORY.git](https://github.com/USERNAME/OTHERREPOSITORY.git)```
+```git remote set-url origin https://github.com/USERNAME/OTHERREPOSITORY.git```
 
 参考：[https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/](https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/)
 

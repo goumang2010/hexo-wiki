@@ -13,10 +13,16 @@ var args = {
     name: 'goumang2010',
     email: 'goumang2010@live.com',
     repo: {
-        url: rawargs[0] || ('https://' + process.env.GH_TOKEN + '@' + process.env.GH_REF),
+        url: rawargs[0] || 'git@github.com:goumang2010/hexo-wiki.git',
         branch: 'gh-pages'
     }
 };
+
+if (process.env.GH_TOKEN) {
+    args.repo.url = 'https://' + process.env.GH_TOKEN + '@' + process.env.GH_REF;
+}
+
+var repo = args.repo;
 
 var swigHelpers = {
     now: function(format) {
@@ -66,20 +72,26 @@ function setup() {
     }).then(function() {
         return userEmail && git('config', 'user.email', userEmail);
     }).then(function() {
-        return git('add', '-A');
+        return git('remote', 'add', 'myrepo', repo.url);
     }).then(function() {
-        return git('commit', '-m', 'First commit');
+        return git('fetch', 'myrepo', repo.branch);
+    }).then(function() {
+        return git('merge', '-s', 'ours', 'myrepo/' + repo.branch);
+    }).catch(function(err) {
+        console.log(err);
+        return git('add', '-A').then(function(){git('commit', '-m', 'First commit')});
     });
 }
 
 function push() {
-    var repo = args.repo;
     return git('add', '-A').then(function() {
         return git('commit', '-m', message).catch(function() {
             // Do nothing. It's OK if nothing to commit.
         });
     }).then(function() {
-        return git('push', '-u', repo.url, 'HEAD:' + repo.branch, '--force');
+        return git('push', '-u', 'myrepo', 'HEAD:' + repo.branch, '--force');
+    }).catch(function(err) {
+        console.log(err);
     });
 }
 
