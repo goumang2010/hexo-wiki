@@ -122,6 +122,13 @@ http://stackoverflow.com/questions/2389361/undo-a-git-merge-that-hasnt-been-push
 
 http://stackoverflow.com/questions/61212/how-to-remove-local-untracked-files-from-the-current-git-branch
 
+# 分支
+## 删除分支
+```
+git push origin --delete <branch_name>
+git branch -d <branch_name>
+```
+
 # 子模块
 ## subtree
 1. 建立subtree, 注意folderpath不应该存在，但其上级必须存在：
