@@ -113,7 +113,9 @@ bindEvent(input, 'keyup', (event) => {
 });
 
 bindClickEvent(document.body, function (e) {
-    box.style.display = 'none';
+    if (target.tagName.toLowerCase() !== 'a') {
+        box.style.display = 'none';
+    }
 });
 
 bindClickEvent(input, function (e) {
