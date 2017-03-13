@@ -7,7 +7,9 @@ categories:
 
 
 
-# Array.find
+# Array
+## find
+
 ```
  
 if (!Array.prototype.find) {
@@ -30,6 +32,37 @@ if (!Array.prototype.find) {
       }
     }
     return undefined;
+  };
+}
+```
+
+# Function
+## bind
+
+```
+if (!Function.prototype.bind) {
+  Function.prototype.bind = function (oThis) {
+    if (typeof this !== "function") {
+      // closest thing possible to the ECMAScript 5
+      // internal IsCallable function
+      throw new TypeError("Function.prototype.bind - what is trying to be bound is not callable");
+    }
+
+    var aArgs = Array.prototype.slice.call(arguments, 1), 
+        fToBind = this, 
+        fNOP = function () {},
+         = function () {
+          // 这些是在fBound执行时才会生效， 若fBound作为构造函数，则this instanceof fNOP
+          return fToBind.apply(this instanceof fNOP
+                                 ? this
+                                 : oThis || this,
+                               aArgs.concat(Array.prototype.slice.call(arguments)));
+        };
+
+    fNOP.prototype = this.prototype;
+    fBound.prototype = new fNOP();
+
+    return fBound;
   };
 }
 ```
