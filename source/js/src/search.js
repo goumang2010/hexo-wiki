@@ -120,4 +120,4 @@ bindClickEvent(input, function (e) {
     if (input.value) {
         box.style.display = 'block';
     }
-}, true);
+}, false);
