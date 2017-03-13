@@ -13,7 +13,7 @@ export const bindEvent = (element, event, cb, capture) => {
     return cb;
 };
 
-export const bindClickEvent = (element, cb, stop, capture) => {
+export const bindClickEvent = (element, cb, stop = false, capture = false) => {
     let eventType = isMobile ? 'touchstart' : 'click';
     if (stop) {
         return bindEvent(element, eventType, function(event) {
