@@ -120,13 +120,6 @@ alert(b.x);// --> {n:2}
 * 如何判断当前脚本运行在浏览器还是node环境中？
 
 
----
-title: 
-excerpt: 
-categories: 
-- FE
----
-
 
 # 答案
 ## HTML
@@ -155,7 +148,7 @@ IE-Trident FF-Gecko Chrome-Blink Opera-Blink Edge-改进Trident
 - 最低高度设置min-height不兼容；如果我们要设置一个标签的最小高度200px，需要进行的设置为：{min-height:200px; height:auto !important; height:200px; overflow:visible;}
 * html5有哪些新特性、移除了那些元素？如何处理HTML5新标签的浏览器兼容问题？如何区分 HTML 和HTML5？
 新特性：更丰富的标签，如video audio；
-语义标签:<br />[[文件:Html5_1.png]]<br />对标题进行组合：hgroup
+语义标签:<br />![](/images/quiz-1.png)<br />对标题进行组合：hgroup
 绘图标签：canvas <br />
 可选数据的列表：datalist,与input配合使用 <br />
 移除了仅表现元素（交给CSS），如big center font
@@ -208,8 +201,8 @@ http://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html
 * 如果需要手动写动画，你认为最小时间间隔是多久，为什么？
 * display:inline-block 什么时候会显示间隙？
 * 实现轮播效果：
+
 ```
- 
 <div class="wrap">
     <div class="carousel">
         <div><img src="a.jpg" /></div>
@@ -244,8 +237,6 @@ http://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html
 ```
 
 ## JS
-
-
 ### 概念
 * AMD CMD
 
@@ -253,8 +244,8 @@ http://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html
 * 对象和引用的概念
 ```
 var a = {n:1};  
-var b = a; // 持有a，以回查  
-a.x = a = {n:2};  
+var b = a;
+a.x = a = {n:2};  //  .运算符优先级最高，所以优先开辟x属性
 alert(a.x);// --> undefined  
 alert(b.x);// --> {n:2}
 ```
@@ -267,6 +258,7 @@ alert(b.x);// --> {n:2}
 * 介绍js的基本数据类型。
 * Javascript如何实现继承？
 * ["1", "2", "3"].map(parseInt) 答案是多少？
+    - `[1, NaN, NaN] ` 因为1进制和2进制根本无法表示2或3
 * 如何创建一个对象? （画出此对象的内存图）
 * 谈谈This对象的理解。
 * 事件是？IE与火狐的事件机制有什么区别？ 如何阻止冒泡？
