@@ -4,23 +4,30 @@ excerpt: shadowsocks
 categories: 
 - FE
 ---
+# 安装
+## 包管理器安装
+https://github.com/shadowsocks/shadowsocks-libev#debian--ubuntu
 
+```
+sudo apt update
+sudo apt install shadowsocks-libev
+```
 
-
-# 安装git
+## 编译安装
+### 安装git
 见[Ubuntu下安装github](Ubuntu下安装github)
 
-# 安装编译工具
+### 安装编译工具
 ```
 apt-get install build-essential autoconf libtool libssl-dev
 ```
 
-# 克隆shadowsocks-libev仓库
+### 克隆shadowsocks-libev仓库
 ```
 git clone https://github.com/madeye/shadowsocks-libev.git
 ```
 
-# 编译安装
+### 编译
 ```
 ./configure
 make
@@ -29,7 +36,7 @@ make install
 
 # 创建配置文件
 ```
-vim /etc/shadowsocks.json
+sudo vim /etc/shadowsocks-libev/config.json
 ```
 
 ```
@@ -50,8 +57,16 @@ password替换为设定的密码，8位以上
 aes-256-cfb为加密方式，客户端上需要选择
 
 # UDP转发并运行服务
+
+找到ss-server位置
 ```
-nohup /usr/local/bin/ss-server -c /etc/shadowsocks.json -u &
+whereis ss-server
+```
+
+得到位置如：`/usr/bin/ss-server`
+
+```
+nohup /usr/bin/ss-server -c /etc/shadowsocks-libev/config.json -u &
 ```
 运行后可以使用Ctrl+C回到命令行，服务会在后台运行
 
@@ -61,5 +76,5 @@ vim /etc/rc.local
 ```
 加入：
 ```
-nohup /usr/local/bin/ss-server -c /etc/shadowsocks.json -u &
+nohup /usr/bin/ss-server -c /etc/shadowsocks-libev/config.json -u &
 ```
