@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Ajax | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/ajax.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/ajax.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>Ajax</h2>
+  ajax写法
+  <article class="markdown-body article">
+  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">原生写法</span></a><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">get</span></a></li><li class="level-2"><a href="#1.2."><span class="tocnumber">1.2.</span>&nbsp<span class="toctext">post</span></a></li></ul></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">Jquery</span></a></li><li class="level-1"><a href="#3."><span class="tocnumber">3.</span>&nbsp<span class="toctext">跨域写法</span></a></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="原生写法"></a>1. 原生写法</h1><p><a href="http://sjpsega.iteye.com/blog/1729350" target="_blank" rel="external">http://sjpsega.iteye.com/blog/1729350</a></p>
+<pre><code class="hljs "><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createXMLHTTPRequest</span>(<span class="hljs-params"></span>) </span>{   
+                 <span class="hljs-comment">//1.创建XMLHttpRequest对象   </span>
+                 <span class="hljs-comment">//这是XMLHttpReuquest对象无部使用中最复杂的一步   </span>
+                 <span class="hljs-comment">//需要针对IE和其他类型的浏览器建立这个对象的不同方式写不同的代码   </span>
+                 <span class="hljs-keyword">var</span> xmlHttpRequest;
+                 <span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.XMLHttpRequest) {   
+                     <span class="hljs-comment">//针对FireFox，Mozillar，Opera，Safari，IE7，IE8   </span>
+                    xmlHttpRequest = <span class="hljs-keyword">new</span> XMLHttpRequest();   
+                     <span class="hljs-comment">//针对某些特定版本的mozillar浏览器的BUG进行修正   </span>
+                     <span class="hljs-keyword">if</span> (xmlHttpRequest.overrideMimeType) {   
+                         xmlHttpRequest.overrideMimeType(<span class="hljs-string">"text/xml"</span>);   
+                     }   
+                 } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.ActiveXObject) {   
+                     <span class="hljs-comment">//针对IE6，IE5.5，IE5   </span>
+                     <span class="hljs-comment">//两个可以用于创建XMLHTTPRequest对象的控件名称，保存在一个js的数组中   </span>
+                     <span class="hljs-comment">//排在前面的版本较新   </span>
+                     <span class="hljs-keyword">var</span> activexName = [ <span class="hljs-string">"MSXML2.XMLHTTP"</span>, <span class="hljs-string">"Microsoft.XMLHTTP"</span> ];   
+                     <span class="hljs-keyword">for</span> ( <span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; activexName.length; i++) {   
+                         <span class="hljs-keyword">try</span> {   
+                             <span class="hljs-comment">//取出一个控件名进行创建，如果创建成功就终止循环   </span>
+                             <span class="hljs-comment">//如果创建失败，回抛出异常，然后可以继续循环，继续尝试创建   </span>
+                            xmlHttpRequest = <span class="hljs-keyword">new</span> ActiveXObject(activexName[i]); 
+                            <span class="hljs-keyword">if</span>(xmlHttpRequest){
+                                <span class="hljs-keyword">break</span>;
+                            }
+                         } <span class="hljs-keyword">catch</span> (e) {   
+                         }   
+                     }   
+                 }   
+                 <span class="hljs-keyword">return</span> xmlHttpRequest;
+             }</code></pre><h2 id="1.1."><a href="#1.1." class="headerlink" title="get"></a>1.1. get</h2><pre><code class="hljs ">            <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span><span class="hljs-params">()</span></span>{
+                <span class="hljs-keyword">var</span> req = createXMLHTTPRequest();
+                <span class="hljs-keyword">if</span>(req){
+                    req.open(<span class="hljs-string">"GET"</span>, <span class="hljs-string">"http://test.com/?keywords=手机"</span>, <span class="hljs-literal">true</span>);
+                    req.onreadystatechange = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+                        <span class="hljs-keyword">if</span>(req.readyState == <span class="hljs-number">4</span>){
+                            <span class="hljs-keyword">if</span>(req.status == <span class="hljs-number">200</span>){
+                                alert(<span class="hljs-string">"success"</span>);
+                            }<span class="hljs-keyword">else</span>{
+                                alert(<span class="hljs-string">"error"</span>);
+                            }
+                        }
+                    }
+                    req.send(<span class="hljs-literal">null</span>);
+                }
+            }</code></pre><h2 id="1.2."><a href="#1.2." class="headerlink" title="post"></a>1.2. post</h2><pre><code class="hljs ">               <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">post</span><span class="hljs-params">()</span></span>{
+                var req = createXMLHTTPRequest();
+                <span class="hljs-keyword">if</span>(req){
+                    req.<span class="hljs-built_in">open</span>(<span class="hljs-string">"POST"</span>, <span class="hljs-string">"http://test.com/"</span>, <span class="hljs-literal">true</span>);
+                    req.setRequestHeader(<span class="hljs-string">"Content-Type"</span>,<span class="hljs-string">"application/x-www-form-urlencoded; charset=gbk;"</span>);   
+                    req.send(<span class="hljs-string">"keywords=手机"</span>);
+                    req.onreadystatechange = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span></span>{
+                        <span class="hljs-keyword">if</span>(req.readyState == <span class="hljs-number">4</span>){
+                            <span class="hljs-keyword">if</span>(req.<span class="hljs-built_in">status</span> == <span class="hljs-number">200</span>){
+                                alert(<span class="hljs-string">"success"</span>);
+                            }<span class="hljs-keyword">else</span>{
+                                alert(<span class="hljs-string">"error"</span>);
+                            }
+                        }
+                    }
+                }
+            }</code></pre><h1 id="2."><a href="#2." class="headerlink" title="Jquery"></a>2. Jquery</h1><pre><code class="hljs ">    $.ajax({
+        <span class="hljs-attr">url</span>: <span class="hljs-string">'addnote'</span>,<span class="hljs-comment">// 跳转到 action  </span>
+        data: {
+            <span class="hljs-attr">noteText</span>: note.text(),
+            <span class="hljs-attr">ifkeychanged</span>: $(<span class="hljs-string">'#keepkey'</span>).attr(<span class="hljs-string">"checked"</span>),
+        },
+        <span class="hljs-attr">type</span>: <span class="hljs-string">'post'</span>,
+        <span class="hljs-attr">cache</span>: <span class="hljs-literal">false</span>,
+       <span class="hljs-comment">// dataType: 'json',</span>
+        success: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">data</span>) </span>{
+            showQR(data);
+        },
+        <span class="hljs-attr">error</span>: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{   
+            alert(<span class="hljs-string">"通信异常！"</span>);
+        }
+    });</code></pre><h1 id="3."><a href="#3." class="headerlink" title="跨域写法"></a>3. 跨域写法</h1><pre><code class="hljs "><span class="hljs-comment">// 参照：</span>
+<span class="hljs-comment">/*! qwest 4.4.5 (https://github.com/pyrsmk/qwest) */</span>
+
+<span class="hljs-keyword">const</span> jsonToQuery = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">a</span>) </span>{
+    <span class="hljs-keyword">const</span> add = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">s, k, v</span>) </span>{
+        v = <span class="hljs-keyword">typeof</span> v === <span class="hljs-string">'function'</span> ? v() : v === <span class="hljs-literal">null</span> ? <span class="hljs-string">''</span> : v === <span class="hljs-literal">undefined</span> ? <span class="hljs-string">''</span> : v;
+        s[s.length] = <span class="hljs-built_in">encodeURIComponent</span>(k) + <span class="hljs-string">'='</span> + <span class="hljs-built_in">encodeURIComponent</span>(v);
+    };
+    <span class="hljs-keyword">const</span> buildParams = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">prefix, obj, s</span>) </span>{
+        <span class="hljs-keyword">let</span> i;
+        <span class="hljs-keyword">let</span> len;
+        <span class="hljs-keyword">let</span> key;
+
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">Object</span>.prototype.toString.call(obj) === <span class="hljs-string">'[object Array]'</span>) {
+            <span class="hljs-keyword">for</span> (i = <span class="hljs-number">0</span>, len = obj.length; i &lt; len; i++) {
+                buildParams(prefix + <span class="hljs-string">'['</span> + (<span class="hljs-keyword">typeof</span> obj[i] === <span class="hljs-string">'object'</span> ? i : <span class="hljs-string">''</span>) + <span class="hljs-string">']'</span>, obj[i], s);
+            }
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (obj &amp;&amp; obj.toString() === <span class="hljs-string">'[object Object]'</span>) {
+            <span class="hljs-keyword">for</span> (key <span class="hljs-keyword">in</span> obj) {
+                <span class="hljs-keyword">if</span> (obj.hasOwnProperty(key)) {
+                    <span class="hljs-keyword">if</span> (prefix) {
+                        buildParams(prefix + <span class="hljs-string">'['</span> + key + <span class="hljs-string">']'</span>, obj[key], s, add);
+                    } <span class="hljs-keyword">else</span> {
+                        buildParams(key, obj[key], s, add);
+                    }
+                }
+            }
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (prefix) {
+            add(s, prefix, obj);
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">for</span> (key <span class="hljs-keyword">in</span> obj) {
+                add(s, key, obj[key]);
+            }
+        }
+        <span class="hljs-keyword">return</span> s;
+    };
+    <span class="hljs-keyword">return</span> buildParams(<span class="hljs-string">''</span>, a, []).join(<span class="hljs-string">'&amp;'</span>).replace(<span class="hljs-regexp">/%20/g</span>, <span class="hljs-string">'+'</span>);
+};
+
+<span class="hljs-keyword">const</span> JSONParse = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.JSON) {
+        <span class="hljs-keyword">return</span> <span class="hljs-built_in">JSON</span>.parse;
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">jsonstr</span>) </span>{
+            <span class="hljs-keyword">return</span> (<span class="hljs-keyword">new</span> <span class="hljs-built_in">Function</span>(<span class="hljs-string">"return"</span> + jsonstr))();
+        };
+    }
+}();
+
+<span class="hljs-keyword">const</span> win = <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">window</span> !== <span class="hljs-string">'undefined'</span> ? <span class="hljs-built_in">window</span> : self;
+<span class="hljs-comment">// Get XMLHttpRequest object</span>
+<span class="hljs-keyword">let</span> xdr;
+<span class="hljs-keyword">let</span> getXHR = win.XMLHttpRequest ? <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> win.XMLHttpRequest();
+} : <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> win.ActiveXObject(<span class="hljs-string">'Microsoft.XMLHTTP'</span>);
+};
+<span class="hljs-keyword">let</span> xhr2 = (getXHR().responseType === <span class="hljs-string">''</span>);
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Xget</span>(<span class="hljs-params">url, data, options</span>) </span>{
+    <span class="hljs-keyword">this</span>.headers = {
+        <span class="hljs-attr">Accept</span>: <span class="hljs-string">'*/*'</span>,
+        <span class="hljs-string">'Cache-Control'</span>: <span class="hljs-string">''</span>
+    };
+    <span class="hljs-keyword">this</span>.callback = options.callback;
+    <span class="hljs-keyword">this</span>.errHandler = options.errHandler || <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">msg</span>) </span>{
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`error: <span class="hljs-subst">${msg}</span>`</span>);
+    };
+    <span class="hljs-comment">// Prepare URL</span>
+    <span class="hljs-keyword">this</span>.url = url + <span class="hljs-string">'?'</span> + jsonToQuery(data);
+    <span class="hljs-keyword">this</span>.options = {
+        <span class="hljs-attr">_async</span>: <span class="hljs-literal">true</span>,
+        <span class="hljs-attr">timeout</span>: <span class="hljs-number">30000</span>,
+        <span class="hljs-attr">attempts</span>: <span class="hljs-number">2</span>
+    };
+    <span class="hljs-keyword">this</span>.attempts = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">this</span>.aborted = <span class="hljs-literal">false</span>;
+    <span class="hljs-comment">// timeout id</span>
+    <span class="hljs-keyword">this</span>.timeoutid = <span class="hljs-literal">null</span>;
+    <span class="hljs-comment">// Guess if we're dealing with a cross-origin request</span>
+    <span class="hljs-keyword">let</span> i = url.match(<span class="hljs-regexp">/\/\/(.+?)\//</span>);
+    <span class="hljs-keyword">this</span>.crossOrigin = i &amp;&amp; (i[<span class="hljs-number">1</span>] ? i[<span class="hljs-number">1</span>] !== location.host : <span class="hljs-literal">false</span>);
+}
+
+Xget.prototype.abort = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.aborted) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.xhr &amp;&amp; <span class="hljs-keyword">this</span>.xhr.readyState !== <span class="hljs-number">4</span>) { <span class="hljs-comment">// https://stackoverflow.com/questions/7287706/ie-9-javascript-error-c00c023f</span>
+            <span class="hljs-keyword">this</span>.xhr.abort();
+        }
+        <span class="hljs-keyword">this</span>.aborted = <span class="hljs-literal">true</span>;
+    }
+};
+
+Xget.prototype.handleResponse = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">xhr = this.xhr</span>) </span>{
+    clearTimeout(<span class="hljs-keyword">this</span>.timeoutid);
+    <span class="hljs-comment">// Verify if the request has not been previously aborted</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.aborted) {
+        <span class="hljs-keyword">return</span>;
+    }
+    <span class="hljs-comment">// Handle response</span>
+    <span class="hljs-keyword">try</span> {
+        <span class="hljs-comment">// Process response</span>
+        <span class="hljs-keyword">if</span> (xhr.responseType === <span class="hljs-string">'json'</span>) {
+            <span class="hljs-keyword">if</span> (<span class="hljs-string">'response'</span> <span class="hljs-keyword">in</span> xhr &amp;&amp; xhr.response === <span class="hljs-literal">null</span>) {
+                <span class="hljs-keyword">throw</span> <span class="hljs-string">'The request response is empty'</span>;
+            }
+            <span class="hljs-keyword">this</span>.response = xhr.response;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">this</span>.response = JSONParse(xhr.responseText);
+        }
+        <span class="hljs-comment">// Late status code verification to allow passing data when, per example, a 409 is returned</span>
+        <span class="hljs-comment">// --- https://stackoverflow.com/questions/10046972/msie-returns-status-code-of-1223-for-ajax-request</span>
+        <span class="hljs-keyword">if</span> (<span class="hljs-string">'status'</span> <span class="hljs-keyword">in</span> xhr &amp;&amp; !<span class="hljs-regexp">/^2|1223/</span>.test(xhr.status)) {
+            <span class="hljs-keyword">throw</span> xhr.status + <span class="hljs-string">' ('</span> + xhr.statusText + <span class="hljs-string">')'</span>;
+        }
+        <span class="hljs-comment">// Fulfilled</span>
+        <span class="hljs-keyword">this</span>.callback(<span class="hljs-keyword">this</span>.response);
+    } <span class="hljs-keyword">catch</span> (e) {
+        <span class="hljs-comment">// Rejected</span>
+        <span class="hljs-keyword">this</span>.handleError(e);
+    }
+};
+
+Xget.prototype.handleTimeout = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.aborted) {
+        <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.options.attempts || ++<span class="hljs-keyword">this</span>.attempts !== <span class="hljs-keyword">this</span>.options.attempts) {
+            <span class="hljs-keyword">this</span>.xhr.abort();
+            <span class="hljs-keyword">this</span>.send();
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">this</span>.handleError({
+                <span class="hljs-attr">message</span>: <span class="hljs-string">'Timeout ('</span> + <span class="hljs-keyword">this</span>.url + <span class="hljs-string">')'</span>
+            });
+        }
+    }
+};
+
+Xget.prototype.handleError = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">e</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(e);
+    <span class="hljs-keyword">let</span> message = e &amp;&amp; e.message;
+    <span class="hljs-keyword">if</span> (!<span class="hljs-keyword">this</span>.aborted) {
+        message = <span class="hljs-keyword">typeof</span> message === <span class="hljs-string">'string'</span> ? message : <span class="hljs-string">'Connection aborted'</span>;
+        <span class="hljs-keyword">this</span>.abort();
+        <span class="hljs-keyword">this</span>.errHandler(message);
+    }
+};
+
+Xget.prototype.send = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">{
+    method = <span class="hljs-string">'get'</span>,
+    url = this.url,
+    options = this.options,
+    headers = this.headers
+} = {}</span>) </span>{
+    <span class="hljs-comment">// Get XHR object</span>
+    <span class="hljs-keyword">let</span> xhr = getXHR();
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.crossOrigin &amp;&amp; win.XDomainRequest) {
+        xhr = <span class="hljs-keyword">new</span> XDomainRequest(); <span class="hljs-comment">// CORS with IE8/9</span>
+        xdr = <span class="hljs-literal">true</span>;
+    }
+    <span class="hljs-comment">// Open connection</span>
+    <span class="hljs-keyword">if</span> (xdr) {
+        xhr.open(method, url);
+    } <span class="hljs-keyword">else</span> {
+        xhr.open(method, url, options._async);
+    }
+    <span class="hljs-keyword">this</span>.xhr = xhr;
+
+    <span class="hljs-comment">// Set headers</span>
+    <span class="hljs-keyword">if</span> (!xdr) {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i <span class="hljs-keyword">in</span> headers) {
+            <span class="hljs-keyword">if</span> (headers[i]) {
+                xhr.setRequestHeader(i, headers[i]);
+            }
+        }
+    }
+    <span class="hljs-comment">// Plug response handler</span>
+    <span class="hljs-keyword">if</span> (xhr2 || xdr) {
+        xhr.onload = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+            <span class="hljs-keyword">this</span>.handleResponse.apply(<span class="hljs-keyword">this</span>);
+        };
+        xhr.onerror = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+            <span class="hljs-keyword">this</span>.handleError.apply(<span class="hljs-keyword">this</span>);
+        };
+        <span class="hljs-comment">// http://cypressnorth.com/programming/internet-explorer-aborting-ajax-requests-fixed/</span>
+        <span class="hljs-keyword">if</span> (xdr) {
+            xhr.onprogress = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{};
+        }
+    } <span class="hljs-keyword">else</span> {
+        xhr.onreadystatechange = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+            <span class="hljs-keyword">if</span> (xhr.readyState === <span class="hljs-number">4</span>) {
+                <span class="hljs-keyword">this</span>.handleResponse.apply(<span class="hljs-keyword">this</span>);
+            }
+        };
+    }
+    <span class="hljs-comment">// Plug timeout</span>
+    <span class="hljs-keyword">if</span> (options._async) {
+        <span class="hljs-keyword">if</span> (<span class="hljs-string">'timeout'</span> <span class="hljs-keyword">in</span> xhr) {
+            xhr.timeout = options.timeout;
+            xhr.ontimeout = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+                <span class="hljs-keyword">this</span>.handleTimeout.apply(<span class="hljs-keyword">this</span>);
+            };
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">this</span>.timeoutid = setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+                <span class="hljs-keyword">this</span>.handleTimeout.apply(<span class="hljs-keyword">this</span>);
+            }, options.timeout);
+        }
+        <span class="hljs-comment">// http://cypressnorth.com/programming/internet-explorer-aborting-ajax-requests-fixed/</span>
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (xdr) {
+        xhr.ontimeout = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{};
+    }
+
+    <span class="hljs-comment">// Send request</span>
+    <span class="hljs-keyword">if</span> (xdr) {
+        <span class="hljs-comment">// https://developer.mozilla.org/en-US/docs/Web/API/XDomainRequest</span>
+        setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+            xhr.send(<span class="hljs-literal">null</span>);
+        }, <span class="hljs-number">0</span>);
+    } <span class="hljs-keyword">else</span> {
+        xhr.send(<span class="hljs-literal">null</span>);
+    }
+};
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> Xget;</code></pre> 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=23827853638"> </script>
+
+
+  </body>
+</html>

@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>Vue2 | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/vue2.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/vue2.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>Vue2</h2>
+  Vue2源码梳理，各个函数注释及Q&A
+  <article class="markdown-body article">
+  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">获取Vue2源码</span></a></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">文件结构</span></a></li><li class="level-1"><a href="#3."><span class="tocnumber">3.</span>&nbsp<span class="toctext">entries</span></a><ul><li class="level-2"><a href="#3.1."><span class="tocnumber">3.1.</span>&nbsp<span class="toctext">web-compiler.js</span></a></li><li class="level-2"><a href="#3.2."><span class="tocnumber">3.2.</span>&nbsp<span class="toctext">web-runtime.js</span></a></li><li class="level-2"><a href="#3.3."><span class="tocnumber">3.3.</span>&nbsp<span class="toctext">web-runtime-with-compiler.js</span></a></li><li class="level-2"><a href="#3.4."><span class="tocnumber">3.4.</span>&nbsp<span class="toctext">web-server-renderer.js</span></a></li></ul></li><li class="level-1"><a href="#4."><span class="tocnumber">4.</span>&nbsp<span class="toctext">platforms - web</span></a><ul><li class="level-2"><a href="#4.1."><span class="tocnumber">4.1.</span>&nbsp<span class="toctext">compiler</span></a><ul><li class="level-3"><a href="#4.1.1."><span class="tocnumber">4.1.1.</span>&nbsp<span class="toctext">compile</span></a></li><li class="level-3"><a href="#4.1.2."><span class="tocnumber">4.1.2.</span>&nbsp<span class="toctext">compileToFunctions</span></a></li></ul></li><li class="level-2"><a href="#4.2."><span class="tocnumber">4.2.</span>&nbsp<span class="toctext">util</span></a><ul><li class="level-3"><a href="#4.2.1."><span class="tocnumber">4.2.1.</span>&nbsp<span class="toctext">query</span></a></li></ul></li><li class="level-2"><a href="#4.3."><span class="tocnumber">4.3.</span>&nbsp<span class="toctext">runtime</span></a><ul><li class="level-3"><a href="#4.3.1."><span class="tocnumber">4.3.1.</span>&nbsp<span class="toctext">directives</span></a><ul><li class="level-4"><a href="#4.3.1.1."><span class="tocnumber">4.3.1.1.</span>&nbsp<span class="toctext">model</span></a><ul><li class="level-5"><a href="#4.3.1.1.1."><span class="tocnumber">4.3.1.1.1.</span>&nbsp<span class="toctext">setSelected</span></a></li></ul></li></ul></li></ul></li></ul></li><li class="level-1"><a href="#5."><span class="tocnumber">5.</span>&nbsp<span class="toctext">compiler导出真正进行模板编译的compile函数</span></a><ul><li class="level-2"><a href="#5.1."><span class="tocnumber">5.1.</span>&nbsp<span class="toctext">codegen</span></a><ul><li class="level-3"><a href="#5.1.1."><span class="tocnumber">5.1.1.</span>&nbsp<span class="toctext">index.js</span></a></li></ul></li><li class="level-2"><a href="#5.2."><span class="tocnumber">5.2.</span>&nbsp<span class="toctext">parser</span></a><ul><li class="level-3"><a href="#5.2.1."><span class="tocnumber">5.2.1.</span>&nbsp<span class="toctext">index.js</span></a><ul><li class="level-4"><a href="#5.2.1.1."><span class="tocnumber">5.2.1.1.</span>&nbsp<span class="toctext">options.start</span></a><ul><li class="level-5"><a href="#5.2.1.1.1."><span class="tocnumber">5.2.1.1.1.</span>&nbsp<span class="toctext">processAttrs</span></a></li><li class="level-5"><a href="#5.2.1.1.2."><span class="tocnumber">5.2.1.1.2.</span>&nbsp<span class="toctext">addDirective</span></a></li><li class="level-5"><a href="#5.2.1.1.3."><span class="tocnumber">5.2.1.1.3.</span>&nbsp<span class="toctext">addHandler</span></a></li><li class="level-5"><a href="#5.2.1.1.4."><span class="tocnumber">5.2.1.1.4.</span>&nbsp<span class="toctext">processFor</span></a></li><li class="level-5"><a href="#5.2.1.1.5."><span class="tocnumber">5.2.1.1.5.</span>&nbsp<span class="toctext">processIf</span></a></li><li class="level-5"><a href="#5.2.1.1.6."><span class="tocnumber">5.2.1.1.6.</span>&nbsp<span class="toctext">processOnce</span></a></li><li class="level-5"><a href="#5.2.1.1.7."><span class="tocnumber">5.2.1.1.7.</span>&nbsp<span class="toctext">processKey</span></a></li><li class="level-5"><a href="#5.2.1.1.8."><span class="tocnumber">5.2.1.1.8.</span>&nbsp<span class="toctext">processRef</span></a></li><li class="level-5"><a href="#5.2.1.1.9."><span class="tocnumber">5.2.1.1.9.</span>&nbsp<span class="toctext">processSlot</span></a></li><li class="level-5"><a href="#5.2.1.1.10."><span class="tocnumber">5.2.1.1.10.</span>&nbsp<span class="toctext">processComponent</span></a></li><li class="level-5"><a href="#5.2.1.1.11."><span class="tocnumber">5.2.1.1.11.</span>&nbsp<span class="toctext">processRawAttrs</span></a></li><li class="level-5"><a href="#5.2.1.1.12."><span class="tocnumber">5.2.1.1.12.</span>&nbsp<span class="toctext">processPre</span></a></li></ul></li></ul></li><li class="level-3"><a href="#5.2.2."><span class="tocnumber">5.2.2.</span>&nbsp<span class="toctext">html-parser.js</span></a><ul><li class="level-4"><a href="#5.2.2.1."><span class="tocnumber">5.2.2.1.</span>&nbsp<span class="toctext">parseHTML</span></a><ul><li class="level-5"><a href="#5.2.2.1.1."><span class="tocnumber">5.2.2.1.1.</span>&nbsp<span class="toctext">parseStartTag</span></a></li><li class="level-5"><a href="#5.2.2.1.2."><span class="tocnumber">5.2.2.1.2.</span>&nbsp<span class="toctext">handleStartTag</span></a></li><li class="level-5"><a href="#5.2.2.1.3."><span class="tocnumber">5.2.2.1.3.</span>&nbsp<span class="toctext">parseEndTag</span></a></li></ul></li></ul></li></ul></li></ul></li><li class="level-1"><a href="#6."><span class="tocnumber">6.</span>&nbsp<span class="toctext">vm实例</span></a><ul><li class="level-2"><a href="#6.1."><span class="tocnumber">6.1.</span>&nbsp<span class="toctext">$parent</span></a></li><li class="level-2"><a href="#6.2."><span class="tocnumber">6.2.</span>&nbsp<span class="toctext">$options</span></a></li></ul></li><li class="level-1"><a href="#7."><span class="tocnumber">7.</span>&nbsp<span class="toctext">core</span></a><ul><li class="level-2"><a href="#7.1."><span class="tocnumber">7.1.</span>&nbsp<span class="toctext">index.js</span></a></li><li class="level-2"><a href="#7.2."><span class="tocnumber">7.2.</span>&nbsp<span class="toctext">config.js</span></a></li><li class="level-2"><a href="#7.3."><span class="tocnumber">7.3.</span>&nbsp<span class="toctext">global-api</span></a><ul><li class="level-3"><a href="#7.3.1."><span class="tocnumber">7.3.1.</span>&nbsp<span class="toctext">extend.js</span></a><ul><li class="level-4"><a href="#7.3.1.1."><span class="tocnumber">7.3.1.1.</span>&nbsp<span class="toctext">initExtend</span></a></li></ul></li></ul></li><li class="level-2"><a href="#7.4."><span class="tocnumber">7.4.</span>&nbsp<span class="toctext">instance</span></a><ul><li class="level-3"><a href="#7.4.1."><span class="tocnumber">7.4.1.</span>&nbsp<span class="toctext">index.js</span></a></li><li class="level-3"><a href="#7.4.2."><span class="tocnumber">7.4.2.</span>&nbsp<span class="toctext">init.js</span></a><ul><li class="level-4"><a href="#7.4.2.1."><span class="tocnumber">7.4.2.1.</span>&nbsp<span class="toctext">initMixin</span></a></li></ul></li><li class="level-3"><a href="#7.4.3."><span class="tocnumber">7.4.3.</span>&nbsp<span class="toctext">events.js</span></a><ul><li class="level-4"><a href="#7.4.3.1."><span class="tocnumber">7.4.3.1.</span>&nbsp<span class="toctext">initEvents</span></a></li></ul></li><li class="level-3"><a href="#7.4.4."><span class="tocnumber">7.4.4.</span>&nbsp<span class="toctext">lifecycle.js</span></a><ul><li class="level-4"><a href="#7.4.4.1."><span class="tocnumber">7.4.4.1.</span>&nbsp<span class="toctext">initLifecycle</span></a></li><li class="level-4"><a href="#7.4.4.2."><span class="tocnumber">7.4.4.2.</span>&nbsp<span class="toctext">lifecycleMixin</span></a></li><li class="level-4"><a href="#7.4.4.3."><span class="tocnumber">7.4.4.3.</span>&nbsp<span class="toctext">callHook</span></a></li></ul></li><li class="level-3"><a href="#7.4.5."><span class="tocnumber">7.4.5.</span>&nbsp<span class="toctext">render.js</span></a><ul><li class="level-4"><a href="#7.4.5.1."><span class="tocnumber">7.4.5.1.</span>&nbsp<span class="toctext">initRender</span></a></li><li class="level-4"><a href="#7.4.5.2."><span class="tocnumber">7.4.5.2.</span>&nbsp<span class="toctext">resolveSlots</span></a></li><li class="level-4"><a href="#7.4.5.3."><span class="tocnumber">7.4.5.3.</span>&nbsp<span class="toctext">renderMixin</span></a></li></ul></li><li class="level-3"><a href="#7.4.6."><span class="tocnumber">7.4.6.</span>&nbsp<span class="toctext">state.js</span></a><ul><li class="level-4"><a href="#7.4.6.1."><span class="tocnumber">7.4.6.1.</span>&nbsp<span class="toctext">initState</span></a></li><li class="level-4"><a href="#7.4.6.2."><span class="tocnumber">7.4.6.2.</span>&nbsp<span class="toctext">initProps</span></a></li><li class="level-4"><a href="#7.4.6.3."><span class="tocnumber">7.4.6.3.</span>&nbsp<span class="toctext">initData</span></a></li><li class="level-4"><a href="#7.4.6.4."><span class="tocnumber">7.4.6.4.</span>&nbsp<span class="toctext">initComputed</span></a></li><li class="level-4"><a href="#7.4.6.5."><span class="tocnumber">7.4.6.5.</span>&nbsp<span class="toctext">makeComputedGetter</span></a></li><li class="level-4"><a href="#7.4.6.6."><span class="tocnumber">7.4.6.6.</span>&nbsp<span class="toctext">initMethods</span></a></li><li class="level-4"><a href="#7.4.6.7."><span class="tocnumber">7.4.6.7.</span>&nbsp<span class="toctext">initWatch</span></a></li><li class="level-4"><a href="#7.4.6.8."><span class="tocnumber">7.4.6.8.</span>&nbsp<span class="toctext">Vue.prototype.$watch</span></a></li></ul></li></ul></li><li class="level-2"><a href="#7.5."><span class="tocnumber">7.5.</span>&nbsp<span class="toctext">observer</span></a><ul><li class="level-3"><a href="#7.5.1."><span class="tocnumber">7.5.1.</span>&nbsp<span class="toctext">array.js</span></a></li><li class="level-3"><a href="#7.5.2."><span class="tocnumber">7.5.2.</span>&nbsp<span class="toctext">index.js</span></a><ul><li class="level-4"><a href="#7.5.2.1."><span class="tocnumber">7.5.2.1.</span>&nbsp<span class="toctext">Observer类</span></a><ul><li class="level-5"><a href="#7.5.2.1.1."><span class="tocnumber">7.5.2.1.1.</span>&nbsp<span class="toctext">实例属性</span></a></li><li class="level-5"><a href="#7.5.2.1.2."><span class="tocnumber">7.5.2.1.2.</span>&nbsp<span class="toctext">初始化</span></a></li></ul></li><li class="level-4"><a href="#7.5.2.2."><span class="tocnumber">7.5.2.2.</span>&nbsp<span class="toctext">observe</span></a></li><li class="level-4"><a href="#7.5.2.3."><span class="tocnumber">7.5.2.3.</span>&nbsp<span class="toctext">defineReactive</span></a><ul><li class="level-5"><a href="#7.5.2.3.1."><span class="tocnumber">7.5.2.3.1.</span>&nbsp<span class="toctext">get</span></a></li><li class="level-5"><a href="#7.5.2.3.2."><span class="tocnumber">7.5.2.3.2.</span>&nbsp<span class="toctext">set</span></a></li></ul></li></ul></li><li class="level-3"><a href="#7.5.3."><span class="tocnumber">7.5.3.</span>&nbsp<span class="toctext">scheduler.js</span></a><ul><li class="level-4"><a href="#7.5.3.1."><span class="tocnumber">7.5.3.1.</span>&nbsp<span class="toctext">flushSchedulerQueue</span></a></li><li class="level-4"><a href="#7.5.3.2."><span class="tocnumber">7.5.3.2.</span>&nbsp<span class="toctext">resetSchedulerState</span></a></li><li class="level-4"><a href="#7.5.3.3."><span class="tocnumber">7.5.3.3.</span>&nbsp<span class="toctext">queueWatcher</span></a></li></ul></li><li class="level-3"><a href="#7.5.4."><span class="tocnumber">7.5.4.</span>&nbsp<span class="toctext">watcher.js</span></a><ul><li class="level-4"><a href="#7.5.4.1."><span class="tocnumber">7.5.4.1.</span>&nbsp<span class="toctext">初始化</span></a></li><li class="level-4"><a href="#7.5.4.2."><span class="tocnumber">7.5.4.2.</span>&nbsp<span class="toctext">原型方法</span></a><ul><li class="level-5"><a href="#7.5.4.2.1."><span class="tocnumber">7.5.4.2.1.</span>&nbsp<span class="toctext">update</span></a></li><li class="level-5"><a href="#7.5.4.2.2."><span class="tocnumber">7.5.4.2.2.</span>&nbsp<span class="toctext">run</span></a></li><li class="level-5"><a href="#7.5.4.2.3."><span class="tocnumber">7.5.4.2.3.</span>&nbsp<span class="toctext">get</span></a></li><li class="level-5"><a href="#7.5.4.2.4."><span class="tocnumber">7.5.4.2.4.</span>&nbsp<span class="toctext">addDep</span></a></li><li class="level-5"><a href="#7.5.4.2.5."><span class="tocnumber">7.5.4.2.5.</span>&nbsp<span class="toctext">cleanupDeps</span></a></li><li class="level-5"><a href="#7.5.4.2.6."><span class="tocnumber">7.5.4.2.6.</span>&nbsp<span class="toctext">depend</span></a></li></ul></li><li class="level-4"><a href="#7.5.4.3."><span class="tocnumber">7.5.4.3.</span>&nbsp<span class="toctext">Helper</span></a><ul><li class="level-5"><a href="#7.5.4.3.1."><span class="tocnumber">7.5.4.3.1.</span>&nbsp<span class="toctext">traverse</span></a></li></ul></li></ul></li><li class="level-3"><a href="#7.5.5."><span class="tocnumber">7.5.5.</span>&nbsp<span class="toctext">dep.js</span></a><ul><li class="level-4"><a href="#7.5.5.1."><span class="tocnumber">7.5.5.1.</span>&nbsp<span class="toctext">Dep.target</span></a></li></ul></li><li class="level-3"><a href="#7.5.6."><span class="tocnumber">7.5.6.</span>&nbsp<span class="toctext">addSub</span></a></li><li class="level-3"><a href="#7.5.7."><span class="tocnumber">7.5.7.</span>&nbsp<span class="toctext">removeSub</span></a></li><li class="level-3"><a href="#7.5.8."><span class="tocnumber">7.5.8.</span>&nbsp<span class="toctext">notify</span></a></li><li class="level-3"><a href="#7.5.9."><span class="tocnumber">7.5.9.</span>&nbsp<span class="toctext">depend</span></a></li><li class="level-3"><a href="#7.5.10."><span class="tocnumber">7.5.10.</span>&nbsp<span class="toctext">静态属性方法</span></a><ul><li class="level-4"><a href="#7.5.10.1."><span class="tocnumber">7.5.10.1.</span>&nbsp<span class="toctext">pushTarget</span></a></li><li class="level-4"><a href="#7.5.10.2."><span class="tocnumber">7.5.10.2.</span>&nbsp<span class="toctext">pushTarget</span></a></li></ul></li></ul></li><li class="level-2"><a href="#7.6."><span class="tocnumber">7.6.</span>&nbsp<span class="toctext">util工具类</span></a><ul><li class="level-3"><a href="#7.6.1."><span class="tocnumber">7.6.1.</span>&nbsp<span class="toctext">debug.js</span></a><ul><li class="level-4"><a href="#7.6.1.1."><span class="tocnumber">7.6.1.1.</span>&nbsp<span class="toctext">formatComponentName</span></a></li><li class="level-4"><a href="#7.6.1.2."><span class="tocnumber">7.6.1.2.</span>&nbsp<span class="toctext">formatLocation</span></a></li><li class="level-4"><a href="#7.6.1.3."><span class="tocnumber">7.6.1.3.</span>&nbsp<span class="toctext">warn</span></a></li></ul></li><li class="level-3"><a href="#7.6.2."><span class="tocnumber">7.6.2.</span>&nbsp<span class="toctext">shared/util.js</span></a><ul><li class="level-4"><a href="#7.6.2.1."><span class="tocnumber">7.6.2.1.</span>&nbsp<span class="toctext">bind</span></a></li><li class="level-4"><a href="#7.6.2.2."><span class="tocnumber">7.6.2.2.</span>&nbsp<span class="toctext">isObject</span></a></li><li class="level-4"><a href="#7.6.2.3."><span class="tocnumber">7.6.2.3.</span>&nbsp<span class="toctext">isPlainObject</span></a></li><li class="level-4"><a href="#7.6.2.4."><span class="tocnumber">7.6.2.4.</span>&nbsp<span class="toctext">isPrimitive</span></a></li><li class="level-4"><a href="#7.6.2.5."><span class="tocnumber">7.6.2.5.</span>&nbsp<span class="toctext">remove</span></a></li><li class="level-4"><a href="#7.6.2.6."><span class="tocnumber">7.6.2.6.</span>&nbsp<span class="toctext">hasOwn</span></a></li><li class="level-4"><a href="#7.6.2.7."><span class="tocnumber">7.6.2.7.</span>&nbsp<span class="toctext">camelize</span></a></li><li class="level-4"><a href="#7.6.2.8."><span class="tocnumber">7.6.2.8.</span>&nbsp<span class="toctext">capitalize</span></a></li><li class="level-4"><a href="#7.6.2.9."><span class="tocnumber">7.6.2.9.</span>&nbsp<span class="toctext">hyphenate</span></a></li><li class="level-4"><a href="#7.6.2.10."><span class="tocnumber">7.6.2.10.</span>&nbsp<span class="toctext">cached</span></a></li></ul></li><li class="level-3"><a href="#7.6.3."><span class="tocnumber">7.6.3.</span>&nbsp<span class="toctext">lang.js</span></a><ul><li class="level-4"><a href="#7.6.3.1."><span class="tocnumber">7.6.3.1.</span>&nbsp<span class="toctext">parsePath</span></a></li><li class="level-4"><a href="#7.6.3.2."><span class="tocnumber">7.6.3.2.</span>&nbsp<span class="toctext">def</span></a></li></ul></li><li class="level-3"><a href="#7.6.4."><span class="tocnumber">7.6.4.</span>&nbsp<span class="toctext">env.js</span></a><ul><li class="level-4"><a href="#7.6.4.1."><span class="tocnumber">7.6.4.1.</span>&nbsp<span class="toctext">nextTick</span></a></li><li class="level-4"><a href="#7.6.4.2."><span class="tocnumber">7.6.4.2.</span>&nbsp<span class="toctext">hasProto</span></a></li></ul></li><li class="level-3"><a href="#7.6.5."><span class="tocnumber">7.6.5.</span>&nbsp<span class="toctext">options.js</span></a><ul><li class="level-4"><a href="#7.6.5.1."><span class="tocnumber">7.6.5.1.</span>&nbsp<span class="toctext">mergeOptions</span></a></li><li class="level-4"><a href="#7.6.5.2."><span class="tocnumber">7.6.5.2.</span>&nbsp<span class="toctext">resolveAsset</span></a></li></ul></li><li class="level-3"><a href="#7.6.6."><span class="tocnumber">7.6.6.</span>&nbsp<span class="toctext">props.js</span></a><ul><li class="level-4"><a href="#7.6.6.1."><span class="tocnumber">7.6.6.1.</span>&nbsp<span class="toctext">validateProp</span></a></li><li class="level-4"><a href="#7.6.6.2."><span class="tocnumber">7.6.6.2.</span>&nbsp<span class="toctext">getPropDefaultValue</span></a></li><li class="level-4"><a href="#7.6.6.3."><span class="tocnumber">7.6.6.3.</span>&nbsp<span class="toctext">getType</span></a></li><li class="level-4"><a href="#7.6.6.4."><span class="tocnumber">7.6.6.4.</span>&nbsp<span class="toctext">assertProp</span></a></li></ul></li></ul></li><li class="level-2"><a href="#7.7."><span class="tocnumber">7.7.</span>&nbsp<span class="toctext">vdom</span></a><ul><li class="level-3"><a href="#7.7.1."><span class="tocnumber">7.7.1.</span>&nbsp<span class="toctext">create-element.js</span></a><ul><li class="level-4"><a href="#7.7.1.1."><span class="tocnumber">7.7.1.1.</span>&nbsp<span class="toctext">createElement</span></a></li><li class="level-4"><a href="#7.7.1.2."><span class="tocnumber">7.7.1.2.</span>&nbsp<span class="toctext">_createElement</span></a></li></ul></li><li class="level-3"><a href="#7.7.2."><span class="tocnumber">7.7.2.</span>&nbsp<span class="toctext">create-component.js</span></a><ul><li class="level-4"><a href="#7.7.2.1."><span class="tocnumber">7.7.2.1.</span>&nbsp<span class="toctext">createComponent</span></a></li><li class="level-4"><a href="#7.7.2.2."><span class="tocnumber">7.7.2.2.</span>&nbsp<span class="toctext">mergeHooks</span></a></li><li class="level-4"><a href="#7.7.2.3."><span class="tocnumber">7.7.2.3.</span>&nbsp<span class="toctext">mergeHook</span></a></li><li class="level-4"><a href="#7.7.2.4."><span class="tocnumber">7.7.2.4.</span>&nbsp<span class="toctext">hook.prepatch</span></a></li><li class="level-4"><a href="#7.7.2.5."><span class="tocnumber">7.7.2.5.</span>&nbsp<span class="toctext">hook.init</span></a></li><li class="level-4"><a href="#7.7.2.6."><span class="tocnumber">7.7.2.6.</span>&nbsp<span class="toctext">createComponentInstanceForVnode</span></a></li><li class="level-4"><a href="#7.7.2.7."><span class="tocnumber">7.7.2.7.</span>&nbsp<span class="toctext">createFunctionalComponent</span></a></li><li class="level-4"><a href="#7.7.2.8."><span class="tocnumber">7.7.2.8.</span>&nbsp<span class="toctext">extractProps</span></a></li></ul></li><li class="level-3"><a href="#7.7.3."><span class="tocnumber">7.7.3.</span>&nbsp<span class="toctext">checkProp</span></a><ul><li class="level-4"><a href="#7.7.3.1."><span class="tocnumber">7.7.3.1.</span>&nbsp<span class="toctext">resolveAsyncComponent</span></a></li></ul></li><li class="level-3"><a href="#7.7.4."><span class="tocnumber">7.7.4.</span>&nbsp<span class="toctext">helpers.js</span></a><ul><li class="level-4"><a href="#7.7.4.1."><span class="tocnumber">7.7.4.1.</span>&nbsp<span class="toctext">updateListeners</span></a></li><li class="level-4"><a href="#7.7.4.2."><span class="tocnumber">7.7.4.2.</span>&nbsp<span class="toctext">arrInvoker</span></a></li><li class="level-4"><a href="#7.7.4.3."><span class="tocnumber">7.7.4.3.</span>&nbsp<span class="toctext">fnInvoker</span></a></li><li class="level-4"><a href="#7.7.4.4."><span class="tocnumber">7.7.4.4.</span>&nbsp<span class="toctext">normalizeChildren</span></a></li><li class="level-4"><a href="#7.7.4.5."><span class="tocnumber">7.7.4.5.</span>&nbsp<span class="toctext">createTextVNode</span></a></li><li class="level-4"><a href="#7.7.4.6."><span class="tocnumber">7.7.4.6.</span>&nbsp<span class="toctext">applyNS</span></a></li></ul></li><li class="level-3"><a href="#7.7.5."><span class="tocnumber">7.7.5.</span>&nbsp<span class="toctext">patch.js</span></a><ul><li class="level-4"><a href="#7.7.5.1."><span class="tocnumber">7.7.5.1.</span>&nbsp<span class="toctext">patch</span></a></li><li class="level-4"><a href="#7.7.5.2."><span class="tocnumber">7.7.5.2.</span>&nbsp<span class="toctext">patchVnode</span></a></li><li class="level-4"><a href="#7.7.5.3."><span class="tocnumber">7.7.5.3.</span>&nbsp<span class="toctext">updateChildren</span></a></li><li class="level-4"><a href="#7.7.5.4."><span class="tocnumber">7.7.5.4.</span>&nbsp<span class="toctext">addVnodes</span></a></li><li class="level-4"><a href="#7.7.5.5."><span class="tocnumber">7.7.5.5.</span>&nbsp<span class="toctext">sameVnode</span></a></li><li class="level-4"><a href="#7.7.5.6."><span class="tocnumber">7.7.5.6.</span>&nbsp<span class="toctext">createElm</span></a></li><li class="level-4"><a href="#7.7.5.7."><span class="tocnumber">7.7.5.7.</span>&nbsp<span class="toctext">invokeCreateHooks</span></a></li><li class="level-4"><a href="#7.7.5.8."><span class="tocnumber">7.7.5.8.</span>&nbsp<span class="toctext">createChildren</span></a></li><li class="level-4"><a href="#7.7.5.9."><span class="tocnumber">7.7.5.9.</span>&nbsp<span class="toctext">setScope</span></a></li><li class="level-4"><a href="#7.7.5.10."><span class="tocnumber">7.7.5.10.</span>&nbsp<span class="toctext">initComponent</span></a></li><li class="level-4"><a href="#7.7.5.11."><span class="tocnumber">7.7.5.11.</span>&nbsp<span class="toctext">isPatchable</span></a></li></ul></li><li class="level-3"><a href="#7.7.6."><span class="tocnumber">7.7.6.</span>&nbsp<span class="toctext">vnode.js</span></a><ul><li class="level-4"><a href="#7.7.6.1."><span class="tocnumber">7.7.6.1.</span>&nbsp<span class="toctext">VNode类</span></a></li><li class="level-4"><a href="#7.7.6.2."><span class="tocnumber">7.7.6.2.</span>&nbsp<span class="toctext">emptyVNode</span></a></li><li class="level-4"><a href="#7.7.6.3."><span class="tocnumber">7.7.6.3.</span>&nbsp<span class="toctext">cloneVNodes</span></a></li><li class="level-4"><a href="#7.7.6.4."><span class="tocnumber">7.7.6.4.</span>&nbsp<span class="toctext">cloneVNode</span></a></li></ul></li></ul></li></ul></li><li class="level-1"><a href="#8."><span class="tocnumber">8.</span>&nbsp<span class="toctext">流程及测试</span></a></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="获取Vue2源码"></a>1. 获取Vue2源码</h1><pre><code class="hljs bash">git clone git@github<span class="hljs-selector-class">.com</span>:vuejs/vue<span class="hljs-selector-class">.git</span>
+cd vue
+git checkout next</code></pre><h1 id="2."><a href="#2." class="headerlink" title="文件结构"></a>2. 文件结构</h1><pre>
+├── compiler
+│   ├── codegen
+│   │   ├── events.js
+│   │   └── index.js
+│   ├── directives
+│   │   ├── bind.js
+│   │   └── index.js
+│   ├── error-detector.js
+│   ├── helpers.js
+│   ├── index.js
+│   ├── optimizer.js
+│   └── parser
+│       ├── entity-decoder.js
+│       ├── filter-parser.js
+│       ├── html-parser.js
+│       ├── index.js
+│       └── text-parser.js
+├── core
+│   ├── components
+│   │   ├── index.js
+│   │   └── keep-alive.js
+│   ├── config.js
+│   ├── global-api
+│   │   ├── assets.js
+│   │   ├── extend.js
+│   │   ├── index.js
+│   │   ├── mixin.js
+│   │   └── use.js
+│   ├── index.js
+│   ├── instance
+│   │   ├── events.js
+│   │   ├── index.js
+│   │   ├── init.js
+│   │   ├── lifecycle.js
+│   │   ├── proxy.js
+│   │   ├── render.js
+│   │   └── state.js
+│   ├── observer
+│   │   ├── array.js
+│   │   ├── dep.js
+│   │   ├── index.js
+│   │   ├── scheduler.js
+│   │   └── watcher.js
+│   ├── util
+│   │   ├── debug.js
+│   │   ├── env.js
+│   │   ├── index.js
+│   │   ├── lang.js
+│   │   ├── options.js
+│   │   └── props.js
+│   └── vdom
+│       ├── create-component.js
+│       ├── create-element.js
+│       ├── helpers.js
+│       ├── modules
+│       │   ├── directives.js
+│       │   ├── index.js
+│       │   └── ref.js
+│       ├── patch.js
+│       └── vnode.js
+├── entries
+│   ├── web-compiler.js
+│   ├── web-runtime.js
+│   ├── web-runtime-with-compiler.js
+│   └── web-server-renderer.js
+├── platforms
+│   └── web
+│       ├── compiler
+│       │   ├── directives
+│       │   │   ├── html.js
+│       │   │   ├── index.js
+│       │   │   ├── model.js
+│       │   │   └── text.js
+│       │   ├── index.js
+│       │   └── modules
+│       │       ├── class.js
+│       │       ├── index.js
+│       │       └── style.js
+│       ├── runtime
+│       │   ├── class-util.js
+│       │   ├── components
+│       │   │   ├── index.js
+│       │   │   ├── transition-group.js
+│       │   │   └── transition.js
+│       │   ├── directives
+│       │   │   ├── index.js
+│       │   │   ├── model.js
+│       │   │   └── show.js
+│       │   ├── modules
+│       │   │   ├── attrs.js
+│       │   │   ├── class.js
+│       │   │   ├── dom-props.js
+│       │   │   ├── events.js
+│       │   │   ├── index.js
+│       │   │   ├── style.js
+│       │   │   └── transition.js
+│       │   ├── node-ops.js
+│       │   ├── patch.js
+│       │   └── transition-util.js
+│       ├── server
+│       │   ├── directives
+│       │   │   ├── index.js
+│       │   │   └── show.js
+│       │   └── modules
+│       │       ├── attrs.js
+│       │       ├── class.js
+│       │       ├── dom-props.js
+│       │       ├── index.js
+│       │       └── style.js
+│       └── util
+│           ├── attrs.js
+│           ├── class.js
+│           ├── compat.js
+│           ├── element.js
+│           └── index.js
+├── server
+│   ├── create-bundle-renderer.js
+│   ├── create-renderer.js
+│   ├── render.js
+│   ├── render-stream.js
+│   ├── run-in-vm.js
+│   └── write.js
+├── sfc
+│   └── parser.js
+└── shared
+    └── util.js
+</pre>
+
+<h1 id="3."><a href="#3." class="headerlink" title="entries"></a>3. entries</h1><h2 id="3.1."><a href="#3.1." class="headerlink" title="web-compiler.js"></a>3.1. web-compiler.js</h2><p>默认导出compile函数，将模板编译成render函数。<br>参数：</p>
+<pre><code class="hljs "><span class="hljs-keyword">template</span>: <span class="hljs-built_in">string</span>,
+options?: CompilerOptions</code></pre><p>注入modules和directives后调用/platforms/web/compiler/index.js中compile函数进行编译，而该compile函数仅仅将一些web平台的modules和directive及一些工具函数确保注入options后，调用/compiler/index.js中的<a href="#compile">compile函数</a>，该函数是真正进行编译的函数。</p>
+<h2 id="3.2."><a href="#3.2." class="headerlink" title="web-runtime.js"></a>3.2. web-runtime.js</h2><p>首先从’core/index’中获取Vue类</p>
+<ol>
+<li>安装从web/util/index.js导出的web平台专有的工具函数。</li>
+<li>安装平台运行时专有的指令和组件。分别从web/runtime/directives/和web/runtime/components/导出，组件就是web的过渡效果，指令为v-model和v-show，将它们分别加入Vue.options.components和Vue.options.directives。供patch生成DOM</li>
+<li>安装平台patch函数，config._isServer不为true，安装’web/runtime/patch’导出的patch，该patch实际上是通过向<a href="#createPatchFunction">createPatchFunction</a>传入web/runtime/node-ops（dom基本操作），core/vdom/modules/index（基本指令）生成的.</li>
+<li>构造Vue.prototype.$mount： 若非服务端，调用<a href="#domQuery">query</a>加工el，这时el为Element，即DOM元素，然后调用<a href="#_mount">_mount</a></li>
+<li>使devtools发射init事件。<code>devtools.emit(&#39;init&#39;, Vue)</code></li>
+<li>经过以上修饰，导出Vue类</li>
+</ol>
+<h2 id="3.3."><a href="#3.3." class="headerlink" title="web-runtime-with-compiler.js"></a>3.3. web-runtime-with-compiler.js</h2><p>闭包缓存<a href="#domQuery">query</a>函数，返回<code>el.innerHTML</code>, 为idToTemplate。重构web-runtime已定义的Vue.prototype.$mount,加入编译模板template过程：</p>
+<ol>
+<li>调用<a href="#domQuery">query</a>加工el，取得el对应的DOM，若该DOM为document.body（body标签对应的元素）或document.documentElement（html标签对应的元素），则直接返回，在非生产环境下提示，不能将Vue挂载到html或body标签上。</li>
+<li>实例$options上若不存在render函数，则取this.$options.template为template, 若template存在:<ul>
+<li>template为字符串，且第一个字母为#，说明其为id选择器，调用idToTemplate，取其代表元素的innerHTML赋予template</li>
+<li>template.nodeType存在，说明其为DOM元素，直接取其innerHTML赋予template</li>
+<li>若不是以上两种情况，非生产环境下提示：·<code>invalid template option</code></li>
+</ul>
+</li>
+<li>template不存在，但el存在，调用getOuterHTML并传入el，即是el.outerHTML,若该属性不存在，在el上建立个父节点（容器），然后取容器的innerHTML。</li>
+<li>经过以上过程，template存在，则调用compileToFunctions编译template生成render函数和staticRenderFns，并统统挂到$options上</li>
+<li>执行原定义的Vue.prototype.$mount。</li>
+</ol>
+<h2 id="3.4."><a href="#3.4." class="headerlink" title="web-server-renderer.js"></a>3.4. web-server-renderer.js</h2><p>导出createRenderer和createBundleRenderer函数</p>
+<h1 id="4."><a href="#4." class="headerlink" title="platforms - web"></a>4. platforms - web</h1><h2 id="4.1."><a href="#4.1." class="headerlink" title="compiler"></a>4.1. compiler</h2><h3 id="4.1.1."><a href="#4.1.1." class="headerlink" title="compile"></a>4.1.1. compile</h3><p>将当前目录下的/modules和/directives合并至options，然后调用compiler/index.js中的complie函数进行模板编译。</p>
+<h3 id="4.1.2."><a href="#4.1.2." class="headerlink" title="compileToFunctions"></a>4.1.2. compileToFunctions</h3><p>将模板编译为render函数</p>
+<pre><code class="hljs "><span class="hljs-string">template:</span> string,
+options?: CompilerOptions,
+vm?: Component</code></pre><p>不能使用构造函数来构建，提示错误</p>
+<ol>
+<li>使用compile编译模板，通过makeFunction将编译后的render字符串转化为函数放至res.render</li>
+<li>遍历编译后的staticRenderFns数组，将其转化为函数，重新构建数组挂在res上。</li>
+<li>使用闭包变量cache进行缓存，并返回res。</li>
+</ol>
+<h2 id="4.2."><a href="#4.2." class="headerlink" title="util"></a>4.2. util</h2><h3 id="4.2.1."><a href="#4.2.1." class="headerlink" title="query"></a>4.2.1. <a name="domQuery">query</a></h3><p>传入el</p>
+<ol>
+<li>若el不是string，直接返回el</li>
+<li>调用<code>document.querySelector(el)</code>, 若不存在，则提示无法找到，并创建一个div后返回。</li>
+<li>将找到的dom返回。</li>
+</ol>
+<h2 id="4.3."><a href="#4.3." class="headerlink" title="runtime"></a>4.3. runtime</h2><h3 id="4.3.1."><a href="#4.3.1." class="headerlink" title="directives"></a>4.3.1. directives</h3><p>该目录中的内容将在web-runtime.js中加入到Vue.options.directives中，然后通过vdom处理。</p>
+<h4 id="4.3.1.1."><a href="#4.3.1.1." class="headerlink" title="model"></a>4.3.1.1. model</h4><p>导出inserted及componentUpdated函数</p>
+<ul>
+<li>inserted<ol>
+<li>若非生产环境，且vnode的tag属性不是input，select，textarea或组件时，提示v-model无法应用于除这些之外的元素</li>
+<li>tag为select，则调用setSelected<br>// TODO<h5 id="4.3.1.1.1."><a href="#4.3.1.1.1." class="headerlink" title="setSelected"></a>4.3.1.1.1. setSelected</h5>// TODO</li>
+</ol>
+</li>
+</ul>
+<h1 id="5."><a href="#5." class="headerlink" title="compiler导出真正进行模板编译的compile函数"></a>5. <a name="compile">compiler导出真正进行模板编译的compile函数</a></h1><ol>
+<li>调用parse转化模板为<a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree" target="_blank" rel="external">ASTElement</a></li>
+<li>调用optimize进行优化</li>
+<li>调用generate根据ast树生成render函数代码并返回。</li>
+</ol>
+<h2 id="5.1."><a href="#5.1." class="headerlink" title="codegen"></a>5.1. codegen</h2><h3 id="5.1.1."><a href="#5.1.1." class="headerlink" title="index.js"></a>5.1.1. index.js</h3><p>导出generate函数</p>
+<h2 id="5.2."><a href="#5.2." class="headerlink" title="parser"></a>5.2. parser</h2><h3 id="5.2.1."><a href="#5.2.1." class="headerlink" title="index.js"></a>5.2.1. index.js</h3><p>导出parse 生成Options，并调用parseHTML，转化DOM为ASTElement，同时也解析其中的指令。</p>
+<h4 id="5.2.1.1."><a href="#5.2.1.1." class="headerlink" title="options.start"></a>5.2.1.1. options.start</h4><p>转化指令，构建AST</p>
+<ol>
+<li>构建基本AST：<pre><br>const element: ASTElement = {<pre><code class="hljs "><span class="hljs-symbol"> type:</span> <span class="hljs-number">1</span>,
+ tag,
+<span class="hljs-symbol"> attrsList:</span> attrs,
+<span class="hljs-symbol"> attrsMap:</span> makeAttrsMap(attrs, options.isIE),
+<span class="hljs-symbol"> parent:</span> currentParent,
+<span class="hljs-symbol"> children:</span> []</code></pre>   }<br></pre></li>
+<li>执行导入的各个模块中的pre-transforms</li>
+<li>parse闭包内inVPre为false，执行processPre,若存在v-pre，置inVPre为true</li>
+<li>如果tag为pre，置inPre为true</li>
+<li>inVPre为true，则执行processRawAttrs，否则<ul>
+<li>执行processFor，processIf，processOnce，processKey</li>
+<li>执行processRef， processSlot， processComponent</li>
+<li>执行引入模块中每个transforms函数</li>
+<li>执行processAttrs</li>
+</ul>
+</li>
+</ol>
+<h5 id="5.2.1.1.1."><a href="#5.2.1.1.1." class="headerlink" title="processAttrs"></a>5.2.1.1.1. processAttrs</h5><ol>
+<li>遍历el.attrsList,使用/^v-|^@|^:/匹配元素的name属性</li>
+<li>若可匹配上 <code>el.hasBindings = true</code>,再使用/.[^.]+/g匹配，把如a.b.c转化为{a:true,b:true,c:true}，存为modifiers</li>
+<li>若name可匹配v-bind，将name中已转化的路径去除。<ul>
+<li>modifiers中含有prop属性，则 <code>isProp = true</code> name转化为驼峰，并修正innerHtml为innerHTML。</li>
+<li>若isProp为true或platformMustUseProp(name)，el.props加入{name, value}，否则el.attrs加入{name, value}</li>
+</ul>
+</li>
+<li>若name可匹配v-on，将name中的v-on代表的符号去除，仅剩路径，调用addHandler(el, name, value, modifiers)</li>
+<li>以上都未匹配，说明为常规指令，使用<code>/^v-|^@|^:/</code>将name中代表指令的部分剔除，使用<code>/:(.*)$/</code>匹配参数arg，调用addDirective(el, name, value, arg, modifiers)</li>
+</ol>
+<h5 id="5.2.1.1.2."><a href="#5.2.1.1.2." class="headerlink" title="addDirective"></a>5.2.1.1.2. addDirective</h5><p>参数</p>
+<pre><code class="hljs "><span class="hljs-keyword">e</span><span class="hljs-variable">l:</span> ASTElement,
+name: <span class="hljs-built_in">string</span>,
+value: <span class="hljs-built_in">string</span>,
+<span class="hljs-keyword">ar</span><span class="hljs-variable">g:</span> ?<span class="hljs-built_in">string</span>,
+modifier<span class="hljs-variable">s:</span> ?{ [key: <span class="hljs-built_in">string</span>]: true }</code></pre><p>向el.directives 中加入{ name, value, arg, modifiers }</p>
+<h5 id="5.2.1.1.3."><a href="#5.2.1.1.3." class="headerlink" title="addHandler"></a>5.2.1.1.3. addHandler</h5><p>参数</p>
+<pre><code class="hljs "><span class="hljs-string">el:</span> ASTElement,
+<span class="hljs-string">name:</span> string,
+<span class="hljs-string">value:</span> string,
+<span class="hljs-string">modifiers:</span> ?{ [key: string]: <span class="hljs-literal">true</span> },
+<span class="hljs-string">important:</span> ?boolean</code></pre><ol>
+<li>modifiers.capture存在，删除modifiers.capture，name前置！</li>
+<li>modifiers.native存在，<code>events = el.nativeEvents</code>,否则 <code>events = el.events</code></li>
+<li><code>const newHandler = { value, modifiers };const handlers = events[name];</code></li>
+<li>handlers为数组，important为true，handlers头部加入newHandler，否则尾部加入newHandler</li>
+<li>handlers不是数组，将其变为数组<code>important ? [newHandler, handlers] : [handlers, newHandler]</code></li>
+<li>handlers不存在<code>events[name] = newHandler</code></li>
+</ol>
+<h5 id="5.2.1.1.4."><a href="#5.2.1.1.4." class="headerlink" title="processFor"></a>5.2.1.1.4. processFor</h5><ol>
+<li>取出v-for属性为exp，通过正则，将要遍历的对象赋予el.for</li>
+<li>遍历出的每个元素通过<code>/\(([^,]*),([^,]*)(?:,([^,]*))?\/</code>,匹配是否为括号中的元素。若不是，直接置为el.alias，否则，分别将括号中的元素赋予el.alias，el.iterator1，el.iterator2</li>
+</ol>
+<h5 id="5.2.1.1.5."><a href="#5.2.1.1.5." class="headerlink" title="processIf"></a>5.2.1.1.5. processIf</h5><ol>
+<li>取出v-if属性为exp，将其赋予el.if</li>
+<li>取v-else，若存在，则<code>el.else = true;</code></li>
+</ol>
+<h5 id="5.2.1.1.6."><a href="#5.2.1.1.6." class="headerlink" title="processOnce"></a>5.2.1.1.6. processOnce</h5><pre><code class="hljs "><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processOnce</span> <span class="hljs-params">(el)</span> </span>{
+  <span class="hljs-keyword">var</span> once = getAndRemoveAttr(el, <span class="hljs-string">'v-once'</span>);
+  <span class="hljs-keyword">if</span> (once != <span class="hljs-literal">null</span>) {
+    el.once = <span class="hljs-literal">true</span>;
+  }
+}</code></pre><h5 id="5.2.1.1.7."><a href="#5.2.1.1.7." class="headerlink" title="processKey"></a>5.2.1.1.7. processKey</h5><p> 调用getBindingAttr取得v-bind:key或:key,赋予el.key</p>
+<h5 id="5.2.1.1.8."><a href="#5.2.1.1.8." class="headerlink" title="processRef"></a>5.2.1.1.8. processRef</h5><ol>
+<li>调用getBindingAttr取得v-bind:ref或:ref,赋予el.ref</li>
+<li>调用checkInFor检查el是否在v-for中，将布尔值赋予el.refInFor</li>
+</ol>
+<h5 id="5.2.1.1.9."><a href="#5.2.1.1.9." class="headerlink" title="processSlot"></a>5.2.1.1.9. processSlot</h5><ol>
+<li>如果el的tag本身为slot，调用getBindingAttr取得v-bind:name或:name,赋予el.slotName</li>
+<li>tag不是slot，调用getBindingAttr取得v-bind:slot或:slot,赋予el.slotTarget</li>
+</ol>
+<h5 id="5.2.1.1.10."><a href="#5.2.1.1.10." class="headerlink" title="processComponent"></a>5.2.1.1.10. processComponent</h5><ol>
+<li>调用getBindingAttr取得v-bind:is或:is,赋予el.component</li>
+<li>el上如果存在inline-template属性，则<code>el.inlineTemplate = true</code></li>
+</ol>
+<h5 id="5.2.1.1.11."><a href="#5.2.1.1.11." class="headerlink" title="processRawAttrs"></a>5.2.1.1.11. processRawAttrs</h5><p>将el.attrsList元素分别取出，按照{name,value}存放至el.attrs</p>
+<h5 id="5.2.1.1.12."><a href="#5.2.1.1.12." class="headerlink" title="processPre"></a>5.2.1.1.12. processPre</h5><pre><code class="hljs "><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">processPre</span> <span class="hljs-params">(el)</span> </span>{
+  <span class="hljs-keyword">if</span> (getAndRemoveAttr(el, <span class="hljs-string">'v-pre'</span>) != <span class="hljs-literal">null</span>) {
+    el.pre = <span class="hljs-literal">true</span>;
+  }
+}</code></pre><h3 id="5.2.2."><a href="#5.2.2." class="headerlink" title="html-parser.js"></a>5.2.2. html-parser.js</h3><p>导出parseHTML函数，原型：<a href="http://erik.eae.net/simplehtmlparser/simplehtmlparser.js" target="_blank" rel="external">http://erik.eae.net/simplehtmlparser/simplehtmlparser.js</a><br>预定义各种匹配正则</p>
+<ul>
+<li>attribute  <code>/^\s*([^\s&quot;&#39;&lt;&gt;\/=]+)(?:\s*((?:=))\s*(?:&quot;([^&quot;]*)&quot;+|&#39;([^&#39;]*)&#39;+|([^\s&quot;&#39;=&lt;&gt;`]+)))?/</code> <svg xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" version="1.1" width="934" height="510"><br/>   <defs><br/>     <style type="text/css">svg{background-color:#fff}text,tspan{font:12px Arial}path{fill-opacity:0;stroke-width:2px;stroke:#000}circle{fill:#6b6659;stroke-width:2px;stroke:#000}.anchor text,.any-character text{fill:#fff}.anchor rect,.any-character rect{fill:#6b6659}.escape text,.charset-escape text,.literal text{fill:#000}.escape rect,.charset-escape rect{fill:#bada55}.literal rect{fill:#dae9e5}.charset .charset-box{fill:#cbcbba}.subexp .subexp-label tspan,.charset .charset-label tspan,.match-fragment .repeat-label tspan{font-size:10px}.repeat-label{cursor:help}.subexp .subexp-label tspan,.charset .charset-label tspan{dominant-baseline:text-after-edge}.subexp .subexp-box{stroke:#908c83;stroke-dasharray:6,2;stroke-width:2px;fill-opacity:0}.quote{fill:#908c83}<br>     </style><br/>     </defs><br/>     <metadata><br/>       <rdf:rdf><br/>         <cc:license rdf:about="http://creativecommons.org/licenses/by/3.0/"><br/>           <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/><br/>           <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/><br/>           <cc:requires rdf:resource="http://creativecommons.org/ns#Notice"/><br/>           <cc:requires rdf:resource="http://creativecommons.org/ns#Attribution"/><br/>           <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/><br/>         </cc:license><br/>       </rdf:rdf><br/>     </metadata><br/>   <desc>Created with Snap</desc><g transform="matrix(1,0,0,1,15,10)" class="root"><g transform="matrix(1,0,0,1,10,0)" class="regexp match"><path d="M71,250H96M172,250H217M303,250H368"/><g class="match-fragment" transform="matrix(1,0,0,1,0,238)"><g class="label anchor"><rect width="71" height="24"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan>Start of line</tspan></text></g></g><g class="match-fragment" transform="matrix(1,0,0,1,81,228)"><path d="M0,22q10,0 10,-10v-2q0,-10 10,-10h66q10,0 10,10v2q0,10 10,10M15,22q-10,0 -10,10v2q0,10 10,10h76q10,0 10,-10v-2q0,-10 -10,-10M101,37l5,-5m-5,5l-5,-5"/><g class="escape" transform="matrix(1,0,0,1,15,10)"><g class="label"><rect width="76" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan>white space</tspan></text></g></g></g><g class="match-fragment subexp" transform="matrix(1,0,0,1,197,108)"><rect rx="3" ry="3" class="subexp-box" transform="matrix(1,0,0,1,0,14)" width="131" height="252"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="subexp-label"><tspan>group #1</tspan></text><g transform="matrix(1,0,0,1,10,24)" class="regexp match match-fragment"><path d="M10,118q-10,0 -10,10v94q0,10 10,10h86q10,0 10,-10v-94q0,-10 -10,-10M106,133l5,-5m-5,5l-5,-5"/><g transform="matrix(1,0,0,1,10,0)" class="charset"><rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,14)" width="86" height="208"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="charset-label"><tspan>None of:</tspan></text><g transform="matrix(1,0,0,1,5,19)"><g class="charset-escape" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="76" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan>white space</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,27,29)"><g class="label"><rect width="22" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>“</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,28,58)"><g class="label"><rect width="20" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>‘</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,25.5,87)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>&lt;</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,25.5,116)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>&gt;</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,27.5,145)"><g class="label"><rect width="21" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>/</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,25.5,174)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>=</tspan><tspan class="quote">”</tspan></text></g></g></g></g></g></g><g class="match-fragment" transform="matrix(1,0,0,1,338,0)"><path d="M0,250q10,0 10,-10v-230q0,-10 10,-10h506q10,0 10,10v230q0,10 10,10"/><g class="subexp regexp match" transform="matrix(1,0,0,1,15,10)"><path d="M91,240H128M153,240H190M266,240H291"/><g class="match-fragment" transform="matrix(1,0,0,1,0,218)"><path d="M0,22q10,0 10,-10v-2q0,-10 10,-10h66q10,0 10,10v2q0,10 10,10M15,22q-10,0 -10,10v2q0,10 10,10h76q10,0 10,-10v-2q0,-10 -10,-10M101,37l5,-5m-5,5l-5,-5"/><g class="escape" transform="matrix(1,0,0,1,15,10)"><g class="label"><rect width="76" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan>white space</tspan></text></g></g></g><g class="match-fragment subexp" transform="matrix(1,0,0,1,116,204)"><rect rx="3" ry="3" class="subexp-box" transform="matrix(1,0,0,1,0,14)" width="49" height="44"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="subexp-label"><tspan>group #2</tspan></text><g transform="matrix(1,0,0,1,12,24)" class="regexp match match-fragment subexp literal"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>=</tspan><tspan class="quote">”</tspan></text></g></g></g><g class="match-fragment" transform="matrix(1,0,0,1,175,218)"><path d="M0,22q10,0 10,-10v-2q0,-10 10,-10h66q10,0 10,10v2q0,10 10,10M15,22q-10,0 -10,10v2q0,10 10,10h76q10,0 10,-10v-2q0,-10 -10,-10M101,37l5,-5m-5,5l-5,-5"/><g class="escape" transform="matrix(1,0,0,1,15,10)"><g class="label"><rect width="76" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan>white space</tspan></text></g></g></g><g class="match-fragment subexp regexp" transform="matrix(1,0,0,1,291,0)"><path d="M10,75q0,-10 10,-10M215,75q0,-10 -10,-10M10,182q0,-10 10,-10M215,182q0,-10 -10,-10M10,346q0,10 10,10M215,346q0,10 -10,10M0,240q10,0 10,-10V75M225,240q-10,0 -10,-10V75M0,240q10,0 10,10V346M225,240q-10,0 -10,10V346"/><g transform="matrix(1,0,0,1,20,0)" class="regexp-matches"><path d="M0,65h0M170,65H185M0,172h2M168,172H185M0,356h47M133,356H185"/><g class="match" transform="matrix(1,0,0,1,0,0)"><path d="M22,65H57M103,65H148"/><g class="match-fragment literal" transform="matrix(1,0,0,1,0,53)"><g class="label"><rect width="22" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>“</tspan><tspan class="quote">”</tspan></text></g></g><g class="match-fragment subexp" transform="matrix(1,0,0,1,32,0)"><rect rx="3" ry="3" class="subexp-box" transform="matrix(1,0,0,1,0,14)" width="96" height="88"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="subexp-label"><tspan>group #3</tspan></text><g class="regexp match match-fragment" transform="matrix(1,0,0,1,10,24)"><path d="M0,41q10,0 10,-10v-21q0,-10 10,-10h36q10,0 10,10v21q0,10 10,10M15,41q-10,0 -10,10v7q0,10 10,10h46q10,0 10,-10v-7q0,-10 -10,-10M71,56l5,-5m-5,5l-5,-5"/><g class="charset" transform="matrix(1,0,0,1,15,10)"><rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,14)" width="46" height="34"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="charset-label"><tspan>None of:</tspan></text><g transform="matrix(1,0,0,1,12,19)"><g class="literal" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="22" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>“</tspan><tspan class="quote">”</tspan></text></g></g></g></g></g></g><g class="match-fragment" transform="matrix(1,0,0,1,138,53)"><path d="M10,12q-10,0 -10,10v2q0,10 10,10h22q10,0 10,-10v-2q0,-10 -10,-10M42,27l5,-5m-5,5l-5,-5"/><g class="literal" transform="matrix(1,0,0,1,10,0)"><g class="label"><rect width="22" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>“</tspan><tspan class="quote">”</tspan></text></g></g></g></g><g transform="matrix(1,0,0,1,2,107)" class="match"><path d="M20,65H55M101,65H146"/><g class="match-fragment literal" transform="matrix(1,0,0,1,0,53)"><g class="label"><rect width="20" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>‘</tspan><tspan class="quote">”</tspan></text></g></g><g class="match-fragment subexp" transform="matrix(1,0,0,1,30,0)"><rect rx="3" ry="3" class="subexp-box" transform="matrix(1,0,0,1,0,14)" width="96" height="88"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="subexp-label"><tspan>group #4</tspan></text><g class="regexp match match-fragment" transform="matrix(1,0,0,1,10,24)"><path d="M0,41q10,0 10,-10v-21q0,-10 10,-10h36q10,0 10,10v21q0,10 10,10M15,41q-10,0 -10,10v7q0,10 10,10h46q10,0 10,-10v-7q0,-10 -10,-10M71,56l5,-5m-5,5l-5,-5"/><g class="charset" transform="matrix(1,0,0,1,15,10)"><rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,14)" width="46" height="34"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="charset-label"><tspan>None of:</tspan></text><g transform="matrix(1,0,0,1,13,19)"><g class="literal" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="20" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>‘</tspan><tspan class="quote">”</tspan></text></g></g></g></g></g></g><g class="match-fragment" transform="matrix(1,0,0,1,136,53)"><path d="M10,12q-10,0 -10,10v2q0,10 10,10h20q10,0 10,-10v-2q0,-10 -10,-10M40,27l5,-5m-5,5l-5,-5"/><g class="literal" transform="matrix(1,0,0,1,10,0)"><g class="label"><rect width="20" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>‘</tspan><tspan class="quote">”</tspan></text></g></g></g></g><g class="match match-fragment subexp" transform="matrix(1,0,0,1,27,214)"><rect rx="3" ry="3" class="subexp-box" transform="matrix(1,0,0,1,0,14)" width="131" height="252"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="subexp-label"><tspan>group #5</tspan></text><g transform="matrix(1,0,0,1,10,24)" class="regexp match match-fragment"><path d="M10,118q-10,0 -10,10v94q0,10 10,10h86q10,0 10,-10v-94q0,-10 -10,-10M106,133l5,-5m-5,5l-5,-5"/><g transform="matrix(1,0,0,1,10,0)" class="charset"><rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,14)" width="86" height="208"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="charset-label"><tspan>None of:</tspan></text><g transform="matrix(1,0,0,1,5,19)"><g class="charset-escape" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="76" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan>white space</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,27,29)"><g class="label"><rect width="22" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>“</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,28,58)"><g class="label"><rect width="20" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>‘</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,25.5,87)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>=</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,25.5,116)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>&lt;</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,25.5,145)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>&gt;</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,27,174)"><g class="label"><rect width="22" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>`</tspan><tspan class="quote">”</tspan></text></g></g></g></g></g></g></g></g></g></g></g><path d="M10,250H0M879,250H904"/><circle cx="0" cy="250" r="5"/><circle cx="904" cy="250" r="5"/></g><br/> </svg></li>
+<li>startTagOpen <code>/^&lt;((?:[a-zA-Z_][\w\-\.]*\:)?[a-zA-Z_][\w\-\.]*)/</code><svg xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" version="1.1" width="583" height="190"><br/>            <defs><br/>              <style type="text/css">svg{background-color:#fff}text,tspan{font:12px Arial}path{fill-opacity:0;stroke-width:2px;stroke:#000}circle{fill:#6b6659;stroke-width:2px;stroke:#000}.anchor text,.any-character text{fill:#fff}.anchor rect,.any-character rect{fill:#6b6659}.escape text,.charset-escape text,.literal text{fill:#000}.escape rect,.charset-escape rect{fill:#bada55}.literal rect{fill:#dae9e5}.charset .charset-box{fill:#cbcbba}.subexp .subexp-label tspan,.charset .charset-label tspan,.match-fragment .repeat-label tspan{font-size:10px}.repeat-label{cursor:help}.subexp .subexp-label tspan,.charset .charset-label tspan{dominant-baseline:text-after-edge}.subexp .subexp-box{stroke:#908c83;stroke-dasharray:6,2;stroke-width:2px;fill-opacity:0}.quote{fill:#908c83}<br>        </style><br/>            </defs><br/>            <metadata><br/>              <rdf:rdf><br/>                <cc:license rdf:about="http://creativecommons.org/licenses/by/3.0/"><br/>                  <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/><br/>                  <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/><br/>                  <cc:requires rdf:resource="http://creativecommons.org/ns#Notice"/><br/>                  <cc:requires rdf:resource="http://creativecommons.org/ns#Attribution"/><br/>                  <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/><br/>                </cc:license><br/>              </rdf:rdf><br/>            </metadata><br/>          <desc>Created with Snap</desc><g transform="matrix(1,0,0,1,15,10)" class="root"><g transform="matrix(1,0,0,1,10,0)" class="regexp match"><path d="M71,104H81M106,104H141"/><g class="match-fragment" transform="matrix(1,0,0,1,0,92)"><g class="label anchor"><rect width="71" height="24"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan>Start of line</tspan></text></g></g><g class="match-fragment literal" transform="matrix(1,0,0,1,81,92)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>&lt;</tspan><tspan class="quote">”</tspan></text></g></g><g class="match-fragment subexp" transform="matrix(1,0,0,1,116,0)"><rect rx="3" ry="3" class="subexp-box" transform="matrix(1,0,0,1,0,14)" width="417" height="156"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="subexp-label"><tspan>group #1</tspan></text><g transform="matrix(1,0,0,1,10,24)" class="regexp match"><path d="M209,80H234M309,80H334"/><g class="match-fragment" transform="matrix(1,0,0,1,0,0)"><path d="M0,80q10,0 10,-10v-60q0,-10 10,-10h184q10,0 10,10v60q0,10 10,10"/><g class="subexp regexp match" transform="matrix(1,0,0,1,15,10)"><path d="M75,70H100M148,70H173"/><g class="match-fragment charset" transform="matrix(1,0,0,1,0,10)"><rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,14)" width="75" height="92"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="charset-label"><tspan>One of:</tspan></text><g transform="matrix(1,0,0,1,5,19)"><g class="charset-range" transform="matrix(1,0,0,1,1,0)"><text x="0" y="0" transform="matrix(1,0,0,1,30,16)">-</text><g class="literal" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>a</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,39,0)"><g class="label"><rect width="24" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>z</tspan><tspan class="quote">”</tspan></text></g></g></g><g transform="matrix(1,0,0,1,0,29)" class="charset-range"><text x="0" y="0" transform="matrix(1,0,0,1,31,16)">-</text><g class="literal" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="26" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>A</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,40,0)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>Z</tspan><tspan class="quote">”</tspan></text></g></g></g><g class="literal" transform="matrix(1,0,0,1,20,58)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan><em/></tspan><tspan class="quote">”</tspan></text></g></g></g></g><g class="match-fragment" transform="matrix(1,0,0,1,85,0)"><path d="M0,70q10,0 10,-10v-50q0,-10 10,-10h38q10,0 10,10v50q0,10 10,10M15,70q-10,0 -10,10v36q0,10 10,10h48q10,0 10,-10v-36q0,-10 -10,-10M73,85l5,-5m-5,5l-5,-5"/><g transform="matrix(1,0,0,1,15,10)" class="charset"><rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,14)" width="48" height="92"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="charset-label"><tspan>One of:</tspan></text><g transform="matrix(1,0,0,1,5,19)"><g class="charset-escape" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="38" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan>word</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,8,29)"><g class="label"><rect width="22" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>-</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,8.5,58)"><g class="label"><rect width="21" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>.</tspan><tspan class="quote">”</tspan></text></g></g></g></g></g><g class="match-fragment literal" transform="matrix(1,0,0,1,173,58)"><g class="label"><rect width="21" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>:</tspan><tspan class="quote">”</tspan></text></g></g></g></g><g class="match-fragment charset" transform="matrix(1,0,0,1,234,20)"><rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,14)" width="75" height="92"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="charset-label"><tspan>One of:</tspan></text><g transform="matrix(1,0,0,1,5,19)"><g class="charset-range" transform="matrix(1,0,0,1,1,0)"><text x="0" y="0" transform="matrix(1,0,0,1,30,16)">-</text><g class="literal" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>a</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,39,0)"><g class="label"><rect width="24" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>z</tspan><tspan class="quote">”</tspan></text></g></g></g><g transform="matrix(1,0,0,1,0,29)" class="charset-range"><text x="0" y="0" transform="matrix(1,0,0,1,31,16)">-</text><g class="literal" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="26" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>A</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,40,0)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>Z</tspan><tspan class="quote">”</tspan></text></g></g></g><g class="literal" transform="matrix(1,0,0,1,20,58)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan/><tspan class="quote">”</tspan></text></g></g></g></g><g class="match-fragment" transform="matrix(1,0,0,1,319,10)"><path d="M0,70q10,0 10,-10v-50q0,-10 10,-10h38q10,0 10,10v50q0,10 10,10M15,70q-10,0 -10,10v36q0,10 10,10h48q10,0 10,-10v-36q0,-10 -10,-10M73,85l5,-5m-5,5l-5,-5"/><g class="charset" transform="matrix(1,0,0,1,15,10)"><rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,14)" width="48" height="92"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="charset-label"><tspan>One of:</tspan></text><g transform="matrix(1,0,0,1,5,19)"><g class="charset-escape" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="38" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan>word</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,8,29)"><g class="label"><rect width="22" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>-</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,8.5,58)"><g class="label"><rect width="21" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>.</tspan><tspan class="quote">”</tspan></text></g></g></g></g></g></g></g></g><path d="M10,104H0M518,104H553"/><circle cx="0" cy="104" r="5"/><circle cx="553" cy="104" r="5"/></g><br/>         </svg></li>
+<li>startTagClose <code>/^\s*(\/?)&gt;/</code></li>
+<li>endTag <code>/^&lt;\/((?:[a-zA-Z_][\w\-\.]*\:)?[a-zA-Z_][\w\-\.]*)[^&gt;]*&gt;/</code><svg xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" version="1.1" width="707" height="190"><br/>          <defs><br/>            <style type="text/css">svg{background-color:#fff}text,tspan{font:12px Arial}path{fill-opacity:0;stroke-width:2px;stroke:#000}circle{fill:#6b6659;stroke-width:2px;stroke:#000}.anchor text,.any-character text{fill:#fff}.anchor rect,.any-character rect{fill:#6b6659}.escape text,.charset-escape text,.literal text{fill:#000}.escape rect,.charset-escape rect{fill:#bada55}.literal rect{fill:#dae9e5}.charset .charset-box{fill:#cbcbba}.subexp .subexp-label tspan,.charset .charset-label tspan,.match-fragment .repeat-label tspan{font-size:10px}.repeat-label{cursor:help}.subexp .subexp-label tspan,.charset .charset-label tspan{dominant-baseline:text-after-edge}.subexp .subexp-box{stroke:#908c83;stroke-dasharray:6,2;stroke-width:2px;fill-opacity:0}.quote{fill:#908c83}<br>      </style><br/>          </defs><br/>          <metadata><br/>            <rdf:rdf><br/>              <cc:license rdf:about="http://creativecommons.org/licenses/by/3.0/"><br/>                <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction"/><br/>                <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution"/><br/>                <cc:requires rdf:resource="http://creativecommons.org/ns#Notice"/><br/>                <cc:requires rdf:resource="http://creativecommons.org/ns#Attribution"/><br/>                <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks"/><br/>              </cc:license><br/>            </rdf:rdf><br/>          </metadata><br/>        <desc>Created with Snap</desc><g transform="matrix(1,0,0,1,15,10)" class="root"><g transform="matrix(1,0,0,1,10,0)" class="regexp match"><path d="M71,104H81M109,104H144M511,104H561M607,104H632"/><g class="match-fragment" transform="matrix(1,0,0,1,0,92)"><g class="label anchor"><rect width="71" height="24"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan>Start of line</tspan></text></g></g><g class="match-fragment literal" transform="matrix(1,0,0,1,81,92)"><g class="label"><rect width="28" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>&lt;/</tspan><tspan class="quote">”</tspan></text></g></g><g class="match-fragment subexp" transform="matrix(1,0,0,1,119,0)"><rect rx="3" ry="3" class="subexp-box" transform="matrix(1,0,0,1,0,14)" width="417" height="156"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="subexp-label"><tspan>group #1</tspan></text><g transform="matrix(1,0,0,1,10,24)" class="regexp match"><path d="M209,80H234M309,80H334"/><g class="match-fragment" transform="matrix(1,0,0,1,0,0)"><path d="M0,80q10,0 10,-10v-60q0,-10 10,-10h184q10,0 10,10v60q0,10 10,10"/><g class="subexp regexp match" transform="matrix(1,0,0,1,15,10)"><path d="M75,70H100M148,70H173"/><g class="match-fragment charset" transform="matrix(1,0,0,1,0,10)"><rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,14)" width="75" height="92"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="charset-label"><tspan>One of:</tspan></text><g transform="matrix(1,0,0,1,5,19)"><g class="charset-range" transform="matrix(1,0,0,1,1,0)"><text x="0" y="0" transform="matrix(1,0,0,1,30,16)">-</text><g class="literal" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>a</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,39,0)"><g class="label"><rect width="24" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>z</tspan><tspan class="quote">”</tspan></text></g></g></g><g transform="matrix(1,0,0,1,0,29)" class="charset-range"><text x="0" y="0" transform="matrix(1,0,0,1,31,16)">-</text><g class="literal" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="26" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>A</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,40,0)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>Z</tspan><tspan class="quote">”</tspan></text></g></g></g><g class="literal" transform="matrix(1,0,0,1,20,58)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan><em/></tspan><tspan class="quote">”</tspan></text></g></g></g></g><g class="match-fragment" transform="matrix(1,0,0,1,85,0)"><path d="M0,70q10,0 10,-10v-50q0,-10 10,-10h38q10,0 10,10v50q0,10 10,10M15,70q-10,0 -10,10v36q0,10 10,10h48q10,0 10,-10v-36q0,-10 -10,-10M73,85l5,-5m-5,5l-5,-5"/><g transform="matrix(1,0,0,1,15,10)" class="charset"><rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,14)" width="48" height="92"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="charset-label"><tspan>One of:</tspan></text><g transform="matrix(1,0,0,1,5,19)"><g class="charset-escape" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="38" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan>word</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,8,29)"><g class="label"><rect width="22" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>-</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,8.5,58)"><g class="label"><rect width="21" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>.</tspan><tspan class="quote">”</tspan></text></g></g></g></g></g><g class="match-fragment literal" transform="matrix(1,0,0,1,173,58)"><g class="label"><rect width="21" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>:</tspan><tspan class="quote">”</tspan></text></g></g></g></g><g class="match-fragment charset" transform="matrix(1,0,0,1,234,20)"><rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,14)" width="75" height="92"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="charset-label"><tspan>One of:</tspan></text><g transform="matrix(1,0,0,1,5,19)"><g class="charset-range" transform="matrix(1,0,0,1,1,0)"><text x="0" y="0" transform="matrix(1,0,0,1,30,16)">-</text><g class="literal" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>a</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,39,0)"><g class="label"><rect width="24" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>z</tspan><tspan class="quote">”</tspan></text></g></g></g><g transform="matrix(1,0,0,1,0,29)" class="charset-range"><text x="0" y="0" transform="matrix(1,0,0,1,31,16)">-</text><g class="literal" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="26" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>A</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,40,0)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>Z</tspan><tspan class="quote">”</tspan></text></g></g></g><g class="literal" transform="matrix(1,0,0,1,20,58)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan/><tspan class="quote">”</tspan></text></g></g></g></g><g class="match-fragment" transform="matrix(1,0,0,1,319,10)"><path d="M0,70q10,0 10,-10v-50q0,-10 10,-10h38q10,0 10,10v50q0,10 10,10M15,70q-10,0 -10,10v36q0,10 10,10h48q10,0 10,-10v-36q0,-10 -10,-10M73,85l5,-5m-5,5l-5,-5"/><g class="charset" transform="matrix(1,0,0,1,15,10)"><rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,14)" width="48" height="92"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="charset-label"><tspan>One of:</tspan></text><g transform="matrix(1,0,0,1,5,19)"><g class="charset-escape" transform="matrix(1,0,0,1,0,0)"><g class="label"><rect width="38" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan>word</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,8,29)"><g class="label"><rect width="22" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>-</tspan><tspan class="quote">”</tspan></text></g></g><g class="literal" transform="matrix(1,0,0,1,8.5,58)"><g class="label"><rect width="21" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>.</tspan><tspan class="quote">”</tspan></text></g></g></g></g></g></g></g><g class="match-fragment" transform="matrix(1,0,0,1,546,63)"><path d="M0,41q10,0 10,-10v-21q0,-10 10,-10h36q10,0 10,10v21q0,10 10,10M15,41q-10,0 -10,10v7q0,10 10,10h46q10,0 10,-10v-7q0,-10 -10,-10M71,56l5,-5m-5,5l-5,-5"/><g class="charset" transform="matrix(1,0,0,1,15,10)"><rect rx="3" ry="3" class="charset-box" transform="matrix(1,0,0,1,0,14)" width="46" height="34"/><text x="0" y="0" transform="matrix(1,0,0,1,0,14)" class="charset-label"><tspan>None of:</tspan></text><g transform="matrix(1,0,0,1,10.5,19)"><g transform="matrix(1,0,0,1,0,0)" class="literal"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>&gt;</tspan><tspan class="quote">”</tspan></text></g></g></g></g></g><g class="match-fragment literal" transform="matrix(1,0,0,1,632,92)"><g class="label"><rect width="25" height="24" rx="3" ry="3"/><text x="0" y="0" transform="matrix(1,0,0,1,5,17)"><tspan class="quote">“</tspan><tspan>&gt;</tspan><tspan class="quote">”</tspan></text></g></g></g><path d="M10,104H0M667,104H677"/><circle cx="0" cy="104" r="5"/><circle cx="677" cy="104" r="5"/></g><br/>       </svg></li>
+<li>doctype <code>/^&lt;!DOCTYPE [^&gt;]+&gt;/i</code></li>
+</ul>
+<h4 id="5.2.2.1."><a href="#5.2.2.1." class="headerlink" title="parseHTML"></a>5.2.2.1. parseHTML</h4><ol>
+<li><code>const stack = []</code>用于存放每个tag</li>
+<li>html为通过游标截取的模板字符串，<code>const textEnd = html.indexOf(&#39;&lt;&#39;)</code>textEnd为0（第一个字符是&lt;）,且lastTag不存在，即使存在，也不是script或style，则进行如下操作：<ul>
+<li>通过<code>/^&lt;!--/</code>判断是截取的html开头是否进入Comment，如果进入跳过（将游标commentEnd移到’–&gt;’后面，直接进入下个循环。</li>
+<li>通过<code>/^&lt;!\[/</code>判断html进入ie的条件注释下，进入则跳过它，直接进入下个循环。</li>
+<li>通过正则doctype跳过Doctype，直接进入下个循环。</li>
+<li>通过endTag匹配标签末尾，跳过这个末尾并且调用parseEndTag，即根据结尾符号进行标签转化，直接进入下个循环。</li>
+<li>通过parseStartTag直接使用startTagOpen匹配标签开头，返回{tagName, attrs:[],start:index}，并使用handleStartTag处理，然后进入下个循环。</li>
+</ul>
+</li>
+<li>textEnd &gt;= 0：跳过’&lt;’之前的字符，使得&lt;成为第一个字符, 若textEnd&lt;0 , 说明剩余的字符串中已经没有’&lt;’，这时<code>text = html;html = &#39;&#39;;</code></li>
+<li>lastTag存在，且为script或style ：直接匹配该标签的尾部，并使用parseEndTag处理。</li>
+</ol>
+<h5 id="5.2.2.1.1."><a href="#5.2.2.1.1." class="headerlink" title="parseStartTag"></a>5.2.2.1.1. <a name="parseStartTag">parseStartTag</a></h5><h5 id="5.2.2.1.2."><a href="#5.2.2.1.2." class="headerlink" title="handleStartTag"></a>5.2.2.1.2. <a name="handleStartTag">handleStartTag</a></h5><h5 id="5.2.2.1.3."><a href="#5.2.2.1.3." class="headerlink" title="parseEndTag"></a>5.2.2.1.3. parseEndTag</h5><ol>
+<li>tagName存在，在stack数组中搜索最近的开放标签</li>
+<li>对stack数组中最近的开放标签与传入标签之间的所有标签执行options.end</li>
+<li>通过设置stack数组的length属性移出执行过options.end的对象</li>
+<li>stack数组中不存在最近的开放标签：<ul>
+<li>传入标签名称为br，调用options.start，只不过第3个参数unary设为true</li>
+<li>传入的标签名称为p，分别调用options.start和options.end，unary设为false</li>
+</ul>
+</li>
+</ol>
+<h1 id="6."><a href="#6." class="headerlink" title="vm实例"></a>6. vm实例</h1><p>入口为：/src/core/index.js导出的<a href="#coreVue">Vue类</a></p>
+<h2 id="6.1."><a href="#6.1." class="headerlink" title="$parent"></a>6.1. $parent</h2><p>若$parent为undefined,则其为根实例。</p>
+<h2 id="6.2."><a href="#6.2." class="headerlink" title="$options"></a>6.2. $options</h2><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>处理文件</th>
+<th>处理函数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>props</td>
+<td>b</td>
+<td>c</td>
+<td>—-</td>
+</tr>
+<tr>
+<td>propsData</td>
+<td>e</td>
+<td>f</td>
+<td>—-</td>
+</tr>
+<tr>
+<td>_propKeys</td>
+<td>h</td>
+<td>i</td>
+<td>—-</td>
+</tr>
+</tbody>
+</table>
+<h1 id="7."><a href="#7." class="headerlink" title="core"></a>7. core</h1><h2 id="7.1."><a href="#7.1." class="headerlink" title="index.js"></a>7.1. index.js<a name="coreVue"></a></h2><p>从instance/index.js导入Vue类，根据配置文件（process.env.VUE_ENV）设置vue原型上$isServer的get方法，设置Vue静态变量version，导出Vue类。</p>
+<h2 id="7.2."><a href="#7.2." class="headerlink" title="config.js"></a>7.2. config.js</h2><p>各项设置开关</p>
+<h2 id="7.3."><a href="#7.3." class="headerlink" title="global-api"></a>7.3. global-api</h2><h3 id="7.3.1."><a href="#7.3.1." class="headerlink" title="extend.js"></a>7.3.1. extend.js</h3><h4 id="7.3.1.1."><a href="#7.3.1.1." class="headerlink" title="initExtend"></a>7.3.1.1. <a name="initExtend">initExtend</a></h4><pre><code class="hljs ">Vue.<span class="hljs-attr">cid</span> = <span class="hljs-number">0</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">cid</span> = <span class="hljs-number">1</span></code></pre><p>每个实例构造函数，包括Vue类本身，都有一个独一无二的cid。这使得我们可以通过原型继承来包装子级构造函数并缓存它们。</p>
+<ul>
+<li>Vue.extend<br>返回一个继承Vue类的构造函数。<br>参数：<code>extendOptions: Object</code></li>
+</ul>
+<ol>
+<li>将this（this为基类本身，因为该方法是基类的属性，this不一定为Vue，因为Vue的子类因为<code>Sub.extend = Super.extend</code>也同样有该静态方法）置为Super，若Super.cid === 0，则说明现在构造的这个类是第一个继承Vue的，故置isFirstExtend为true。</li>
+<li>若该类是第一个继承Vue的，并且extendOptions._Ctor存在，则直接返回extendOptions._Ctor。</li>
+<li><code>let name = extendOptions.name || Super.options.name</code></li>
+<li>非生产环境，使用正则判断，name应以字母开头，其后是单词或’-‘，否则提示’Invalid component name’</li>
+<li>创建继承类Sub，其构造函数内部与Vue一致，执行<code>this._init(options)</code></li>
+<li>设置原型<code>Sub.prototype = Object.create(Super.prototype);Sub.prototype.constructor = Sub</code></li>
+<li><code>Sub.cid = cid++</code>cid是initExtend闭包中的变量，从1开始，这样，类的静态属性cid就表示其创建顺序，Vue本身的cid为0</li>
+<li>调用<a href="#mergeOptions">mergeOptions</a>融合extendOptions和Super.options，置为Sub.options</li>
+<li><code>Sub.extend = Super.extend</code>, 子类同样设置该静态方法。</li>
+<li>在子类注册asset类型。<pre> config._assetTypes.forEach(function (type) {<br>  Sub[type] = Super[type]<br>})</pre> 其实目前type只有component，directive，filter</li>
+<li>若name存在，挂载自身从而可以循环查找。<code>Sub.options.components[name] = Sub</code></li>
+<li><code>Sub.superOptions = Super.options</code> 挂载superOptions，这样在实例化时可以检查父级option是否已经更新了</li>
+<li><code>Sub.extendOptions = extendOptions</code></li>
+<li>isFirstExtend为true（根据第1步，能进行到这部，说明extendOptions上无_Ctor属性），<code>extendOptions._Ctor = Sub</code></li>
+<li>返回Sub</li>
+</ol>
+<h2 id="7.4."><a href="#7.4." class="headerlink" title="instance"></a>7.4. instance</h2><h3 id="7.4.1."><a href="#7.4.1." class="headerlink" title="index.js"></a>7.4.1. index.js</h3><p>定义Vue类，将instance文件夹中定义的各Mixin函数注入Vue类，并导出，该类将在实例初始化执行原型上的_init方法(init.js定义)。</p>
+<pre><code class="hljs "><span class="hljs-function"><span class="hljs-title">initMixin</span><span class="hljs-params">(Vue)</span></span>
+<span class="hljs-function"><span class="hljs-title">stateMixin</span><span class="hljs-params">(Vue)</span></span>
+<span class="hljs-function"><span class="hljs-title">eventsMixin</span><span class="hljs-params">(Vue)</span></span>
+<span class="hljs-function"><span class="hljs-title">lifecycleMixin</span><span class="hljs-params">(Vue)</span></span>
+<span class="hljs-function"><span class="hljs-title">renderMixin</span><span class="hljs-params">(Vue)</span></span></code></pre><ul>
+<li><a href="#initMixin">initMixin</a><br>定义原型上_init方法，进行必要的初始化，并执行instance文件夹中个文件定义的初始化函数，将Vue实例（组件）this注入。</li>
+</ul>
+<h3 id="7.4.2."><a href="#7.4.2." class="headerlink" title="init.js"></a>7.4.2. init.js</h3><h4 id="7.4.2.1."><a href="#7.4.2.1." class="headerlink" title="initMixin"></a>7.4.2.1. <a name="initMixin">initMixin</a></h4><pre><code class="hljs "><span class="hljs-function"><span class="hljs-title">initLifecycle</span><span class="hljs-params">(vm)</span></span>
+<span class="hljs-function"><span class="hljs-title">initEvents</span><span class="hljs-params">(vm)</span></span>
+<span class="hljs-function"><span class="hljs-title">callHook</span><span class="hljs-params">(vm, <span class="hljs-string">'beforeCreate'</span>)</span></span>
+<span class="hljs-function"><span class="hljs-title">initState</span><span class="hljs-params">(vm)</span></span>
+<span class="hljs-function"><span class="hljs-title">callHook</span><span class="hljs-params">(vm, <span class="hljs-string">'created'</span>)</span></span>
+<span class="hljs-function"><span class="hljs-title">initRender</span><span class="hljs-params">(vm)</span></span></code></pre><ul>
+<li><a href="#initLifecycle">initLifecycle</a></li>
+<li><a href="#initEvents">initEvents</a></li>
+<li><a href="#callHook">callHook</a> -beforeCreate<br>通过callHook（lifecycle.js定义）执行beforeCreate钩子，即执行$options[‘beforeCreate’]数组中的每个handler，并发射’hook:beforeCreate’事件。</li>
+<li><a href="#initState">initState</a></li>
+<li><a href="#callHook">callHook</a> -created<br>通过callHook执行created钩子。</li>
+<li><a href="#initRender">initRender</a></li>
+</ul>
+<h3 id="7.4.3."><a href="#7.4.3." class="headerlink" title="events.js"></a>7.4.3. events.js</h3><h4 id="7.4.3.1."><a href="#7.4.3.1." class="headerlink" title="initEvents"></a>7.4.3.1. initEvents</h4><ol>
+<li>vm._events置为无原型空对象</li>
+<li>定义<a name="\_updateListeners">vm._updateListeners</a>，通过updateListeners监听vm.$options._parentListeners，其中原型上的$on，$off（eventsMixin中定义）作为updateListeners的add和remove参数<pre><code class="hljs ">// init parent attached events
+const listeners = <span class="hljs-keyword">vm</span>.$<span class="hljs-keyword">options</span>._parentListeners
+const <span class="hljs-keyword">on</span> = bind(<span class="hljs-keyword">vm</span>.$<span class="hljs-keyword">on</span>, <span class="hljs-keyword">vm</span>)
+const off = bind(<span class="hljs-keyword">vm</span>.$off, <span class="hljs-keyword">vm</span>)
+<span class="hljs-keyword">vm</span>._updateListeners = (listeners, oldListeners) =&gt; {
+updateListeners(listeners, oldListeners || {}, <span class="hljs-keyword">on</span>, off)
+}
+<span class="hljs-keyword">if</span> (listeners) {
+<span class="hljs-keyword">vm</span>._updateListeners(listeners)
+}</code></pre></li>
+</ol>
+<h3 id="7.4.4."><a href="#7.4.4." class="headerlink" title="lifecycle.js"></a>7.4.4. lifecycle.js</h3><h4 id="7.4.4.1."><a href="#7.4.4.1." class="headerlink" title="initLifecycle"></a>7.4.4.1. <a name="initLifecycle">initLifecycle</a></h4><ol>
+<li>从$options.parent开始，递归其上$options.abstract为true的$parent属性,找到第一个非abstract的parent</li>
+<li><code>parent.$children.push(vm)</code></li>
+<li>初始化组件的生命周期变量，包括$parent，$root，$children，$refs，内部变量_watcher，_inactive，_isMounted，_isDestroyed，_isBeingDestroyed</li>
+</ol>
+<h4 id="7.4.4.2."><a href="#7.4.4.2." class="headerlink" title="lifecycleMixin"></a>7.4.4.2. <a name="lifecycleMixin">lifecycleMixin</a></h4><p>定义Vue原型上的_mount，_update，_updateFromParent，$forceUpdate，$destroy方法</p>
+<ul>
+<li><p>Vue.prototype._mount<a name="\_mount"><br>参数：</a></p>
+<pre><code class="hljs ">el?: Element | <span class="hljs-keyword">void</span>,
+hydrating?: <span class="hljs-keyword">boolean</span></code></pre><p>返回：Component</p>
+<ol>
+<li><code>const vm: Component = this
+ vm.$el = el</code></li>
+<li>若$options.render不存在，将$options.render置为<a href="#emptyVNode">emptyVNode</a>（空节点），若非生产环境，且$options.template存在，则提示应使用render函数或预先编译template，$options.template不存在则提示装载组件错误</li>
+<li>使用<a href="#callHook">callHook</a>执行beforeMount钩子。</li>
+<li><code>vm._watcher = new Watcher(vm, () =&gt; {
+ vm._update(vm._render(), hydrating)
+}, noop)</code> ，vm._update(vm._render(), hydrating)会在该方法经过的观测者的dep捕获。因为在这个过程中会执行vm._render()，该方法会调用组件定义的render函数，render函数中包含对data或props的读取（如将会转化成render的createElement参数的某个属性值），这样因为其读取的所用到的data和props已转化getter，setter，故该watcher会被这些相关数据的dep捕获。但这些数据发生变化时，setter就会促发本watcher的get方法（vm._update(vm._render(), hydrating)，从而重新渲染）和回调noop(无用)。注意在此过程中，<a href="#createElement">createElement</a>会按照render函数的指示生成并返回vnode对象，经过vm._update渲染到$el上。</li>
+<li><code>hydrating = false</code></li>
+<li>vm为根节点，使用<a href="#callHook">callHook</a>执行mounted钩子。</li>
+<li>返回vm</li>
+</ol>
+</li>
+<li><p>Vue.prototype._update</p>
+<ol>
+<li>使用<a href="#callHook">callHook</a>执行beforeUpdate钩子。</li>
+<li><code>const prevEl = vm.$el</code>注意$el为在<a href="#initRender">initRender</a>传入Vue.prototype._mount中的vm.$options.el</li>
+<li><code>const prevActiveInstance = activeInstance;activeInstance = vm;</code> activeInstance为lifecycle.js所定义的模块变量。</li>
+<li><code>const prevVnode = vm._vnode;vm._vnode = vnode;</code></li>
+<li>prevVnode不存在，重新构建<code>vm.$el = vm.__patch__(vm.$el, vnode, hydrating)</code>,否则在上个vnode基础上打补丁<code>vm.$el = vm.__patch__(prevVnode, vnode)</code>,<code>__patch__</code>方法在<code>src\entries\web-runtime.js</code>加载，非服务端会调用<a href="#patch">patch</a>方法，该步骤使用虚拟DOM算法来更新真实DOM或重新生成真实DOM。</li>
+<li>恢复activeInstance<code>activeInstance = prevActiveInstance</code></li>
+<li>更新<code>__vue__</code>引用：prevEl存在，<code>prevEl.__vue__ = null</code>;<code>vm.$el</code>存在，·<code>vm.$el.__vue__ = vm</code>,将vm实例引用赋予<strong>vue</strong>属性。</li>
+<li>父亲若为HOC，则也更新父亲的$el。HOC:Higher order components .一个向已存在的组件添加功能的函数。<pre>if (vm.$vnode &amp;&amp; vm.$parent &amp;&amp; vm.$vnode === vm.$parent._vnode) {<br> vm.$parent.$el = vm.$el<br>}</pre></li>
+<li>_isMounted若已为true(根节点在此之前即为true，子节点会在渲染的过程中变为true)，使用<a href="#callHook">callHook</a>执行updated钩子。</li>
+</ol>
+</li>
+<li><p>Vue.prototype._updateFromParent<a name="\_updateFromParent"><br>根据新的vnode传入的参数更新组件实例,在vnode的_update过程中，通过默认的<a href="#hooks.prepatch">prepatch</a>钩子调用。<br>参数：</a></p>
+<pre><code class="hljs "><span class="hljs-symbol">propsData:</span> ?Object, <span class="hljs-comment">// vnode.componentOptions.propsData</span>
+<span class="hljs-symbol">listeners:</span> ?Object, <span class="hljs-comment">// vnode.componentOptions.listeners</span>
+<span class="hljs-symbol">parentVnode:</span> VNode, <span class="hljs-comment">// vnode</span>
+<span class="hljs-symbol">renderChildren:</span> ?VNodeChildren <span class="hljs-comment">//vnode.componentOptions.children</span></code></pre><ol>
+<li><code>const vm: Component = this;const hasChildren = !!(vm.$options._renderChildren || renderChildren)</code></li>
+<li>更新option的_parentVnode和_renderChildren：<code>vm.$options._parentVnode = parentVnode;vm.$options._renderChildren = renderChildren</code></li>
+<li>更新props：propsData并且vm.$options.props存在，<code>observerState.shouldConvert = false</code>，从而在vm[key]赋值时，如果这个key上本来没有贯彻者，则不会再建立观测者。非生产环境下，<code>observerState.isSettingProps = true</code>// TODO 遍历vm.$options._propKeys ，调用<a href="#validateProp">validateProp</a>生成新值并挂载到vm上。<code>observerState.shouldConvert = true</code> 非生产环境下，<code>observerState.isSettingProps = false</code></li>
+<li>新listeners存在，将新listeners赋予vm.$options._parentListeners，调用原型方法<a href="#_updateListeners">_updateListeners</a>更新listeners</li>
+<li>hasChildren存在，调用<a href="#resolveSlots">resolveSlots</a>，处理renderChildren，并挂载到vm.$slots。然后执行$forceUpdate，该操作会执行该组件的_update,从而和上层组件的_update形成递归，不断执行子组件实例的_update，注意子组件实例_update，render出的vnode是子组件的根vnode（tag名称是子组件模板最上层标签，如div），和上层组件vnode中的组件vnode（tag名称为vue-component…）已不是同一个组件,所以这并不是一个死循环，而是向后代组件的递归遍历。</li>
+</ol>
+</li>
+<li><p>Vue.prototype.$forceUpdate<br>强制更新</p>
+<pre><code class="hljs ">  Vue.prototype.$forceUpdate = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+  const <span class="hljs-keyword">vm</span>: Component = this
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">vm</span>._watcher) {
+    <span class="hljs-keyword">vm</span>._watcher.<span class="hljs-keyword">update</span>()
+  }
+}</code></pre></li>
+<li><p>Vue.prototype.$destroy</p>
+</li>
+</ul>
+<h4 id="7.4.4.3."><a href="#7.4.4.3." class="headerlink" title="callHook"></a>7.4.4.3. <a name="callHook">callHook</a></h4><p>执行$options上挂载的钩子数组中的所有handler。</p>
+<pre><code class="hljs "><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">callHook</span> (<span class="hljs-params">vm: Component, hook: string</span>) </span>{
+  <span class="hljs-keyword">const</span> handlers = vm.$options[hook]
+  <span class="hljs-keyword">if</span> (handlers) {
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>, j = handlers.length; i &lt; j; i++) {
+      handlers[i].call(vm)
+    }
+  }
+  vm.$emit(<span class="hljs-string">'hook:'</span> + hook)
+}</code></pre><h3 id="7.4.5."><a href="#7.4.5." class="headerlink" title="render.js"></a>7.4.5. render.js</h3><h4 id="7.4.5.1."><a href="#7.4.5.1." class="headerlink" title="initRender"></a>7.4.5.1. <a name="initRender">initRender</a></h4><p>1.<br>  <pre>vm.$vnode = null // the placeholder node in parent tree<br>  vm._vnode = null // the root of the child tree<br>  vm._staticTrees = null<br>  vm._renderContext = vm.$options._parentVnode &amp;&amp; vm.$options._parentVnode.context<br>  </pre></p>
+<ol>
+<li>使用<a href="#resolveSlots">resolveSlots</a>将$options._renderChildren按照slot分类并挂载到vm.$slots。</li>
+<li>将公共createElement方法注入vm实例，并挂载到vm.$createElement</li>
+<li>$options.el存在，<code>vm.$mount(vm.$options.el)</code> $mount为封装的Vue.prototype._mount原型方法，定义在<a href="#lifecycleMixin">lifecycleMixin</a>中。</li>
+</ol>
+<h4 id="7.4.5.2."><a href="#7.4.5.2." class="headerlink" title="resolveSlots"></a>7.4.5.2. <a name="resolveSlots">resolveSlots</a></h4><p>参数：</p>
+<pre><code class="hljs "><span class="hljs-symbol">renderChildren:</span> ?VNodeChildren,
+<span class="hljs-symbol">context:</span> ?Component</code></pre><p>返回值：<code>{ [key: string]: Array&lt;VNode&gt; }</code><br>将renderChildren标准化处理后，按照slot分类，并返回分类对象。</p>
+<ol>
+<li><code>const slots = {}</code>，作为结果，在处理完成后返回slots。</li>
+<li><code>const children = normalizeChildren(renderChildren) || []</code> 调用<a href="#normalizeChildren">normalizeChildren</a>将renderChildren转为vnode对象的数组，并存于children。</li>
+<li>遍历children中每一个vnode对象child<ul>
+<li>若child的context属性和传入的context相同（context即是父组件预留的插槽名称），并且child的data属性、data属性的slot属性存在，则把slot属性值赋予name变量，搜索slots中对应name变量的属性值，若不存在，则置为空数组，该属性值引用设为slot，如果child的tag属性值为’template’，则将child的children压入slot，否则将child本身压入slot。</li>
+<li>若不满足上面的条件，则将child压入defaultSlot</li>
+</ul>
+</li>
+<li>若defaultSlot中存在元素，且不是一个空白元素，<code>slots.default = defaultSlot</code></li>
+</ol>
+<h4 id="7.4.5.3."><a href="#7.4.5.3." class="headerlink" title="renderMixin"></a>7.4.5.3. <a name="renderMixin">renderMixin</a></h4><ul>
+<li>Vue.prototype._render</li>
+</ul>
+<ol>
+<li><code>const {
+   render,
+   staticRenderFns,
+   _parentVnode
+ } = vm.$options</code> 解构$options取render，staticRenderFns，_parentVnode</li>
+<li>vm._isMounted为true，将$slots（<a href="#initRender">initRender</a>进行的初始化）中每一个属性进行通过<a href="#cloneVNodes">cloneVNodes</a>克隆，并重新挂载到$slots上面。</li>
+<li><code>if (staticRenderFns &amp;&amp; !vm._staticTrees) {
+   vm._staticTrees = []
+ }</code></li>
+<li><code>vm.$vnode = _parentVnode</code></li>
+<li><code>vnode = render.call(vm._renderProxy, vm.$createElement)</code>,将vm._renderProxy注入render函数作为this，$createElement（<a href="#initRender">initRender</a>中定义）作为参数，执行render函数。_renderProxy在<a href="#initMixin">initMixin</a>中定义，若为生产环境，则其就是vm。</li>
+<li>vnode不是VNode的实例，非生产环境下提示’Multiple root nodes returned from render function. Render function should return a single root node.’</li>
+<li><code>vnode.parent = _parentVnode</code></li>
+<li>返回vnode</li>
+</ol>
+<h3 id="7.4.6."><a href="#7.4.6." class="headerlink" title="state.js"></a>7.4.6. state.js</h3><h4 id="7.4.6.1."><a href="#7.4.6.1." class="headerlink" title="initState"></a>7.4.6.1. <a name="initState">initState</a></h4><p>state.js定义，从<a href="#observer">observer文件夹</a>中引入set,del,observe,defineReactive,observerState,重置_watchers属性为空数组，并执行Props,Data,Computed,Methods,Watch的初始化函数<br><a href="#initProps">initProps</a><br><a href="#initData">initData</a><br><a href="#initComputed">initComputed</a><br><a href="#initMethods">initMethods</a><br><a href="#initWatch">initWatch</a></p>
+<pre><code class="hljs ">export <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">initState</span> <span class="hljs-params">(vm: Component)</span> {</span>
+  <span class="hljs-keyword">vm</span>._watchers = []
+  initProps(<span class="hljs-keyword">vm</span>)
+  initData(<span class="hljs-keyword">vm</span>)
+  initComputed(<span class="hljs-keyword">vm</span>)
+  initMethods(<span class="hljs-keyword">vm</span>)
+  initWatch(<span class="hljs-keyword">vm</span>)
+}</code></pre><h4 id="7.4.6.2."><a href="#7.4.6.2." class="headerlink" title="initProps"></a>7.4.6.2. <a name="initProps">initProps</a></h4><p>处理$options上传入的prop相关，使其加载到vm实例上。</p>
+<ol>
+<li>在$options上取props、propsData。<code>observerState.shouldConvert = isRoot</code>如果不是根组件，该prop的值上就不建立观测者</li>
+<li><code>const keys = vm.$options._propKeys = Object.keys(props)</code></li>
+<li>遍历keys，生产环境：<code>defineReactive(vm, key, validateProp(key, props, propsData, vm))</code>，该属性添加观测者，其本身及后代都会转化为getter，setter</li>
+<li>若非生产环境，且<code>vm.$parent &amp;&amp; !observerState.isSettingProps</code>(isSettingProps默认为false), 则通过传入defineReactive 的customSetter提示警告：不要改变prop的值，因为该组件有父组件, 父组件重新渲染会重写prop，所以应该是用该prop上的data和计算属性。</li>
+<li><code>observerState.shouldConvert = true</code></li>
+</ol>
+<h4 id="7.4.6.3."><a href="#7.4.6.3." class="headerlink" title="initData"></a>7.4.6.3. <a name="initData">initData</a></h4><ol>
+<li>取$options.data为data，若为function，则绑定vm为this，执行后置为data，并绑定在vm._data。</li>
+<li>data不是PlainObject，提示’data functions should return an object.’</li>
+<li><code>const keys = Object.keys(data);const props = vm.$options.props</code>,遍历keys，若props上已存在该key，则提示使用prop default value而不是data</li>
+<li>若props上无该key，则使用proxy，定义vm[key]的get，set，在vm._data上存取该属性。</li>
+<li><code>observe(data)</code>为data设立观测者，data的属性及其后代则都会被转化getter，setter</li>
+<li><code>data.__ob__ &amp;&amp; data.__ob__.vmCount++</code>使观测者vmCount+1</li>
+</ol>
+<h4 id="7.4.6.4."><a href="#7.4.6.4." class="headerlink" title="initComputed"></a>7.4.6.4. <a name="initComputed">initComputed</a></h4><p>在模块内预定义：</p>
+<pre><code class="hljs "><span class="hljs-string">const</span> <span class="hljs-string">computedSharedDefinition</span> <span class="hljs-string">=</span> <span class="hljs-string">{</span>
+<span class="hljs-attr">  enumerable:</span> <span class="hljs-literal">true</span><span class="hljs-string">,</span>
+<span class="hljs-attr">  configurable:</span> <span class="hljs-literal">true</span><span class="hljs-string">,</span>
+<span class="hljs-attr">  get:</span> <span class="hljs-string">noop,</span>
+<span class="hljs-attr">  set:</span> <span class="hljs-string">noop</span>
+<span class="hljs-string">}</span></code></pre><ol>
+<li>取$options.computed为computed</li>
+<li>computed存在，则遍历computed属性</li>
+<li>若属性值的类型为function，调用makeComputedGetter传入该属性值，加工后作为get，set为noop（空函数）</li>
+<li>若属性值的类型不是function：该值不存在get属性，则get和set都设为noop</li>
+<li>若属性值的类型不是function：该值存在get：属性值上未声明cache为false，调用makeComputedGetter传入属性值的get返回getter，否则直接将vm注入get方法中，并返回新的函数作为get。若存在set属性，同样注入vm后作为新set，否则置为noop。</li>
+<li>将修改后的computedSharedDefinition作为新的属性值绑定在vm上。</li>
+</ol>
+<h4 id="7.4.6.5."><a href="#7.4.6.5." class="headerlink" title="makeComputedGetter"></a>7.4.6.5. <a name="makeComputedGetter">makeComputedGetter</a></h4><p>传入参数：<code>getter: Function, owner: Component</code><br>该函数加工getter，返回一个新的函数作为getter</p>
+<ol>
+<li>在该属性上建立watcher钩子<code>const watcher = new Watcher(owner, getter, noop, {lazy: true})</code></li>
+<li>新getter函数内：watcher.dirty为true，则执行<code>watcher.evaluate()</code>,该watcher因为定义时传入lazy:true,所以dirty默认为true,在执行evaluate后会置为false。</li>
+<li>新getter函数内：若Dep.target存在，即是某个watcher在初始化或运行时需要读取该computed值，则调用watcher.depend()，使第1步建立的闭包watcher收集的所有deps对象（evaluate时通过遍历后代触发getter收集的）都监听该watcher（Dep.target也会收集到该闭包watcher的deps）。从而deps中的对象notify时（原getter指向的vm中data或props某个属性变化时），会同时执行该watcher及闭包watcher。</li>
+<li>返回watcher.value，watcher.value在evaluate时，被赋予原始getter的执行结果。</li>
+</ol>
+<h4 id="7.4.6.6."><a href="#7.4.6.6." class="headerlink" title="initMethods"></a>7.4.6.6. <a name="initMethods">initMethods</a></h4><ol>
+<li><code>const methods = vm.$options.methods</code></li>
+<li>methods存在，则遍历它的属性值，不为null，则直接注入vm为this，把返回的新的函数，使用原key绑定在vm上<pre><code class="hljs "><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">initMethods</span> <span class="hljs-params">(vm: Component)</span> </span>{
+<span class="hljs-keyword">const</span> methods = vm.$options.methods
+<span class="hljs-keyword">if</span> (methods) {
+ <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> key <span class="hljs-keyword">in</span> methods) {
+   <span class="hljs-keyword">if</span> (methods[key] != <span class="hljs-literal">null</span>) {
+     vm[key] = bind(methods[key], vm)
+   } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (process.env.NODE_ENV !== <span class="hljs-string">'production'</span>) {
+     warn(`Method <span class="hljs-string">"${key}"</span> <span class="hljs-keyword">is</span> <span class="hljs-literal">undefined</span> <span class="hljs-keyword">in</span> options.`, vm)
+   }
+ }
+}
+}</code></pre></li>
+</ol>
+<h4 id="7.4.6.7."><a href="#7.4.6.7." class="headerlink" title="initWatch"></a>7.4.6.7. <a name="initWatch">initWatch</a></h4><ol>
+<li><code>const watch = vm.$options.watch</code></li>
+<li>遍历watch的每个属性，若为数组，则展开，分别传入<a href="#createWatcher">createWatcher</a>函数<pre><code class="hljs "><span class="hljs-function">function <span class="hljs-title">createWatcher</span> <span class="hljs-params">(vm: Component, key: string, <span class="hljs-keyword">handler</span>: any)</span> </span>{
+let options
+<span class="hljs-keyword">if</span> (isPlainObject(<span class="hljs-keyword">handler</span>)) {
+ options = <span class="hljs-keyword">handler</span>
+ <span class="hljs-keyword">handler</span> = <span class="hljs-keyword">handler</span>.<span class="hljs-keyword">handler</span>
+}
+<span class="hljs-keyword">if</span> (typeof <span class="hljs-keyword">handler</span> === <span class="hljs-string">'string'</span>) {
+ <span class="hljs-keyword">handler</span> = vm[<span class="hljs-keyword">handler</span>]
+}
+vm.$watch(key, <span class="hljs-keyword">handler</span>, options)
+}</code></pre></li>
+</ol>
+<h4 id="7.4.6.8."><a href="#7.4.6.8." class="headerlink" title="Vue.prototype.$watch"></a>7.4.6.8. Vue.prototype.$watch</h4><p>使用传入的expOrFn和cb建立一个闭包watcher对象，若options.immediate为true，则立即执行回调</p>
+<pre><code class="hljs ">Vue.prototype.$watch = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(
+  expOrFn: string | Function,
+  cb: Function,
+  options?: Object
+)</span>: <span class="hljs-title">Function</span> {</span>
+  const <span class="hljs-keyword">vm</span>: Component = this
+  <span class="hljs-keyword">options</span> = <span class="hljs-keyword">options</span> || {}
+  <span class="hljs-keyword">options</span>.user = true
+  const watcher = <span class="hljs-keyword">new</span> Watcher(<span class="hljs-keyword">vm</span>, expOrFn, <span class="hljs-keyword">cb</span>, <span class="hljs-keyword">options</span>)
+  <span class="hljs-keyword">if</span> (<span class="hljs-keyword">options</span>.immediate) {
+    <span class="hljs-keyword">cb</span>.<span class="hljs-keyword">call</span>(<span class="hljs-keyword">vm</span>, watcher.value)
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">unwatchFn</span> <span class="hljs-params">()</span> {</span>
+    watcher.teardown()
+  }
+}</code></pre><h2 id="7.5."><a href="#7.5." class="headerlink" title="observer"></a>7.5. <a name="observer">observer</a></h2><h3 id="7.5.1."><a href="#7.5.1." class="headerlink" title="array.js"></a>7.5.1. array.js</h3><p>预先准备arrayMethods对象，根据Array原型重定义push、unshift、splice方法，当这些方法造成元素增减时，通过第1步定义的<code>__ob__</code>属性取得observer对象并调用observeArray方法，该原型方法将对数组中每个元素执行<a href="#observe">observe</a>函数，若元素上没有观测者对象，则会递归建立（防止新增元素没有对应的observer对象），然后执行ob.dep.notify()，触发dep的subs中每个watcher对象的update方法。</p>
+<h3 id="7.5.2."><a href="#7.5.2." class="headerlink" title="index.js"></a>7.5.2. index.js</h3><h4 id="7.5.2.1."><a href="#7.5.2.1." class="headerlink" title="Observer类"></a>7.5.2.1. Observer类</h4><p>在传入value上面建立观测者对象</p>
+<h5 id="7.5.2.1.1."><a href="#7.5.2.1.1." class="headerlink" title="实例属性"></a>7.5.2.1.1. 实例属性</h5><p>保存其附加到的value，内部保存一个dep对象，这样调用dep.notify()，则可触发dep对象subs数组中所有watcher对象的update方法，从而完成回调。</p>
+<pre><code class="hljs "><span class="hljs-keyword">this</span>.<span class="hljs-keyword">value</span> = <span class="hljs-keyword">value</span>
+<span class="hljs-keyword">this</span>.dep = <span class="hljs-keyword">new</span> Dep()
+<span class="hljs-keyword">this</span>.vmCount = <span class="hljs-number">0</span></code></pre><h5 id="7.5.2.1.2."><a href="#7.5.2.1.2." class="headerlink" title="初始化"></a>7.5.2.1.2. 初始化</h5><ol>
+<li>将observer对象作为value的<code>__ob__</code>属性。</li>
+<li>若value为数组：取得在array.js中导出的arrayMethods对象，在模块内而后通过<a href="#hasProto">hasProto</a>方法检查value的<strong>proto</strong>属性是否存在，若存在，则将arrayMethods对象直接赋为value的<strong>proto</strong>，否则，将arrayMethods的属性复制到value上，从而实现数组增减的监听。然后调用observeArray方法，对数组中每个元素执行<a href="#observe">observe</a>函数，若元素上没有观测者对象，则会递归建立。</li>
+<li>若value不是数组，则执行walk方法，对value上的每个属性都执行defineReactive函数，</li>
+<li>这样将由defineReactive为入口形成递归，无论初始的value为数组还是对象，只要其属性或子元素是object，都会执行defineReactive，从而添加监听的getter，setter</li>
+</ol>
+<h4 id="7.5.2.2."><a href="#7.5.2.2." class="headerlink" title="observe"></a>7.5.2.2. <a name="observe">observe</a></h4><p>尝试为一个值建立一个observer实例或是或者直接返回一个已经存在的observer。注意该函数将会在传入值上通过new Observer递归建立观测者，在其属性及属性后代上使用getter，setter监听。<br>传入值value若不是<a href="#isObject">object</a>则直接返回，若value存在<code>__ob__</code>属性并且<code>__ob__</code>为Observer实例，则返回<code>__ob__</code>。<br>否则判断value是否合法，合法则返回new Observer(value)。<br>判断value是否合法：</p>
+<ul>
+<li>observerState.shouldConvert为true</li>
+<li><code>config._isServer</code>为false</li>
+<li>value为数组或<a href="#isPlainObject">plainObject</a></li>
+<li>Object.isExtensible(value)为true</li>
+<li>value不是vue实例（通过<code>value._isVue</code>判断）</li>
+</ul>
+<h4 id="7.5.2.3."><a href="#7.5.2.3." class="headerlink" title="defineReactive"></a>7.5.2.3. defineReactive</h4><p>传入参数：</p>
+<pre><code class="hljs "><span class="hljs-string">obj:</span> Object,
+<span class="hljs-string">key:</span> string,
+<span class="hljs-string">val:</span> any,
+customSetter?: Function</code></pre><p>内部新建dep对象<br>内部通过<a href="#observe">observe</a>得到val的observer对象childOb<br>通过Object.getOwnPropertyDescriptor得到参数对象obj上该属性的描述，如果configurable为false则直接return<br>重定义对象obj上的属性的get,set方法</p>
+<h5 id="7.5.2.3.1."><a href="#7.5.2.3.1." class="headerlink" title="get"></a>7.5.2.3.1. get</h5><ol>
+<li>若存在原始的get方法，则执行get方法得到value，否则直接把原始的val赋为value。</li>
+<li>如果存在Dep.target， 则执行<a href="#depend">dep.depend()</a>。如果同时childOb存在，则执行childOb.dep.depend()，主要作用是将Dep.target加入dep对象的subs数组中。若同时value为数组，则触发其每个元素observer对象的depend方法。在每个watcher对象初始化时会将自己置为Dep.target，然后通过get调用这步，从而使得闭包dep的subs中包含该watcher对象。</li>
+<li>返回value。</li>
+</ol>
+<h5 id="7.5.2.3.2."><a href="#7.5.2.3.2." class="headerlink" title="set"></a>7.5.2.3.2. set</h5><ol>
+<li>若存在原始的get方法，则执行get方法得到value，否则直接把原始的val赋为value，比较value和newVal，相同则直接返回。</li>
+<li>若非生产环境， customSetter存在则执行customSetter</li>
+<li>原始setter存在则执行原始setter</li>
+<li>对新值newVal建立观测者对象<code>childOb = observe(newVal)</code></li>
+<li>执行闭包中dep的notify方法，触发其中的watcher update，从而执行回调。这样就实现了，该属性值变化时，执行预先加入dep中的watcher</li>
+</ol>
+<h3 id="7.5.3."><a href="#7.5.3." class="headerlink" title="scheduler.js"></a>7.5.3. scheduler.js</h3><pre><code class="hljs "><span class="hljs-keyword">const</span> queue: <span class="hljs-built_in">Array</span>&lt;Watcher&gt; = []
+<span class="hljs-keyword">let</span> has: { [key: <span class="hljs-built_in">number</span>]: ?<span class="hljs-literal">true</span> } = {}
+<span class="hljs-keyword">let</span> circular: { [key: <span class="hljs-built_in">number</span>]: <span class="hljs-built_in">number</span> } = {}
+<span class="hljs-keyword">let</span> waiting = <span class="hljs-literal">false</span>
+<span class="hljs-keyword">let</span> flushing = <span class="hljs-literal">false</span>
+<span class="hljs-keyword">let</span> index = <span class="hljs-number">0</span></code></pre><p>该模块定义静态watcher对象数组queue ，waiting作为flag，控制是否将flushSchedulerQueue加入异步调度，flushing则判断是否queue正在执行，has记录已加入队列但尚未执行的watcher，circular记录每个watcher 运行的次数</p>
+<h4 id="7.5.3.1."><a href="#7.5.3.1." class="headerlink" title="flushSchedulerQueue"></a>7.5.3.1. flushSchedulerQueue</h4><p>置flushing为true，开始处理队列</p>
+<ol>
+<li>对queue中的watcher对象按照id从小到大排序，这样组件会从父到子更新，用户watcher先于render watcher，父组件watcher运行时将子组件销毁，则子组件watcher可被跳过。</li>
+<li>将queue中的watcher对象执行watcher.run()，注意每次循环会重取queue.length，从而执行新加入的对象</li>
+<li>若非生产环境，则使用circular[id]记录每个watcher 运行的次数，若执行次数过多，大于（config._maxUpdateCount），且在执行时不断加入队列（has判断）,则提示检查是否为死循环。</li>
+<li>执行resetSchedulerState</li>
+</ol>
+<h4 id="7.5.3.2."><a href="#7.5.3.2." class="headerlink" title="resetSchedulerState"></a>7.5.3.2. resetSchedulerState</h4><p>清空queue，has,circular,置waiting及flushing为false</p>
+<h4 id="7.5.3.3."><a href="#7.5.3.3." class="headerlink" title="queueWatcher"></a>7.5.3.3. queueWatcher</h4><p>通过flushing判断，如果flushSchedulerQueue正在处理queue，则将watcher对象插入queue的已排序位置，否则直接压入最后，因为flushSchedulerQueue自然会进行排序。<br>如果waiting为false，表示尚未将flushSchedulerQueue加入异步调度，则使用<a href="#nextTick">nextTick</a>将其加入。</p>
+<h3 id="7.5.4."><a href="#7.5.4." class="headerlink" title="watcher.js"></a>7.5.4. watcher.js</h3><p>定义Watcher类，转化表达式，集合依赖，当表达式的值变化时，则执行回调<br>构造函数传入：</p>
+<pre><code class="hljs ">vm: Component,
+expOrFn: string | <span class="hljs-function"><span class="hljs-keyword">Function</span></span>,
+cb: <span class="hljs-function"><span class="hljs-keyword">Function</span></span>,
+options?: Object = {}</code></pre><p>expOrFn为指向被监视对象的路径或是函数，但都是表示找到被监视对象的方法。被监视对象必须为已转化getter，setter的对象（props或data），这样执行get方法时，才能将当前watcher加入到其闭包dep的监听数组中，从而实现调用setter时执行cb。注意无需把监视对象返回，只要expOrFn中读取了该对象，即会被该对象的闭包dep捕获（lazy为true时不会被在初始化阶段捕获）</p>
+<h4 id="7.5.4.1."><a href="#7.5.4.1." class="headerlink" title="初始化"></a>7.5.4.1. 初始化</h4><p>以下剖析watcher对象上的各属性的初始化：</p>
+<ul>
+<li><p>this.getter<a name="watchergetter"><br>若expOrFn为函数，则将其直接赋为实例的getter，否则通过<a href="#parsePath">parsePath</a>得到一个获取对象路径的函数赋与this.getter，如果表达式中包含.$或不是字符串，则getter的赋值将失败，此时将getter赋为空函数，并且若process.env.NODE_ENV不是production，则提示警告：<br><code>Failed watching path: &quot;${expOrFn}&quot;
+Watcher only accepts simple dot-delimited paths. or full control, use a function instead.</code><br>该方法执行时会触发<a href="#defineReactive">defineReactive</a>定义的参数obj属性路径path下的get方法，这样该属性绑定的闭包dep、属性val的<code>__ob__.dep</code>、若是数组则包含数组元素的dep,都将执行depend方法，监听本watcher，本watcher也将收集这些dep对象存于deps。<br>这样，当按照expOrFnobj得到的属性val变动时，将触发闭包dep的notify方法，从而执行本watcher对象的update。</a></p>
+</li>
+<li><p>this.value</p>
+<pre><code class="hljs "><span class="hljs-keyword">this</span>.value = <span class="hljs-keyword">this</span>.lazy
+    ? undefined
+    : <span class="hljs-keyword">this</span>.<span class="hljs-keyword">get</span>()</code></pre><p>lazy为false或未定义，则会执行this.get()，这个方法将触发<a href="#watchergetter">this.getter</a>，达到监听属性变化的目的。</p>
+</li>
+</ul>
+<h4 id="7.5.4.2."><a href="#7.5.4.2." class="headerlink" title="原型方法"></a>7.5.4.2. 原型方法</h4><h5 id="7.5.4.2.1."><a href="#7.5.4.2.1." class="headerlink" title="update"></a>7.5.4.2.1. update</h5><p>在dep实例的notify方法中会触发subs数组中watcher对象的update方法</p>
+<pre><code class="hljs "><span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.lazy) {
+  <span class="hljs-keyword">this</span>.dirty = <span class="hljs-literal">true</span>
+} <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.sync) {
+  <span class="hljs-keyword">this</span>.run()
+} <span class="hljs-keyword">else</span> {
+  queueWatcher(<span class="hljs-keyword">this</span>)
+}</code></pre><p><a href="#queueWatcher">queueWatcher</a>会将watcher对象加入异步队列，延迟调用run方法。</p>
+<h5 id="7.5.4.2.2."><a href="#7.5.4.2.2." class="headerlink" title="run"></a>7.5.4.2.2. run</h5><p>this.active为true方可执行该方法。</p>
+<ol>
+<li>通过this.get()取得value</li>
+<li><code>value !== this.value ||isObject(value) || this.deep</code>为true则继续执行</li>
+<li>执行回调<code>this.cb.call(this.vm, value, oldValue)</code></li>
+</ol>
+<h5 id="7.5.4.2.3."><a href="#7.5.4.2.3." class="headerlink" title="get"></a>7.5.4.2.3. get</h5><ol>
+<li>通过pushTarget将watcher对象设为Dep.target</li>
+<li>调用<a href="#watchergetter">this.getter</a>，this绑定当前实例，并传入当前实例作为参数</li>
+<li>如果deep为true，执行traverse(value)</li>
+<li>通过popTarget，将压入targetStack中的旧watcher对象取出，并恢复为Dep.target</li>
+<li>执行this.cleanupDeps()</li>
+<li>返回2中得到的value</li>
+</ol>
+<h5 id="7.5.4.2.4."><a href="#7.5.4.2.4." class="headerlink" title="addDep"></a>7.5.4.2.4. <a name="addDep">addDep</a></h5><p>当本watcher对象变为Dep.target时，将由dep对象的depend方法触发。<br>共有4个实例属性与此相关：</p>
+<pre><code class="hljs "><span class="hljs-symbol">deps:</span> Array<span class="hljs-params">&lt;Dep&gt;</span>; <span class="hljs-comment">// 旧依赖数组</span>
+<span class="hljs-symbol">newDeps:</span> Array<span class="hljs-params">&lt;Dep&gt;</span>; <span class="hljs-comment">// 新依赖数组</span>
+<span class="hljs-symbol">depIds:</span> Set; <span class="hljs-comment">// 旧依赖Ids</span>
+<span class="hljs-symbol">newDepIds:</span> Set; <span class="hljs-comment">// 新依赖Ids</span></code></pre><p>该方法传入1个Dep实例dep，如果newDepIds无此id，则实例压入newDeps，id压入newDepIds，若旧ids中无此id，则执行dep.addSub(this)，将watcher对象加入dep的subs数组中</p>
+<h5 id="7.5.4.2.5."><a href="#7.5.4.2.5." class="headerlink" title="cleanupDeps"></a>7.5.4.2.5. cleanupDeps</h5><ol>
+<li>遍历deps中每个dep 的id，若this.newDepIds不复存在id，则执行dep.removeSub(this),这样dep再notify时将不会执行本watcher的callback。</li>
+<li>将newDeps及newDepIds分别赋与deps及depIds，然后置空newDeps及newDepIds。</li>
+<li>这样由update/run/get触发的traverse方法收集到的dep对象全部转入deps，并清除了旧deps内的dep对象对本watcher的引用（移出subs数组）</li>
+</ol>
+<h5 id="7.5.4.2.6."><a href="#7.5.4.2.6." class="headerlink" title="depend"></a>7.5.4.2.6. depend</h5><pre><code class="hljs ">depend () {
+  let <span class="hljs-selector-tag">i</span> = this<span class="hljs-selector-class">.deps</span><span class="hljs-selector-class">.length</span>
+  while (i--) {
+    this<span class="hljs-selector-class">.deps</span>[i].depend()
+  }
+}</code></pre><h4 id="7.5.4.3."><a href="#7.5.4.3." class="headerlink" title="Helper"></a>7.5.4.3. Helper</h4><h5 id="7.5.4.3.1."><a href="#7.5.4.3.1." class="headerlink" title="traverse"></a>7.5.4.3.1. traverse</h5><p>传入val，读取<code>val.__ob__.dep.id</code>，并保存于模块定义 的seenObjects中（Set，非重复），递归读取val的每个属性或数组元素，执行同样操作。由于存在<code>__ob__</code>,在读取val属性的时候会执行defineReactive定义的get方法，进而执行：defineReactive函数闭包中的dep对象、val.<strong>ob</strong>.dep，若val为数组，则还有数组元素<code>__ob__</code>的dep，以上dep对象的depend方法，确保Dep.target(watcher对象)在subs数组中，dep对象出现在watcher对象的newDeps数组中。<br>这样，当任何这些属性变化时，将触发对应闭包的dep对象的notify方法，执行当前watcher的update。</p>
+<h3 id="7.5.5."><a href="#7.5.5." class="headerlink" title="dep.js"></a>7.5.5. dep.js</h3><p>定义Dep类，初始化时this.id为模块保存的uid+1<br>，this.subs为watcher对象的数组，初始化时置为空数组。</p>
+<h4 id="7.5.5.1."><a href="#7.5.5.1." class="headerlink" title="Dep.target"></a>7.5.5.1. Dep.target<a name="Deptarget"></a></h4><p>Dep.target的类型为Watcher，默认为null，只有dep.js中pushTarget可以设置该值，pushTarget函数仅被watcher对象的get方法调用。而get方法设置Dep.target的目的是为了deep为true时，可以在属性及属性的后代上递归建立observer并通过get，set监听后代变化，后代变化时即可调用该watcher。</p>
+<ul>
+<li>Dep.target为某个watcher对象时仅限以下场景：</li>
+</ul>
+<ol>
+<li>某个非lazy的watcher初始化时</li>
+<li>watcher对象执行run方法（准备执行回调钩子时）</li>
+<li>lazy watcher执行evaluate时。</li>
+</ol>
+<ul>
+<li>用到Dep.target的场景：</li>
+</ul>
+<ol>
+<li>dep.depend -&gt; Dep.target.addDep,而调用dep.depend()即为以上Dep.target存在值的场景</li>
+<li>以上场景中读取了computed属性，则Dep.target会被加入到computed属性getter闭包中watcher对象所收集的Dep对象的监听数组（subs）中。也就是说，某个watcher执行时需要读取某个computed属性，那么这个watcher会在computed属性改变时一同执行。</li>
+</ol>
+<h3 id="7.5.6."><a href="#7.5.6." class="headerlink" title="addSub"></a>7.5.6. addSub</h3><pre><code class="hljs ">addSub (<span class="hljs-function"><span class="hljs-keyword">sub</span>: <span class="hljs-title">Watcher</span>) </span>{
+  this.subs.push(<span class="hljs-function"><span class="hljs-keyword">sub</span>)
+}</span></code></pre><h3 id="7.5.7."><a href="#7.5.7." class="headerlink" title="removeSub"></a>7.5.7. removeSub</h3><pre><code class="hljs ">removeSub (<span class="hljs-function"><span class="hljs-keyword">sub</span>: <span class="hljs-title">Watcher</span>) </span>{
+  remove(this.subs, <span class="hljs-function"><span class="hljs-keyword">sub</span>)
+}</span></code></pre><p><a href="#remove">remove</a></p>
+<h3 id="7.5.8."><a href="#7.5.8." class="headerlink" title="notify"></a>7.5.8. notify</h3><p>将this.subs中每个watcher对象执行update方法</p>
+<h3 id="7.5.9."><a href="#7.5.9." class="headerlink" title="depend"></a>7.5.9. <a name="depend">depend</a></h3><p>如果Dep.target(watcher对象)存在，调用target的<a href="#addDep">addDep</a>方法，并将Dep实例this传入,该方法将会确保dep对象出现在watcher对象的newDeps数组中，dep id在newDepIds中，且watcher对象在subs数组中。</p>
+<h3 id="7.5.10."><a href="#7.5.10." class="headerlink" title="静态属性方法"></a>7.5.10. 静态属性方法</h3><p>Dep类的静态属性target为watcher对象，开始置为null。<br>此外该模块还设置const targetStack = []</p>
+<h4 id="7.5.10.1."><a href="#7.5.10.1." class="headerlink" title="pushTarget"></a>7.5.10.1. pushTarget</h4><p>传入watcher对象_target</p>
+<pre><code class="hljs "><span class="hljs-keyword">if</span> (Dep.<span class="hljs-keyword">target</span>) targetStack.push(Dep.<span class="hljs-keyword">target</span>)
+Dep.<span class="hljs-keyword">target</span> = _target</code></pre><h4 id="7.5.10.2."><a href="#7.5.10.2." class="headerlink" title="pushTarget"></a>7.5.10.2. pushTarget</h4><pre><code class="hljs ">  Dep<span class="hljs-selector-class">.target</span> = targetStack.pop()</code></pre><h2 id="7.6."><a href="#7.6." class="headerlink" title="util工具类"></a>7.6. util工具类</h2><h3 id="7.6.1."><a href="#7.6.1." class="headerlink" title="debug.js"></a>7.6.1. debug.js</h3><h4 id="7.6.1.1."><a href="#7.6.1.1." class="headerlink" title="formatComponentName"></a>7.6.1.1. formatComponentName</h4><p>获取vm实例的名字，如果$root属性等于自身，则返回’root instance’，否则按以下顺序取名字：<code>$options.name</code>，<code>$options._componentTag，name</code>，’anonymous component’</p>
+<h4 id="7.6.1.2."><a href="#7.6.1.2." class="headerlink" title="formatLocation"></a>7.6.1.2. formatLocation</h4><p>如果名字为’anonymous component’，则提示<code>- use the &quot;name&quot; option for better debugging messages.</code></p>
+<h4 id="7.6.1.3."><a href="#7.6.1.3." class="headerlink" title="warn"></a>7.6.1.3. warn</h4><p>如果console存在并且没有设置silent模式，则打印传入的警告信息及vm实例的位置</p>
+<h3 id="7.6.2."><a href="#7.6.2." class="headerlink" title="shared/util.js"></a>7.6.2. shared/util.js</h3><h4 id="7.6.2.1."><a href="#7.6.2.1." class="headerlink" title="bind"></a>7.6.2.1. bind</h4><p>仅用于返回一个新函数并绑定传入的this，通过判断参数数量，从而比原生的快</p>
+<h4 id="7.6.2.2."><a href="#7.6.2.2." class="headerlink" title="isObject"></a>7.6.2.2. <a name="isObject">isObject</a></h4><pre><code class="hljs ">export <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isObject</span> <span class="hljs-params">(obj: mixed)</span>: boolean </span>{
+  <span class="hljs-keyword">return</span> obj !== <span class="hljs-literal">null</span> &amp;&amp; <span class="hljs-keyword">typeof</span> obj === <span class="hljs-string">'object'</span>
+}</code></pre><h4 id="7.6.2.3."><a href="#7.6.2.3." class="headerlink" title="isPlainObject"></a>7.6.2.3. <a name="isPlainObject">isPlainObject</a></h4><pre><code class="hljs "><span class="hljs-keyword">const</span> toString = <span class="hljs-built_in">Object</span>.prototype.toString
+<span class="hljs-keyword">const</span> OBJECT_STRING = <span class="hljs-string">'[object Object]'</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isPlainObject</span> (<span class="hljs-params">obj: any</span>): <span class="hljs-title">boolean</span> </span>{
+  <span class="hljs-keyword">return</span> toString.call(obj) === OBJECT_STRING
+}</code></pre><h4 id="7.6.2.4."><a href="#7.6.2.4." class="headerlink" title="isPrimitive"></a>7.6.2.4. <a name="isPrimitive">isPrimitive</a></h4><pre><code class="hljs ">export <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isPrimitive</span> <span class="hljs-params">(value: any)</span>: boolean </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">typeof</span> value === <span class="hljs-string">'string'</span> || <span class="hljs-keyword">typeof</span> value === <span class="hljs-string">'number'</span>
+}</code></pre><h4 id="7.6.2.5."><a href="#7.6.2.5." class="headerlink" title="remove"></a>7.6.2.5. <a name="remove">remove</a></h4><pre><code class="hljs ">export function remove (arr: Array&lt;<span class="hljs-built_in">any</span>&gt;, item: <span class="hljs-built_in">any</span>): Array&lt;<span class="hljs-built_in">any</span>&gt; | <span class="hljs-type">void</span> {
+  <span class="hljs-keyword">if</span> (arr.<span class="hljs-built_in">length</span>) {
+    <span class="hljs-keyword">const</span> <span class="hljs-keyword">index</span> = arr.indexOf(item)
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">index</span> &gt; <span class="hljs-number">-1</span>) {
+      <span class="hljs-keyword">return</span> arr.splice(<span class="hljs-keyword">index</span>, <span class="hljs-number">1</span>)
+    }
+  }
+}</code></pre><h4 id="7.6.2.6."><a href="#7.6.2.6." class="headerlink" title="hasOwn"></a>7.6.2.6. hasOwn</h4><pre><code class="hljs "><span class="hljs-keyword">const</span> hasOwnProperty = <span class="hljs-keyword">Object</span>.prototype.hasOwnProperty
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">hasOwn</span> <span class="hljs-params">(obj: <span class="hljs-keyword">Object</span>, key: <span class="hljs-keyword">string</span>)</span>:</span> boolean <span class="hljs-comment">{
+  return hasOwnProperty.call(obj, key)
+}</span></code></pre><h4 id="7.6.2.7."><a href="#7.6.2.7." class="headerlink" title="camelize"></a>7.6.2.7. <a name="camelize">camelize</a></h4><p>将连字符变为驼峰形式</p>
+<pre><code class="hljs "><span class="hljs-keyword">const</span> camelizeRE = <span class="hljs-regexp">/-(\w)/g</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> camelize = cached((str: <span class="hljs-built_in">string</span>): <span class="hljs-function"><span class="hljs-params">string</span> =&gt;</span> {
+  <span class="hljs-keyword">return</span> str.replace(camelizeRE, <span class="hljs-function">(<span class="hljs-params">_, c</span>) =&gt;</span> c ? c.toUpperCase() : <span class="hljs-string">''</span>)
+})</code></pre><h4 id="7.6.2.8."><a href="#7.6.2.8." class="headerlink" title="capitalize"></a>7.6.2.8. <a name="capitalize">capitalize</a></h4><p>将字符串的首字母大写</p>
+<pre><code class="hljs ">export const capitalize = cached((<span class="hljs-name">str</span>: string): string =&gt; {
+  return str.charAt(<span class="hljs-number">0</span>).toUpperCase() + str.slice(<span class="hljs-number">1</span>)
+})</code></pre><h4 id="7.6.2.9."><a href="#7.6.2.9." class="headerlink" title="hyphenate"></a>7.6.2.9. hyphenate</h4><p>将驼峰转化为连字符,最多接受两个驼峰</p>
+<pre><code class="hljs ">const hyphenateRE = /([^-])([A-Z])/g
+export const hyphenate = cached((<span class="hljs-name">str</span>: string): string =&gt; {
+  return str
+    .replace(<span class="hljs-name">hyphenateRE</span>, '$<span class="hljs-number">1</span>-$<span class="hljs-number">2</span>')
+    .replace(<span class="hljs-name">hyphenateRE</span>, '$<span class="hljs-number">1</span>-$<span class="hljs-number">2</span>')
+    .toLowerCase()
+})</code></pre><h4 id="7.6.2.10."><a href="#7.6.2.10." class="headerlink" title="cached"></a>7.6.2.10. cached</h4><p>闭包缓存</p>
+<pre><code class="hljs ">export <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cached</span> <span class="hljs-params">(fn: Function)</span>: Function </span>{
+  <span class="hljs-keyword">const</span> cache = Object.create(<span class="hljs-literal">null</span>)
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cachedFn</span> <span class="hljs-params">(str: string)</span>: any </span>{
+    <span class="hljs-keyword">const</span> hit = cache[str]
+    <span class="hljs-keyword">return</span> hit || (cache[str] = fn(str))
+  }
+}</code></pre><h3 id="7.6.3."><a href="#7.6.3." class="headerlink" title="lang.js"></a>7.6.3. lang.js</h3><h4 id="7.6.3.1."><a href="#7.6.3.1." class="headerlink" title="parsePath"></a>7.6.3.1. <a name="parsePath">parsePath</a></h4><p>传入路径path，若其中包含*.$则直接返回，否则返回一个函数，传入obj，返回obj根据path路径得到的值</p>
+<pre><code class="hljs "><span class="hljs-keyword">const</span> bailRE = <span class="hljs-regexp">/[^\w\.\$]/</span>
+<span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parsePath</span> (<span class="hljs-params">path: string</span>): <span class="hljs-title">any</span> </span>{
+  <span class="hljs-keyword">if</span> (bailRE.test(path)) {
+    <span class="hljs-keyword">return</span>
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">const</span> segments = path.split(<span class="hljs-string">'.'</span>)
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">obj</span>) </span>{
+      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; segments.length; i++) {
+        <span class="hljs-keyword">if</span> (!obj) <span class="hljs-keyword">return</span>
+        obj = obj[segments[i]]
+      }
+      <span class="hljs-keyword">return</span> obj
+    }
+  }
+}</code></pre><h4 id="7.6.3.2."><a href="#7.6.3.2." class="headerlink" title="def"></a>7.6.3.2. <a name="def">def</a></h4><pre><code class="hljs "><span class="hljs-string">export</span> <span class="hljs-string">function</span> <span class="hljs-string">def</span> <span class="hljs-string">(obj:</span> <span class="hljs-string">Object,</span> <span class="hljs-attr">key:</span> <span class="hljs-string">string,</span> <span class="hljs-attr">val:</span> <span class="hljs-string">any,</span> <span class="hljs-string">enumerable?:</span> <span class="hljs-string">boolean)</span> <span class="hljs-string">{</span>
+  <span class="hljs-string">Object.defineProperty(obj,</span> <span class="hljs-string">key,</span> <span class="hljs-string">{</span>
+<span class="hljs-attr">    value:</span> <span class="hljs-string">val,</span>
+<span class="hljs-attr">    enumerable:</span> <span class="hljs-type">!!enumerable</span><span class="hljs-string">,</span>
+<span class="hljs-attr">    writable:</span> <span class="hljs-literal">true</span><span class="hljs-string">,</span>
+<span class="hljs-attr">    configurable:</span> <span class="hljs-literal">true</span>
+  <span class="hljs-string">})</span>
+<span class="hljs-string">}</span></code></pre><h3 id="7.6.4."><a href="#7.6.4." class="headerlink" title="env.js"></a>7.6.4. env.js</h3><h4 id="7.6.4.1."><a href="#7.6.4.1." class="headerlink" title="nextTick"></a>7.6.4.1. <a name="nextTick">nextTick</a></h4><ol>
+<li>定义nextTickHandler，执行内部callbacks中的所有任务。</li>
+<li>定义timerFunc，若Promise存在使用Promise.resolve().then(nextTickHandler).</li>
+<li>否则使用MutationObserver</li>
+<li>否则使用setTimeout<br>使用pending作为flag，若true，则直接把任务加入callbacks即可，因为正在执行，否则触发timerFunc</li>
+</ol>
+<h4 id="7.6.4.2."><a href="#7.6.4.2." class="headerlink" title="hasProto"></a>7.6.4.2. <a name="hasProto">hasProto</a></h4><pre><code class="hljs "><span class="hljs-comment">// can we use __proto__?</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">const</span> hasProto = <span class="hljs-string">'__proto__'</span> <span class="hljs-keyword">in</span> {}</code></pre><h3 id="7.6.5."><a href="#7.6.5." class="headerlink" title="options.js"></a>7.6.5. options.js</h3><h4 id="7.6.5.1."><a href="#7.6.5.1." class="headerlink" title="mergeOptions"></a>7.6.5.1. <a name="mergeOptions">mergeOptions</a></h4><p>参数：</p>
+<pre><code class="hljs "><span class="hljs-string">parent:</span> Object,
+<span class="hljs-string">child:</span> Object,
+vm?: Component</code></pre><h4 id="7.6.5.2."><a href="#7.6.5.2." class="headerlink" title="resolveAsset"></a>7.6.5.2. <a name="resolveAsset">resolveAsset</a></h4><p>处理assets，assets包括directives，components，transitions，filters<br>该函数仅仅是从传入的options中按照type和id取得asset并返回<br>参数：</p>
+<pre><code class="hljs "><span class="hljs-string">options:</span> Object,
+<span class="hljs-string">type:</span> string,
+<span class="hljs-string">id:</span> string,
+warnMissing?: <span class="hljs-keyword">boolean</span></code></pre><ol>
+<li>判断<code>options[type][id]</code>是否存在，若不存在,将id使用<a href="#camelize">camelize</a>变为驼峰形式，再次尝试</li>
+<li>若仍未找到，使用<a href="#capitalize">capitalize</a>将驼峰形式id首字母大写，再次尝试寻找。</li>
+<li>找到返回。未找到且在非生产环境，提示：Failed to resolve ….</li>
+</ol>
+<h3 id="7.6.6."><a href="#7.6.6." class="headerlink" title="props.js"></a>7.6.6. props.js</h3><h4 id="7.6.6.1."><a href="#7.6.6.1." class="headerlink" title="validateProp"></a>7.6.6.1. <a name="validateProp">validateProp</a></h4><p>参数：</p>
+<pre><code class="hljs "><span class="hljs-string">key:</span> string,
+<span class="hljs-string">propOptions:</span> Object,
+<span class="hljs-string">propsData:</span> Object,
+vm?: Component</code></pre><p>propOptions: $options.props 一般形式：</p>
+<pre><code class="hljs ">{
+    key1 : {
+          <span class="hljs-class"><span class="hljs-keyword">type</span>: <span class="hljs-type">Number</span>,</span>
+          <span class="hljs-keyword">default</span>: 100
+        }
+  }</code></pre><p>注意type为构造函数而非字符串</p>
+<ol>
+<li><code>const prop = propOptions[key];const absent = !hasOwn(propsData, key);let value = propsData[key]</code></li>
+<li>检查getType(prop.type)，若为Boolean：若propsData无此key，且prop无该key的默认值(default属性)，则<code>value = false</code>;若value为’’或value为key的连字符形式，则<code>value = true</code></li>
+<li>value仍为undefined，<code>value = getPropDefaultValue(vm, prop, key)</code>因为默认值是函数，value为函数计算的结果，所以是一个新值，所以暂时置observerState.shouldConvert为true，然后<code>observe(value)</code>,为这个新值添加观测者,它的属性都会转化getter，setter。<a href="#observe">observe</a></li>
+<li>如果非生产环境，执行assertProp // TODO</li>
+<li>返回value。</li>
+</ol>
+<h4 id="7.6.6.2."><a href="#7.6.6.2." class="headerlink" title="getPropDefaultValue"></a>7.6.6.2. getPropDefaultValue</h4><p>参数：<code>vm: ?Component, prop: PropOptions, name: string</code></p>
+<ol>
+<li>prop没有default属性，直接返回undefined</li>
+<li>def = prop.default为object，且在非生产环境下，警告不要使用Object/Array，而要使用一个工厂函数返回默认值。</li>
+<li>若prop.default为function，判断prop.type，为Function直接返回默认值，不是则返回<code>def.call(vm)</code></li>
+</ol>
+<h4 id="7.6.6.3."><a href="#7.6.6.3." class="headerlink" title="getType"></a>7.6.6.3. getType</h4><pre><code class="hljs "><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getType</span> <span class="hljs-params">(fn)</span> {</span>
+  const <span class="hljs-keyword">match</span> = fn &amp;&amp; fn.toString().<span class="hljs-keyword">match</span>(/^\s*<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(\w+)</span>/)</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">match</span> &amp;&amp; <span class="hljs-keyword">match</span>[<span class="hljs-number">1</span>]
+}</code></pre><h4 id="7.6.6.4."><a href="#7.6.6.4." class="headerlink" title="assertProp"></a>7.6.6.4. assertProp</h4><h2 id="7.7."><a href="#7.7." class="headerlink" title="vdom"></a>7.7. vdom</h2><h3 id="7.7.1."><a href="#7.7.1." class="headerlink" title="create-element.js"></a>7.7.1. create-element.js</h3><h4 id="7.7.1.1."><a href="#7.7.1.1." class="headerlink" title="createElement"></a>7.7.1.1. createElement</h4><p>检查data，调用_createElement并返回结果，返回结果为vnode对象</p>
+<h4 id="7.7.1.2."><a href="#7.7.1.2." class="headerlink" title="_createElement"></a>7.7.1.2. _createElement</h4><p>参数：</p>
+<pre><code class="hljs "><span class="hljs-string">context:</span> Component,
+tag?: string | Class&lt;Component&gt; | Function | Object,
+data?: VNodeData,
+children?: VNodeChildren | <span class="hljs-keyword">void</span></code></pre><ol>
+<li>传入的data上有<code>__ob__</code>属性，非生产环境下提示：Avoid using observed data object as vnode data Always create fresh vnode data objects in each render!，并直接返回。</li>
+<li>tag不存在，返回空节点<a href="#emptyVNode">emptyVNode</a>。</li>
+<li><p>tag若为字符串:</p>
+<ol>
+<li><code>const ns = config.getTagNamespace(tag)</code>getTagNamespace仅仅识别MathML和svg元素，若是一般元素，则返回undefined</li>
+<li>tag若是保留标签（html或svg标签）<code>return new VNode(tag, data, normalizeChildren(children, ns),undefined, undefined, ns,context)</code><a href="#normalizeChildren"> </a></li>
+<li>若tag不是保留标签，调用resolveAsset,尝试寻找$options.components[tag],即寻找该tag所代表的组件asset，赋予Ctor，然后调用<a href="#createComponent">createComponent</a>返回<code>createComponent(Ctor, data, context, children, tag)</code>。</li>
+<li>若tag既不是保留标签，也找不到对应的组件的asset，则有可能是未知命名空间的奇怪元素，同第2步，直接构造VNode返回，在运行时再尝试解析</li>
+</ol>
+</li>
+<li><p>tag不为字符串，直接构造组件，调用<code>createComponent(tag, data, context, children)</code>并返回。</p>
+</li>
+</ol>
+<h3 id="7.7.2."><a href="#7.7.2." class="headerlink" title="create-component.js"></a>7.7.2. create-component.js</h3><h4 id="7.7.2.1."><a href="#7.7.2.1." class="headerlink" title="createComponent"></a>7.7.2.1. createComponent</h4><p>参数：</p>
+<pre><code class="hljs "><span class="hljs-string">Ctor:</span> Class&lt;Component&gt; | Function | Object | <span class="hljs-keyword">void</span>,
+data?: VNodeData,
+<span class="hljs-string">context:</span> Component,
+children?: VNodeChildren,
+tag?: string</code></pre><ol>
+<li>不存在Ctor，直接返回。</li>
+<li>Ctor为对象，调用Vue.extend（在<a href="#initExtend">initExtend</a>中定义），以Ctor为extendOption创建Vue的子类，并覆盖Ctor</li>
+<li>经过以上两步，Ctor的类型只可能是function，即组件类或异步组件的工厂函数，若类型不是function，在非生产环境下提示’Invalid Component definition’</li>
+<li>如果Ctor.cid不存在，说明其为异步组件，若其resolved属性存在，<code>Ctor = Ctor.resolved</code>,否则，调用<a href="#resolveAsyncComponent">resolveAsyncComponent</a></li>
+<li>调用<a href="#extractProps">extractProps</a>提取props，存于propsData，为构建vnode准备。</li>
+<li>如果该子组件为函数式组件（Ctor.options.functional为true），调用<a href="#createFunctionalComponent">createFunctionalComponent</a>并返回。参照：<a href="https://github.com/vuejs/vue/releases/tag/v2.0.0-alpha.5" target="_blank" rel="external">https://github.com/vuejs/vue/releases/tag/v2.0.0-alpha.5</a></li>
+<li><code>const listeners = data.on;data.on = data.nativeOn</code> // TODO</li>
+<li>Ctor.options.abstract为true，则组件为抽象组件，除了props &amp; listeners外都不保，所以<code>data = {}</code></li>
+<li><code>mergeHooks(data)</code> 调用<a href="#mergeHooks">mergeHooks</a>,补充可能缺少的钩子</li>
+<li>构造vnode：<ul>
+<li>tag：<code>vue-component-${Ctor.cid}${name ?</code>-${name}<code>: &#39;&#39;}</code></li>
+<li>data: data</li>
+<li>children: undefined</li>
+<li>text: undefined</li>
+<li>elm： undefined</li>
+<li>ns： undefined</li>
+<li>context： context</li>
+<li>componentOptions：{ Ctor, propsData, listeners, tag, children }</li>
+</ul>
+</li>
+<li>返回构造的vnode</li>
+</ol>
+<h4 id="7.7.2.2."><a href="#7.7.2.2." class="headerlink" title="mergeHooks"></a>7.7.2.2. mergeHooks</h4><p>参数： <code>data: VNodeData</code></p>
+<ol>
+<li>data.hook不存在，则置为{}</li>
+<li>在create-component.js模块已预先定义<code>const hooks = { init, prepatch, insert, destroy }
+const hooksToMerge = Object.keys(hooks)</code>init, prepatch, insert, destroy为已经定义好的钩子。遍历hooksToMerge，键值为(key,ours)</li>
+<li>data.hook[key]存在，调用<a href="#mergeHook">mergeHook</a>，传入ours, fromParent，得到的函数赋予data.hook[key]； 否则直接把模块中预定义的ours赋予data.hook[key]。</li>
+</ol>
+<h4 id="7.7.2.3."><a href="#7.7.2.3." class="headerlink" title="mergeHook"></a>7.7.2.3. mergeHook</h4><pre><code class="hljs "><span class="hljs-function"><span class="hljs-keyword">function</span></span> mergeHook (a: <span class="hljs-function"><span class="hljs-keyword">Function</span></span>, b: <span class="hljs-function"><span class="hljs-keyword">Function</span></span>): <span class="hljs-function"><span class="hljs-keyword">Function</span></span> {
+  // since <span class="hljs-built_in">all</span> hooks have at most two args, <span class="hljs-keyword">use</span> fixed args
+  // to avoid having to <span class="hljs-keyword">use</span> fn.apply().
+  <span class="hljs-keyword">return</span> (_, __) =&gt; {
+    a(_, __)
+    b(_, __)
+  }
+}</code></pre><h4 id="7.7.2.4."><a href="#7.7.2.4." class="headerlink" title="hook.prepatch"></a>7.7.2.4. hook.prepatch<a name="hooks.prepatch"></a></h4><p>参数：</p>
+<pre><code class="hljs "><span class="hljs-symbol">oldVnode:</span> MountedComponentVNode,
+<span class="hljs-symbol">vnode:</span> MountedComponentVNode</code></pre><ol>
+<li>先将旧vnode的组件实例赋予新的vnode：<code>const child = vnode.child = oldVnode.child</code></li>
+<li>调用child的原型方法<a href="#_updateFromParent">_updateFromParent</a>，传入vnode.componentOptions相关参数，这样就更新了组件实例。</li>
+</ol>
+<h4 id="7.7.2.5."><a href="#7.7.2.5." class="headerlink" title="hook.init"></a>7.7.2.5. hook.init<a name="hooks.init"></a></h4><p>参数： <code>vnode: VNodeWithData, hydrating: boolean</code></p>
+<ol>
+<li>调用createComponentInstanceForVnode生成组件vm实例并挂载至vnode.child</li>
+<li><code>child.$mount(hydrating ? vnode.elm : undefined, hydrating)</code> 这个会调用子组件的_mount,形成递归，完成子组件的后代组件的渲染和监控。</li>
+<li>这个钩子在patch -&gt; createElm中的调用，所以一个vm实例中的组件是在其patch的时候才会递归渲染，在render函数执行后，子组件的vnode只是一个空壳，其生成实例后，才会挂载到vnode.child，注意实例内部也有自己的根vnode，和上层子组件的vnode并不是一个。</li>
+</ol>
+<h4 id="7.7.2.6."><a href="#7.7.2.6." class="headerlink" title="createComponentInstanceForVnode"></a>7.7.2.6. createComponentInstanceForVnode</h4><p>在init钩子中调用，通过vnode构造组件<br>参数：</p>
+<pre><code class="hljs ">vnode: <span class="hljs-literal">any</span>, // we know it's MountedComponentVNode but flow doesn't
+parent: <span class="hljs-literal">any</span> // activeInstance <span class="hljs-keyword">in</span> lifecycle <span class="hljs-keyword">state</span></code></pre><ol>
+<li>处理options<pre> const vnodeComponentOptions = vnode.componentOptions
+ const options: InternalComponentOptions = {
+   \_isComponent: true,
+   parent,
+   propsData: vnodeComponentOptions.propsData,
+   \_componentTag: vnodeComponentOptions.tag,
+   \_parentVnode: vnode,
+   \_parentListeners: vnodeComponentOptions.listeners,
+   \_renderChildren: vnodeComponentOptions.children
+ }
+ // check inline-template render functions
+ const inlineTemplate = vnode.data.inlineTemplate
+ if (inlineTemplate) {
+   options.render = inlineTemplate.render
+   options.staticRenderFns = inlineTemplate.staticRenderFns
+ }
+ </pre></li>
+<li>通过组件类来构造组件<code>return new vnodeComponentOptions.Ctor(options)</code></li>
+</ol>
+<h4 id="7.7.2.7."><a href="#7.7.2.7." class="headerlink" title="createFunctionalComponent"></a>7.7.2.7. createFunctionalComponent</h4><p>参数：</p>
+<pre><code class="hljs "><span class="hljs-symbol">Ctor:</span> Class<span class="hljs-params">&lt;Component&gt;</span>,
+<span class="hljs-symbol">propsData:</span> ?Object,
+<span class="hljs-symbol">data:</span> VNodeData,
+<span class="hljs-symbol">context:</span> Component,
+children?: VNodeChildren</code></pre><p>返回：<code>VNode | void</code></p>
+<ol>
+<li>遍历Ctor.options.props，调用<a href="#validateProp">validateProp</a>验证每个prop，并转每个prop属性的getter setter</li>
+<li>执行Ctor.options.render，this绑定null，传入的参数createElement为绑定this为Object.create(context)的<a href="#createElement">createElement</a>，render的第二个参数为：<pre><br>{<br> props,<br> data,<br> parent: context,<br> children: normalizeChildren(children),<br> slots: () =&gt; resolveSlots(children, context)<br>}<br></pre></li>
+<li>返回render执行后得到的vnode</li>
+</ol>
+<h4 id="7.7.2.8."><a href="#7.7.2.8." class="headerlink" title="extractProps"></a>7.7.2.8. extractProps</h4><p>遍历子组件类的props，按照其中的key，从父组件vnode中提取数据并返回。注意这里仅仅是提取数据，默认值处理及数据验证将在子组件自己那里进行。<br>参数： <code>data: VNodeData, Ctor: Class&lt;Component&gt;</code></p>
+<ol>
+<li>取Ctor.options.props为propOptions，不存在则直接返回。</li>
+<li>将data解构为attrs, props, domProps，如果三者中有任何一个存在，则遍历propOptions。</li>
+<li>调用<a href="#checkProp">checkProp</a>, 按照props，attrs，domProps顺序将propOptions中对应的key提取，并组成对象res</li>
+<li>返回res</li>
+</ol>
+<h3 id="7.7.3."><a href="#7.7.3." class="headerlink" title="checkProp"></a>7.7.3. checkProp</h3><p>参数：</p>
+<pre><code class="hljs ">res: <span class="hljs-built_in">Object</span>,
+hash: ?<span class="hljs-built_in">Object</span>,
+<span class="hljs-keyword">key</span>: <span class="hljs-built_in">string</span>,
+altKey: <span class="hljs-built_in">string</span>,
+<span class="hljs-keyword">preserve</span>?: <span class="hljs-built_in">boolean</span></code></pre><p>返回：boolean</p>
+<pre><code class="hljs "><span class="hljs-keyword">if</span> (<span class="hljs-built_in">hash</span>) {
+  <span class="hljs-keyword">if</span> (hasOwn(<span class="hljs-built_in">hash</span>, key)) {
+    res[key] = <span class="hljs-built_in">hash</span>[key]
+    <span class="hljs-keyword">if</span> (!preserve) {
+      delete <span class="hljs-built_in">hash</span>[key]
+    }
+    <span class="hljs-built_in">return</span> <span class="hljs-literal">true</span>
+  } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (hasOwn(<span class="hljs-built_in">hash</span>, altKey)) {
+    res[key] = <span class="hljs-built_in">hash</span>[altKey]
+    <span class="hljs-keyword">if</span> (!preserve) {
+      delete <span class="hljs-built_in">hash</span>[altKey]
+    }
+    <span class="hljs-built_in">return</span> <span class="hljs-literal">true</span>
+  }
+}
+<span class="hljs-built_in">return</span> <span class="hljs-literal">false</span></code></pre><h4 id="7.7.3.1."><a href="#7.7.3.1." class="headerlink" title="resolveAsyncComponent"></a>7.7.3.1. resolveAsyncComponent</h4><p>处理异步组件。<br>参数：</p>
+<pre><code class="hljs ">factory: <span class="hljs-function"><span class="hljs-keyword">Function</span></span>,
+cb: <span class="hljs-function"><span class="hljs-keyword">Function</span></span></code></pre><p>返回<code>Class&lt;Component&gt;</code><br>// TODO</p>
+<h3 id="7.7.4."><a href="#7.7.4." class="headerlink" title="helpers.js"></a>7.7.4. helpers.js</h3><h4 id="7.7.4.1."><a href="#7.7.4.1." class="headerlink" title="updateListeners"></a>7.7.4.1. <a name="updateListeners">updateListeners</a></h4><p>  共传入4个参数:</p>
+<pre><code class="hljs ">  <span class="hljs-keyword">on</span>: <span class="hljs-keyword">Object</span>, <span class="hljs-comment">// 新的监听键值对</span>
+  oldOn: <span class="hljs-keyword">Object</span>, <span class="hljs-comment">// 旧的监听键值对</span>
+  add: <span class="hljs-function"><span class="hljs-keyword">Function</span>, <span class="hljs-comment">// 添加事件监听的方法</span>
+  <span class="hljs-title">remove</span>:</span> <span class="hljs-function"><span class="hljs-keyword">Function</span> <span class="hljs-comment">// 移除事件监听的方法</span></span></code></pre><p>  on及oldOn的一般形式：</p>
+<pre><code class="hljs {">      <span class="hljs-string">'event_name'</span>: {
+        fn: handler
+        invoker: <span class="hljs-function"><span class="hljs-params">(...args)</span> =&gt;</span> { handler.apply(<span class="hljs-literal">null</span>,args)}
+      }
+    } 或 {
+        <span class="hljs-string">'event_name'</span>: [...handlers]
+    } 或 {
+        <span class="hljs-string">'event_name'</span>: handler
+    }</code></pre><ol>
+<li>遍历on中的所有name，<code>cur = on[name];old = oldOn[name]</code>，若cur不存在，且在非生产环境下，则<code>Handler for event &quot;${name}&quot; is undefined.</code></li>
+<li>old不存在，即原监听事件不存在：<code>capture = name.charAt(0) === &#39;!&#39;;event = capture ? name.slice(1) : name</code>。<ul>
+<li>若cur为数组，即如上例中第二种形式，则调用<a href="#arrInvoker">arrInvoker</a>，合并handler，挂载到cur.invoker，并执行add。<code>add(event, (cur.invoker = arrInvoker(cur)), capture)</code></li>
+<li>cur不是数组，但其上invoker属性不存在,则其为上例中第三种形式，这时<code>fn = cur;cur = on[name] = {};cur.fn = fn;cur.invoker = fnInvoker(cur)</code>,<a href="#fnInvoker">fnInvoker</a>仅仅是包装一层，判断参数数量，优化速度。</li>
+</ul>
+</li>
+<li>old存在，且<code>cur !== old</code>，使用cur覆盖old中存在的任何东西，而后<code>on[name] = old</code></li>
+<li>检测oldOn中存在，但on中已经不存在的name, 调用remove。</li>
+</ol>
+<h4 id="7.7.4.2."><a href="#7.7.4.2." class="headerlink" title="arrInvoker"></a>7.7.4.2. <a name="arrInvoker">arrInvoker</a></h4><p>  接受一个handler组成的数组：<code>arr: Array&lt;Function&gt;</code><br>  返回一个新的handler函数，该函数接受事件ev，遍历arr中的所有handler，若ev只有一个，则<code>arr[i](ev)</code> 否则 <code>arr[i].apply(null, arguments)</code>,即是合并handlers后返回一个新的handler</p>
+<h4 id="7.7.4.3."><a href="#7.7.4.3." class="headerlink" title="fnInvoker"></a>7.7.4.3. <a name="fnInvoker">fnInvoker</a></h4><p>  接受一个handler：<code>o: { fn: Function }</code></p>
+<pre><code class="hljs ">  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">ev</span>) </span>{
+  <span class="hljs-keyword">const</span> single = <span class="hljs-built_in">arguments</span>.length === <span class="hljs-number">1</span>
+  single ? o.fn(ev) : o.fn.apply(<span class="hljs-literal">null</span>, <span class="hljs-built_in">arguments</span>)
+ }</code></pre><h4 id="7.7.4.4."><a href="#7.7.4.4." class="headerlink" title="normalizeChildren"></a>7.7.4.4. <a name="normalizeChildren">normalizeChildren</a></h4><p>参数：</p>
+<pre><code class="hljs "><span class="hljs-string">children:</span> any,
+<span class="hljs-string">ns:</span> string | <span class="hljs-keyword">void</span>,
+<span class="hljs-string">nestedIndex:</span> number | <span class="hljs-keyword">void</span></code></pre><p>返回值：<code>Array&lt;VNode&gt; | void</code></p>
+<ol>
+<li><code>if (isPrimitive(children)) {
+ return [createTextVNode(children)]
+}</code> <a href="#isPrimitive">isPrimitive</a>判断children是否为基本类型（number和string），返回<code>[createTextVNode(children)]</code></li>
+<li>若children为数组，遍历它每个元素，在此之前创建空数组res保存处理结果，在进行如下处理后，将res返回。<ul>
+<li>若元素val仍为数组，则递归调用normalizeChildren。</li>
+<li>否则，若val为基本类型，则检测res最后一个元素，若其存在，并且有text属性（为文本节点），则直接把val转化为字符串并追加到text属性后面。最后一个元素不存在，或不是文本节点，则使用<a href="#createTextVNode">createTextVNode</a>创建文本节点并加入到res中。</li>
+<li>若元素val为VNode对象，</li>
+<li>先判断它是否为文本节点，若其实文本节点，且res中最后一个也是文本节点，则把它合并到res最后一个元素上。</li>
+<li>若val非文本节点，进行如下操作后，将其加入res中:<ul>
+<li>检查第二个参数ns是否存在，若存在，则使用<a href="#applyNS">applyNS</a>设置命名空间</li>
+<li>设置默认key  <pre>// default key for nested array children (likely generated by v-for)
+   if (c.tag && c.key == null && nestedIndex != null) {
+     c.key = `__vlist_${nestedIndex}_${i}__`
+   }</pre>
+
+
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h4 id="7.7.4.5."><a href="#7.7.4.5." class="headerlink" title="createTextVNode"></a>7.7.4.5. <a name="createTextVNode">createTextVNode</a></h4><p>接受一个字符串，包装为vnode对象并返回。</p>
+<pre><code class="hljs "><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">createTextVNode</span> (<span class="hljs-params">val</span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> VNode(<span class="hljs-literal">undefined</span>, <span class="hljs-literal">undefined</span>, <span class="hljs-literal">undefined</span>, <span class="hljs-built_in">String</span>(val))
+}</code></pre><h4 id="7.7.4.6."><a href="#7.7.4.6." class="headerlink" title="applyNS"></a>7.7.4.6. <a name="applyNS">applyNS</a></h4><p>若节点不存在命名空间，则把它及它的所有子节点的命名空间置为传入的ns。</p>
+<pre><code class="hljs "><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">applyNS</span> <span class="hljs-params">(vnode, ns)</span> {</span>
+  <span class="hljs-keyword">if</span> (vnode.tag &amp;&amp; !vnode.ns) {
+    vnode.ns = ns
+    <span class="hljs-keyword">if</span> (vnode.<span class="hljs-built_in">children</span>) {
+      <span class="hljs-keyword">for</span> (<span class="hljs-built_in">let</span> i = <span class="hljs-number">0</span>, l = vnode.<span class="hljs-built_in">children</span>.length; i &lt; l; i++) {
+        applyNS(vnode.<span class="hljs-built_in">children</span>[i], ns)
+      }
+    }
+  }
+}</code></pre><h3 id="7.7.5."><a href="#7.7.5." class="headerlink" title="patch.js"></a>7.7.5. patch.js</h3><p>通过工厂createPatchFunction<a name="createPatchFunction">构建并返回patch函数<br>cbs<a name="cbs-patch">为闭包变量，一般形式为</a></a></p>
+<p><pre>{<br>  create: [function updateAttrs(oldVnode,vnode){…}, function updateClass (){…} …],<br>  update: […],<br>  postpatch: […],<br>  remove: […],<br>  destroy: […]<br> }</pre><br> 这些数组中的函数，若是浏览器端，则取自/platforms/web/runtime/modules 因为服务器渲染和web渲染并不相同</p>
+<h4 id="7.7.5.1."><a href="#7.7.5.1." class="headerlink" title="patch"></a>7.7.5.1. <a name="patch">patch</a></h4><p><code>const insertedVnodeQueue = []</code><br>参数：oldVnode, vnode, hydrating, removeOnly</p>
+<ol>
+<li>oldVnode不存在，调用createElm渲染新的根元素<code>createElm(vnode, insertedVnodeQueue)</code></li>
+<li>oldVnode存在： 判断oldVnode.nodeType是否存在，nodeType存在表示为真实元素（Vnode上无nodeType属性）</li>
+<li>不是真实元素(为虚拟元素)，并调用<a href="#sameVnode">sameVnode</a>判断Vnode是相同的（除了data可能不同）：调用<a href="#patchVnode">patchVnode</a>处理<br>//TODO</li>
+</ol>
+<h4 id="7.7.5.2."><a href="#7.7.5.2." class="headerlink" title="patchVnode"></a>7.7.5.2. <a name="patchVnode">patchVnode</a></h4><p>  参数： <code>oldVnode, vnode, insertedVnodeQueue, removeOnly</code></p>
+<ol>
+<li><code>oldVnode === vnode</code>，引用地址都相同，还更新个啥，直接返回</li>
+<li>新旧vnode都是静态的，且key相同，新vnode的isCloned为true，则无需渲染，直接<code>vnode.elm = oldVnode.elm</code></li>
+<li>如果vnode.data.hook.prepatch存在（正常情况下，会在第一次渲染时采用create-component.js中的<a href="#hooks.prepatch">prepatch</a>,执行完后，组件实例和组件实例的后代都会被递归更新）</li>
+<li><code>const elm = vnode.elm = oldVnode.elm</code> 直接把旧vnode上已渲染好的DOM赋予vnode.elm</li>
+<li>vnode.data存在并且vnode可修补（调用<a href="#isPatchable">isPatchable</a>检查），则遍历cbs.update，（<a href="#cbs-patch">cbs</a>为闭包变量，直接操作DOM）。执行cbs.update中的每个回调，vnode.data.hook.update存在，则也执行这个钩子。至此真实DOM通过cbs.update更新完成。</li>
+<li><code>const oldCh = oldVnode.children;const ch = vnode.children</code> vnode.text不存在，说明其不是文本节点：<ul>
+<li>oldCh和ch都存在，且不相同，调用<a href="#updateChildren">updateChildren</a>递归更新子节点</li>
+<li>ch存在，oldCh不存在，调用addVnodes插入子级DOM</li>
+</ul>
+</li>
+</ol>
+<h4 id="7.7.5.3."><a href="#7.7.5.3." class="headerlink" title="updateChildren"></a>7.7.5.3. <a name="updateChildren">updateChildren</a></h4><p>定义各种flag：</p>
+<pre><code class="hljs "><span class="hljs-keyword">let</span> <span class="hljs-attr">oldStartIdx</span> = <span class="hljs-number">0</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">newStartIdx</span> = <span class="hljs-number">0</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">oldEndIdx</span> = oldCh.length - <span class="hljs-number">1</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">oldStartVnode</span> = oldCh[<span class="hljs-number">0</span>]
+<span class="hljs-keyword">let</span> <span class="hljs-attr">oldEndVnode</span> = oldCh[oldEndIdx]
+<span class="hljs-keyword">let</span> <span class="hljs-attr">newEndIdx</span> = newCh.length - <span class="hljs-number">1</span>
+<span class="hljs-keyword">let</span> <span class="hljs-attr">newStartVnode</span> = newCh[<span class="hljs-number">0</span>]
+<span class="hljs-keyword">let</span> <span class="hljs-attr">newEndVnode</span> = newCh[newEndIdx]
+<span class="hljs-keyword">let</span> oldKeyToIdx, idxInOld, elmToMove, before</code></pre><p>paichu<br>oldStartIdx -&gt; oldEndIdx</p>
+<p>newStartIdx -&gt; newEndIdx</p>
+<p>这四个flag，各自不断向中间接近，直到重合，分别取有值的位置为oldStartVnode， oldEndVnode， newStartVnode， newEndVnode：</p>
+<ol>
+<li>sameVnode(oldStartVnode, newStartVnode) -&gt; patchVnode递归更新</li>
+<li>oldStartVnode, newStartVnode已不再相同：sameVnode(oldEndVnode, newEndVnode) -&gt; patchVnode递归更新</li>
+<li>两个头部和尾部都已不是相同类型vnode：但sameVnode(oldStartVnode, newEndVnode)，这时说明是oldStartVnode的这个vnode向右移动了位置，同样调用patchVnode递归更新,然后<code>nodeOps.insertBefore(parentElm, oldStartVnode.elm, nodeOps.nextSibling(oldEndVnode.elm))</code>,这样直接操作DOM实施这一过程。</li>
+<li>以上情况都排除，但sameVnode(oldEndVnode, newStartVnode) 说明oldEndVnode左移了，同样调用patchVnode递归更新,然后<code>nodeOps.insertBefore(parentElm, oldEndVnode.elm, oldStartVnode.elm)</code>操作该vnode对应的DOM左移</li>
+<li>以上情况都排除：通过比较key来找出已乱序的children，注意key若非在render函数中声明，则是在[normalizeChildren](#normalizeChildren中定义的，格式为：<code>\_\_vlist${nestedIndex}\_${i}\_\_</code><ul>
+<li>newStartVnode.key在剩余old队列vnode中不存在，则说明是新值的元素，直接建立并插入到oldStartVnode.elm前面。</li>
+<li>newStartVnode.key在剩余old队列vnode中存在，tag不相同，则视为新元素，直接建立并插入到oldStartVnode.elm前面。（同上）</li>
+<li>tag相同，调用patchVnode递归更新，并将newStartVnode.elm插入oldStartVnode.elm之前，置<code>oldCh[idxInOld] = undefined</code></li>
+</ul>
+</li>
+<li>在以上循环结束后，进行修正。若oldStartIdx &gt; oldEndIdx，表示旧队列先结束，调用addVnodes插入newCh中剩余的元素。若新队列先结束，则说明有元素被删除，调用removeVnodes进行删除。</li>
+</ol>
+<h4 id="7.7.5.4."><a href="#7.7.5.4." class="headerlink" title="addVnodes"></a>7.7.5.4. <a name="addVnodes">addVnodes</a></h4><pre><code class="hljs ">function <span class="hljs-keyword">addVnodes </span>(parentElm, <span class="hljs-keyword">before, </span>vnodes, startIdx, endIdx, <span class="hljs-keyword">insertedVnodeQueue) </span>{
+  for (<span class="hljs-comment">; startIdx &lt;= endIdx; ++startIdx) {</span>
+    nodeOps.<span class="hljs-keyword">insertBefore(parentElm, </span>createElm(vnodes[startIdx], <span class="hljs-keyword">insertedVnodeQueue), </span><span class="hljs-keyword">before)
+</span>  }
+}</code></pre><h4 id="7.7.5.5."><a href="#7.7.5.5." class="headerlink" title="sameVnode"></a>7.7.5.5. <a name="sameVnode">sameVnode</a></h4><pre><code class="hljs ">return (
+  vnode1.key === vnode2.key &amp;&amp;
+  vnode1.<span class="hljs-keyword">tag</span> <span class="hljs-title">=== vnode2</span>.<span class="hljs-keyword">tag</span> <span class="hljs-title">&amp;&amp;
+  vnode1</span>.isComment === vnode2.isComment &amp;&amp;
+  !vnode1.data === !vnode2.data
+)</code></pre><p>若这些相同，则可判断其为相同的vnode，但数据可能不一样，可以运用patchVnode处理。</p>
+<h4 id="7.7.5.6."><a href="#7.7.5.6." class="headerlink" title="createElm"></a>7.7.5.6. <a name="createElm">createElm</a></h4><p>参数：<code>vnode, insertedVnodeQueue, nested</code></p>
+<ol>
+<li><code>const data = vnode.data</code> data及相关属性若不为null，执行data.hook.init(vnode), 这个钩子会直接调用Vue.$mount构造这个vnode代表的子组件。</li>
+<li><a href="#hook.init">data.hook.init</a>存在并执行后，如果vnode是一个子组件，那么它肯定已经有一个子实例（vnode.child存在，表示它的组件实例），并mount上去了，子组件也已放置在vnode.elm，调用<a href="#initComponent">initComponent</a>，把vnode.elm返回。</li>
+<li><code>const children = vnode.children;const tag = vnode.tag;</code></li>
+<li>tag存在，则调用createElement（document.createElement）或createElementNS（document.createElementNS）生成DOM，并挂载到vnode.elm上。</li>
+<li><code>createChildren(vnode, vnode.children, insertedVnodeQueue)</code>递归创建子节点DOM并附加到vnode.elm上。</li>
+<li>vnode.data存在，调用<a href="#invokeCreateHooks">invokeCreateHooks</a>，填充DOM的样式、属性事件等。</li>
+<li>tag不存在：vnode.isComment为true，调用dom方法createComment，根据vnode.text生成注释节点，赋予vnode.elm，否则调用createTextNode生成文本节点。</li>
+<li>返回vnode.elm</li>
+</ol>
+<h4 id="7.7.5.7."><a href="#7.7.5.7." class="headerlink" title="invokeCreateHooks"></a>7.7.5.7. <a name="invokeCreateHooks">invokeCreateHooks</a></h4><ol>
+<li>cbs为上层的createPatchFunction定义并的闭包变量。参见<a href="#cbs-patch">cbs</a></li>
+<li><code>cbs.create[i](emptyNode, vnode)</code> 填充DOM的样式、属性、事件、过渡效果等</li>
+<li>vnode.data.hook存在：create钩子存在，<code>i.create(emptyNode, vnode)</code>;insert钩子存在，<code>insertedVnodeQueue.push(vnode)</code></li>
+</ol>
+<h4 id="7.7.5.8."><a href="#7.7.5.8." class="headerlink" title="createChildren"></a>7.7.5.8. createChildren</h4><p>参数：vnode, children, insertedVnodeQueue</p>
+<ol>
+<li>children为数组，则遍历它们，递归调用<a href="#createElm">createElm</a>生成DOM，并使用appendChild加入到vnode.elm中。</li>
+<li>vnode.text存在（文本或数值），调用createTextNode将其包装成文本节点，加入到vnode.elm中。</li>
+</ol>
+<h4 id="7.7.5.9."><a href="#7.7.5.9." class="headerlink" title="setScope"></a>7.7.5.9. setScope</h4><p>在vnode.elm上添加scopeId属性，从而使scoped CSS能正常施加。<br>参数：vnode</p>
+<ol>
+<li>vnode.context.$options._scopeId存在，<code>setAttribute(vnode.elm, vnode.context.$options._scopeId, &#39;&#39;)</code></li>
+<li>activeInstance.$options._scopeId存在，且activeInstance与vnode.context不同，<code>setAttribute(vnode.elm, activeInstance.$options._scopeId, &#39;&#39;)</code>,把父级的scopeId属性也加上</li>
+<li><code>setScope(vnode)</code> 调用<a href="#setScope">setScope</a> 在dom上添加scopedId属性</li>
+<li><code>createChildren(vnode, children, insertedVnodeQueue)</code></li>
+</ol>
+<h4 id="7.7.5.10."><a href="#7.7.5.10." class="headerlink" title="initComponent"></a>7.7.5.10. initComponent</h4><p>参数：<code>vnode, insertedVnodeQueue</code></p>
+<ol>
+<li>vnode.data.pendingInsert存在，将其压入insertedVnodeQueue</li>
+<li><code>vnode.elm = vnode.child.$el</code></li>
+<li>调用<a href="#isPatchable">isPatchable</a>检查vnode是否可通过修补更新，若可以，调用<a href="#invokeCreateHooks">invokeCreateHooks</a></li>
+<li>不可修补： 调用registerRef</li>
+</ol>
+<h4 id="7.7.5.11."><a href="#7.7.5.11." class="headerlink" title="isPatchable"></a>7.7.5.11. <a name="isPatchable">isPatchable</a></h4><p>  不断的查找vnode.child._vnode.child，_vnode属性在vm._update中赋值，child存在表示vnode曾经已经渲染并mount过，所以_vnode表示当时的vnode状态，这样不断取child，直到child不存在，就追溯到了最开始的状态，这时若vnode的tag属性存在（有构造函数或vue类配置object），这样可通过这个构造函数来生成组件，则说明可修补，之所以要追溯到最原始的vnode，是应为，一旦渲染过一次，vnode的tag就会变成’vue-component-….’这种字符串（在<a href="#createComponent">createComponent</a>中处理的）。</p>
+<p>  若vnode并不是组件，则其也没有child属性，但它的tag一定存在，所以一定也可修补。</p>
+<pre><code class="hljs "><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">isPatchable</span> <span class="hljs-params">(vnode)</span> </span>{
+  <span class="hljs-keyword">while</span> (vnode.child) {
+    vnode = vnode.child._vnode
+  }
+  <span class="hljs-keyword">return</span> isDef(vnode.tag)
+}</code></pre><h3 id="7.7.6."><a href="#7.7.6." class="headerlink" title="vnode.js"></a>7.7.6. vnode.js</h3><h4 id="7.7.6.1."><a href="#7.7.6.1." class="headerlink" title="VNode类"></a>7.7.6.1. <a name="VNode-class">VNode类</a></h4><p>虚拟DOM对象的类。</p>
+<pre><code class="hljs "><span class="hljs-string">tag:</span> string | <span class="hljs-keyword">void</span>;
+<span class="hljs-string">data:</span> VNodeData | <span class="hljs-keyword">void</span>;
+<span class="hljs-string">children:</span> Array&lt;VNode&gt; | <span class="hljs-keyword">void</span>;
+<span class="hljs-string">text:</span> string | <span class="hljs-keyword">void</span>;
+<span class="hljs-string">elm:</span> Node | <span class="hljs-keyword">void</span>;
+<span class="hljs-string">ns:</span> string | <span class="hljs-keyword">void</span>;
+<span class="hljs-string">context:</span> Component | <span class="hljs-keyword">void</span>; <span class="hljs-comment">// rendered in this component's scope</span>
+<span class="hljs-string">key:</span> string | number | <span class="hljs-keyword">void</span>;
+<span class="hljs-string">componentOptions:</span> VNodeComponentOptions | <span class="hljs-keyword">void</span>;
+<span class="hljs-string">child:</span> Component | <span class="hljs-keyword">void</span>; <span class="hljs-comment">// component instance</span>
+<span class="hljs-string">parent:</span> VNode | <span class="hljs-keyword">void</span>; <span class="hljs-comment">// compoennt placeholder node</span>
+<span class="hljs-string">raw:</span> <span class="hljs-keyword">boolean</span>; <span class="hljs-comment">// contains raw HTML? (server only)</span>
+<span class="hljs-string">isStatic:</span> <span class="hljs-keyword">boolean</span>; <span class="hljs-comment">// hoisted static node</span>
+<span class="hljs-string">isRootInsert:</span> <span class="hljs-keyword">boolean</span>; <span class="hljs-comment">// necessary for enter transition check</span>
+<span class="hljs-string">isComment:</span> <span class="hljs-keyword">boolean</span>; <span class="hljs-comment">// empty comment placeholder?</span>
+<span class="hljs-string">isCloned:</span> <span class="hljs-keyword">boolean</span>; <span class="hljs-comment">// is a cloned node? 标记是否为克隆节点</span></code></pre><p>初始化：</p>
+<pre><code class="hljs "><span class="hljs-keyword">this</span>.tag = tag
+<span class="hljs-keyword">this</span>.<span class="hljs-keyword">data</span> = <span class="hljs-keyword">data</span>
+<span class="hljs-keyword">this</span>.children = children
+<span class="hljs-keyword">this</span>.text = text
+<span class="hljs-keyword">this</span>.elm = elm
+<span class="hljs-keyword">this</span>.ns = ns
+<span class="hljs-keyword">this</span>.context = context
+<span class="hljs-keyword">this</span>.key = <span class="hljs-keyword">data</span> &amp;&amp; <span class="hljs-keyword">data</span>.key
+<span class="hljs-keyword">this</span>.componentOptions = componentOptions
+<span class="hljs-keyword">this</span>.child = undefined
+<span class="hljs-keyword">this</span>.parent = undefined
+<span class="hljs-keyword">this</span>.raw = <span class="hljs-literal">false</span>
+<span class="hljs-keyword">this</span>.isStatic = <span class="hljs-literal">false</span>
+<span class="hljs-keyword">this</span>.isRootInsert = <span class="hljs-literal">true</span>
+<span class="hljs-keyword">this</span>.isComment = <span class="hljs-literal">false</span>
+<span class="hljs-keyword">this</span>.isCloned = <span class="hljs-literal">false</span></code></pre><p>该类仅保存这些信息，没有原型方法。</p>
+<h4 id="7.7.6.2."><a href="#7.7.6.2." class="headerlink" title="emptyVNode"></a>7.7.6.2. <a name="emptyVNode">emptyVNode</a></h4><p>返回一个空节点</p>
+<pre><code class="hljs ">export const emptyVNode = () =&gt; {
+  const <span class="hljs-keyword">node</span> <span class="hljs-title">= new</span> VNode()
+  <span class="hljs-keyword">node</span>.<span class="hljs-title">text</span> = ''
+  <span class="hljs-keyword">node</span>.<span class="hljs-title">isComment</span> = <span class="hljs-literal">true</span>
+  return <span class="hljs-keyword">node</span>
+<span class="hljs-title">}</span></code></pre><h4 id="7.7.6.3."><a href="#7.7.6.3." class="headerlink" title="cloneVNodes"></a>7.7.6.3. <a name="cloneVNodes">cloneVNodes</a></h4><p>调用cloneVNode克隆vnode数组</p>
+<pre><code class="hljs "><span class="hljs-keyword">export</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">cloneVNodes</span> (<span class="hljs-params">vnodes: Array&lt;VNode&gt;</span>): <span class="hljs-title">Array</span>&lt;<span class="hljs-title">VNode</span>&gt; </span>{
+  <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>(vnodes.length)
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; vnodes.length; i++) {
+    res[i] = cloneVNode(vnodes[i])
+  }
+  <span class="hljs-keyword">return</span> res
+}</code></pre><h4 id="7.7.6.4."><a href="#7.7.6.4." class="headerlink" title="cloneVNode"></a>7.7.6.4. cloneVNode</h4><p>暴力浅克隆，仅适用于静态节点</p>
+<pre><code class="hljs "><span class="hljs-comment">// optimized shallow clone</span>
+<span class="hljs-comment">// used for static nodes and slot nodes because they may be reused across</span>
+<span class="hljs-comment">// multiple renders, cloning them avoids errors when DOM manipulations rely</span>
+<span class="hljs-comment">// on their elm reference.</span>
+export function cloneVNode (vnode: VNode): VNode {
+  const cloned = new VNode(
+    vnode<span class="hljs-selector-class">.tag</span>,
+    vnode<span class="hljs-selector-class">.data</span>,
+    vnode<span class="hljs-selector-class">.children</span>,
+    vnode<span class="hljs-selector-class">.text</span>,
+    vnode<span class="hljs-selector-class">.elm</span>,
+    vnode<span class="hljs-selector-class">.ns</span>,
+    vnode<span class="hljs-selector-class">.context</span>,
+    vnode<span class="hljs-selector-class">.componentOptions</span>
+  )
+  cloned<span class="hljs-selector-class">.isStatic</span> = vnode<span class="hljs-selector-class">.isStatic</span>
+  cloned<span class="hljs-selector-class">.key</span> = vnode<span class="hljs-selector-class">.key</span>
+  cloned<span class="hljs-selector-class">.isCloned</span> = true
+  return cloned
+}</code></pre><h1 id="8."><a href="#8." class="headerlink" title="流程及测试"></a>8. 流程及测试</h1><pre><code class="hljs ">import Vue from 'vue'
+
+  describe('dataChange', () =&gt; {
+    it('should force update', done =&gt; {
+      const vm = new Vue({
+        data: {
+          a: {},
+          ok: true
+
+        },
+        template: '<span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">test</span> <span class="hljs-attr">v-if</span>=<span class="hljs-string">"ok"</span>&gt;</span>
+          <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>test1slottt<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">test</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span><span class="hljs-comment">{{ a.b }}</span><span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
+        <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>',
+        components: {
+          test: {
+            template: '<span class="hljs-tag">&lt;<span class="hljs-name">em</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">a</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">test2</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>test1111inner<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">test2</span>&gt;</span> t11111<span class="hljs-tag">&lt;<span class="hljs-name">slot</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">em</span>&gt;</span>',
+            data: {testdata: 'test2-slot'},
+            components : {
+              test2 :{
+                template: '<span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">slot</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">slot</span>&gt;</span><span class="hljs-comment">{{testdata}}</span><span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span>'
+              }
+            }
+
+          }
+        }
+      }).$mount()
+      // expect(vm.$el.textContent).toBe('')
+      vm.a.b = 'foo'
+      console.log('render completed-------------------------');
+      // console.log(vm.$el);
+      waitForUpdate(() =&gt; {
+        // should not work because adding new property
+        // expect(vm.$el.textContent).toBe('')
+
+        vm.$forceUpdate()
+      }).then(() =&gt; {
+        // expect(vm.$el.textContent).toBe('foo')
+      }).then(done)
+    })
+  })</code></pre><p>  结果及流程：</p>
+<pre><code class="hljs "><span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:p;children:test1slottt'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:test;children:[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingComponent:vue-component-1-test;children:[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:p;children:'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:div;children:[object Object],[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render complete:div'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'updating:div'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patch:div'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render and update by watcher'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render function:function anonymous() {
+with(this){return _h('</span>em<span class="hljs-string">',[_m(0),_h('</span>test2<span class="hljs-string">',[_m(1)])," t11111",_t("default")])}
+}'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:a;children:undefined'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:p;children:test1111inner'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:test2;children:[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingComponent:vue-component-2-test2;children:[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:em;children:[object Object],[object Object], t11111,[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render complete:em'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'updating:em'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patch:em'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render and update by watcher'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render function:function anonymous() {
+with(this){return _h('</span>b<span class="hljs-string">',[_t("default"),_s(testdata)])}
+}'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:b;children:[object Object],'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render complete:b'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'updating:b'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patch:b'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render completed-------------------------'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'$forceUpdate:undefined'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render and update by watcher'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render function:function anonymous() {
+with(this){return _h('</span>div<span class="hljs-string">',[(ok)?_h('</span>test<span class="hljs-string">',[_m(0)]):_e(),_h('</span>p<span class="hljs-string">',[_s(a.b)])])}
+}'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:test;children:[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingComponent:vue-component-1-test;children:[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:p;children:foo'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:div;children:[object Object],[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render complete:div'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'updating:div'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patch:div'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:div;data:undefined'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:vue-component-1-test;data:[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'prepatch:vue-component-1-test'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'_updateFromParent:vue-component-1-test'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'$forceUpdate:[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:p;data:undefined'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render and update by watcher'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render function:function anonymous() {
+with(this){return _h('</span>em<span class="hljs-string">',[_m(0),_h('</span>test2<span class="hljs-string">',[_m(1)])," t11111",_t("default")])}
+}'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:test2;children:[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingComponent:vue-component-2-test2;children:[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:em;children:[object Object],[object Object], t11111,[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render complete:em'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'updating:em'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patch:em'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:em;data:undefined'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:a;data:undefined'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:vue-component-2-test2;data:[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'prepatch:vue-component-2-test2'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'_updateFromParent:vue-component-2-test2'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'$forceUpdate:[object Object]'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:undefined;data:undefined'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:p;data:undefined'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render and update by watcher'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render function:function anonymous() {
+with(this){return _h('</span>b<span class="hljs-string">',[_t("default"),_s(testdata)])}
+}'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:b;children:[object Object],'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render complete:b'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'updating:b'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patch:b'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:b;data:undefined'</span>
+<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:p;data:undefined'</span></code></pre> 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=62234617308"> </script>
+
+
+  </body>
+</html>

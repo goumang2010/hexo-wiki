@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>VM | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/VM.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/VM.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>VM</h2>
+  虚拟机相关
+  <article class="markdown-body article">
+  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">磁盘格式转换</span></a><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">GHO -&gt; VMDK</span></a></li></ul></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">转化为虚拟机</span></a><ul><li class="level-2"><a href="#2.1."><span class="tocnumber">2.1.</span>&nbsp<span class="toctext">Win7及以下</span></a></li></ul></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="磁盘格式转换"></a>1. 磁盘格式转换</h1><h2 id="1.1."><a href="#1.1." class="headerlink" title="GHO -&gt; VMDK"></a>1.1. GHO -&gt; VMDK</h2><p>使用ghost将分区直接转化为VMDK</p>
+<h1 id="2."><a href="#2." class="headerlink" title="转化为虚拟机"></a>2. 转化为虚拟机</h1><h2 id="2.1."><a href="#2.1." class="headerlink" title="Win7及以下"></a>2.1. Win7及以下</h2><ul>
+<li>使用ghost将分区直接转化为VMDK</li>
+<li>复制备份C:\Windows\System32\drivers</li>
+<li>虚拟机安装相同系统版本的Ghost系统</li>
+<li>拷贝虚拟机Ghost系统的C:\Windows\System32\drivers</li>
+<li>打开VMDK，获取C:\Windows\System32\drivers所有权及更改权限，使用虚拟机的文件替换之.</li>
+<li>若系统版本不同，则仅补充新的文件，不可覆盖。</li>
+<li>修复VMDK的引导，并启动。</li>
+<li>启动后，若有功能不正常，用备份的C:\Windows\System32\drivers替换之，跳过正在使用的文件，这样就把加载失败的驱动替换回了原驱动。</li>
+</ul>
+ 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=3020634633"> </script>
+
+
+  </body>
+</html>

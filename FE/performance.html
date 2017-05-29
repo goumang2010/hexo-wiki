@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>performance | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/performance.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/performance.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>performance</h2>
+  前端页面性能测试
+  <article class="markdown-body article">
+  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">基础知识</span></a></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">监控指标及规则</span></a><ul><li class="level-2"><a href="#2.1."><span class="tocnumber">2.1.</span>&nbsp<span class="toctext">具体指标参考</span></a></li><li class="level-2"><a href="#2.2."><span class="tocnumber">2.2.</span>&nbsp<span class="toctext">页面检查及建议</span></a></li></ul></li><li class="level-1"><a href="#3."><span class="tocnumber">3.</span>&nbsp<span class="toctext">技术案例</span></a><ul><li class="level-2"><a href="#3.1."><span class="tocnumber">3.1.</span>&nbsp<span class="toctext">har文件及浏览器工具</span></a></li><li class="level-2"><a href="#3.2."><span class="tocnumber">3.2.</span>&nbsp<span class="toctext">psi</span></a></li><li class="level-2"><a href="#3.3."><span class="tocnumber">3.3.</span>&nbsp<span class="toctext">WebPageTest</span></a></li><li class="level-2"><a href="#3.4."><span class="tocnumber">3.4.</span>&nbsp<span class="toctext">SiteSpeed</span></a></li><li class="level-2"><a href="#3.5."><span class="tocnumber">3.5.</span>&nbsp<span class="toctext">bonree</span></a></li><li class="level-2"><a href="#3.6."><span class="tocnumber">3.6.</span>&nbsp<span class="toctext">Web服务器/转发服务器直接优化</span></a></li></ul></li><li class="level-1"><a href="#4."><span class="tocnumber">4.</span>&nbsp<span class="toctext">解决方案</span></a><ul><li class="level-2"><a href="#4.1."><span class="tocnumber">4.1.</span>&nbsp<span class="toctext">与现有解决方案相比的特色</span></a></li></ul></li><li class="level-1"><a href="#5."><span class="tocnumber">5.</span>&nbsp<span class="toctext">WebPageTest</span></a></li><li class="level-1"><a href="#6."><span class="tocnumber">6.</span>&nbsp<span class="toctext">平台搭建</span></a></li><li class="level-1"><a href="#7."><span class="tocnumber">7.</span>&nbsp<span class="toctext">SiteSpeed</span></a></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="基础知识"></a>1. 基础知识</h1><ul>
+<li><a href="https://w3c.github.io/web-performance/specs/HAR/Overview.html" target="_blank" rel="external">HAR ​standard</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Navigation_timing_API" target="_blank" rel="external">Navigation_timing_API</a></li>
+<li><a href="https://github.com/marcelduran/yslow" target="_blank" rel="external">yslow</a></li>
+<li><a href="https://github.com/sitespeedio/coach" target="_blank" rel="external">coach</a></li>
+<li><a href="https://developers.google.com/speed/pagespeed/" target="_blank" rel="external">PageSpeed</a></li>
+<li><a href="https://github.com/addyosmani/psi" target="_blank" rel="external">psi</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Website_monitoring" target="_blank" rel="external">wikipedia-Website_monitoring</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Web_analytics" target="_blank" rel="external">wikipedia-Web_analytics</a></li>
+</ul>
+<p><img src="/images/performance-1.png" alt=""></p>
+<h1 id="2."><a href="#2." class="headerlink" title="监控指标及规则"></a>2. 监控指标及规则</h1><ol>
+<li>页面优化情况（Yahoo的23条规则）</li>
+<li>接口请求并发数及数据返回时间</li>
+<li>静态资源的请求并发数及返回时间</li>
+<li>缓存使用情况及优化空间</li>
+<li>关于接口的压力测试</li>
+<li>与主流站点间的指标比较</li>
+<li>站点相关日志分析</li>
+</ol>
+<h2 id="2.1."><a href="#2.1." class="headerlink" title="具体指标参考"></a>2.1. 具体指标参考</h2><p></p><h4 id="overallScore">总体分数</h4><p></p>
+<p>平均组合性能表现, 是 Coach中综合可用性与最佳实践的分数. 如果该分数为100表示完美，不需要再进行修改。</p><br><h4 id="performanceScore">性能分数</h4><br><p>coach计算页面与性能最佳实践的接近程度 查看全部&nbsp;<a href="#performanceAdvice">建议列表</a>.</p><br><h4 id="accessibilityScore">可用性分数</h4><br><p>确保所有人可以进入并使用你的站点. 参考以下链接了解更多&nbsp;<a href="https://github.com/sitespeedio/coach/issues/new" target="_blank" rel="external">help out&nbsp;</a>. 通过以下链接了解如何提高可用性&nbsp;<a href="https://www.marcozehe.de/2015/12/14/the-web-accessibility-basics/" target="_blank" rel="external">here</a>.</p><br><h4 id="bestPracticeScore">Web最佳实践分数</h4><br><p>与Web最佳实践接近程度. 确保页面能被搜索引擎索引, 有良好的url结构。 阅读全部&nbsp;<a href="#bestPracticeAdvice">the advice</a>.</p><br><h4 id="timingMetrics">计时</h4><br><h5 id="backEndTime">后端用时</h5><br><p>服务器生成页面及网络传输页面所用时间.通过导航计时API中的定义计算: responseStart - navigationStart</p><br><h5 id="frontEndTime">前端用时</h5><br><p>浏览器解析及创建页面所用的时间. 通过导航计时API中的定义计算:  loadEventStart - responseEnd</p><br><h5 id="domContentLoadedTime">DOM内容加载计时</h5><br><p>解析文档、 执行延迟和被解析插入的脚本所耗时间，包括从用户位置到服务器的网络时间. 通过导航计时API中的定义计算: domContentLoadedEventStart - navigationStart</p><br><h5 id="domInteractiveTime">DOM交互时间</h5><br><p>浏览器解析文档所用的时间, 包括从用户位置到服务器的网络时间. 通过导航计时API中的定义计算: domInteractive - navigationStart</p><br><h5 id="domainLookupTime">域名解析计时</h5><br><p>DNS查询所用的时间. 通过导航计时API中的定义计算: domainLookupEnd - domainLookupStart</p><br><h5 id="pageDownloadTime">页面下载计时</h5><br><p>下载页面所用时间 ( HTML). 通过导航计时API中的定义计算: responseEnd - responseStart</p><br><h5 id="pageLoadTime">页面加载计时</h5><br><p>页面加载所用时间, 从页面视图初始化 (e.g., 点击页面链接)到在浏览器中加载完成. 注意: 这仅仅和某些页面相关, 取决于页面如何构建. 通过导航计时API中的定义计算: loadEventStart - navigationStart</p><br><h5 id="redirectionTime">重定向计时</h5><br><p>重定向所用时间. 通过导航计时API中的定义计算: fetchStart - navigationStart</p><br><h5 id="serverConnectionTime">服务器连接计时</h5><br><p>连接服务器所用时间. 通过导航计时API中的定义计算: connectEnd - connectStart</p><br><h5 id="firstPaint">首次绘制</h5><br><p>发生在屏幕上首次绘制的时候. 如果浏览器支持这项指标 (现在只有Chrome支持), 则使用它.</p><br><h5 id="fullyLoaded">完整加载</h5><br><p>所有资源都已下载的时候. 通过资源计时API计算 API.</p><br><h5 id="speedIndex">速度指数</h5><br><p>速度指数是页面可见部分被展示的平均时间. 以毫秒表示并且与视口大小相关 。它由 Pat Meenan 创建 可通过以下连接查看完整文档&nbsp;<a href="https://sites.google.com/a/webpagetest.org/docs/using-webpagetest/metrics/speed-index" target="_blank" rel="external">here</a>.</p><br><h5 id="rumSpeedIndex">RUM-速度指数</h5><br><p> Pat Meenan 创建的一个浏览器版本， 使用资源计时来进行速度指数测量计算 。它和速度指数一样并不完美，但是是一个好的开始.</p>
+
+<h2 id="2.2."><a href="#2.2." class="headerlink" title="页面检查及建议"></a>2.2. 页面检查及建议</h2><p>参见<a href="coach">coach</a></p>
+<hr>
+<h1 id="3."><a href="#3." class="headerlink" title="技术案例"></a>3. 技术案例</h1><ul>
+<li><h2 id="3.1."><a href="#3.1." class="headerlink" title="har文件及浏览器工具"></a>3.1. har文件及浏览器工具</h2></li>
+<li><h2 id="3.2."><a href="#3.2." class="headerlink" title="psi"></a>3.2. <a href="https://github.com/addyosmani/psi" target="_blank" rel="external">psi</a></h2>调用google API，需使用vpn翻墙,<a href="https://github.com/addyosmani/psi" target="_blank" rel="external">github</a></li>
+<li><h2 id="3.3."><a href="#3.3." class="headerlink" title="WebPageTest"></a>3.3. <a href="#WebPageTest">WebPageTest</a></h2></li>
+<li><h2 id="3.4."><a href="#3.4." class="headerlink" title="SiteSpeed"></a>3.4. <a href="#SiteSpeed">SiteSpeed</a></h2></li>
+<li><h2 id="3.5."><a href="#3.5." class="headerlink" title="bonree"></a>3.5. <a href="http://www.bonree.com/" target="_blank" rel="external">bonree</a></h2></li>
+<li><h2 id="3.6."><a href="#3.6." class="headerlink" title="Web服务器/转发服务器直接优化"></a>3.6. Web服务器/转发服务器直接优化</h2><ul>
+<li>nginx/apache 中间件 eg:<a href="https://github.com/pagespeed/ngx_pagespeed" target="_blank" rel="external">https://github.com/pagespeed/ngx_pagespeed</a></li>
+<li>url rewrite进行静态化</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="4."><a href="#4." class="headerlink" title="解决方案"></a>4. 解决方案</h1><ol>
+<li>页面优化情况检查接口<ul>
+<li>参照<a href="https://www.sitespeed.io/" target="_blank" rel="external">sitespeed</a>,<a href="https://github.com/andyshora/grunt-yslow" target="_blank" rel="external">grunt-yslow</a>,<br><a href="https://github.com/addyosmani/psi" target="_blank" rel="external">psi</a></li>
+</ul>
+</li>
+<li>制作页面性能综合测试接口。<ul>
+<li>页面加载响应时间测试监控（首页加载时间、各链接响应时间）</li>
+<li>各地域测试（使用已购买的接口或购买新接口）</li>
+</ul>
+</li>
+<li>压力测试</li>
+<li>数据的处理和比较<ul>
+<li>定期扫描主流站点，根据测试结果形成标准并定期更新</li>
+<li>定期运行分析，记录站点当前的性能状态</li>
+<li>制作相应的数据模型并存入数据库（Mongo/MySQL）</li>
+</ul>
+</li>
+<li>统计数据的可视化，建立展示站点，开发相应展示功能（Vue/Echart）</li>
+<li>预警推送功能（邮件/APP）</li>
+</ol>
+<h2 id="4.1."><a href="#4.1." class="headerlink" title="与现有解决方案相比的特色"></a>4.1. 与现有解决方案相比的特色</h2><ol>
+<li>增加页面优化分析和建议项</li>
+<li>定制重要指标，简化操作</li>
+<li>预警推送有的放矢</li>
+</ol>
+<h1 id="5."><a href="#5." class="headerlink" title="WebPageTest"></a>5. <a name="WebPageTest">WebPageTest</a></h1><h1 id="6."><a href="#6." class="headerlink" title="平台搭建"></a>6. 平台搭建</h1><p>目前WebPageTest私有实例只能搭建在Windows平台上，搭建步骤如下：</p>
+<ol>
+<li>下载已编译的WebPageTest实例：webpagetest_2.19.zip 目前最新版本2.19</li>
+<li>在windows上部署apache/nginx+php环境，可采用xampp安装，注意2003及XP需使用<a href="https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/1.8.2/" target="_blank" rel="external">旧版1.8.2的版本</a>。<br>并且在此之前，需安装<a href="https://www.microsoft.com/en-us/download/confirmation.aspx?id=5582" target="_blank" rel="external">VC环境</a></li>
+<li>将webpagetest_2.19.zip解压，www文件夹中的文件移动至apache站点的根目录（或将apche配置文件中的文档根目录指定至解压后的文件夹）。测试<a href="http://127.0.0.1/" target="_blank" rel="external">http://127.0.0.1/</a>,应已可显示Web UI。</li>
+<li>查看网站中settings文件夹，参考.sample文件,创建相应的.ini文件，测试时仅需创建locations.ini，保证在UI中location可以选择。</li>
+<li>打开webpagetest_2.19.zip中的agent文件夹，把<b>所有</b>sample文件转为ini文件，修改wptdriver.ini，将其中的各浏览器对应的地址转为本地正确的地址</li>
+<li>安装dummynet，在网络连接中安装服务，从agent\dummynet\64bit或32bit中选择安装</li>
+<li>启动wptdriver.exe ，正常状态应该是Waiting for work，若在下载文件中卡住，应把wptdriver.ini所涉及的下载文件都在当前目录下建立相应空文件，并把ini涉及的地址改为本地</li>
+<li>在浏览器中打开<a href="http://127.0.0.1/" target="_blank" rel="external">http://127.0.0.1/</a>,输入测试网址，选择Location为Test及浏览器Chrome，运行后应该能正常生成报告</li>
+<li>若未能成功安装dummynet，则无法使用连接速度控制功能，这时应在UI里高级选项中将从Connection下所有数值置为0，否则会报错。</li>
+<li>WinXP目前不能使用2.19版本，只能使用旧版。</li>
+<li>该php站点并未绑定域名，故可通过所有站点IP/域名来访问。其他事项参考<a href="https://sites.google.com/a/webpagetest.org/docs/private-instances" target="_blank" rel="external">官方文档</a></li>
+</ol>
+<h1 id="7."><a href="#7." class="headerlink" title="SiteSpeed"></a>7. <a name="SiteSpeed">SiteSpeed</a></h1><p>参见： <a href="sitespeed">sitespeed</a></p>
+ 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=99801419637"> </script>
+
+
+  </body>
+</html>

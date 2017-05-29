@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>react-redux | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/react-redux.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/react-redux.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>react-redux</h2>
+  react-redux
+  <article class="markdown-body article">
+  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">components</span></a><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">Provider</span></a></li><li class="level-2"><a href="#1.2."><span class="tocnumber">1.2.</span>&nbsp<span class="toctext">connectAdvanced</span></a><ul><li class="level-3"><a href="#1.2.1."><span class="tocnumber">1.2.1.</span>&nbsp<span class="toctext">wrapWithConnect</span></a><ul><li class="level-4"><a href="#1.2.1.1."><span class="tocnumber">1.2.1.1.</span>&nbsp<span class="toctext">setWrappedInstance</span></a></li><li class="level-4"><a href="#1.2.1.2."><span class="tocnumber">1.2.1.2.</span>&nbsp<span class="toctext">initSelector</span></a></li><li class="level-4"><a href="#1.2.1.3."><span class="tocnumber">1.2.1.3.</span>&nbsp<span class="toctext">initSubscription</span></a><ul><li class="level-5"><a href="#1.2.1.3.1."><span class="tocnumber">1.2.1.3.1.</span>&nbsp<span class="toctext">onStateChange</span></a></li></ul></li><li class="level-4"><a href="#1.2.1.4."><span class="tocnumber">1.2.1.4.</span>&nbsp<span class="toctext">addExtraProps</span></a></li><li class="level-4"><a href="#1.2.1.5."><span class="tocnumber">1.2.1.5.</span>&nbsp<span class="toctext">render</span></a></li></ul></li></ul></li></ul></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">utils</span></a><ul><li class="level-2"><a href="#2.1."><span class="tocnumber">2.1.</span>&nbsp<span class="toctext">Subscription.js</span></a><ul><li class="level-3"><a href="#2.1.1."><span class="tocnumber">2.1.1.</span>&nbsp<span class="toctext">createListenerCollection</span></a><ul><li class="level-4"><a href="#2.1.1.1."><span class="tocnumber">2.1.1.1.</span>&nbsp<span class="toctext">clear</span></a></li><li class="level-4"><a href="#2.1.1.2."><span class="tocnumber">2.1.1.2.</span>&nbsp<span class="toctext">notify</span></a></li><li class="level-4"><a href="#2.1.1.3."><span class="tocnumber">2.1.1.3.</span>&nbsp<span class="toctext">subscribe</span></a></li></ul></li><li class="level-3"><a href="#2.1.2."><span class="tocnumber">2.1.2.</span>&nbsp<span class="toctext">Subscription类</span></a><ul><li class="level-4"><a href="#2.1.2.1."><span class="tocnumber">2.1.2.1.</span>&nbsp<span class="toctext">constructor</span></a></li><li class="level-4"><a href="#2.1.2.2."><span class="tocnumber">2.1.2.2.</span>&nbsp<span class="toctext">addNestedSub</span></a></li><li class="level-4"><a href="#2.1.2.3."><span class="tocnumber">2.1.2.3.</span>&nbsp<span class="toctext">notifyNestedSubs</span></a></li><li class="level-4"><a href="#2.1.2.4."><span class="tocnumber">2.1.2.4.</span>&nbsp<span class="toctext">isSubscribed</span></a></li><li class="level-4"><a href="#2.1.2.5."><span class="tocnumber">2.1.2.5.</span>&nbsp<span class="toctext">trySubscribe</span></a></li><li class="level-4"><a href="#2.1.2.6."><span class="tocnumber">2.1.2.6.</span>&nbsp<span class="toctext">tryUnsubscribe</span></a></li></ul></li><li class="level-3"><a href="#2.1.3."><span class="tocnumber">2.1.3.</span>&nbsp<span class="toctext">pureFinalPropsSelectorFactory</span></a><ul><li class="level-4"><a href="#2.1.3.1."><span class="tocnumber">2.1.3.1.</span>&nbsp<span class="toctext">handleFirstCall</span></a></li><li class="level-4"><a href="#2.1.3.2."><span class="tocnumber">2.1.3.2.</span>&nbsp<span class="toctext">handleSubsequentCalls</span></a><ul><li class="level-5"><a href="#2.1.3.2.1."><span class="tocnumber">2.1.3.2.1.</span>&nbsp<span class="toctext">handleNewPropsAndNewState</span></a></li><li class="level-5"><a href="#2.1.3.2.2."><span class="tocnumber">2.1.3.2.2.</span>&nbsp<span class="toctext">handleNewProps</span></a></li><li class="level-5"><a href="#2.1.3.2.3."><span class="tocnumber">2.1.3.2.3.</span>&nbsp<span class="toctext">handleNewState</span></a></li></ul></li></ul></li></ul></li><li class="level-2"><a href="#2.2."><span class="tocnumber">2.2.</span>&nbsp<span class="toctext">wrapMapToProps</span></a><ul><li class="level-3"><a href="#2.2.1."><span class="tocnumber">2.2.1.</span>&nbsp<span class="toctext">wrapMapToPropsConstant</span></a></li><li class="level-3"><a href="#2.2.2."><span class="tocnumber">2.2.2.</span>&nbsp<span class="toctext">getDependsOnOwnProps</span></a></li><li class="level-3"><a href="#2.2.3."><span class="tocnumber">2.2.3.</span>&nbsp<span class="toctext">wrapMapToPropsFunc</span></a><ul><li class="level-4"><a href="#2.2.3.1."><span class="tocnumber">2.2.3.1.</span>&nbsp<span class="toctext">detectFactoryAndVerify</span></a></li></ul></li></ul></li></ul></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="components"></a>1. components</h1><h2 id="1.1."><a href="#1.1." class="headerlink" title="Provider"></a>1.1. Provider</h2><p>导出Provider组件类</p>
+<ol>
+<li>重写构造函数，将props.store赋予实例属性this.store</li>
+<li>重写getChildContext，返回<code>{ store: this.store, storeSubscription: null }</code></li>
+<li>重写render，返回 children 中仅有的子级。否则抛出异常。</li>
+</ol>
+<h2 id="1.2."><a href="#1.2." class="headerlink" title="connectAdvanced"></a>1.2. connectAdvanced</h2><p>传入selectorFactory和options，返回connect的高阶组件。</p>
+<ol>
+<li><code>const subscriptionKey = storeKey + &#39;Subscription&#39;</code> storeKey为options中的属性</li>
+<li><code>const version = hotReloadingVersion++</code> hotReloadingVersion为模块中的变量</li>
+<li>定义contextTypes和childContextTypes，进行类型检查。</li>
+<li>传入WrappedComponent，返回wrapWithConnect函数，该函数即是构造connect组件的高阶组件。</li>
+</ol>
+<h3 id="1.2.1."><a href="#1.2.1." class="headerlink" title="wrapWithConnect"></a>1.2.1. wrapWithConnect</h3><p>参数：WrappedComponent</p>
+<ol>
+<li>构建selectorFactory的option</li>
+<li>构建Connect组件：<ul>
+<li><code>this.version = version</code></li>
+<li><code>this.state = {}</code></li>
+<li><code>this.store = this.props[storeKey] || this.context[storeKey]</code> context由最上级的provider组件提供</li>
+<li><code>this.parentSub = props[subscriptionKey] || context[subscriptionKey]</code></li>
+<li><code>this.setWrappedInstance = this.setWrappedInstance.bind(this)</code> 确保setWrappedInstance的this绑定当前实例，从而wrappedInstance可以被正确设置</li>
+<li><code>this.getState = this.store.getState.bind(this.store);</code> 确保getState被正确的绑定在store上</li>
+<li>执行initSelector和initSubscription</li>
+<li>设置Connect的静态属性<br>  ``` Connect.WrappedComponent = WrappedComponent<pre><code class="hljs ">  Connect<span class="hljs-selector-class">.displayName</span> = displayName
+  Connect<span class="hljs-selector-class">.childContextTypes</span> = childContextTypes
+  Connect<span class="hljs-selector-class">.contextTypes</span> = contextTypes
+  Connect<span class="hljs-selector-class">.propTypes</span> = contextTypes</code></pre>  ```</li>
+</ul>
+</li>
+<li><p>process.env.NODE_ENV不为production，则处理热更新.即定义componentWillUpdate方法,如果version与实例this.version不同，则执行initSelector,如果订阅者this.subscription存在,执行this.subscription.tryUnsubscribe(),然后重新订阅this.initSubscription(),shouldHandleStateChanges为true，执行订阅者的订阅this.subscription.trySubscribe()，从而让父级的订阅器收集到当前container的onStateChange</p>
+</li>
+<li><p><code>return hoistStatics(Connect, WrappedComponent)</code> 将WrappedComponent中的非react静态属性复制给Connect, 并返回Connect组件</p>
+</li>
+</ol>
+<h4 id="1.2.1.1."><a href="#1.2.1.1." class="headerlink" title="setWrappedInstance"></a>1.2.1.1. setWrappedInstance</h4><p>传入引用ref<br><code>this.wrappedInstance = ref</code></p>
+<h4 id="1.2.1.2."><a href="#1.2.1.2." class="headerlink" title="initSelector"></a>1.2.1.2. initSelector</h4><ol>
+<li>构建selector： <code>const { dispatch } = this.store;const { getState } = this;const sourceSelector = selectorFactory(dispatch, selectorFactoryOptions)</code></li>
+<li>将selector包装成对象，从而检查run后的结果<ul>
+<li><code>shouldComponentUpdate: true</code></li>
+<li><code>props: sourceSelector(getState(), this.props)</code> 初始props</li>
+<li>run方法，传入props，通过sourceSelector计算出nextProps，若出错则记录错误，并置shouldComponentUpdate为true，否则，若上次执行有错误，或是nextProps已与上次props不同，则<code>selector.props = nextProps</code> ,并清空错误，shouldComponentUpdate置true</li>
+</ul>
+</li>
+</ol>
+<h4 id="1.2.1.3."><a href="#1.2.1.3." class="headerlink" title="initSubscription"></a>1.2.1.3. initSubscription</h4><p>shouldHandleStateChanges（connectAdvanced的参数options中的属性，指示HOC是否应监听store变化，默认为true）为true时方执行。</p>
+<ol>
+<li><code>const subscription = this.subscription = new Subscription(this.store, this.parentSub)</code>  ,创建监听实例。</li>
+<li>建立subscription实例的onStateChange属性，并绑定当前connect组件的this。</li>
+</ol>
+<h5 id="1.2.1.3.1."><a href="#1.2.1.3.1." class="headerlink" title="onStateChange"></a>1.2.1.3.1. onStateChange</h5><ol>
+<li>this.selector.run(this.props)，传入当前props，根据state设置新的props。</li>
+<li>如果selector.shouldComponentUpdate为false，即表示渲染完成，直接执行subscription.notifyNestedSubs，将收集的子级lisener（一般是子级的onStateChange）执行（子级的onStateChange会递归执行所有后代的onStateChange）</li>
+<li>如果selector.shouldComponentUpdate为true，则定义组件componentDidUpdate，在渲染完毕后执行subscription.notifyNestedSubs,然后清除componentDidUpdate</li>
+<li>通过react组件的setState刷新UI</li>
+</ol>
+<h4 id="1.2.1.4."><a href="#1.2.1.4." class="headerlink" title="addExtraProps"></a>1.2.1.4. addExtraProps</h4><ol>
+<li><code>if (!withRef &amp;&amp; !renderCountProp) return props</code> 若既不需要使用getWrappedInstance暴露WrappedComponent，或是renderCountProp也是默认值，直接返回传入的props</li>
+<li>withRef为true，浅复制props，将props的ref属性设为this.setWrappedInstance</li>
+<li>renderCountProp存在，props的renderCountProp属性置为this.renderCount++（初始为0）</li>
+</ol>
+<h4 id="1.2.1.5."><a href="#1.2.1.5." class="headerlink" title="render"></a>1.2.1.5. render</h4><ol>
+<li>置selector.shouldComponentUpdate为false</li>
+<li>若selector.error存在，抛出错误</li>
+<li><code>return createElement(WrappedComponent, this.addExtraProps(selector.props))</code><br>注意是使用的createElement的一种重载。</li>
+</ol>
+<h1 id="2."><a href="#2." class="headerlink" title="utils"></a>2. utils</h1><h2 id="2.1."><a href="#2.1." class="headerlink" title="Subscription.js"></a>2.1. Subscription.js</h2><h3 id="2.1.1."><a href="#2.1.1." class="headerlink" title="createListenerCollection"></a>2.1.1. createListenerCollection</h3><p>建立listener集合</p>
+<ol>
+<li>设置current和next两个数组</li>
+<li>返回对象，该对象属性包括：</li>
+</ol>
+<h4 id="2.1.1.1."><a href="#2.1.1.1." class="headerlink" title="clear"></a>2.1.1.1. clear</h4><p>清空next和current</p>
+<h4 id="2.1.1.2."><a href="#2.1.1.2." class="headerlink" title="notify"></a>2.1.1.2. notify</h4><p>将next赋予current，并执行其中每个成员。</p>
+<h4 id="2.1.1.3."><a href="#2.1.1.3." class="headerlink" title="subscribe"></a>2.1.1.3. subscribe</h4><p>传入listener</p>
+<ol>
+<li>设置闭包flag isSubscribed为true</li>
+<li>如果current和next指向的对象相同，则复制current对象并赋予next，并在next中加入传进来的listener，</li>
+<li>返回unsubscribe函数。isSubscribed为false或current为null直接返回。若否，置isSubscribed为false，next和current指向不同，并把listener从next中移除。</li>
+</ol>
+<h3 id="2.1.2."><a href="#2.1.2." class="headerlink" title="Subscription类"></a>2.1.2. Subscription类</h3><h4 id="2.1.2.1."><a href="#2.1.2.1." class="headerlink" title="constructor"></a>2.1.2.1. constructor</h4><p>传入store, parentSub，并置为实例属性。<code>this.unsubscribe = null;this.listeners = nullListeners</code>  nullListeners为<code>{ notify() {} }</code></p>
+<h4 id="2.1.2.2."><a href="#2.1.2.2." class="headerlink" title="addNestedSub"></a>2.1.2.2. addNestedSub</h4><p>传入listener</p>
+<ol>
+<li>执行trySubscribe，确保this.unsubscribe和this.listeners存在。</li>
+<li><code>return this.listeners.subscribe(listener)</code> 将listener加入listeners集合中</li>
+</ol>
+<h4 id="2.1.2.3."><a href="#2.1.2.3." class="headerlink" title="notifyNestedSubs"></a>2.1.2.3. notifyNestedSubs</h4><p><code>this.listeners.notify()</code> 将收集的lisenter统统执行。</p>
+<h4 id="2.1.2.4."><a href="#2.1.2.4." class="headerlink" title="isSubscribed"></a>2.1.2.4. isSubscribed</h4><p><code>return Boolean(this.unsubscribe)</code></p>
+<h4 id="2.1.2.5."><a href="#2.1.2.5." class="headerlink" title="trySubscribe"></a>2.1.2.5. trySubscribe</h4><p>unsubscribe不存在，若parentSub存在 ，将unsubscribe置为<code>this.parentSub.addNestedSub(this.onStateChange)</code>,注意onStateChange是在connectAdvanced.initSubscription()设置。若parentSub不存在，置为<code>this.store.subscribe(this.onStateChange)</code> 这样，子级的onStateChange就可以被父级的订阅器subscription收集，当父级订阅器notifyNestedSubs时，就会执行子级的onStateChange</p>
+<p>调用createListenerCollection创建监听器集合作为实例属性listeners</p>
+<h4 id="2.1.2.6."><a href="#2.1.2.6." class="headerlink" title="tryUnsubscribe"></a>2.1.2.6. tryUnsubscribe</h4><p>```if (this.unsubscribe) {<br>      this.unsubscribe()<br>      this.unsubscribe = null<br>      this.listeners.clear()<br>      this.listeners = nullListeners<br>    }</p>
+<pre><code class="hljs ">
+
+<span class="clean"># connect
+## connect
+### createConnect
+传入</span></code></pre><p>  connectHOC = connectAdvanced,<br>  mapStateToPropsFactories = defaultMapStateToPropsFactories,<br>  mapDispatchToPropsFactories = defaultMapDispatchToPropsFactories,<br>  mergePropsFactories = defaultMergePropsFactories,<br>  selectorFactory = defaultSelectorFactory</p>
+<pre><code class="hljs ">构建connect函数
+
+
+## selectorFactory
+返回selector工厂函数，参数：</code></pre><p> {<br>  initMapStateToProps,<br>  initMapDispatchToProps,<br>  initMergeProps,<br>  …options<br>}</p>
+<pre><code class="hljs ">
+<span class="hljs-number">1.</span> 将对象中的各函数都传入<span class="hljs-built_in">dispatch</span>、options，保存为mapStateToProps，mapDispatchToProps,mergeProps
+<span class="hljs-number">2.</span> 通过options.pure选择， pureFinalPropsSelectorFactory还是impureFinalPropsSelectorFactory作为selectorFactory。pure为<span class="hljs-literal">true</span>，返回的selector函数将记住结果，并允许connectAdvanced的shouldComponentUpdate返回<span class="hljs-literal">false</span>，否则永远返回新的对象，并且shouldComponentUpdate总是返回<span class="hljs-literal">true</span>。
+<span class="hljs-number">3.</span> selectorFactory传入mapStateToProps，mapDispatchToProps，mergeProps，<span class="hljs-built_in">dispatch</span>，options，
+构建出选择函数(nextState: <span class="hljs-keyword">any</span>, nextOwnProps: <span class="hljs-keyword">any</span>) =&gt; <span class="hljs-keyword">any</span>
+
+<span class="hljs-comment">### impureFinalPropsSelectorFactory</span>
+<span class="hljs-number">1.</span> 接收mapStateToProps，mapDispatchToProps，mergeProps，<span class="hljs-built_in">dispatch</span>。
+<span class="hljs-number">2.</span> 构建并返回不纯净的属性选择器:</code></pre><pre><code class="hljs ">(<span class="hljs-keyword">state</span>, ownProps) =&gt; mergeProps(
+    mapStateToProps(<span class="hljs-keyword">state</span>, ownProps),
+    mapDispatchToProps(dispatch, ownProps),
+    ownProps
+)
+```</code></pre><h3 id="2.1.3."><a href="#2.1.3." class="headerlink" title="pureFinalPropsSelectorFactory"></a>2.1.3. pureFinalPropsSelectorFactory</h3><ol>
+<li>接收参数<pre><code class="hljs "> mapStateToProps,
+ mapDispatchToProps,
+ mergeProps,
+ <span class="hljs-keyword">dispatch,
+</span> { areStatesEqual, areOwnPropsEqual, areStatePropsEqual</code></pre></li>
+<li>设置hasRunAtLeastOnce作为指示是否初始化的flag</li>
+</ol>
+<h4 id="2.1.3.1."><a href="#2.1.3.1." class="headerlink" title="handleFirstCall"></a>2.1.3.1. handleFirstCall</h4><ol>
+<li>传入firstState, firstOwnProps，赋予state，ownProps</li>
+<li>执行mapStateToProps，mapDispatchToProps，mergeProps。</li>
+<li>设置hasRunAtLeastOnce为true，返回mergeProps执行的结果（合并后的props）</li>
+</ol>
+<h4 id="2.1.3.2."><a href="#2.1.3.2." class="headerlink" title="handleSubsequentCalls"></a>2.1.3.2. handleSubsequentCalls</h4><ol>
+<li>传入nextState, nextOwnProps</li>
+<li>调用areOwnPropsEqual，areStatesEqual比较state，nextState和ownProps，nextOwnProps，从而设置propsChanged，stateChanged</li>
+<li>将nextState, nextOwnProps赋予state，ownProps。</li>
+<li>如果propsChanged和stateChanged都为true，表示都改变了，返回handleNewPropsAndNewState()。</li>
+<li>仅propsChanged为true，返回handleNewProps()</li>
+<li>仅stateChanged为true，返回handleNewState()</li>
+<li>两者皆为false，表示状态和属性都没有变化，返回mergedProps（在上一次调用pureFinalPropsSelectorFactory时存储的mergedProps）</li>
+</ol>
+<h5 id="2.1.3.2.1."><a href="#2.1.3.2.1." class="headerlink" title="handleNewPropsAndNewState"></a>2.1.3.2.1. handleNewPropsAndNewState</h5><ol>
+<li>执行mapStateToProps</li>
+<li>mapDispatchToProps.dependsOnOwnProps为true，则执行mapDispatchToProps</li>
+<li>执行mergeProps并返回结果</li>
+</ol>
+<h5 id="2.1.3.2.2."><a href="#2.1.3.2.2." class="headerlink" title="handleNewProps"></a>2.1.3.2.2. handleNewProps</h5><ol>
+<li>mapStateToProps.dependsOnOwnProps为true，则执行mapStateToProps</li>
+<li>mapDispatchToProps.dependsOnOwnProps为true，则执行mapDispatchToProps</li>
+<li>执行mergeProps并返回结果</li>
+</ol>
+<h5 id="2.1.3.2.3."><a href="#2.1.3.2.3." class="headerlink" title="handleNewState"></a>2.1.3.2.3. handleNewState</h5><ol>
+<li>执行mapStateToProps，结果存为nextStateProps</li>
+<li>通过areStatePropsEqual比较nextStateProps和stateProps，并设置statePropsChanged</li>
+<li><code>stateProps = nextStateProps</code></li>
+<li>statePropsChanged为true，则执行mergeProps，结果赋予mergedProps（有些state变化并未引起state改变）</li>
+<li>返回mergedProps</li>
+</ol>
+<h2 id="2.2."><a href="#2.2." class="headerlink" title="wrapMapToProps"></a>2.2. wrapMapToProps</h2><h3 id="2.2.1."><a href="#2.2.1." class="headerlink" title="wrapMapToPropsConstant"></a>2.2.1. wrapMapToPropsConstant</h3><h3 id="2.2.2."><a href="#2.2.2." class="headerlink" title="getDependsOnOwnProps"></a>2.2.2. getDependsOnOwnProps</h3><h3 id="2.2.3."><a href="#2.2.3." class="headerlink" title="wrapMapToPropsFunc"></a>2.2.3. wrapMapToPropsFunc</h3><p>参数：mapToProps, methodName<br>返回代理选择器函数initProxySelector </p>
+<pre><code class="hljs ">(dispatch: <span class="hljs-literal">any</span>, {displayName}: {
+    displayName: <span class="hljs-literal">any</span>;
+}) =&gt; (<span class="hljs-keyword">state</span>OrDispatch: <span class="hljs-literal">any</span>, ownProps: <span class="hljs-literal">any</span>) =&gt; <span class="hljs-literal">any</span></code></pre><ol>
+<li>定义proxy<pre><code class="hljs "> return proxy.dependsOnOwnProps
+     ? proxy.mapToProps(<span class="hljs-keyword">state</span>OrDispatch, ownProps)
+     : proxy.mapToProps(<span class="hljs-keyword">state</span>OrDispatch)</code></pre></li>
+<li>proxy.dependsOnOwnProps通过调用getDependsOnOwnProps生成。</li>
+<li>定义detectFactoryAndVerify函数作为proxy.mapToProps，在proxy执行时调用</li>
+<li>返回proxy。proxy执行后即是返回计算后的props，无论传入mapToProps是多少阶的高阶函数。</li>
+</ol>
+<h4 id="2.2.3.1."><a href="#2.2.3.1." class="headerlink" title="detectFactoryAndVerify"></a>2.2.3.1. detectFactoryAndVerify</h4><ol>
+<li><code>proxy.mapToProps = mapToProps</code></li>
+<li><code>let props = proxy(stateOrDispatch, ownProps)</code> 此处即是执行了mapToProps(stateOrDispatch, ownProps)或mapToProps(stateOrDispatch)</li>
+<li>如果结果props仍为函数,将props赋予proxy.mapToProps，递归执行proxy(stateOrDispatch, ownProps),在此步后, props必然已不是函数</li>
+<li>非生产环境下，通过verifyPlainObject验证props</li>
+<li>返回props</li>
+</ol>
+ 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=45939171366"> </script>
+
+
+  </body>
+</html>

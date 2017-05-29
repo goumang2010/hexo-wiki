@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>mongoDB | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/mongoDB.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/mongoDB.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>mongoDB</h2>
+  mongoDB
+  <article class="markdown-body article">
+  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">Windows下mongoDB安装</span></a><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">下载安装包</span></a></li><li class="level-2"><a href="#1.2."><span class="tocnumber">1.2.</span>&nbsp<span class="toctext">建立配置文件及数据库目录</span></a></li><li class="level-2"><a href="#1.3."><span class="tocnumber">1.3.</span>&nbsp<span class="toctext">将mongoDB安装为服务</span></a></li><li class="level-2"><a href="#1.4."><span class="tocnumber">1.4.</span>&nbsp<span class="toctext">测试</span></a></li><li class="level-2"><a href="#1.5."><span class="tocnumber">1.5.</span>&nbsp<span class="toctext">参考</span></a></li></ul></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">Linux下mongoDB安装</span></a></li><li class="level-1"><a href="#3."><span class="tocnumber">3.</span>&nbsp<span class="toctext">基本命令</span></a><ul><li class="level-2"><a href="#3.1."><span class="tocnumber">3.1.</span>&nbsp<span class="toctext">登陆退出</span></a></li><li class="level-2"><a href="#3.2."><span class="tocnumber">3.2.</span>&nbsp<span class="toctext">数据库</span></a></li><li class="level-2"><a href="#3.3."><span class="tocnumber">3.3.</span>&nbsp<span class="toctext">collection</span></a></li><li class="level-2"><a href="#3.4."><span class="tocnumber">3.4.</span>&nbsp<span class="toctext">查询操作</span></a></li><li class="level-2"><a href="#3.5."><span class="tocnumber">3.5.</span>&nbsp<span class="toctext">备份恢复</span></a><ul><ul><li class="level-4"><a href="#3.5.1.1."><span class="tocnumber">3.5.1.1.</span>&nbsp<span class="toctext">mongostore</span></a></li></ul></ul></li></ul></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="Windows下mongoDB安装"></a>1. Windows下mongoDB安装</h1><h2 id="1.1."><a href="#1.1." class="headerlink" title="下载安装包"></a>1.1. 下载安装包</h2><ul>
+<li>进入官网：<a href="https://www.mongodb.org/" target="_blank" rel="external">https://www.mongodb.org/ </a>下载相应的安装包</li>
+<li>点击进行安装</li>
+<li>记录安装后mongo程序所在位置，如:<pre><code class="hljs ">D:<span class="hljs-symbol">\P</span>rogram Files<span class="hljs-symbol">\M</span>ongoDB<span class="hljs-symbol">\S</span>erver<span class="hljs-symbol">\3</span>.2<span class="hljs-symbol">\b</span>in</code></pre></li>
+</ul>
+<h2 id="1.2."><a href="#1.2." class="headerlink" title="建立配置文件及数据库目录"></a>1.2. 建立配置文件及数据库目录</h2><p>建立配置文件D:\Programming\MongoDB\mongo.config,内容如下：</p>
+<pre><code class="hljs "><span class="hljs-attr">dbpath</span>=D:\Programming\MongoDB\data\db ##数据库路径
+<span class="hljs-attr">logpath</span>=D:\Programming\MongoDB\log\mongo.log ##日志输出文件路径
+<span class="hljs-attr">logappend</span>=<span class="hljs-literal">true</span> ##错误日志采用追加模式，配置这个选项后mongodb的日志会追加到现有的日志文件，而不是从新创建一个新文件
+<span class="hljs-attr">journal</span>=<span class="hljs-literal">true</span> ##启用日志文件，默认启用
+<span class="hljs-attr">quiet</span>=<span class="hljs-literal">true</span> ##这个选项可以过滤掉一些无用的日志信息，若需要调试使用请设置为<span class="hljs-literal">false</span>
+<span class="hljs-attr">port</span>=<span class="hljs-number">27017</span> ##端口号 默认为<span class="hljs-number">27017</span></code></pre><p>以上配置文件所涉及的路径及文件均需手动一一建立</p>
+<h2 id="1.3."><a href="#1.3." class="headerlink" title="将mongoDB安装为服务"></a>1.3. 将mongoDB安装为服务</h2><p>管理员模式下进入cmd命令行,并进入程序所在目录，如:</p>
+<pre><code class="hljs ">cd D:<span class="hljs-symbol">\P</span>rogram Files<span class="hljs-symbol">\M</span>ongoDB<span class="hljs-symbol">\S</span>erver<span class="hljs-symbol">\3</span>.2<span class="hljs-symbol">\b</span>in</code></pre><p>输入命令：</p>
+<pre><code class="hljs ">mongod --config D:<span class="hljs-symbol">\P</span>rogramming<span class="hljs-symbol">\M</span>ongoDB<span class="hljs-symbol">\m</span>ongo.config --install</code></pre><p>启动服务：</p>
+<pre><code class="hljs "><span class="hljs-built_in">net</span> <span class="hljs-built_in">start</span> MongoDB</code></pre><h2 id="1.4."><a href="#1.4." class="headerlink" title="测试"></a>1.4. 测试</h2><p>进入程序所在目录，直接输入mongo进行连接</p>
+<h2 id="1.5."><a href="#1.5." class="headerlink" title="参考"></a>1.5. 参考</h2><p><a href="http://www.cnblogs.com/lzrabbit/p/3682510.html" target="_blank" rel="external">http://www.cnblogs.com/lzrabbit/p/3682510.html</a></p>
+<h1 id="2."><a href="#2." class="headerlink" title="Linux下mongoDB安装"></a>2. Linux下mongoDB安装</h1><ul>
+<li>安装:apt-get install mongodb</li>
+<li>客户端登陆：mongo</li>
+</ul>
+<h1 id="3."><a href="#3." class="headerlink" title="基本命令"></a>3. 基本命令</h1><h2 id="3.1."><a href="#3.1." class="headerlink" title="登陆退出"></a>3.1. 登陆退出</h2><p>Linux直接输入命令，Windows需在cmd下进入mongoDB的安装目录，如输入cd C:\Program Files\MongoDB\Server\3.2\bin<br>无密码登陆：mongo<br>退出：quit()</p>
+<h2 id="3.2."><a href="#3.2." class="headerlink" title="数据库"></a>3.2. 数据库</h2><ul>
+<li>查看所有数据库(与MySQL相同): <pre><code class="hljs "><span class="hljs-keyword">show</span> <span class="hljs-keyword">databases</span></code></pre></li>
+<li>创建并使用数据库: <pre><code class="hljs "><span class="hljs-keyword">use</span> netnote</code></pre>（netnote为数据库名字）</li>
+<li>查看所有集合：<pre><code class="hljs "><span class="hljs-attribute">show collections</span></code></pre></li>
+<li>删除数据库:<pre><code class="hljs "><span class="hljs-keyword">use</span> xxx
+<span class="hljs-keyword">db</span>.dropDatabase()</code></pre></li>
+</ul>
+<h2 id="3.3."><a href="#3.3." class="headerlink" title="collection"></a>3.3. collection</h2><ul>
+<li>删除coll：<pre><code class="hljs ">db<span class="hljs-selector-class">.coll</span><span class="hljs-selector-class">.drop</span>()</code></pre></li>
+</ul>
+<h2 id="3.4."><a href="#3.4." class="headerlink" title="查询操作"></a>3.4. 查询操作</h2><p>查看所有记录：</p>
+<pre><code class="hljs ">db<span class="hljs-selector-class">.notes</span><span class="hljs-selector-class">.find</span>()</code></pre><p>记录数量：</p>
+<pre><code class="hljs "><span class="hljs-selector-tag">db</span><span class="hljs-selector-class">.notes</span><span class="hljs-selector-class">.find</span>()<span class="hljs-selector-class">.count</span>()</code></pre><p>清除所有记录：</p>
+<pre><code class="hljs "><span class="hljs-selector-tag">db</span><span class="hljs-selector-class">.notes</span><span class="hljs-selector-class">.remove</span>({})</code></pre><h2 id="3.5."><a href="#3.5." class="headerlink" title="备份恢复"></a>3.5. 备份恢复</h2><p>这些命令在shell下使用</p>
+<h4 id="3.5.1.1."><a href="#3.5.1.1." class="headerlink" title="mongostore"></a>3.5.1.1. mongostore</h4><p><a href="https://docs.mongodb.org/manual/reference/program/mongorestore/" target="_blank" rel="external">https://docs.mongodb.org/manual/reference/program/mongorestore/</a></p>
+<pre><code class="hljs ">mongorestore -d dss_dev <span class="hljs-regexp">/Users/</span>lizh<span class="hljs-regexp">/OneDrive/</span>backup<span class="hljs-regexp">/dev0323</span></code></pre><p>dss_dev为数据库名称，/Users/lizh/OneDrive/backup/dev0323为已备份的文件夹</p>
+ 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=66955141689"> </script>
+
+
+  </body>
+</html>

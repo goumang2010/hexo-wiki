@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>git | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/git.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/git.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>git</h2>
+  git
+  <article class="markdown-body article">
+  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">安装</span></a><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">安装ssh</span></a></li><li class="level-2"><a href="#1.2."><span class="tocnumber">1.2.</span>&nbsp<span class="toctext">安装git</span></a></li><li class="level-2"><a href="#1.3."><span class="tocnumber">1.3.</span>&nbsp<span class="toctext">生成ssh密钥</span></a></li><li class="level-2"><a href="#1.4."><span class="tocnumber">1.4.</span>&nbsp<span class="toctext">在github上配置密钥</span></a></li></ul></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">命令</span></a><ul><li class="level-2"><a href="#2.1."><span class="tocnumber">2.1.</span>&nbsp<span class="toctext">克隆拉取</span></a></li><li class="level-2"><a href="#2.2."><span class="tocnumber">2.2.</span>&nbsp<span class="toctext">添加提交</span></a></li><li class="level-2"><a href="#2.3."><span class="tocnumber">2.3.</span>&nbsp<span class="toctext">远程推送</span></a></li><li class="level-2"><a href="#2.4."><span class="tocnumber">2.4.</span>&nbsp<span class="toctext">pull request</span></a></li><li class="level-2"><a href="#2.5."><span class="tocnumber">2.5.</span>&nbsp<span class="toctext">合并</span></a><ul><li class="level-3"><a href="#2.5.1."><span class="tocnumber">2.5.1.</span>&nbsp<span class="toctext">单个文件</span></a></li><li class="level-3"><a href="#2.5.2."><span class="tocnumber">2.5.2.</span>&nbsp<span class="toctext">强制合并</span></a><ul><li class="level-4"><a href="#2.5.2.1."><span class="tocnumber">2.5.2.1.</span>&nbsp<span class="toctext">保留当前</span></a></li><li class="level-4"><a href="#2.5.2.2."><span class="tocnumber">2.5.2.2.</span>&nbsp<span class="toctext">保留远程</span></a></li></ul></li><li class="level-3"><a href="#2.5.3."><span class="tocnumber">2.5.3.</span>&nbsp<span class="toctext">撤销合并</span></a></li></ul></li><li class="level-2"><a href="#2.6."><span class="tocnumber">2.6.</span>&nbsp<span class="toctext">清理</span></a><ul><li class="level-3"><a href="#2.6.1."><span class="tocnumber">2.6.1.</span>&nbsp<span class="toctext">清理未跟踪的文件</span></a></li></ul></li></ul></li><li class="level-1"><a href="#3."><span class="tocnumber">3.</span>&nbsp<span class="toctext">分支</span></a><ul><li class="level-2"><a href="#3.1."><span class="tocnumber">3.1.</span>&nbsp<span class="toctext">删除分支</span></a></li></ul></li><li class="level-1"><a href="#4."><span class="tocnumber">4.</span>&nbsp<span class="toctext">子模块</span></a><ul><li class="level-2"><a href="#4.1."><span class="tocnumber">4.1.</span>&nbsp<span class="toctext">subtree</span></a></li></ul></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="安装"></a>1. 安装</h1><h2 id="1.1."><a href="#1.1." class="headerlink" title="安装ssh"></a>1.1. 安装ssh</h2><p>安装：apt-get install openssh-server openssh-client<br>重启服务： /etc/init.d/ssh restart</p>
+<h2 id="1.2."><a href="#1.2." class="headerlink" title="安装git"></a>1.2. 安装git</h2><p>apt-get install git-core</p>
+<h2 id="1.3."><a href="#1.3." class="headerlink" title="生成ssh密钥"></a>1.3. 生成ssh密钥</h2><ul>
+<li>输入命令： ssh-keygen -C ‘goumang2010@live.com’ -t rsa<br>（’goumang2010@live.com’ 是我的github邮箱）<br>-C为提供注释 -t rsa表示生成的类型为rsa<br>一路回车即可</li>
+</ul>
+<h2 id="1.4."><a href="#1.4." class="headerlink" title="在github上配置密钥"></a>1.4. 在github上配置密钥</h2><ul>
+<li>获取密钥文件，把该文件拷贝至ftp目录： cp ~/.ssh/id_rsa.pub /home/ftp/data</li>
+<li>使用编辑器打开该文件，打开Github，点击自己图标=&gt;Settings，在左侧点击 SSH Keys，然后点击Add SSH key，title随便起，在Key处把id_rsa.pub文件的’’’全部内容’’’复制进去，然后点击Add Key，输入自己的Github密码后保存。</li>
+<li>在Ubuntu中键入ssh -v git@github.com进行测试  出现Exit status 1表示成功，测试后，github上该key的绿灯也会亮起来</li>
+</ul>
+<h1 id="2."><a href="#2." class="headerlink" title="命令"></a>2. 命令</h1><h2 id="2.1."><a href="#2.1." class="headerlink" title="克隆拉取"></a>2.1. 克隆拉取</h2><ul>
+<li><p>将项目克隆至本地：<br><code>git clone git@github.com:goumang2010/NetClipBoard.git</code></p>
+<p>（goumang2010为用户名，NetClipBoard为项目名称）</p>
+</li>
+<li>拉取commit并与本地同步（首先需进入git仓库所在目录：cd /home/ftp/data/NetClipBoard/） ：</li>
+</ul>
+<p><code>git pull</code></p>
+<h2 id="2.2."><a href="#2.2." class="headerlink" title="添加提交"></a>2.2. 添加提交</h2><ul>
+<li>添加所有文件及修改：<pre><code class="hljs ">git <span class="hljs-keyword">add</span><span class="bash"> -A</span></code></pre></li>
+<li>提交<pre><code class="hljs "><span class="hljs-attribute">git</span> commit -m <span class="hljs-string">"your message"</span></code></pre></li>
+</ul>
+<h2 id="2.3."><a href="#2.3." class="headerlink" title="远程推送"></a>2.3. 远程推送</h2><p>参照：<a href="https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/" target="_blank" rel="external">https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/</a></p>
+<ul>
+<li>设置远程目录：</li>
+</ul>
+<p><code>git remote add origin git@github.com:xxx.git</code></p>
+<ul>
+<li>推送至远程目录</li>
+</ul>
+<p><code>git push origin master</code></p>
+<ul>
+<li>修改远程目录</li>
+</ul>
+<p><code>git remote set-url origin https://github.com/USERNAME/OTHERREPOSITORY.git</code></p>
+<p>参考：<a href="https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/" target="_blank" rel="external">https://help.github.com/articles/adding-an-existing-project-to-github-using-the-command-line/</a></p>
+<h2 id="2.4."><a href="#2.4." class="headerlink" title="pull request"></a>2.4. pull request</h2><ul>
+<li>fork原项目</li>
+<li>新建分支并切换至该分支<br></li>
+</ul>
+<pre><code class="hljs ">git branch <span class="hljs-keyword">new</span><span class="hljs-type">branchname</span>
+git checkout <span class="hljs-keyword">new</span><span class="hljs-type">branchname</span></code></pre><ul>
+<li>推送分支到远程 </li>
+</ul>
+<p><code>git push --set-upstream origin newbranchname</code></p>
+<ul>
+<li>在github界面上发起pull request<br>参考:<a href="http://blog.csdn.net/zhangdaiscott/article/details/17438153" target="_blank" rel="external">http://blog.csdn.net/zhangdaiscott/article/details/17438153</a></li>
+</ul>
+<h2 id="2.5."><a href="#2.5." class="headerlink" title="合并"></a>2.5. 合并</h2><h3 id="2.5.1."><a href="#2.5.1." class="headerlink" title="单个文件"></a>2.5.1. 单个文件</h3><pre><code class="hljs ">git checkout A
+git checkout <span class="hljs-comment">--patch B f</span></code></pre><p><a href="http://stackoverflow.com/questions/10784523/how-do-i-merge-changes-to-a-single-file-rather-than-merging-commits" target="_blank" rel="external">http://stackoverflow.com/questions/10784523/how-do-i-merge-changes-to-a-single-file-rather-than-merging-commits</a></p>
+<h3 id="2.5.2."><a href="#2.5.2." class="headerlink" title="强制合并"></a>2.5.2. 强制合并</h3><h4 id="2.5.2.1."><a href="#2.5.2.1." class="headerlink" title="保留当前"></a>2.5.2.1. 保留当前</h4><p><code>git merge -s ours branchB</code></p>
+<p>git pull类似：<br><code>git pull -s ours</code></p>
+<h4 id="2.5.2.2."><a href="#2.5.2.2." class="headerlink" title="保留远程"></a>2.5.2.2. 保留远程</h4><p><code>git merge -s recursive -X theirs branchB</code></p>
+<p>git pull类似：<br><code>git pull -s recursive -X theirs</code></p>
+<p>如果连递归也不用，遇到不同直接采用他方的： <code>git merge -X theirs branchB</code></p>
+<p><a href="http://stackoverflow.com/questions/173919/is-there-a-theirs-version-of-git-merge-s-ours" target="_blank" rel="external">http://stackoverflow.com/questions/173919/is-there-a-theirs-version-of-git-merge-s-ours</a></p>
+<h3 id="2.5.3."><a href="#2.5.3." class="headerlink" title="撤销合并"></a>2.5.3. 撤销合并</h3><p>撤销上次合并并保留工作区修改：</p>
+<p><code>git reset --merge ORIG_HEAD</code></p>
+<p><a href="http://stackoverflow.com/questions/2389361/undo-a-git-merge-that-hasnt-been-pushed-yet" target="_blank" rel="external">http://stackoverflow.com/questions/2389361/undo-a-git-merge-that-hasnt-been-pushed-yet</a></p>
+<h2 id="2.6."><a href="#2.6." class="headerlink" title="清理"></a>2.6. 清理</h2><h3 id="2.6.1."><a href="#2.6.1." class="headerlink" title="清理未跟踪的文件"></a>2.6.1. 清理未跟踪的文件</h3><p><code>git clean -fd</code></p>
+<p><a href="http://stackoverflow.com/questions/61212/how-to-remove-local-untracked-files-from-the-current-git-branch" target="_blank" rel="external">http://stackoverflow.com/questions/61212/how-to-remove-local-untracked-files-from-the-current-git-branch</a></p>
+<h1 id="3."><a href="#3." class="headerlink" title="分支"></a>3. 分支</h1><h2 id="3.1."><a href="#3.1." class="headerlink" title="删除分支"></a>3.1. 删除分支</h2><pre><code class="hljs "><span class="hljs-symbol">git</span> <span class="hljs-keyword">push </span>origin --delete &lt;<span class="hljs-keyword">branch_name&gt;
+</span><span class="hljs-symbol">git</span> <span class="hljs-keyword">branch </span>-d &lt;<span class="hljs-keyword">branch_name&gt;</span></code></pre><h1 id="4."><a href="#4." class="headerlink" title="子模块"></a>4. 子模块</h1><h2 id="4.1."><a href="#4.1." class="headerlink" title="subtree"></a>4.1. subtree</h2><ol>
+<li>建立subtree, 注意folderpath不应该存在，但其上级必须存在：<br><code>git subtree add -P folderpath repourl branch</code></li>
+<li>将branch中的更改拉取到文件夹中，在add时会自动执行这项，注意两者的历史必须一致，否则将覆盖根目录，删除出subtree外的其他东西：<br><code>git subtree pull -P folderpath repourl branch</code></li>
+<li>make some changes and commit them</li>
+<li>修改推送回远程分支<br><code>git subtree push -P folderpath repourl branch</code></li>
+</ol>
+ 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=11383978137"> </script>
+
+
+  </body>
+</html>

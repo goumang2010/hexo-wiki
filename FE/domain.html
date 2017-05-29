@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>domain | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/domain.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/domain.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>domain</h2>
+  domain
+  <article class="markdown-body article">
+  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">域名解析</span></a><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">使用DNSpod进行域名解析</span></a></li></ul></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">域名配置</span></a><ul><li class="level-2"><a href="#2.1."><span class="tocnumber">2.1.</span>&nbsp<span class="toctext">子域名映射</span></a></li><li class="level-2"><a href="#2.2."><span class="tocnumber">2.2.</span>&nbsp<span class="toctext">端口及域名映射</span></a></li></ul></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="域名解析"></a>1. 域名解析</h1><h2 id="1.1."><a href="#1.1." class="headerlink" title="使用DNSpod进行域名解析"></a>1.1. 使用DNSpod进行域名解析</h2><ul>
+<li>进入域名商的管理页面，万网入口：<a href="http://dc.aliyun.com/basic/" target="_blank" rel="external">http://dc.aliyun.com/basic/</a></li>
+<li>输入DNSpod的解析服务器的地址，参照：<a href="https://support.dnspod.cn/Kb/showarticle/tsid/40/" target="_blank" rel="external">https://support.dnspod.cn/Kb/showarticle/tsid/40/</a></li>
+<li>在DNSPod的管理页面中添加域名解析：<a href="https://www.dnspod.cn/console/dns" target="_blank" rel="external">https://www.dnspod.cn/console/dns</a></li>
+</ul>
+<h1 id="2."><a href="#2." class="headerlink" title="域名配置"></a>2. 域名配置</h1><p>修改配置文件参见：<a href="Apache部署##Apache配置">Apache部署##Apache配置</a></p>
+<h2 id="2.1."><a href="#2.1." class="headerlink" title="子域名映射"></a>2.1. 子域名映射</h2><p>将wiki.liqiune.xyz映射至/var/www/html/wiki的网站</p>
+<pre><code class="hljs ">&lt;VirtualHost *:<span class="hljs-number">80</span>&gt;
+DocumentRoot /var/www/html/wiki
+ServerName wiki<span class="hljs-selector-class">.liqiune</span><span class="hljs-selector-class">.xyz</span>
+ServerAlias wiki<span class="hljs-selector-class">.liqiune</span><span class="hljs-selector-class">.xyz</span>
+ErrorLog <span class="hljs-string">"/var/www/html/wiki/logs/error.log"</span>
+CustomLog <span class="hljs-string">"/var/www/html/wiki/logs/access.log"</span>  combined
+&lt;/VirtualHost&gt;</code></pre><p>注意”/var/www/html/wiki/logs/error.log”<br>及”/var/www/html/wiki/logs/access.log”需要事先建立</p>
+<p>之后重启Apache：<a href="Apache部署##Apache重启">Apache部署##Apache重启</a></p>
+<h2 id="2.2."><a href="#2.2." class="headerlink" title="端口及域名映射"></a>2.2. 端口及域名映射</h2><p>放弃使用不安全的Proxy，转用rewrite作为跳转</p>
+<pre><code class="hljs "><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">VirtualHost</span> *<span class="hljs-attr">:80</span>&gt;</span></span>
+ServerName note.liqiune.xyz
+ServerAlias note.liqiune.xyz
+RewriteEngine on
+RewriteRule   "^/(.*)"  "[<span class="hljs-string">http://note.liqiune.xyz</span>](<span class="hljs-link">http://note.liqiune.xyz</span>):3000"  [R,L]
+<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">VirtualHost</span>&gt;</span></span></code></pre><p>参考：<a href="http://segmentfault.com/q/1010000000095724" target="_blank" rel="external">http://segmentfault.com/q/1010000000095724</a><br>注意：当未安装Proxy模块时，服务器将不能正常启动。通过journalctl -xe 查看，会提示：Invalid command ‘ProxyPass’, perhaps misspelled or defined by a module …<br>这时需要进入/etc/apache2/mods-available 目录，启用代理模块：</p>
+<pre><code class="hljs "><span class="hljs-attribute">a2enmod</span> proxy</code></pre><p>之后重启Apache：<a href="Apache部署##Apache重启">Apache部署##Apache重启</a></p>
+<p>参考：<a href="http://wiki.ubuntu.org.cn/Apache%E8%99%9A%E6%8B%9F%E4%B8%BB%E6%9C%BA%E6%8C%87%E5%8D%97" target="_blank" rel="external">http://wiki.ubuntu.org.cn/Apache%E8%99%9A%E6%8B%9F%E4%B8%BB%E6%9C%BA%E6%8C%87%E5%8D%97</a></p>
+ 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=91213645814"> </script>
+
+
+  </body>
+</html>

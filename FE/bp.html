@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>BP | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/bp.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/bp.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>BP</h2>
+  埋点管理平台前端构建及js SDK
+  <article class="markdown-body article">
+  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">操作流程</span></a><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">增加埋点</span></a></li><li class="level-2"><a href="#1.2."><span class="tocnumber">1.2.</span>&nbsp<span class="toctext">查询,修改及删除</span></a></li><li class="level-2"><a href="#1.3."><span class="tocnumber">1.3.</span>&nbsp<span class="toctext">热点分布图</span></a></li></ul></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">埋点管理平台</span></a><ul><li class="level-2"><a href="#2.1."><span class="tocnumber">2.1.</span>&nbsp<span class="toctext">iframe加载埋点页面</span></a><ul><li class="level-3"><a href="#2.1.1."><span class="tocnumber">2.1.1.</span>&nbsp<span class="toctext">前端</span></a></li><li class="level-3"><a href="#2.1.2."><span class="tocnumber">2.1.2.</span>&nbsp<span class="toctext">选择器</span></a><ul><li class="level-4"><a href="#2.1.2.1."><span class="tocnumber">2.1.2.1.</span>&nbsp<span class="toctext">_cssPathStep</span></a></li><li class="level-4"><a href="#2.1.2.2."><span class="tocnumber">2.1.2.2.</span>&nbsp<span class="toctext">prefixedElementClassNames</span></a></li><li class="level-4"><a href="#2.1.2.3."><span class="tocnumber">2.1.2.3.</span>&nbsp<span class="toctext">DOMNodePathStep类</span></a></li></ul></li><li class="level-3"><a href="#2.1.3."><span class="tocnumber">2.1.3.</span>&nbsp<span class="toctext">/databp/html接口</span></a></li><li class="level-3"><a href="#2.1.4."><span class="tocnumber">2.1.4.</span>&nbsp<span class="toctext">/databp/ajax接口</span></a></li></ul></li><li class="level-2"><a href="#2.2."><span class="tocnumber">2.2.</span>&nbsp<span class="toctext">右键菜单</span></a></li><li class="level-2"><a href="#2.3."><span class="tocnumber">2.3.</span>&nbsp<span class="toctext">管理页面</span></a></li><li class="level-2"><a href="#2.4."><span class="tocnumber">2.4.</span>&nbsp<span class="toctext">热力图</span></a><ul><li class="level-3"><a href="#2.4.1."><span class="tocnumber">2.4.1.</span>&nbsp<span class="toctext">heatmap.js</span></a><ul><li class="level-4"><a href="#2.4.1.1."><span class="tocnumber">2.4.1.1.</span>&nbsp<span class="toctext">getCanvas</span></a></li><li class="level-4"><a href="#2.4.1.2."><span class="tocnumber">2.4.1.2.</span>&nbsp<span class="toctext">_getBrush</span></a></li><li class="level-4"><a href="#2.4.1.3."><span class="tocnumber">2.4.1.3.</span>&nbsp<span class="toctext">_getGradient</span></a></li></ul></li></ul></li></ul></li><li class="level-1"><a href="#3."><span class="tocnumber">3.</span>&nbsp<span class="toctext">js sdk</span></a><ul><li class="level-2"><a href="#3.1."><span class="tocnumber">3.1.</span>&nbsp<span class="toctext">BP入口</span></a><ul><li class="level-3"><a href="#3.1.1."><span class="tocnumber">3.1.1.</span>&nbsp<span class="toctext">pvLog</span></a></li><li class="level-3"><a href="#3.1.2."><span class="tocnumber">3.1.2.</span>&nbsp<span class="toctext">getPvData</span></a></li><li class="level-3"><a href="#3.1.3."><span class="tocnumber">3.1.3.</span>&nbsp<span class="toctext">send</span></a></li><li class="level-3"><a href="#3.1.4."><span class="tocnumber">3.1.4.</span>&nbsp<span class="toctext">getExt</span></a></li></ul></li><li class="level-2"><a href="#3.2."><span class="tocnumber">3.2.</span>&nbsp<span class="toctext">工具方法</span></a><ul><li class="level-3"><a href="#3.2.1."><span class="tocnumber">3.2.1.</span>&nbsp<span class="toctext">获取平台信息getWm</span></a></li><li class="level-3"><a href="#3.2.2."><span class="tocnumber">3.2.2.</span>&nbsp<span class="toctext">sendRequest</span></a></li><li class="level-3"><a href="#3.2.3."><span class="tocnumber">3.2.3.</span>&nbsp<span class="toctext">jsonToQuery</span></a></li></ul></li><li class="level-2"><a href="#3.3."><span class="tocnumber">3.3.</span>&nbsp<span class="toctext">返回数据</span></a><ul><li class="level-3"><a href="#3.3.1."><span class="tocnumber">3.3.1.</span>&nbsp<span class="toctext">客户端信息CI</span></a></li><li class="level-3"><a href="#3.3.2."><span class="tocnumber">3.3.2.</span>&nbsp<span class="toctext">页面信息PI</span></a></li><li class="level-3"><a href="#3.3.3."><span class="tocnumber">3.3.3.</span>&nbsp<span class="toctext">用户信息UI</span></a></li><li class="level-3"><a href="#3.3.4."><span class="tocnumber">3.3.4.</span>&nbsp<span class="toctext">特别信息SI</span></a></li><li class="level-3"><a href="#3.3.5."><span class="tocnumber">3.3.5.</span>&nbsp<span class="toctext">性能信息P</span></a></li></ul></li></ul></li><li class="level-1"><a href="#4."><span class="tocnumber">4.</span>&nbsp<span class="toctext">后续完善</span></a></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="操作流程"></a>1. 操作流程</h1><p>目前尚处于测试阶段。<br><img src="/images/bp-1.svg" alt=""></p>
+<h2 id="1.1."><a href="#1.1." class="headerlink" title="增加埋点"></a>1.1. 增加埋点</h2><ol>
+<li>管理平台地址（测试）： <a href="http://bi.test.gomeplus.com/" target="_blank" rel="external">http://bi.test.gomeplus.com/</a></li>
+<li>使用域的账户和密码登录，并通知管理员开头相关权限。</li>
+<li>进入数据埋点 -&gt; 可视化埋点，在埋点URL中输入需要埋点的网址，当前可用网址为预生产环境：<a href="https://www-pre.gomeplus.com/" target="_blank" rel="external">https://www-pre.gomeplus.com/</a>  选择平台后，点击检索页面。</li>
+<li>待页面加载完成后，可通过鼠标查看当前选中的元素，点击邮件，可进入该元素的埋点菜单。</li>
+<li>在右键菜单中，对埋点信息进行增加或修改，点击保存/更新埋点后，完成埋点操作。</li>
+<li>左键点击页面其他元素，若该元素含有链接，则可跳转到该页面，进行正常埋点。</li>
+<li>若选择的平台与URL不符，埋点URL会自动变更为重定向后的网址。</li>
+</ol>
+<h2 id="1.2."><a href="#1.2." class="headerlink" title="查询,修改及删除"></a>1.2. 查询,修改及删除</h2><ol>
+<li>进入 数据埋点 -&gt; 埋点管理，可以查看所有埋点</li>
+<li>通过上方输入框，可以通过埋点URL、埋点名称、状态、匹配模式、平台、修改时间进行筛选。</li>
+<li>列表中的操作列可以进行相应的操作。点击修改可以进入可视化埋点界面编辑相关的埋点信息。</li>
+<li>点击删除、恢复将进行相应的操作。</li>
+</ol>
+<h2 id="1.3."><a href="#1.3." class="headerlink" title="热点分布图"></a>1.3. 热点分布图</h2><ol>
+<li>当用户点击埋点页面设置过的埋点元素时， sdk会将该行为及埋点信息进行上报。</li>
+<li>这些信息可以在热力分布图中体现。</li>
+<li>目前仅有pv页面点击量，uv用户访问数，可以在数据选择框中切换</li>
+<li>取消勾选显示热力图，可以像可视化埋点一样，点击相应的链接进行页面跳转，并刷新热力图。</li>
+</ol>
+<h1 id="2."><a href="#2." class="headerlink" title="埋点管理平台"></a>2. 埋点管理平台</h1><h2 id="2.1."><a href="#2.1." class="headerlink" title="iframe加载埋点页面"></a>2.1. iframe加载埋点页面</h2><h3 id="2.1.1."><a href="#2.1.1." class="headerlink" title="前端"></a>2.1.1. 前端</h3><ol>
+<li>用户输入埋点URL和平台</li>
+<li>前端验证URL是否合法，合法则将iframe的src属性置为<code>/databp/html?m=${platform}&amp;url=${pageUrl}</code>,platform为用户选择的平台，pageUrl为用户输入的埋点URL。</li>
+<li>iframe会向接口<a href="#bphtml">/databp/html</a>发起get请求，传入以上参数。</li>
+<li>iframe收到文档信息，进行正常渲染加载。</li>
+<li>iframe加载完成后，jquery注入悬浮时的样式并绑定hover事件。</li>
+<li>绑定右击事件，右击时取得选择器信息，传给弹出右键菜单。</li>
+<li>绑定左击事件，当点击的元素或其父级有链接时，重新设置URL进行重新检索。</li>
+<li>触发的xhr请求，会导向<a href="#bpajax">/databp/ajax</a>进行动态加载。</li>
+</ol>
+<h3 id="2.1.2."><a href="#2.1.2." class="headerlink" title="选择器"></a>2.1.2. 选择器</h3><p>使用chrome获取选择器的js操作，并进行修改。<br>传入DOM节点node</p>
+<ol>
+<li>检查node.nodeType，若非Node.ELEMENT_NODE，直接返回空字符串。</li>
+<li>调用内部方法<a href="#_cssPathStep">_cssPathStep</a>不断检查得到node及其父级的标识，直到到达DOM最顶级（html标签）</li>
+<li>若有任何一级检查标识出错，则终止该过程。</li>
+<li>将取得的标识从父到子，使用&gt;连接。</li>
+</ol>
+<h4 id="2.1.2.1."><a href="#2.1.2.1." class="headerlink" title="_cssPathStep"></a>2.1.2.1. <a name="_cssPathStep">_cssPathStep</a></h4><p>传入要检查的DOM节点node，是否启用优化optimized</p>
+<ol>
+<li>检查node.nodeType，若非Node.ELEMENT_NODE，直接返回null。</li>
+<li>通过getAttribute检查node的id，若存在，调用<a href="#DOMNodePathStep">DOMNodePathStep</a>方法，并传入nodeName#id</li>
+<li>若id不存在，检查node.parentNode，若parent不存在或为document，表示该节点为根节点，标识唯一，直接传入nodeName，生成DOMNodePathStep对象。</li>
+<li>id不存在，且不满足以上条件，调用<a href="#prefixedElementClassNames">prefixedElementClassNames</a>生成prefixedOwnClassNamesArray</li>
+<li><code>var needsClassNames = false;var needsNthChild = false;var ownIndex = -1;</code></li>
+<li>遍历node同级的所有DOM节点，确定needsClassNames及needsNthChild的最终值：若是没有同级元素，needsClassName和needsNthChild皆为false，若有同级同tagName的元素，needsClassName置为true，并比较所有同级同tagName元素的class，确定class是否唯一，若否，则标记needsNthChild为true。</li>
+<li>如果node就是最终节点且为input元素，没有id没有class，则将标识置为input[type=”…”]</li>
+<li>needsNthChild为true，则表示node没有可以唯一标识自身的class，则根据同级标签tagName的数量确定其为tagName:first-child +…的形式。</li>
+<li>needsNthChild为false，needsClassNames为true，表示，其有可以唯一标识自身的class，则将prefixedOwnClassNamesArray中的元素去除$，并使用.拼接起来。</li>
+<li>把最终结果传入<a href="#DOMNodePathStep">DOMNodePathStep</a>构造函数，返回新的<a href="#DOMNodePathStep">DOMNodePathStep</a>对象。</li>
+</ol>
+<h4 id="2.1.2.2."><a href="#2.1.2.2." class="headerlink" title="prefixedElementClassNames"></a>2.1.2.2. <a name="prefixedElementClassNames">prefixedElementClassNames</a></h4><p>存入DOM节点node</p>
+<ol>
+<li>通过getAttribute得到class属性。</li>
+<li>若class属性不存在，返回空数组。</li>
+<li><code>/\s+/g</code>分割，通过filter(Boolean)去除可能存在的空字符串。</li>
+<li>筛选出active类（自行添加），因为当埋点时，脚本可能自动添加active类，所以active类不能作为元素的唯一标识。</li>
+<li>将所有类名前加上$,返回数组。</li>
+</ol>
+<h4 id="2.1.2.3."><a href="#2.1.2.3." class="headerlink" title="DOMNodePathStep类"></a>2.1.2.3. <a name="DOMNodePathStep">DOMNodePathStep类</a></h4><p>通过实例属性value存入传入的值，重写原型上toString方法，返回实例属性value</p>
+<h3 id="2.1.3."><a href="#2.1.3." class="headerlink" title="/databp/html接口"></a>2.1.3. <a name="bphtml">/databp/html接口</a></h3><ol>
+<li>根据平台设置请求头，并确定是否为重定向页面，并发起相应页面的http(s)请求，得到页面内容。</li>
+<li>将页面内容中，各标签href及src属性指向根域的地址替换为完整地址，从而使其iframe中可以正常加载。</li>
+<li>注入拦截XMLHttpRequest的脚本，将所有ajax请求定向至<a href="#bpajax">/databp/ajax</a>接口。</li>
+<li>保存真实页面的cookie到后台session中，从而使页面后续的ajax请求能通过埋点页面网站后台的验证。</li>
+<li>将重定向后真实的地址和平台注入iframe的window对象中，从而反映在前端。</li>
+<li>将页面html文档返回给前端。</li>
+</ol>
+<h3 id="2.1.4."><a href="#2.1.4." class="headerlink" title="/databp/ajax接口"></a>2.1.4. <a name="bpajax">/databp/ajax接口</a></h3><p>接受页面中重定向的ajax请求，从而修复iframe页面中的动态加载</p>
+<ol>
+<li>根据session中存储的页面cookie信息，设置相应的请求头。</li>
+<li>向真实地址发出请求，并返回结果。</li>
+</ol>
+<h2 id="2.2."><a href="#2.2." class="headerlink" title="右键菜单"></a>2.2. 右键菜单</h2><ol>
+<li>加载时根据传入的页面URl和选择器，请求埋点信息接口。</li>
+<li>显示已设置的埋点信息。</li>
+<li>绑定drag drop事件实现拖拽。</li>
+</ol>
+<h2 id="2.3."><a href="#2.3." class="headerlink" title="管理页面"></a>2.3. 管理页面</h2><p>实现埋点列表的分页查询，修改，删除，恢复。<br>其中修改使用Vue router跳转至可视化埋点页面。</p>
+<h2 id="2.4."><a href="#2.4." class="headerlink" title="热力图"></a>2.4. 热力图</h2><ol>
+<li>用户输入埋点URL和平台，在iframe中加载该页面。</li>
+<li>请求接口，返回热力图信息。</li>
+<li>调用<a href="#heatmap.js">heatmap.js</a>，根据热力图信息生成热力图canvas。</li>
+<li>绑定数据来源选择，切换canvas。</li>
+<li>取消勾选显示热力图，即去除canvas遮罩，同可视化埋点，绑定单击事件，实现iframe页面的跳转。</li>
+<li>绑定MutationObserver，当DOM有新节点插入时，刷新热力图，从而实现动态加载元素的热力图绘制。</li>
+</ol>
+<h3 id="2.4.1."><a href="#2.4.1." class="headerlink" title="heatmap.js"></a>2.4.1. <a name="heatmap.js">heatmap.js</a></h3><p>echart2的heatmap组件，作者：me@zhangwenli.com， 灵感来源于<a href="#https://github.com/mourner/simpleheat">simpleheat</a><br>构造函数根据默认option补全传入的option，包括：</p>
+<ul>
+<li>blurSize 模糊尺寸</li>
+<li>gradientColors 渐变颜色数组</li>
+<li>minAlpha 最小不透明度</li>
+<li>valueScale 点位值的比例</li>
+<li>opacity 总体不透明度</li>
+</ul>
+<h4 id="2.4.1.1."><a href="#2.4.1.1." class="headerlink" title="getCanvas"></a>2.4.1.1. getCanvas</h4><p>传入数据data，长宽height,width</p>
+<ol>
+<li>调用<a href="#getBrush">_getBrush</a>取得笔刷。</li>
+<li>调用<a href="#getGradient">_getGradient</a>取得颜色渐变表。</li>
+<li>建立canvas画布，根据data中的点位上用第1步得到的笔刷画圆，圆心即点位，半径为<code>BRUSH_SIZE + this.option.blurSize</code>, 总体透明度为data中点位对应的值。这是这些圆是黑色的且从中心到边缘渐变为透明。</li>
+<li>通过getImageData取得canvas的data,注意每个点都有rgba四个值，所以四个值一组，遍历这些点，根据透明度在颜色渐变表上取值，即是重定义他们的颜色。</li>
+<li>通过putImageData将修改后的数据重新写入canvas。</li>
+</ol>
+<h4 id="2.4.1.2."><a href="#2.4.1.2." class="headerlink" title="_getBrush"></a>2.4.1.2. <a name="getBrush">_getBrush</a></h4><ol>
+<li><code>var r = BRUSH_SIZE + this.option.blurSize</code></li>
+<li>以2r为长宽建立canvas画布</li>
+<li>以(-r,r)为圆心，r为半径画个黑色实心圆，此时该圆完全在画布左侧，画布上看不到该圆。</li>
+<li>设置shadowOffsetX为2r，以及shadowBlur，这样圆的模糊阴影就会出现在画布中心。</li>
+<li>返回画布。</li>
+</ol>
+<h4 id="2.4.1.3."><a href="#2.4.1.3." class="headerlink" title="_getGradient"></a>2.4.1.3. <a name="getGradient">_getGradient</a></h4><ol>
+<li>建立canvas花布，宽度为1，高度为256</li>
+<li>调用canvas的createLinearGradient，配合addColorStop，将颜色列表中的颜色均分渐变</li>
+<li>画一个填满画布的矩形，并以上步定义的渐变进行填充。</li>
+<li>通过getImageData得到数据并返回。</li>
+</ol>
+<h1 id="3."><a href="#3." class="headerlink" title="js sdk"></a>3. js sdk</h1><ol>
+<li>通过domReady在DOM加载完毕后调用<a href="#pvLog">pvLog</a>记录并发送pv信息，调用getSelector动态埋点信息。</li>
+<li>通过UA判断页面不是WebView，并且host在限定的范围内，在文档上绑定click或是touchstart事件：<ul>
+<li>遍历e.target及其上级元素，检测其标签上是否有bp-data属性，取出其值转为对象data。</li>
+<li>若是a标签，则将href属性加入data中。</li>
+<li>检测e.target是否匹配动态埋点的元素，若匹配，若匹配取出其动态埋点信息和埋点id，混入data。</li>
+<li>通过<a href="#send">send</a>上报data.</li>
+</ul>
+</li>
+<li>监听window的error事件，报告错误和三层堆栈信息。</li>
+</ol>
+<h2 id="3.1."><a href="#3.1." class="headerlink" title="BP入口"></a>3.1. BP入口</h2><h3 id="3.1.1."><a href="#3.1.1." class="headerlink" title="pvLog"></a>3.1.1. <a name="pvLog">pvLog</a></h3><p>收集<a href="#wm">平台信息</a>,拼接<a href="#getPvData">getPvData</a>所收集的信息组,连同上报的地址构建get请求的url，调用工具方法<a href="#sendRequest">sendRequest</a>进行发送。</p>
+<h3 id="3.1.2."><a href="#3.1.2." class="headerlink" title="getPvData"></a>3.1.2. <a name="getPvData">getPvData</a></h3><p>收集<a href="#CI">客户端信息</a>,<a href="#PI">页面信息PI</a>,<a href="#UI">用户信息UI</a>,<a href="#P">性能信息</a>,<a href="#SI">特别信息SI</a>返回组合后的字符串，如：<code>CI=screen_size:1366x768|color_depth:24...&amp;PI=pagename:%E5%9B|referrer:|is_homepage:unkown|dom_count:660...&amp;UI=phpsid:61g1pa6cilc9ps7fod1gu5cbn3|ssid:892199852910.1479808626068|is_new:0...&amp;P=sdate:-|load_time:2816...&amp;SI=last_time:1480671035|active_no:-|page_id:A001...&amp;source=</code></p>
+<h3 id="3.1.3."><a href="#3.1.3." class="headerlink" title="send"></a>3.1.3. <a name="send">send</a></h3><p>调用<a href="#getExt">getExt</a>获取扩展信息，调用工具方法<a href="#jsonToQuery">jsonToQuery</a>格式化传入的data，连同上报的地址构建get请求的url，调用工具方法<a href="#sendRequest">sendRequest</a>进行发送。</p>
+<h3 id="3.1.4."><a href="#3.1.4." class="headerlink" title="getExt"></a>3.1.4. <a name="getExt">getExt</a></h3><p>收集<a href="#PI">页面信息PI</a>,<a href="#P">性能信息P</a>,<a href="#wm">平台信息</a>,<a href="#UI">用户信息UI</a>并组合为字符串</p>
+<h2 id="3.2."><a href="#3.2." class="headerlink" title="工具方法"></a>3.2. 工具方法</h2><h3 id="3.2.1."><a href="#3.2.1." class="headerlink" title="获取平台信息getWm"></a>3.2.1. <a name="wm">获取平台信息getWm</a></h3><p>通过创建TouchEvent事件来判断是否为移动端，记录形式为：<code>wm=m</code>或<code>wm=www</code></p>
+<h3 id="3.2.2."><a href="#3.2.2." class="headerlink" title="sendRequest"></a>3.2.2. <a name="sendRequest">sendRequest</a></h3><p>通过UA判断客户端不是PhantomJS，并且window.location.host在限定的列表中，则<code>var img = new Image();img.src = url;</code></p>
+<h3 id="3.2.3."><a href="#3.2.3." class="headerlink" title="jsonToQuery"></a>3.2.3. <a name="jsonToQuery">jsonToQuery</a></h3><p>将js对象转换为query字符串，注意该方法并未调用encodeURIComponent对字符串进行转义，所以需要时手动进行转义。</p>
+<h2 id="3.3."><a href="#3.3." class="headerlink" title="返回数据"></a>3.3. 返回数据</h2><h3 id="3.3.1."><a href="#3.3.1." class="headerlink" title="客户端信息CI"></a>3.3.1. <a name="CI">客户端信息CI</a></h3><ul>
+<li>屏幕尺寸:screen_size<br>通过window.screen.width/height获取，如<code>screen_size:1366x768</code></li>
+<li>屏幕色深:color_depth<br>通过window.screen.colorDepth获取，如<code>color_depth:24</code></li>
+<li>appCode<br>通过navigator.appCodeName获取，如<code>app_code:Mozilla</code></li>
+<li>appName<br>通过navigator.appName获取，如<code>app_name:MSIE</code>或<code>app_name:Netscape</code></li>
+<li>CPU信息:cpu<br>通过navigator.cpuClass或oscpu获取，如<code>cpu:x86</code></li>
+<li>平台信息:platform<br>通过navigator.platform获取，如<code>platform:Win32</code></li>
+<li>网络连接类型:network<br>navigator.connection.type获取，对于IE10以前的IE，通过<code>document.body.addBehavior(&quot;#default#clientCaps&quot;);</code>然后取得document.body.connectionType获取，如：<code>network:-</code></li>
+<li>系统语言:language<br>通过navigator.systemLanguage或language获取，如<code>language:zh-CN</code></li>
+<li>时区:timezone<br>通过<code>new Date().getTimezoneOffset() / 60</code>取得，如：<code>timezone:-8</code></li>
+<li>Flash版本:flash_ver<br>遍历navigator.plugins数组，找到name为Shockwave Flash的项，截取description中的版本信息。对于IE10以下，则是从10开始往下遍历flash版本号，试验是否能成功new ActiveXObject(‘ShockwaveFlash.ShockwaveFlash.rev’)来确定flash版本。如:<code>flash_ver:23.0 r0</code></li>
+<li>浏览器UA:ua<br>通过encodeURIComponent编码navigator.userAgent，如：<code>ua:Mozilla%2F5.0%20(Windows%20NT%2010.0%3B%20Win64%3B%20x64)%20AppleWebKit%2F537.36%20(KHTML%2C%20like%20Gecko)%20Chrome%2F54.0.2840.99%20Safari%2F537.36</code></li>
+</ul>
+<h3 id="3.3.2."><a href="#3.3.2." class="headerlink" title="页面信息PI"></a>3.3.2. <a name="PI">页面信息PI</a></h3><ul>
+<li><p>页面title:pagename<br><code>encodeURIComponent(document.title || &#39;-&#39;)</code></p>
+</li>
+<li><p>页面引用:referrer<br>通过document.referrer得到跳转或打开到当前页面的那个页面的URI，若为空字符串，或通过<code>/^[^\?&amp;#]*.swf([\?#])?/</code>判断该页面为flash页面，则截取win.location.href中ref到&amp;之间的字符串作为结果。否则直接返回encodeURIComponent编码后的referrer，如：<code>referrer:https%3A%2F%2Fgroup.gomeplus.com%2Ftopic%2F58085f7d4b70a437327ab705.html%3Fcsid%3D150000001002</code></p>
+</li>
+<li><p>当前页是否为浏览器默认首页:is_homepage<br>若是IE10以下的IE浏览器，通过<code>document.body.addBehavior(&quot;#default#homePage&quot;);</code>,而后通过document.body.isHomePage(win.location.href)判断。除此之外，置为<code>is_homepage:unkown</code></p>
+</li>
+<li><p>页面DOM数:dom_count<br>通过<code>document.getElementsByTagName(&quot;*&quot;).length</code>取得,如： <code>dom_count:542</code></p>
+</li>
+<li><p>页面iframe数:iframe_count<br>通过<code>document.getElementsByTagName(&quot;iframe&quot;).length</code>取得,如： <code>iframe_count:0</code></p>
+</li>
+<li><p>当前页面的url:url<br><code>encodeURIComponent(window.location.href)</code>, 如：<code>url:https%3A%2F%2Fwww.gomeplus.com%2F</code></p>
+</li>
+<li><p>当前网站环境:env<br>测试当前url的host中是否包含dev，test，pre，有则置为相应环境，没有则置为pro，如<code>env:pro</code></p>
+</li>
+</ul>
+<h3 id="3.3.3."><a href="#3.3.3." class="headerlink" title="用户信息UI"></a>3.3.3. <a name="UI">用户信息UI</a></h3><ul>
+<li><p>phpsid<br>通过在cookie中取得mx_wap_gomeplusid或mx_pc_gomeplusid并返回，如<code>phpsid:h1cmcj37euhqru7d3v33fjvff6</code></p>
+</li>
+<li><p>唯一用户标记:ssid<br>若cookie中不存在ssid的cookie，则设置一个随机字符串作为ssid，设置5年的cookie，并返回，如<code>ssid:87418208056.1480669727100</code>,该值前面是11位数，后面为当前时间值</p>
+</li>
+<li><p>7天是否访问过此页面:is_new<br>检查cookie中是否有isnew的值，若存在，则返回<code>is_new:0</code>,否则设置其期限为7天的随机值。</p>
+</li>
+<li><p>用户id:uid<br>获取window.userId并返回，如：<code>uid:0</code></p>
+</li>
+<li><p>店铺id:shop_id<br><code>window.BPConfig.shop_id</code>,如<code>shop_id:0</code></p>
+</li>
+<li><p>商品id:produce_id<br><code>window.BPConfig.produce_id</code>,如<code>produce_id:0</code></p>
+</li>
+<li><p>圈子id:group_id<br><code>window.groupId</code>, 如<code>group_id:0</code></p>
+</li>
+<li><p>话题id:topic_id<br><code>window.topicId</code>, 如<code>topic_id:0</code></p>
+</li>
+<li><p>频道id:channel<br><code>window.BPConfig.channel</code>，如<code>channel:0</code></p>
+</li>
+</ul>
+<h3 id="3.3.4."><a href="#3.3.4." class="headerlink" title="特别信息SI"></a>3.3.4. <a name="SI">特别信息SI</a></h3><ul>
+<li>获取plasttime:last_time<br><code>window.BPConfig.serverTime</code>存在，则设置cookie中plasttime为为该时间，否则设置为当前时间，期限都是1年，并返回如<code>last_time:1480675047</code></li>
+<li>获取active_no属性:active_no<br><code>window.active_no</code>, 如<code>active_no:-</code></li>
+<li>获取页面id:page_id<br><code>window.page_id</code>, 如<code>page_id:-</code></li>
+<li>获取页面name:page_name<br><code>window.page_name</code>, 如<code>page_name:-</code></li>
+</ul>
+<h3 id="3.3.5."><a href="#3.3.5." class="headerlink" title="性能信息P"></a>3.3.5. <a name="P">性能信息P</a></h3><ul>
+<li><p>页面服务器时间:sdate<br><code>window.BPConfig.serverTime</code></p>
+</li>
+<li><p>页面加载结束时间:load_time<br><code>loadTime - startTime</code>,loadTime为页面load事件触发时记录的时间，<code>startTime = win.BPConfig.startTime</code></p>
+</li>
+<li><p>页面节点加载完成时间:ready_time<br><code>readyTime - startTime</code>,readyTime为jquery的ready触发时记录时间，大多数情况比load要早，一般在DOMContentLoaded时被触发。</p>
+</li>
+<li><p>页面header加载时间：first_screen_time<br><code>headEndTime - startTime</code>, <code>headEndTime = win.BPConfig.headEndTime</code></p>
+</li>
+<li><p>js sdk版本:version<br>直接写在源文件中</p>
+</li>
+</ul>
+<h1 id="4."><a href="#4." class="headerlink" title="后续完善"></a>4. 后续完善</h1><ol>
+<li>协调加入模拟登录</li>
+<li>更多可视化效果</li>
+</ol>
+ 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=72466787695"> </script>
+
+
+  </body>
+</html>

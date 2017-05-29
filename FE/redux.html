@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>redux | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/redux.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/redux.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>redux</h2>
+  redux
+  <article class="markdown-body article">
+  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">createStore</span></a><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">ensureCanMutateNextListeners</span></a></li><li class="level-2"><a href="#1.2."><span class="tocnumber">1.2.</span>&nbsp<span class="toctext">getState</span></a></li><li class="level-2"><a href="#1.3."><span class="tocnumber">1.3.</span>&nbsp<span class="toctext">subscribe</span></a></li><li class="level-2"><a href="#1.4."><span class="tocnumber">1.4.</span>&nbsp<span class="toctext">dispatch</span></a></li><li class="level-2"><a href="#1.5."><span class="tocnumber">1.5.</span>&nbsp<span class="toctext">replaceReducer</span></a></li><li class="level-2"><a href="#1.6."><span class="tocnumber">1.6.</span>&nbsp<span class="toctext">observable</span></a><ul><li class="level-3"><a href="#1.6.1."><span class="tocnumber">1.6.1.</span>&nbsp<span class="toctext">subscribe</span></a></li></ul></li></ul></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">combineReducers</span></a><ul><li class="level-2"><a href="#2.1."><span class="tocnumber">2.1.</span>&nbsp<span class="toctext">assertReducerSanity</span></a></li></ul></li><li class="level-1"><a href="#3."><span class="tocnumber">3.</span>&nbsp<span class="toctext">applyMiddleware</span></a><ul><li class="level-2"><a href="#3.1."><span class="tocnumber">3.1.</span>&nbsp<span class="toctext">compose</span></a></li></ul></li><li class="level-1"><a href="#4."><span class="tocnumber">4.</span>&nbsp<span class="toctext">bindActionCreators</span></a><ul><li class="level-2"><a href="#4.1."><span class="tocnumber">4.1.</span>&nbsp<span class="toctext">bindActionCreator</span></a></li></ul></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="createStore"></a>1. createStore</h1><p>参数</p>
+<pre><code class="hljs ">reducer, preloadedState, enhancer</code></pre><ol>
+<li>若preloadedState为函数，并且enhancer未传入,将preloadedState赋予enhancer，preloadedState置空。<br>也就是两个参数时，第二个参数是enhancer。</li>
+<li>若传入的enhancer不是函数，则提示enhancer应该是函数。</li>
+<li>enhancer不为空，enhancer(createStore)(reducer, preloadedState)，则是将本身传入enhancer，enhancer<br>的形式为next =&gt; (reducer, preloadedState) =&gt; store，这样实际将原生createStore置为最后工序。</li>
+<li>reducer不是函数，提示reducer应该为函数。</li>
+<li>将reducer和preloadedState使用currentReducer，currentState保存。isDispatching<br>标识是否正在分发，默认为false。</li>
+<li>分发<code>{ type: ActionTypes.INIT }</code>的action</li>
+<li>返回对象：</li>
+</ol>
+<pre><code class="hljs ">{
+    dispatch,
+    subscribe,
+    getState,
+    replaceReducer,
+    [$$observable]: observable
+  }</code></pre><h2 id="1.1."><a href="#1.1." class="headerlink" title="ensureCanMutateNextListeners"></a>1.1. ensureCanMutateNextListeners</h2><p>确保nextListeners可改变。若nextListeners和currentListeners是同一数组，使用slice复制<br>currentListeners并赋予nextListeners</p>
+<h2 id="1.2."><a href="#1.2." class="headerlink" title="getState"></a>1.2. getState</h2><p>返回currentState</p>
+<h2 id="1.3."><a href="#1.3." class="headerlink" title="subscribe"></a>1.3. subscribe</h2><p>参数： listener, listener将在每次dispatch时调用。</p>
+<ol>
+<li>listener不是函数，提示listener应该是函数。</li>
+<li>建立isSubscribed为flag默认为true</li>
+<li>调用ensureCanMutateNextListeners，确保nextListeners和currentListeners<br>是不同数组。</li>
+<li>将listener加入nextListeners中。</li>
+<li>返回unsubscribe函数,改函数置isSubscribed为false，并将listener从nextListeners去除。</li>
+</ol>
+<h2 id="1.4."><a href="#1.4." class="headerlink" title="dispatch"></a>1.4. dispatch</h2><ol>
+<li>action不是plain object,提示actions必须为plain object, 需要使用中间件<br>才能使用异步action。</li>
+<li>isDispatching为true，标识正在分发其他actions, 抛出错误，reducer现在不能进行分发。</li>
+<li>置isDispatching为true，并执行currentReducer(currentState, action),得到的结果赋予currentState，<br>并将isDispatching置回false</li>
+<li>将nextListeners置为currentListeners，并执行其中每个listener</li>
+<li>返回action</li>
+</ol>
+<h2 id="1.5."><a href="#1.5." class="headerlink" title="replaceReducer"></a>1.5. replaceReducer</h2><p>参数：nextReducer</p>
+<ol>
+<li>如果nextReducer不是函数, 提示nextReducer应该为函数。</li>
+<li>nextReducer赋予currentReducer</li>
+<li>分发dispatch({ type: ActionTypes.INIT })</li>
+</ol>
+<h2 id="1.6."><a href="#1.6." class="headerlink" title="observable"></a>1.6. observable</h2><p>该函数作为[$$observable]的方法返回</p>
+<ol>
+<li>将subscribe函数引用存储于outerSubscribe</li>
+<li>返回对象，包括subscribe方法，[$$observable]方法，返回自身.</li>
+<li>调用方法：store<a href="">$$observable</a>.subscribe({next: (currentState) =&gt; {dosometing…}}) 从而实现根据state的监视。</li>
+</ol>
+<h3 id="1.6.1."><a href="#1.6.1." class="headerlink" title="subscribe"></a>1.6.1. subscribe</h3><p>参数：<code>observer</code><br>一个必须含有next方法的对象</p>
+<ol>
+<li>observer不是对象，则提示observer应该是个对象。</li>
+<li>定义并调用observeState，该函数将当前state传入observer.next</li>
+<li>将observeState作为listener，传入outerSubscribe，并作为unsubscribe返回。在这步中，由于outerSubscribe即是外层的subscribe函数，从而将<br>observeState加入到nextListeners中，在下次dispatch时将会被执行。</li>
+</ol>
+<h1 id="2."><a href="#2." class="headerlink" title="combineReducers"></a>2. combineReducers</h1><p>传入reducers，导出combineReducers函数，合并reduces，返回一个reducer</p>
+<ol>
+<li><code>const reducerKeys = Object.keys(reducers)</code></li>
+<li>遍历reducerKeys，筛选出合法的reducer，存入finalReducers。</li>
+<li><code>const finalReducerKeys = Object.keys(finalReducers)</code></li>
+<li>使用<a href="#assertReducerSanity">assertReducerSanit</a>校验finalReducers。</li>
+<li>返回新的combination reducer，首先抛出校验错误。 遍历finalReducers，<br>更新每个state[key]，合并为nextState并返回。</li>
+</ol>
+<h2 id="2.1."><a href="#2.1." class="headerlink" title="assertReducerSanity"></a>2.1. assertReducerSanity</h2><ol>
+<li>遍历传入的reducers</li>
+<li>const initialState = reducer(undefined, { type: ActionTypes.INIT })</li>
+<li>如果得到的初始状态initialState为undefined，则警告Reducer初始化返回undefined，如果不想给reducer设值，可以返回null而不是undefined</li>
+<li>将type为个随机值的action传入reducer，若返回的为undefined，则提示，若传入的action是个未知的action，<br>应该返回未更改的当前状态。</li>
+</ol>
+<p>// TODO</p>
+<h1 id="3."><a href="#3." class="headerlink" title="applyMiddleware"></a>3. applyMiddleware</h1><p>参数： <code>...middlewares</code>，每个中间件形式为<code>({ getState, dispatch }) =&gt; next =&gt; action</code></p>
+<ol>
+<li>返回根据中间件包装createStore的函数。</li>
+<li>执行createStore，结果为store，取得原始<code>dispatch = store.dispatch</code></li>
+<li>复制store中的getState，dispatch构成middlewareAPI</li>
+<li>将传入的每个中间件对middlewareAPI进行应用，从而都变为<code>next =&gt; action</code></li>
+<li>使用compose进行串联， 最后的next传入原始的store.dispatch，从而实现了所有中间件对原始store.dispatch的包裹。</li>
+<li>使用包装后的dispatch代替原store.dispatch，并返回这个修饰后的store。</li>
+</ol>
+<h2 id="3.1."><a href="#3.1." class="headerlink" title="compose"></a>3.1. compose</h2><p>使用累加器不断包裹串联函数效果</p>
+<p><code>return funcs.reduce((a, b) =&gt; (...args) =&gt; a(b(...args)))</code></p>
+<h1 id="4."><a href="#4." class="headerlink" title="bindActionCreators"></a>4. bindActionCreators</h1><p>参数： <code>actionCreators, dispatch</code></p>
+<ol>
+<li>actionCreators为函数，直接调用bindActionCreator包装后返回新的函数。</li>
+<li>actionCreators既不是函数，也不是对象，则发出警告。</li>
+<li>actionCreators为对象，将其每个属性使用bindActionCreator包装，并重组成对象，返回。</li>
+</ol>
+<h2 id="4.1."><a href="#4.1." class="headerlink" title="bindActionCreator"></a>4.1. bindActionCreator</h2><p>使用dispatch包装actionCreator，使其可以直接dispatch生成的action</p>
+ 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=67771970411"> </script>
+
+
+  </body>
+</html>

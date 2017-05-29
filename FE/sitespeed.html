@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>sitespeed | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/sitespeed.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/sitespeed.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>sitespeed</h2>
+  sitespeed
+  <article class="markdown-body article">
+  <p>基于coach/Yslow，github: <a href="https://github.com/sitespeedio/sitespeed.io" target="_blank" rel="external">github</a><br>。运行后生成一个纯静态站点展示所有报告</p>
+<div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">v3.x</span></a></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">v4.0</span></a><ul><li class="level-2"><a href="#2.1."><span class="tocnumber">2.1.</span>&nbsp<span class="toctext">源码分析</span></a><ul><li class="level-3"><a href="#2.1.1."><span class="tocnumber">2.1.1.</span>&nbsp<span class="toctext">入口文件./bin/sitespeed.js</span></a></li><li class="level-3"><a href="#2.1.2."><span class="tocnumber">2.1.2.</span>&nbsp<span class="toctext">./lib/sitespeed.js</span></a></li><li class="level-3"><a href="#2.1.3."><span class="tocnumber">2.1.3.</span>&nbsp<span class="toctext">./support/queueHandler.js</span></a></li><li class="level-3"><a href="#2.1.4."><span class="tocnumber">2.1.4.</span>&nbsp<span class="toctext">插件</span></a><ul><li class="level-4"><a href="#2.1.4.1."><span class="tocnumber">2.1.4.1.</span>&nbsp<span class="toctext">browsertime</span></a></li><li class="level-4"><a href="#2.1.4.2."><span class="tocnumber">2.1.4.2.</span>&nbsp<span class="toctext">coach</span></a></li></ul></li></ul></li><li class="level-2"><a href="#2.2."><span class="tocnumber">2.2.</span>&nbsp<span class="toctext">Windows安装测试方法:</span></a></li></ul></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="v3.x"></a>1. v3.x</h1><p>为目前的生产环境版本，使用YSlow和BrowserMobProxy 分析页面，<a href="https://www.sitespeed.io/documentation/" target="_blank" rel="external">官方文档</a>即3.11.7版本文档.Windows下安装测试步骤：</p>
+<ol>
+<li>node环境及VS（C++编译器）环境，npm源添加淘宝镜像。</li>
+<li>安装JAVA并确保加入环境变量path</li>
+<li>下载解压slimerjs-0.9.6-win32.zip，并确保slimerjs.bat所在目录包含在环境变量path中。</li>
+<li>下载解压phantomjs-2.1.1-windows.zip,并确保phantomjs.exe所在目录包含在环境变量path中。</li>
+<li>下载解压chromedriver_win32.zip,并确保chromedriver.exe所在目录包含在环境变量path中。</li>
+<li>运行<code>npm install -g sitespeed.io</code></li>
+<li>测试：<code>sitespeed.io.cmd -u  https://m.gomeplus.com --wptHost  www.webpagetest.org --wptKey A.d8127398a99713f3083f549dec9641ef</code></li>
+</ol>
+<h1 id="2."><a href="#2." class="headerlink" title="v4.0"></a>2. v4.0</h1><p>为目前开发版本，采用coach，不需要java依赖和浏览器前置代理，速度更快。</p>
+<h2 id="2.1."><a href="#2.1." class="headerlink" title="源码分析"></a>2.1. 源码分析</h2><h3 id="2.1.1."><a href="#2.1.1." class="headerlink" title="入口文件./bin/sitespeed.js"></a>2.1.1. 入口文件./bin/sitespeed.js</h3><p>通过../lib/support/cli.js接受命令行传递的参数，cli.js使用yargs对参数处理，并导出options，options传入../lib/support/pluginLoader.js的parsePluginNames方法，处理后得到所有使用的插件名称，最后使用../lib/sitespeed.js的方法，传入插件名称和cli的options进行最后处理。</p>
+<h3 id="2.1.2."><a href="#2.1.2." class="headerlink" title="./lib/sitespeed.js"></a>2.1.2. ./lib/sitespeed.js</h3><p>导出run(pluginNames, options){},该方法首先建立相关存储目录，然后调用./support/pluginLoader.js中的loadPlugins方法，该方法传入插件名，导出require各个插件后的模块对象，调用runOptionalFunction方法，执行各个模块定义的open，postOpen(如果存在)，再传入./support/queueHandler.js处理，对模块进行队列管理，调用模块的processMessage方法，出现错误会调用close方法。</p>
+<h3 id="2.1.3."><a href="#2.1.3." class="headerlink" title="./support/queueHandler.js"></a>2.1.3. ./support/queueHandler.js</h3><p>构造QueueHandler类，该类构造器传入plugins模块数组和用户输入的参数options，并调用createQueues构造执行队列。run方法传入url-source.js构建的对象，并执行findUrls方法，该方法会执行queueHandler.js中的postMessage方法，并传入参数{type=’url’,…},这回导致队列每个插件的参数都为’url’，当之后的startProcessingQueues时传入了处理函数plugin.processMessage(message, this)后，会执行自身的processMessage({type:’url,…}’,this)。再所有插件都执行完毕后，又一次调用processMessage，这会传入{type:’summarize’,…}进行结果输出。</p>
+<h3 id="2.1.4."><a href="#2.1.4." class="headerlink" title="插件"></a>2.1.4. 插件</h3><p>./lib/support/pluginLoader.js定义的默认插件为’browsertime’, ‘coach’, ‘domains’, ‘assets’, ‘html’, ‘analysisStorer’,’screenshot’，这些插件被queueHandler.js中的队列控制，按顺序加载调用。</p>
+<h4 id="2.1.4.1."><a href="#2.1.4.1." class="headerlink" title="browsertime"></a>2.1.4.1. browsertime</h4><p>在调用processMessage({type:’url,…}’,this)时，会先通过analyzer.js的analyzeUrl方法对url进行分析，该方法是执行主体，其中同时调用browsertime和coach模块，得到结果后通过队列的postMessage进而调用插件processMessage的type参数情况判断含有’browsertime.run’，’browsertime.pageSummary’，’browsertime.har’，’browsertime.screenshot’的插件的相应方法。这些情况都在html插件当中，即把结果输出给html。注意browsertime.har还会触发domains和coach相应的processMessage方法。</p>
+<h4 id="2.1.4.2."><a href="#2.1.4.2." class="headerlink" title="coach"></a>2.1.4.2. coach</h4><p>browsertime默认会通过其中的processCoachOutput触发type为coach.run的processMessage方法，该方法触发html插件的coach.pageSummary。</p>
+<h2 id="2.2."><a href="#2.2." class="headerlink" title="Windows安装测试方法:"></a>2.2. Windows安装测试方法:</h2><ol>
+<li>node环境及VS（C++编译器）环境，npm源添加淘宝镜像。</li>
+<li>下载解压phantomjs-2.1.1-windows.zip,并确保phantomjs.exe所在目录包含在环境变量path中。</li>
+<li>下载解压chromedriver_win32.zip,并确保chromedriver.exe所在目录包含在环境变量path中。</li>
+<li>运行<code>npm i -g sitespeed.io@canary</code></li>
+<li>测试：<code>sitespeed.io.cmd  https://m.gomeplus.com --webpagetest.host www.webpagetest.org --webpagetest.key A.d8127398a99713f3083f549dec9641ef --mobile --html.showWaterfallSummary</code></li>
+</ol>
+ 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=6437772372"> </script>
+
+
+  </body>
+</html>

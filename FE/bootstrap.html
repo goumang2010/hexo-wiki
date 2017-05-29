@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>bootstrap | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/bootstrap.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/bootstrap.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>bootstrap</h2>
+  bootstrap
+  <article class="markdown-body article">
+  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">模态框</span></a></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="模态框"></a>1. 模态框</h1><p>//包含vue字符</p>
+<pre><code class="hljs ">          <span class="hljs-tag">&lt;<span class="hljs-name">modal</span> <span class="hljs-attr">:show.sync</span>=<span class="hljs-string">"showEditRecordModal"</span> <span class="hljs-attr">effect</span>=<span class="hljs-string">"fade"</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"modal-header"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"modal-header"</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-name">h4</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"modal-title"</span>&gt;</span>修改数据<span class="hljs-tag">&lt;/<span class="hljs-name">h4</span>&gt;</span>
+              <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"modal-body"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"modal-body"</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-name">form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"editdata"</span>&gt;</span>
+                      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+                          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-lg-12"</span>&gt;</span>
+                              <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-group"</span>&gt;</span>
+                                  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>名称 <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"color:red"</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+                                  <span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+                                    <span class="hljs-attr">type</span>              = <span class="hljs-string">"text"</span>
+                                    <span class="hljs-attr">name</span>              = <span class="hljs-string">"name"</span>
+                                    <span class="hljs-attr">class</span>             = <span class="hljs-string">"form-control"</span>
+                                    <span class="hljs-attr">data-msg-required</span> = <span class="hljs-string">"不能为空"</span>
+                                    <span class="hljs-attr">v-model</span>           = <span class="hljs-string">"currentRecord.name"</span>
+                                    <span class="hljs-attr">required</span>&gt;</span>
+                              <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                          <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+                      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+                          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-lg-12"</span>&gt;</span>
+                              <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-group"</span>&gt;</span>
+                                  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>联系人 <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"color:red;"</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+                                  <span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+                                    <span class="hljs-attr">type</span>              = <span class="hljs-string">"text"</span>
+                                    <span class="hljs-attr">name</span>              = <span class="hljs-string">"contact"</span>
+                                    <span class="hljs-attr">class</span>             = <span class="hljs-string">"form-control"</span>
+                                    <span class="hljs-attr">data-msg-required</span> = <span class="hljs-string">"不能为空"</span>
+                                    <span class="hljs-attr">v-model</span>           = <span class="hljs-string">"currentRecord.contact"</span>
+                                    <span class="hljs-attr">required</span>&gt;</span>
+                              <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                          <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+                      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+                          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-lg-12"</span>&gt;</span>
+                              <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-group"</span>&gt;</span>
+                                  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>手机号 <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"color:red;"</span>&gt;</span>*<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+                                  <span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+                                    <span class="hljs-attr">type</span>=<span class="hljs-string">"text"</span>
+                                    <span class="hljs-attr">name</span>=<span class="hljs-string">"phone"</span>
+                                    <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control"</span>
+                                    <span class="hljs-attr">data-rule-mobile</span>=<span class="hljs-string">"true"</span>
+                                    <span class="hljs-attr">data-msg-required</span>=<span class="hljs-string">"请输入手机号"</span>
+                                    <span class="hljs-attr">data-msg-mobile</span>=<span class="hljs-string">"请输入正确格式"</span>
+                                    <span class="hljs-attr">v-model</span>=<span class="hljs-string">"currentRecord.phone"</span>
+                                    <span class="hljs-attr">required</span>&gt;</span>
+                              <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                          <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+                      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+                          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-lg-12"</span>&gt;</span>
+                              <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-group"</span>&gt;</span>
+                                  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>邮箱<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+                                  <span class="hljs-tag">&lt;<span class="hljs-name">input</span>
+                                    <span class="hljs-attr">type</span>              = <span class="hljs-string">"email"</span>
+                                    <span class="hljs-attr">name</span>              = <span class="hljs-string">"email"</span>
+                                    <span class="hljs-attr">class</span>             = <span class="hljs-string">"form-control"</span>
+                                    <span class="hljs-attr">data-rule-email</span>   = <span class="hljs-string">"true"</span>
+                                    <span class="hljs-attr">data-msg-required</span> = <span class="hljs-string">"请输入email地址"</span>
+                                    <span class="hljs-attr">data-msg-email</span>    = <span class="hljs-string">"请输入正确的email地址"</span>
+                                    <span class="hljs-attr">v-model</span>           = <span class="hljs-string">"currentRecord.email"</span>
+                                    <span class="hljs-attr">required</span>&gt;</span>
+                              <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                          <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+
+                      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"row"</span>&gt;</span>
+                          <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"col-lg-12"</span>&gt;</span>
+                              <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"form-group"</span>&gt;</span>
+                                  <span class="hljs-tag">&lt;<span class="hljs-name">label</span>&gt;</span>备注<span class="hljs-tag">&lt;/<span class="hljs-name">label</span>&gt;</span>
+                                  <span class="hljs-tag">&lt;<span class="hljs-name">textarea</span>
+                                    <span class="hljs-attr">class</span>=<span class="hljs-string">"form-control"</span>
+                                    <span class="hljs-attr">id</span>=<span class="hljs-string">"comment"</span>
+                                    <span class="hljs-attr">name</span>=<span class="hljs-string">"description"</span>&gt;</span><span class="hljs-comment">{{ currentRecord.description }}</span><span class="hljs-tag">&lt;/<span class="hljs-name">textarea</span>&gt;</span>
+                              <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                          <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                      <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+                  <span class="hljs-tag">&lt;/<span class="hljs-name">form</span>&gt;</span>
+              <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+              <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">slot</span>=<span class="hljs-string">"modal-footer"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"modal-footer"</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-default"</span> @<span class="hljs-attr">click</span>=<span class="hljs-string">'editRecord_abort'</span>&gt;</span>中止<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+                  <span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">type</span>=<span class="hljs-string">"button"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"btn btn-danger"</span>  @<span class="hljs-attr">click</span>=<span class="hljs-string">'editRecord_save'</span>&gt;</span>保存<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+              <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+          <span class="hljs-tag">&lt;/<span class="hljs-name">modal</span>&gt;</span></code></pre> 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=992260816"> </script>
+
+
+  </body>
+</html>
