@@ -12,3 +12,20 @@
 @import '_partial/archive';
 @import '_partial/footer';
 @import '_partial/mobile';
+
+::-webkit-scrollbar {
+	width: 8px;
+	height: 10px;
+	background: #eee;
+}
+
+::-webkit-scrollbar-thumb {
+	height: 50px;
+	background-color: #ccc !important;
+	border-radius: 5px;
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+}
+
+::-webkit-scrollbar-track-piece {
+	border-radius: 0;
+}
