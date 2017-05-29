@@ -56,23 +56,23 @@ function git() {
     });
 }
 
-function authorize() {
-    var ENCRYPTION_LABEL = process.env.ENCRYPTION_LABEL;
-    spawn('openssl', `aes-256-cbc -K $encrypted_${ENCRYPTION_LABEL}_key -iv $encrypted_${ENCRYPTION_LABEL}_iv -in deploy_key.enc -out deploy_key -d`.split(' '), {
-        cwd: deployDir,
-        verbose: verbose
-    }).then(function () {
-        return spawn('chmod', ['600', 'deploy_key'], {
-            cwd: deployDir,
-            verbose: verbose
-        });
-    }).then(function () {
-        return spawn('ssh-add', ['deploy_key'], {
-            cwd: deployDir,
-            verbose: verbose
-        });
-    });
-}
+// function authorize() {
+//     var ENCRYPTION_LABEL = process.env.ENCRYPTION_LABEL;
+//     spawn('openssl', `aes-256-cbc -K $encrypted_${ENCRYPTION_LABEL}_key -iv $encrypted_${ENCRYPTION_LABEL}_iv -in deploy_key.enc -out deploy_key -d`.split(' '), {
+//         cwd: deployDir,
+//         verbose: verbose
+//     }).then(function () {
+//         return spawn('chmod', ['600', 'deploy_key'], {
+//             cwd: deployDir,
+//             verbose: verbose
+//         });
+//     }).then(function () {
+//         return spawn('ssh-add', ['deploy_key'], {
+//             cwd: deployDir,
+//             verbose: verbose
+//         });
+//     });
+// }
 
 function setup() {
     var userName = args.name || args.user || args.userName || '';
@@ -111,7 +111,7 @@ function push() {
     });
 }
 
-fs.exists(deployDir).then(authorize).then(function (exist) {
+fs.exists(deployDir).then(function (exist) {
     if (exist) return;
 
     log.info('Setting up Git deployment...');
