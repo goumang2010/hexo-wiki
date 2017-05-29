@@ -2,7 +2,9 @@ language: node_js
 node_js: stable
 
 before_install:
-  - openssl aes-256-cbc -K $encrypted_7db6f52255d7_key -iv $encrypted_7db6f52255d7_iv -in deploy_key.enc -out deploy_key -d
+  - openssl aes-256-cbc -K $encrypted_3e313802eaa0_key -iv $encrypted_3e313802eaa0_iv -in deploy_key.enc -out deploy_key -d
+  - chmod 600 deploy_key
+  - ssh-add deploy_key
 
 # S: Build Lifecycle
 install:
