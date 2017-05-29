@@ -1,5 +1,6 @@
 .DS_Store
 Thumbs.db
+deploy_key
 db.json
 *.log
 *.map

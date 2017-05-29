@@ -24,4 +24,5 @@ branches:
     - master
 env:
  global:
+   - ENCRYPTION_LABEL: 7db6f52255d7
    - GH_REF: github.com/goumang2010/hexo-wiki.git
