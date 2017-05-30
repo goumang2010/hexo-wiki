@@ -1,8 +1,8 @@
-@import 'variables';
 
 .cards-title {
   margin: 0;
   padding: 2rem 0 1rem 0;
+  color: #999;
 }
 
 .cards-content {
@@ -14,9 +14,9 @@
 }
 
 .card-wrap {
-  margin: 1rem;
-  width: 30rem;
-  min-height: 9.7rem;
+    margin: 0.2rem;
+    width: 18rem;
+    min-height: 9.7rem;
 }
 
 .card {

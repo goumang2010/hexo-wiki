@@ -1,3 +1,74 @@
 .article {
+    margin-top: 20px;
+}
 
+.article h1,
+.article h2,
+.article h3,
+.article h4,
+.article h5,
+.article h6 {
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid #eee;
+}
+
+.article h1 {
+    font-size: 1.6em;
+}
+
+.article .toc {
+    display: -moz-inline-block;
+    display: inline-block;
+    padding: 7px;
+    border: 1px solid #ccc;
+    background-color: #f7f7f7;
+    font-size: 95%;
+    margin-bottom: 30px;
+    @media #{($mq-normal)} {
+        margin: 0;
+        width: 25rem;
+        border: 0;
+        overflow-y: auto;
+        position: fixed;
+        left: 0;
+        top: 44px;
+        bottom: 0;
+        z-index: 1000;
+        background-color: #333;
+        background-image: url(/images/pixels.png);
+        background-repeat: repeat;
+        a {
+            color: lighten($color-blue, 20%);
+        }
+        li.level-1 {
+            &>a {
+                color: lighten($color-blue, 0%);
+            }
+            font-size: 1.6rem;
+        }
+        li.level-2 {
+            &>a {
+                color: lighten($color-blue, 10%);
+            }
+            font-size: 1.5rem;
+        }
+        li.level-3 {
+            &>a {
+                color: lighten($color-blue, 15%);
+            }
+            font-size: 1.4rem;
+        }
+    }
+}
+
+.article .toc ul {
+    list-style-type: none;
+    list-style-image: none;
+    padding: 0;
+    text-align: left;
+    margin: .3em .6em;
+}
+
+.article .toc ul ul {
+    margin: 3px 0 0 2em;
 }

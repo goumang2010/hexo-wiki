@@ -1,7 +1,10 @@
-<%- partial('ga') %>
 <script>
   window.HEXO_DATA = {
     config: <%- JSON.stringify(config) %>,
   };
 </script>
-<%- js('js/header.js') %>
+<% if (process.env.NODE_ENV === 'dev') { %>
+  <script src="/js/dist/custom.js?v=<%= Math.floor(Math.random() * 100000000000) %>"> </script>
+<% } else { %>
+  <script src="/js/dist/custom.min.js?v=<%= Math.floor(Math.random() * 100000000000) %>"> </script>
+<% } %>

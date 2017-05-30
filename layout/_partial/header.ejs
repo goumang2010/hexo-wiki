@@ -1,6 +1,6 @@
-<header class="header">
-  <div class="container">
+<header class="header-page">
     <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
       <h1 class="header-logo">
         <a class="no-style header-link" href="
         <% if (is_home()) { %>
@@ -8,15 +8,19 @@
         <% } else { %>
           <%= url_for(page.lang) %>
         <% } %>
-        ">JS Index</a>
+        "><%= __('title') %></a>
       </h1>
-      <a class="no-style header-link" href="<%= url_for(page.lang + '/archives') %>"><%= __('archives') %></a>
-      <a class="no-style header-link" href="<%= url_for(page.lang + '/explore') %>"><%= __('explore') %></a>
-      <a class="no-style header-link" target="_blank" href="<%= config.github %>"><%= __('github') %></a>
-      <form id="header-search-form" class="header-search-form">
+      <div class="menu">
+        <a class="no-style header-link" href="<%= url_for(page.lang + '/archives') %>"><%= __('archives') %></a>
+        <a class="no-style header-link" target="_blank" href="<%= page.github || (config.github + '/edit/master/source/' + (page.source || '../' + __('cate.path'))) %>"><%= __('edit') %></a>
+        <a class="no-style header-link" href="<%= url_for('/readme') %>">README</a>
+        <a class="no-style header-link" target="_blank" href="<%= config.github %>"><%= __('github') %></a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
         <input id="header-search-input" class="header-search-input" type="text" placeholder="<%= __('search') %>"/>
-      </form>
-      <div class="header-lang-select-wrap header-link">
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
         <label>
         <% if (is_root()) { %>
           Choose a language
@@ -27,15 +31,14 @@
         <select id="header-lang-select" class="header-lang-select">
         <% if (is_root()) { %>
           <option disabled selected value class="hidden">Choose a language</option>
-          <% get_langs().forEach(lang => { %>
-            <option value="<%= lang %>" data-href="<%= switch_lang(lang) %>"><%= site.data.languages[lang] %></option>
+          <% get_langs().forEach((lang) => { %>
+            <option value="<%= switch_lang(lang) %>" ><%= site.data.languages[lang] %></option>
           <% }) %>
         <% } else { %>
           <% get_langs().forEach(lang => { %>
             <option
-              value="<%= lang %>"
+              value="<%= switch_lang(lang) %>"
               <%= lang === page.lang ? 'selected' : ''%>
-              data-href="<%= switch_lang(lang) %>"
             >
               <%= site.data.languages[lang] %>
             </option>
@@ -44,5 +47,5 @@
         </select>
       </div>
     </div>
-  </div>
+ <%- partial('mobile-nav') %>
 </header>

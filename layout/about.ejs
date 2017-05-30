@@ -5,12 +5,12 @@
   <%- partial('_partial/header', {
     index: false
   }) %>
-  <div class="container">
-    <h2 class="archive-title"><%= __('archives') %></h2>
-  </div>
-  <%- partial('_partial/words', {
-    items: page.posts,
-  }) %>
+	<section class="container">
+	  <h2>README</h2>
+	  <article class="markdown-body article">
+	  <%- markdown(read_file('README.md')) %>
+	  </article>
+	</section>
   <%- partial('_partial/footer') %>
   <%- partial('_partial/scripts') %>
   </body>

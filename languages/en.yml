@@ -1,11 +1,16 @@
 archives: Archives
-explore: Explore
+index: Index
 new: New
+cate:
+  title: Cate
+  path: source/index.en.md
 github: GitHub
 search: Search...
+edit: Edit
 
 jumbotron:
-  title: The index of everything about JavaScript
+  title: Wiki Of Deep♂ Learning FE&CS etc.
   create: Create an item
+  convert: MediaWiki Converter
 
 more: Show more

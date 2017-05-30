@@ -1,0 +1,43 @@
+$color-yellow: #f3df49;
+$color-orange: #CF8B54;
+$color-dark-gray: #333;
+$color-blue: #66ccff;
+$color-white-gray: darken(white, 10%);
+$color-light-white-gray: darken(white, 5%);
+$color-dark-white-gray: darken(white, 15%);
+$color-black-transparent: rgba(0,0,0,0.2);
+$color-black: rgba(0,0,0,0.9);
+
+$color-text-white: $color-white-gray;
+$color-text-white-hover: white;
+$color-text-base: $color-dark-gray;
+$color-text-yellow: darken($color-yellow, 10%);
+$color-text-blue: $color-blue;
+
+$font-size-base: 10px;
+$font-size-normal: 1.6rem;
+$font-size-big: 2rem;
+
+$line-height-normal: 1.5;
+
+// Fonts
+$font-sans: "Microsoft Yahei", "Helvetica Neue", Helvetica, Arial, sans-serif;
+//font-sans:  "Helvetica Neue", Helvetica, Arial, sans-serif
+$font-serif: "Droid Serif", Georgia, Serif;
+$font-mono:  "Source Code Pro", Consolas, Monaco, Menlo, Consolas, monospace;
+$font-icon:  FontAwesome;
+$font-icon-path:  "fonts/fontawesome-webfont";
+$font-icon-version:  "4.0.3";
+$font-size:  14px;
+$line-height:  1.6em;
+$line-height-title:  1.1em;
+
+
+// Media queries
+$mq-mobile: "screen and (max-width: 767px)";
+// $mq-tablet: "screen and (min-width: 480px) and (max-width: 767px)";
+$mq-normal: "screen and (min-width: 768px)";
+
+// Mobile
+$mobile-nav-width: 280px;
+$color-mobile-nav-background: rgba(0, 0, 0, 0.7);

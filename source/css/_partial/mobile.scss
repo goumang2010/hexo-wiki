@@ -1,0 +1,47 @@
+#main-nav-toggle {
+  display: none;
+  font-family: $font-icon;
+  &:before {
+    content: "\f0c9";
+  }
+  @media #{($mq-mobile)} {
+  	margin: -1rem;
+    padding: 1rem;
+    display: inline-block;
+  }
+}
+#mobile-nav {
+	display: none;
+}
+@media #{($mq-mobile)} {
+	#mobile-nav {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: $mobile-nav-width;
+		height: 100%;
+		background: $color-mobile-nav-background;
+		border-right: 1px solid #fff;
+	}
+	#mobile-nav a {
+		display: block;
+		color: #ccc;
+		text-decoration: none;
+		padding: 15px 20px;
+		font-weight: bold;
+		&:hover {
+		  color: #fff;
+		}
+	}
+}
+
+.mobile-nav-on {
+  overflow: hidden !important;
+}
+
+.menu {
+	display: inline-block;
+	@media #{($mq-mobile)} {
+		display: none;
+	}
+}

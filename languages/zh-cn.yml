@@ -1,0 +1,17 @@
+title: Chuune Wiki
+index: 首页
+archives: 索引
+new: 最新
+cate:
+  title: 目录
+  path: source/index.zh.md
+github: GitHub
+search: 搜索
+edit: 编辑
+
+jumbotron:
+  title: 深♂入学习Computer Science的Wiki
+  create: 新建一项
+  convert: MediaWiki转换器
+
+more: 查看更多
