@@ -24,8 +24,21 @@
   },
   "homepage": "https://github.com/xcatliu/hexo-theme-wiki-i18n#readme",
   "devDependencies": {
+    "babel-preset-env": "^1.5.1",
     "eslint": "^2.13.1",
     "eslint-config-airbnb-base": "^3.0.1",
-    "eslint-plugin-import": "^1.8.1"
+    "eslint-plugin-import": "^1.8.1",
+    "rollup": "^0.41.6",
+    "rollup-plugin-babel": "^2.6.1",
+    "rollup-plugin-commonjs": "^5.0.5",
+    "rollup-plugin-eslint": "^3.0.0",
+    "rollup-plugin-node-resolve": "^2.0.0",
+    "rollup-watch": "^3.2.2",
+    "uglify-js": "^2.7.3",
+    "yaml-front-matter": "^3.4.0"
+  },
+  "dependencies": {
+    "github-markdown-css": "^2.4.1",
+    "normalize.css": "^5.0.0"
   }
 }

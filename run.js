@@ -11,8 +11,8 @@ exec = function(...args) {
 };
 
 let cmd = [];
-let rollupwatch = `node_modules/.bin/rollup -w -m -c themes/wiki-i18n/source/js/build/config.js`;
-let winrollupwatch = `node_modules\\.bin\\rollup -w -m -c themes/wiki-i18n/source/js/build/config.js`;
+let rollupwatch = `cd themes/wiki-i18n/&&node_modules/.bin/rollup -w -m -c source/js/build/config.js`;
+let winrollupwatch = `cd themes\\wiki-i18n\\&&node_modules\\.bin\\rollup -w -m -c source/js/build/config.js`;
 
 let hexowatch = `hexo clean && hexo generate && hexo serve --watch`;
 

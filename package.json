@@ -3,9 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "hexo": {
-    "version": "3.3.1"
+    "version": "3.3.7"
   },
   "scripts": {
+    "postinstall": "cd themes&&cd wiki-i18n&&npm install&&cd ..&&cd ..",
     "theme:pull": "git subtree pull -P themes/wiki-i18n theme master",
     "theme:push": "git subtree push -P themes/wiki-i18n theme master",
     "jsbuild": "node themes/wiki-i18n/source/js/build/build.js",
@@ -16,7 +17,6 @@
     "test": "npm run lint"
   },
   "dependencies": {
-    "github-markdown-css": "^2.4.1",
     "hexo": "^3.2.0",
     "hexo-deployer-git": "^0.2.0",
     "hexo-front-matter-excerpt": "^0.2.0",
@@ -29,26 +29,16 @@
     "hexo-generator-tag": "^0.2.0",
     "hexo-media-marked": "^0.2.0",
     "hexo-renderer-ejs": "^0.2.0",
-    "hexo-renderer-sass": "^0.2.0",
+    "hexo-renderer-sass": "^0.3.1",
     "hexo-renderer-stylus": "^0.3.1",
     "hexo-server": "^0.2.0",
-    "hexo-tag-bootstrap": "0.0.8",
-    "normalize.css": "^5.0.0",
-    "yaml-front-matter": "^3.4.0"
+    "hexo-tag-bootstrap": "0.0.8"
   },
   "devDependencies": {
     "babel-eslint": "^7.1.0",
-    "babel-preset-latest": "^6.16.0",
     "eslint": "^3.9.1",
     "eslint-config-standard": "^6.2.1",
     "eslint-plugin-promise": "^3.3.0",
-    "eslint-plugin-standard": "^2.0.1",
-    "rollup": "^0.36.3",
-    "rollup-plugin-babel": "^2.6.1",
-    "rollup-plugin-commonjs": "^5.0.5",
-    "rollup-plugin-eslint": "^3.0.0",
-    "rollup-plugin-node-resolve": "^2.0.0",
-    "rollup-watch": "^2.5.0",
-    "uglify-js": "^2.7.3"
+    "eslint-plugin-standard": "^2.0.1"
   }
 }
