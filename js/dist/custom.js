@@ -1,3 +1,7 @@
+/*
+ * customMudule v0.0.0
+ * (c) 2017 Chuune
+ */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -2272,11 +2276,10 @@ var main = {
 var index = main;
 
 var container = document.querySelector('div.toc');
-index.initialize(container, {
+container && index.initialize(container, {
     suppressScrollX: true
 });
 
 // import 'babel-polyfill';
 
 })));
-//# sourceMappingURL=custom.js.map
