@@ -6,6 +6,8 @@
     "version": "3.3.1"
   },
   "scripts": {
+    "theme:pull": "git subtree pull -P themes/wiki-i18n theme master",
+    "theme:push": "git subtree push -P themes/wiki-i18n theme master",
     "jsbuild": "node themes/wiki-i18n/source/js/build/build.js",
     "start": "node run.js",
     "hexo": "hexo clean && hexo generate && hexo serve --watch",
