@@ -82,12 +82,12 @@
 <pre><code class="hljs "><span class="hljs-keyword">vim</span> /etc/vsftpd.<span class="hljs-keyword">conf</span></code></pre><p>配置文件设置注意如下</p>
 <pre><code class="hljs ">禁止IPV6jianting
 listen_ipv6=NO
--<span class="ruby"> 设置根目录，需要预先建立
-</span>local_root=/home/ftp
--<span class="ruby"> 允许FTP的被动模式，命令连接和数据连接都由客户端发起，这样就可以解决从服务器到客户端的数据端口的入方向连接被防火墙过滤掉的问题
-</span>pasv_promiscuous=YES
--<span class="ruby"> 允许写入
-</span>write_enable=YES</code></pre><h1 id="3."><a href="#3." class="headerlink" title="添加用户"></a>3. 添加用户</h1><pre><code class="hljs ">sudo useradd -d /<span class="hljs-built_in">home</span>/ftp -M username
+- 设置根目录，需要预先建立
+local_root=/home/ftp
+- 允许FTP的被动模式，命令连接和数据连接都由客户端发起，这样就可以解决从服务器到客户端的数据端口的入方向连接被防火墙过滤掉的问题
+pasv_promiscuous=YES
+- 允许写入
+write_enable=YES</code></pre><h1 id="3."><a href="#3." class="headerlink" title="添加用户"></a>3. 添加用户</h1><pre><code class="hljs ">sudo useradd -d /<span class="hljs-built_in">home</span>/ftp -M username
 sudo passwd username</code></pre><p>按照提示输入密码</p>
 <h1 id="4."><a href="#4." class="headerlink" title="重启"></a>4. 重启</h1><pre><code class="hljs "><span class="hljs-attribute">service vsftpd restart</span></code></pre> 
 </section>
@@ -108,7 +108,7 @@ sudo passwd username</code></pre><p>按照提示输入密码</p>
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=38251587182"> </script>
+  <script src="/js/dist/custom.min.js?v=41613566597"> </script>
 
 
   </body>

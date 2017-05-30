@@ -12,7 +12,7 @@ var config = {
     plugins: [
         // eslint(),
         commonjs({
-            include: 'node_modules/**',
+            include: '**/node_modules/**',
             extensions: [
                 '.js'
             ]

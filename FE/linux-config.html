@@ -134,7 +134,7 @@ conf_files=(
     <span class="hljs-built_in">echo</span> <span class="hljs-string">"cp "</span><span class="hljs-variable">${filename}</span><span class="hljs-string">" "</span><span class="hljs-variable">${lf}</span> &gt;&gt; <span class="hljs-variable">$rn</span>
 <span class="hljs-keyword">done</span>
 <span class="hljs-built_in">echo</span> <span class="hljs-string">"echo finish!"</span> &gt;&gt; <span class="hljs-variable">$rn</span>
-<span class="hljs-built_in">echo</span> <span class="hljs-string">"finish!"</span></code></pre><h3 id="2.5.2."><a href="#2.5.2." class="headerlink" title="数据库备份"></a>2.5.2. 数据库备份</h3><pre><code class="hljs ">##!/bin/bash
+<span class="hljs-built_in">echo</span> <span class="hljs-string">"finish!"</span></code></pre><h3 id="2.5.2."><a href="#2.5.2." class="headerlink" title="数据库备份"></a>2.5.2. 数据库备份</h3><pre><code class="hljs "><span class="hljs-meta">#</span><span class="bash"><span class="hljs-meta">#!/bin/bash</span></span>
 ----- backup mysql######
 filename=wikibackup`data +%Y-%m-%d_%H%M%S`.sql.gz
 mysqldump -hlocalhost -uXXX -pXXX --default-character-set=utf8 s9759044_wiki | gzip &gt;$filename
@@ -157,7 +157,7 @@ mutt goumang2010@qq.com -a $filename -s “ParkBackup”</code></pre>
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=50366316925"> </script>
+  <script src="/js/dist/custom.min.js?v=20067410350"> </script>
 
 
   </body>

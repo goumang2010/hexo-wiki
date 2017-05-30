@@ -82,12 +82,12 @@
 <li>记录安装后mongo程序所在位置，如:<pre><code class="hljs ">D:<span class="hljs-symbol">\P</span>rogram Files<span class="hljs-symbol">\M</span>ongoDB<span class="hljs-symbol">\S</span>erver<span class="hljs-symbol">\3</span>.2<span class="hljs-symbol">\b</span>in</code></pre></li>
 </ul>
 <h2 id="1.2."><a href="#1.2." class="headerlink" title="建立配置文件及数据库目录"></a>1.2. 建立配置文件及数据库目录</h2><p>建立配置文件D:\Programming\MongoDB\mongo.config,内容如下：</p>
-<pre><code class="hljs "><span class="hljs-attr">dbpath</span>=D:\Programming\MongoDB\data\db ##数据库路径
-<span class="hljs-attr">logpath</span>=D:\Programming\MongoDB\log\mongo.log ##日志输出文件路径
-<span class="hljs-attr">logappend</span>=<span class="hljs-literal">true</span> ##错误日志采用追加模式，配置这个选项后mongodb的日志会追加到现有的日志文件，而不是从新创建一个新文件
-<span class="hljs-attr">journal</span>=<span class="hljs-literal">true</span> ##启用日志文件，默认启用
-<span class="hljs-attr">quiet</span>=<span class="hljs-literal">true</span> ##这个选项可以过滤掉一些无用的日志信息，若需要调试使用请设置为<span class="hljs-literal">false</span>
-<span class="hljs-attr">port</span>=<span class="hljs-number">27017</span> ##端口号 默认为<span class="hljs-number">27017</span></code></pre><p>以上配置文件所涉及的路径及文件均需手动一一建立</p>
+<pre><code class="hljs ">dbpath=D:\Programming\MongoDB\data\db <span class="hljs-comment">##数据库路径</span>
+logpath=D:\Programming\MongoDB\log\mongo.log <span class="hljs-comment">##日志输出文件路径</span>
+logappend=true <span class="hljs-comment">##错误日志采用追加模式，配置这个选项后mongodb的日志会追加到现有的日志文件，而不是从新创建一个新文件</span>
+journal=true <span class="hljs-comment">##启用日志文件，默认启用</span>
+quiet=true <span class="hljs-comment">##这个选项可以过滤掉一些无用的日志信息，若需要调试使用请设置为false</span>
+port=27017 <span class="hljs-comment">##端口号 默认为27017</span></code></pre><p>以上配置文件所涉及的路径及文件均需手动一一建立</p>
 <h2 id="1.3."><a href="#1.3." class="headerlink" title="将mongoDB安装为服务"></a>1.3. 将mongoDB安装为服务</h2><p>管理员模式下进入cmd命令行,并进入程序所在目录，如:</p>
 <pre><code class="hljs ">cd D:<span class="hljs-symbol">\P</span>rogram Files<span class="hljs-symbol">\M</span>ongoDB<span class="hljs-symbol">\S</span>erver<span class="hljs-symbol">\3</span>.2<span class="hljs-symbol">\b</span>in</code></pre><p>输入命令：</p>
 <pre><code class="hljs ">mongod --config D:<span class="hljs-symbol">\P</span>rogramming<span class="hljs-symbol">\M</span>ongoDB<span class="hljs-symbol">\m</span>ongo.config --install</code></pre><p>启动服务：</p>
@@ -133,7 +133,7 @@
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=66955141689"> </script>
+  <script src="/js/dist/custom.min.js?v=21772505723"> </script>
 
 
   </body>

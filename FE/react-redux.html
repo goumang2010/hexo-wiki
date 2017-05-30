@@ -168,14 +168,14 @@
 <h4 id="2.1.2.6."><a href="#2.1.2.6." class="headerlink" title="tryUnsubscribe"></a>2.1.2.6. tryUnsubscribe</h4><p>```if (this.unsubscribe) {<br>      this.unsubscribe()<br>      this.unsubscribe = null<br>      this.listeners.clear()<br>      this.listeners = nullListeners<br>    }</p>
 <pre><code class="hljs ">
 
-<span class="clean"># connect
-## connect
-### createConnect
+<span class="shell"><span class="hljs-meta">#</span><span class="bash"> connect</span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment"># connect</span></span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment">## createConnect</span></span>
 传入</span></code></pre><p>  connectHOC = connectAdvanced,<br>  mapStateToPropsFactories = defaultMapStateToPropsFactories,<br>  mapDispatchToPropsFactories = defaultMapDispatchToPropsFactories,<br>  mergePropsFactories = defaultMergePropsFactories,<br>  selectorFactory = defaultSelectorFactory</p>
 <pre><code class="hljs ">构建connect函数
+<span class="hljs-meta">
 
-
-## selectorFactory
+#</span><span class="bash"><span class="hljs-comment"># selectorFactory</span></span>
 返回selector工厂函数，参数：</code></pre><p> {<br>  initMapStateToProps,<br>  initMapDispatchToProps,<br>  initMergeProps,<br>  …options<br>}</p>
 <pre><code class="hljs ">
 <span class="hljs-number">1.</span> 将对象中的各函数都传入<span class="hljs-built_in">dispatch</span>、options，保存为mapStateToProps，mapDispatchToProps,mergeProps
@@ -266,7 +266,7 @@
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=45939171366"> </script>
+  <script src="/js/dist/custom.min.js?v=88635283798"> </script>
 
 
   </body>

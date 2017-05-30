@@ -88,7 +88,7 @@ sudo dpkg -i google-chrome-stable<span class="hljs-emphasis">_current_</span>amd
     <span class="hljs-built_in">exec</span> <span class="hljs-_">-a</span> <span class="hljs-string">"<span class="hljs-variable">$0</span>"</span> <span class="hljs-string">"<span class="hljs-variable">$HERE</span>/chrome"</span> <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span> --user-data-dir <span class="hljs-variable">$HOME</span>
 5 保存，即可。</code></pre><h1 id="4."><a href="#4." class="headerlink" title="远程桌面"></a>4. 远程桌面</h1><h2 id="4.1."><a href="#4.1." class="headerlink" title="安装vnc server"></a>4.1. 安装vnc server</h2><p>这步必须在安装xrdp之前，否则连接时会出现错误</p>
 <pre><code class="hljs ">apt-<span class="hljs-keyword">get</span> install tightvncserver</code></pre><h2 id="4.2."><a href="#4.2." class="headerlink" title="安装xrdp"></a>4.2. 安装xrdp</h2><pre><code class="hljs ">apt-<span class="hljs-keyword">get</span> install xrdp</code></pre><h2 id="4.3."><a href="#4.3." class="headerlink" title="安装xfce4桌面"></a>4.3. 安装xfce4桌面</h2><pre><code class="hljs ">apt-<span class="hljs-keyword">get</span> install xfce4</code></pre><h2 id="4.4."><a href="#4.4." class="headerlink" title="配置文件"></a>4.4. 配置文件</h2><p>将使用xfce4桌面写入配置文件</p>
-<pre><code class="hljs "><span class="hljs-built_in">echo</span> <span class="hljs-string">"xfce4-session"</span> &gt;~/.xsession</code></pre><h2 id="4.5."><a href="#4.5." class="headerlink" title="重启服务"></a>4.5. 重启服务</h2><pre><code class="hljs "><span class="hljs-attribute">sudo service xrdp restart</span></code></pre> 
+<pre><code class="hljs "><span class="hljs-keyword">echo</span> <span class="hljs-string">"xfce4-session"</span> &gt;~<span class="hljs-string">/.xsession</span></code></pre><h2 id="4.5."><a href="#4.5." class="headerlink" title="重启服务"></a>4.5. 重启服务</h2><pre><code class="hljs "><span class="hljs-attribute">sudo service xrdp restart</span></code></pre> 
 </section>
 
   <section class="footer">
@@ -107,7 +107,7 @@ sudo dpkg -i google-chrome-stable<span class="hljs-emphasis">_current_</span>amd
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=45601001937"> </script>
+  <script src="/js/dist/custom.min.js?v=7589573367"> </script>
 
 
   </body>

@@ -80,94 +80,94 @@
 <li>使用<nowiki><nowiki></nowiki></nowiki>对MediaWiki符号进行非转义</li>
 </ul>
 <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">配置</span></a></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">皮肤</span></a></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="配置"></a>1. 配置</h1><p>修改LocalSettings.php<br>Mediawiki采用的数据库不可禁用MyISAM，因为SearchIndex将会使用，故把默认的引擎都改为InnoDB后，不可禁用MyISAM,参见： <a href="https://www.mediawiki.org/wiki/Manual_talk" target="_blank" rel="external">https://www.mediawiki.org/wiki/Manual_talk</a>:Searchindex_table</p>
-<pre><code class="hljs "><span class="php"><span class="hljs-meta">&lt;?php</span>
-<span class="hljs-comment"># Protect against web entry</span>
-<span class="hljs-comment">// // // // if ( !defined( 'mediawiki' ) ) {</span>
-    <span class="hljs-comment">// // // // exit;</span>
-<span class="hljs-comment">// // // // }</span>
-<span class="hljs-comment">## Uncomment this to disable output compression</span>
-<span class="hljs-comment"># $wgDisableOutputCompression = true;</span>
-$wgSitename = <span class="hljs-string">"ChuuneWiki"</span>;
-$wgScriptPath = <span class="hljs-string">""</span>;
-<span class="hljs-comment">#需要与nginx中设置的php监视后缀一致</span>
-$wgScriptExtension = <span class="hljs-string">".php"</span>;
-<span class="hljs-comment">#使用wiki/.../模式来显示url</span>
-$wgUsePathInfo      = <span class="hljs-keyword">true</span>;
-$wgArticlePath      = <span class="hljs-string">"/wiki/$1"</span>;
-$wgServer = <span class="hljs-string">"http://wiki.chuune.top"</span>;
-$wgStylePath = <span class="hljs-string">"$wgScriptPath/skins"</span>;
-$wgResourceBasePath = $wgScriptPath;
-$wgLogo = <span class="hljs-string">"/logo/wiki_logo.jpg"</span>;
-$wgEnableEmail = <span class="hljs-keyword">false</span>;
-$wgEnableUserEmail = <span class="hljs-keyword">true</span>; <span class="hljs-comment"># UPO</span>
-$wgEmergencyContact = <span class="hljs-string">"ngnix@localhost"</span>;
-$wgPasswordSender = <span class="hljs-string">"ngnix@localhost"</span>;
-$wgEnotifUserTalk = <span class="hljs-keyword">false</span>; <span class="hljs-comment"># UPO</span>
-$wgEnotifWatchlist = <span class="hljs-keyword">false</span>; <span class="hljs-comment"># UPO</span>
-$wgEmailAuthentication = <span class="hljs-keyword">true</span>;
-<span class="hljs-comment">#$wgGroupPermissions = array();</span>
-$wgGroupPermissions[<span class="hljs-string">'*'</span>][<span class="hljs-string">'createaccount'</span>]   = <span class="hljs-keyword">true</span>; 
-$wgGroupPermissions[<span class="hljs-string">'*'</span>][<span class="hljs-string">'read'</span>]            = <span class="hljs-keyword">true</span>;
-$wgGroupPermissions[<span class="hljs-string">'*'</span>][<span class="hljs-string">'edit'</span>]            = <span class="hljs-keyword">false</span>;
-<span class="hljs-comment">## Database settings</span>
-$wgDBtype = <span class="hljs-string">"mysql"</span>;
-$wgDBserver = <span class="hljs-string">"***"</span>;
-$wgDBname = <span class="hljs-string">"***"</span>;
-$wgDBuser = <span class="hljs-string">"***"</span>;
-$wgDBpassword = <span class="hljs-string">"***"</span>;
-$wgDBprefix = <span class="hljs-string">""</span>;
-
-<span class="hljs-comment"># MySQL table options to use during installation or update</span>
-<span class="hljs-comment">#数据库引擎及字符</span>
-$wgDBTableOptions = <span class="hljs-string">"ENGINE=MyISAM, DEFAULT CHARSET=utf8"</span>;
-
-<span class="hljs-comment"># Experimental charset support for MySQL 5.0.</span>
-$wgDBmysql5 = <span class="hljs-keyword">false</span>;
-
-<span class="hljs-comment">## Shared memory settings</span>
-$wgMainCacheType = CACHE_NONE;
-$wgMemCachedServers = <span class="hljs-keyword">array</span>();
-$wgEnableUploads = <span class="hljs-keyword">false</span>;
-<span class="hljs-comment">#$wgUseImageMagick = true;</span>
-<span class="hljs-comment">#$wgImageMagickConvertCommand = "/usr/bin/convert";</span>
-$wgUseInstantCommons = <span class="hljs-keyword">false</span>;
-$wgShellLocale = <span class="hljs-string">"en_US.utf8"</span>;
-<span class="hljs-comment">#$wgHashedUploadDirectory = false;</span>
-$wgCacheDirectory = <span class="hljs-string">"$IP/cache"</span>;
-<span class="hljs-comment"># Site language code, should be one of the list in ./languages/Names.php</span>
-$wgLanguageCode = <span class="hljs-string">"zh-hans"</span>;
-$wgSecretKey = <span class="hljs-string">"78bcf7f529d864e46b87a0f75a19bcb325eb66540ac49f201fde3d8a67ce0ede"</span>;
-<span class="hljs-comment"># Site upgrade key. Must be set to a string (default provided) to turn on the</span>
-<span class="hljs-comment"># web installer while LocalSettings.php is in place</span>
-$wgUpgradeKey = <span class="hljs-string">"31d77b8f4d6d6cfb"</span>;
-<span class="hljs-comment">## For attaching licensing metadata to pages, and displaying an</span>
-<span class="hljs-comment">## appropriate copyright notice / icon. GNU Free Documentation</span>
-<span class="hljs-comment">## License and Creative Commons licenses are supported so far.</span>
-$wgRightsPage = <span class="hljs-string">""</span>; <span class="hljs-comment"># Set to the title of a wiki page that describes your license/copyright</span>
-$wgRightsUrl = <span class="hljs-string">""</span>;
-$wgRightsText = <span class="hljs-string">""</span>;
-$wgRightsIcon = <span class="hljs-string">""</span>;
-<span class="hljs-comment"># Path to the GNU diff3 utility. Used for conflict resolution.</span>
-$wgDiff3 = <span class="hljs-string">""</span>;
-<span class="hljs-comment">## Default skin: you can change the default skin. Use the internal symbolic</span>
-<span class="hljs-comment">## names, ie 'vector', 'monobook':</span>
-$wgDefaultSkin = <span class="hljs-string">"Metrolook"</span>;
-$wgMetrolookFeatures = <span class="hljs-keyword">array</span>( <span class="hljs-string">'collapsiblenav'</span> =&gt; <span class="hljs-keyword">array</span>( <span class="hljs-string">'global'</span> =&gt; <span class="hljs-keyword">true</span>, <span class="hljs-string">'user'</span> =&gt; <span class="hljs-keyword">true</span> ) );
-$wgMetrolookUploadButton = <span class="hljs-keyword">false</span>;
-<span class="hljs-comment"># Enabled skins.</span>
-<span class="hljs-comment"># The following skins were automatically enabled:</span>
-<span class="hljs-comment">#加载皮肤</span>
-wfLoadSkin( <span class="hljs-string">'CologneBlue'</span> );
-wfLoadSkin( <span class="hljs-string">'Modern'</span> );
-wfLoadSkin( <span class="hljs-string">'MonoBook'</span> );
-wfLoadSkin( <span class="hljs-string">'Vector'</span> );
-wfLoadSkin( <span class="hljs-string">'Metrolook'</span> );
-<span class="hljs-comment"># Enabled Extensions. Most extensions are enabled by including the base extension file here</span>
-<span class="hljs-comment"># but check specific extension documentation for more details</span>
-<span class="hljs-comment"># The following extensions were automatically enabled:</span>
-wfLoadExtension( <span class="hljs-string">'WikiEditor'</span> );
-<span class="hljs-comment"># End of automatically generated settings.</span>
-<span class="hljs-comment"># Add more configuration options below.</span></span></code></pre><h1 id="2."><a href="#2." class="headerlink" title="皮肤"></a>2. 皮肤</h1><p>所有的皮肤：<a href="https://www.mediawiki.org/wiki/Category" target="_blank" rel="external">https://www.mediawiki.org/wiki/Category</a>:All_skins</p>
+<pre><code class="hljs ">&lt;?php
+<span class="hljs-meta">#</span><span class="bash"> Protect against web entry</span>
+// // // // if ( !defined( 'mediawiki' ) ) {
+    // // // // exit;
+// // // // }
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment"># Uncomment this to disable output compression</span></span>
+<span class="hljs-meta">#</span><span class="bash"> <span class="hljs-variable">$wgDisableOutputCompression</span> = <span class="hljs-literal">true</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgSitename = <span class="hljs-string">"ChuuneWiki"</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgScriptPath = <span class="hljs-string">""</span>;</span>
+<span class="hljs-meta">#</span><span class="bash">需要与nginx中设置的php监视后缀一致</span>
+<span class="hljs-meta">$</span><span class="bash">wgScriptExtension = <span class="hljs-string">".php"</span>;</span>
+<span class="hljs-meta">#</span><span class="bash">使用wiki/.../模式来显示url</span>
+<span class="hljs-meta">$</span><span class="bash">wgUsePathInfo      = <span class="hljs-literal">true</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgArticlePath      = <span class="hljs-string">"/wiki/<span class="hljs-variable">$1</span>"</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgServer = <span class="hljs-string">"http://wiki.chuune.top"</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgStylePath = <span class="hljs-string">"<span class="hljs-variable">$wgScriptPath</span>/skins"</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgResourceBasePath = <span class="hljs-variable">$wgScriptPath</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgLogo = <span class="hljs-string">"/logo/wiki_logo.jpg"</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgEnableEmail = <span class="hljs-literal">false</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgEnableUserEmail = <span class="hljs-literal">true</span>; <span class="hljs-comment"># UPO</span></span>
+<span class="hljs-meta">$</span><span class="bash">wgEmergencyContact = <span class="hljs-string">"ngnix@localhost"</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgPasswordSender = <span class="hljs-string">"ngnix@localhost"</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgEnotifUserTalk = <span class="hljs-literal">false</span>; <span class="hljs-comment"># UPO</span></span>
+<span class="hljs-meta">$</span><span class="bash">wgEnotifWatchlist = <span class="hljs-literal">false</span>; <span class="hljs-comment"># UPO</span></span>
+<span class="hljs-meta">$</span><span class="bash">wgEmailAuthentication = <span class="hljs-literal">true</span>;</span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-variable">$wgGroupPermissions</span> = array();</span>
+<span class="hljs-meta">$</span><span class="bash">wgGroupPermissions[<span class="hljs-string">'*'</span>][<span class="hljs-string">'createaccount'</span>]   = <span class="hljs-literal">true</span>; </span>
+<span class="hljs-meta">$</span><span class="bash">wgGroupPermissions[<span class="hljs-string">'*'</span>][<span class="hljs-string">'read'</span>]            = <span class="hljs-literal">true</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgGroupPermissions[<span class="hljs-string">'*'</span>][<span class="hljs-string">'edit'</span>]            = <span class="hljs-literal">false</span>;</span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment"># Database settings</span></span>
+<span class="hljs-meta">$</span><span class="bash">wgDB<span class="hljs-built_in">type</span> = <span class="hljs-string">"mysql"</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgDBserver = <span class="hljs-string">"***"</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgDBname = <span class="hljs-string">"***"</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgDBuser = <span class="hljs-string">"***"</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgDBpassword = <span class="hljs-string">"***"</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgDBprefix = <span class="hljs-string">""</span>;</span>
+<span class="hljs-meta">
+#</span><span class="bash"> MySQL table options to use during installation or update</span>
+<span class="hljs-meta">#</span><span class="bash">数据库引擎及字符</span>
+<span class="hljs-meta">$</span><span class="bash">wgDBTableOptions = <span class="hljs-string">"ENGINE=MyISAM, DEFAULT CHARSET=utf8"</span>;</span>
+<span class="hljs-meta">
+#</span><span class="bash"> Experimental charset support <span class="hljs-keyword">for</span> MySQL 5.0.</span>
+<span class="hljs-meta">$</span><span class="bash">wgDBmysql5 = <span class="hljs-literal">false</span>;</span>
+<span class="hljs-meta">
+#</span><span class="bash"><span class="hljs-comment"># Shared memory settings</span></span>
+<span class="hljs-meta">$</span><span class="bash">wgMainCacheType = CACHE_NONE;</span>
+<span class="hljs-meta">$</span><span class="bash">wgMemCachedServers = array();</span>
+<span class="hljs-meta">$</span><span class="bash">wgEnableUploads = <span class="hljs-literal">false</span>;</span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-variable">$wgUseImageMagick</span> = <span class="hljs-literal">true</span>;</span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-variable">$wgImageMagickConvertCommand</span> = <span class="hljs-string">"/usr/bin/convert"</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgUseInstantCommons = <span class="hljs-literal">false</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgShellLocale = <span class="hljs-string">"en_US.utf8"</span>;</span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-variable">$wgHashedUploadDirectory</span> = <span class="hljs-literal">false</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgCacheDirectory = <span class="hljs-string">"<span class="hljs-variable">$IP</span>/cache"</span>;</span>
+<span class="hljs-meta">#</span><span class="bash"> Site language code, should be one of the list <span class="hljs-keyword">in</span> ./languages/Names.php</span>
+<span class="hljs-meta">$</span><span class="bash">wgLanguageCode = <span class="hljs-string">"zh-hans"</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgSecretKey = <span class="hljs-string">"78bcf7f529d864e46b87a0f75a19bcb325eb66540ac49f201fde3d8a67ce0ede"</span>;</span>
+<span class="hljs-meta">#</span><span class="bash"> Site upgrade key. Must be <span class="hljs-built_in">set</span> to a string (default provided) to turn on the</span>
+<span class="hljs-meta">#</span><span class="bash"> web installer <span class="hljs-keyword">while</span> LocalSettings.php is <span class="hljs-keyword">in</span> place</span>
+<span class="hljs-meta">$</span><span class="bash">wgUpgradeKey = <span class="hljs-string">"31d77b8f4d6d6cfb"</span>;</span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment"># For attaching licensing metadata to pages, and displaying an</span></span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment"># appropriate copyright notice / icon. GNU Free Documentation</span></span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment"># License and Creative Commons licenses are supported so far.</span></span>
+<span class="hljs-meta">$</span><span class="bash">wgRightsPage = <span class="hljs-string">""</span>; <span class="hljs-comment"># Set to the title of a wiki page that describes your license/copyright</span></span>
+<span class="hljs-meta">$</span><span class="bash">wgRightsUrl = <span class="hljs-string">""</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgRightsText = <span class="hljs-string">""</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgRightsIcon = <span class="hljs-string">""</span>;</span>
+<span class="hljs-meta">#</span><span class="bash"> Path to the GNU diff3 utility. Used <span class="hljs-keyword">for</span> conflict resolution.</span>
+<span class="hljs-meta">$</span><span class="bash">wgDiff3 = <span class="hljs-string">""</span>;</span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment"># Default skin: you can change the default skin. Use the internal symbolic</span></span>
+<span class="hljs-meta">#</span><span class="bash"><span class="hljs-comment"># names, ie 'vector', 'monobook':</span></span>
+<span class="hljs-meta">$</span><span class="bash">wgDefaultSkin = <span class="hljs-string">"Metrolook"</span>;</span>
+<span class="hljs-meta">$</span><span class="bash">wgMetrolookFeatures = array( <span class="hljs-string">'collapsiblenav'</span> =&gt; array( <span class="hljs-string">'global'</span> =&gt; <span class="hljs-literal">true</span>, <span class="hljs-string">'user'</span> =&gt; <span class="hljs-literal">true</span> ) );</span>
+<span class="hljs-meta">$</span><span class="bash">wgMetrolookUploadButton = <span class="hljs-literal">false</span>;</span>
+<span class="hljs-meta">#</span><span class="bash"> Enabled skins.</span>
+<span class="hljs-meta">#</span><span class="bash"> The following skins were automatically enabled:</span>
+<span class="hljs-meta">#</span><span class="bash">加载皮肤</span>
+wfLoadSkin( 'CologneBlue' );
+wfLoadSkin( 'Modern' );
+wfLoadSkin( 'MonoBook' );
+wfLoadSkin( 'Vector' );
+wfLoadSkin( 'Metrolook' );
+<span class="hljs-meta">#</span><span class="bash"> Enabled Extensions. Most extensions are enabled by including the base extension file here</span>
+<span class="hljs-meta">#</span><span class="bash"> but check specific extension documentation <span class="hljs-keyword">for</span> more details</span>
+<span class="hljs-meta">#</span><span class="bash"> The following extensions were automatically enabled:</span>
+wfLoadExtension( 'WikiEditor' );
+<span class="hljs-meta">#</span><span class="bash"> End of automatically generated settings.</span>
+<span class="hljs-meta">#</span><span class="bash"> Add more configuration options below.</span></code></pre><h1 id="2."><a href="#2." class="headerlink" title="皮肤"></a>2. 皮肤</h1><p>所有的皮肤：<a href="https://www.mediawiki.org/wiki/Category" target="_blank" rel="external">https://www.mediawiki.org/wiki/Category</a>:All_skins</p>
 <p>皮肤排行：<a href="https://wikiapiary.com/wiki/Skin" target="_blank" rel="external">https://wikiapiary.com/wiki/Skin</a>:Skins</p>
 <p>当前使用：<a href="https://www.mediawiki.org/wiki/Skin" target="_blank" rel="external">https://www.mediawiki.org/wiki/Skin</a>:Metrolook<br>Github:<a href="https://github.com/paladox/Metrolook" target="_blank" rel="external">https://github.com/paladox/Metrolook</a></p>
  
@@ -189,7 +189,7 @@ wfLoadExtension( <span class="hljs-string">'WikiEditor'</span> );
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=53762696869"> </script>
+  <script src="/js/dist/custom.min.js?v=85346313891"> </script>
 
 
   </body>

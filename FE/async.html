@@ -120,24 +120,24 @@
  },  <span class="hljs-function"><span class="hljs-keyword">function</span>  <span class="hljs-params">(err)</span> </span>{
    <span class="hljs-comment">//  TODO</span>
  });</code></pre><h1 id="3."><a href="#3." class="headerlink" title="流程控制库"></a>3. 流程控制库</h1><h2 id="3.1."><a href="#3.1." class="headerlink" title="async"></a>3.1. async</h2><ul>
-<li>串行执行<pre><code class="hljs ">async.series([
- <span class="hljs-function"><span class="hljs-keyword">function</span>  </span>(<span class="hljs-keyword">callback</span>) {
-   fs.readFile(<span class="hljs-string">'file1.txt'</span>,  <span class="hljs-string">'utf-8'</span>,  <span class="hljs-keyword">callback</span>);
+<li>串行执行<pre><code class="hljs "><span class="hljs-keyword">async</span>.series([
+ <span class="hljs-function"><span class="hljs-keyword">function</span>  (<span class="hljs-params">callback</span>) </span>{
+   fs.readFile(<span class="hljs-string">'file1.txt'</span>,  <span class="hljs-string">'utf-8'</span>,  callback);
  },
- <span class="hljs-function"><span class="hljs-keyword">function</span>  </span>(<span class="hljs-keyword">callback</span>) {
-   fs.readFile(<span class="hljs-string">'file2.txt'</span>,  <span class="hljs-string">'utf-8'</span>,  <span class="hljs-keyword">callback</span>);
+ <span class="hljs-function"><span class="hljs-keyword">function</span>  (<span class="hljs-params">callback</span>) </span>{
+   fs.readFile(<span class="hljs-string">'file2.txt'</span>,  <span class="hljs-string">'utf-8'</span>,  callback);
 }
-],  <span class="hljs-function"><span class="hljs-keyword">function</span>  </span>(err,  results) {
+],  <span class="hljs-function"><span class="hljs-keyword">function</span>  (<span class="hljs-params">err,  results</span>) </span>{
  <span class="hljs-comment">//  results  =&gt;  [file1.txt,  file2.txt]</span>
 });</code></pre></li>
-<li>并行执行<pre><code class="hljs ">async.parallel([
- <span class="hljs-function"><span class="hljs-keyword">function</span>  </span>(<span class="hljs-keyword">callback</span>) {
-   fs.readFile(<span class="hljs-string">'file1.txt'</span>,  <span class="hljs-string">'utf-8'</span>,  <span class="hljs-keyword">callback</span>);
+<li>并行执行<pre><code class="hljs "><span class="hljs-keyword">async</span>.parallel([
+ <span class="hljs-function"><span class="hljs-keyword">function</span>  (<span class="hljs-params">callback</span>) </span>{
+   fs.readFile(<span class="hljs-string">'file1.txt'</span>,  <span class="hljs-string">'utf-8'</span>,  callback);
  },
- <span class="hljs-function"><span class="hljs-keyword">function</span>  </span>(<span class="hljs-keyword">callback</span>) {
-   fs.readFile(<span class="hljs-string">'file2.txt'</span>,  <span class="hljs-string">'utf-8'</span>,  <span class="hljs-keyword">callback</span>);
+ <span class="hljs-function"><span class="hljs-keyword">function</span>  (<span class="hljs-params">callback</span>) </span>{
+   fs.readFile(<span class="hljs-string">'file2.txt'</span>,  <span class="hljs-string">'utf-8'</span>,  callback);
 }
-],  <span class="hljs-function"><span class="hljs-keyword">function</span>  </span>(err,  results) {
+],  <span class="hljs-function"><span class="hljs-keyword">function</span>  (<span class="hljs-params">err,  results</span>) </span>{
  <span class="hljs-comment">//  results  =&gt;  [file1.txt,  file2.txt]</span>
 });</code></pre></li>
 <li>依赖处理<pre><code class="hljs "><span class="hljs-keyword">async</span>.waterfall([
@@ -181,7 +181,7 @@
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=16051864675"> </script>
+  <script src="/js/dist/custom.min.js?v=97946332757"> </script>
 
 
   </body>

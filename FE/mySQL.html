@@ -97,47 +97,47 @@
 - !includedir /etc/mysql/conf.d/
 - !includedir /etc/mysql/mysql.conf.d/
 [mysqld]
-<span class="hljs-attr">bind-address="0.0.0.0"</span>
-<span class="hljs-attr">sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span>
-<span class="hljs-attr">back_log</span> = <span class="hljs-number">600</span>
-<span class="hljs-attr">max_connections</span> = <span class="hljs-number">1000</span>
-<span class="hljs-attr">max_connect_errors</span> = <span class="hljs-number">6000</span>
-<span class="hljs-attr">open_files_limit</span> = <span class="hljs-number">65535</span>
-<span class="hljs-attr">table_open_cache</span> = <span class="hljs-number">128</span>
-<span class="hljs-attr">max_allowed_packet</span> = <span class="hljs-number">4</span>M
-<span class="hljs-attr">binlog_cache_size</span> = <span class="hljs-number">1</span>M
-<span class="hljs-attr">max_heap_table_size</span> = <span class="hljs-number">8</span>M
-<span class="hljs-attr">tmp_table_size</span> = <span class="hljs-number">16</span>M
-<span class="hljs-attr">read_buffer_size</span> = <span class="hljs-number">2</span>M
-<span class="hljs-attr">read_rnd_buffer_size</span> = <span class="hljs-number">8</span>M
-<span class="hljs-attr">sort_buffer_size</span> = <span class="hljs-number">8</span>M
-<span class="hljs-attr">join_buffer_size</span> = <span class="hljs-number">8</span>M
-<span class="hljs-attr">thread_cache_size</span> = <span class="hljs-number">6</span>
-<span class="hljs-attr">query_cache_size</span> = <span class="hljs-number">8</span>M
-<span class="hljs-attr">query_cache_limit</span> = <span class="hljs-number">2</span>M
-<span class="hljs-attr">key_buffer_size</span> = <span class="hljs-number">4</span>M
-<span class="hljs-attr">ft_min_word_len</span> = <span class="hljs-number">4</span>
-- 分词词汇最小长度，默认<span class="hljs-number">4</span>
-<span class="hljs-attr">log_bin</span> = mysql-bin
-<span class="hljs-attr">binlog_format</span> = mixed
-<span class="hljs-attr">expire_logs_days</span> = <span class="hljs-number">30</span> <span class="hljs-comment">#超过30天的binlog删除</span>
-<span class="hljs-attr">slow_query_log</span> = <span class="hljs-number">1</span>
-<span class="hljs-attr">bulk_insert_buffer_size</span> = <span class="hljs-number">8</span>M
-<span class="hljs-attr">myisam_max_sort_file_size</span> = <span class="hljs-number">10</span>G
-<span class="hljs-attr">myisam_repair_threads</span> = <span class="hljs-number">1</span>
-<span class="hljs-attr">interactive_timeout</span> = <span class="hljs-number">18800</span>
-<span class="hljs-attr">wait_timeout</span> = <span class="hljs-number">18800</span>
-<span class="hljs-attr">character_set_server=utf8</span> 
-<span class="hljs-attr">init_connect='SET</span> NAMES utf8'
-<span class="hljs-attr">default-storage-engine</span> = InnoDB
-<span class="hljs-attr">innodb_lock_wait_timeout</span> = <span class="hljs-number">120</span>
-<span class="hljs-attr">innodb_max_dirty_pages_pct</span> = <span class="hljs-number">90</span>
-<span class="hljs-attr">innodb_flush_log_at_trx_commit</span> = <span class="hljs-number">2</span>
-<span class="hljs-attr">innodb_purge_threads</span> = <span class="hljs-number">1</span>
+bind-address=<span class="hljs-string">"0.0.0.0"</span>
+sql_mode=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES
+back_log = 600
+max_connections = 1000
+max_connect_errors = 6000
+open_files_limit = 65535
+table_open_cache = 128
+max_allowed_packet = 4M
+binlog_cache_size = 1M
+max_heap_table_size = 8M
+tmp_table_size = 16M
+read_buffer_size = 2M
+read_rnd_buffer_size = 8M
+sort_buffer_size = 8M
+join_buffer_size = 8M
+thread_cache_size = 6
+query_cache_size = 8M
+query_cache_limit = 2M
+key_buffer_size = 4M
+ft_min_word_len = 4
+- 分词词汇最小长度，默认4
+log_bin = mysql-bin
+binlog_format = mixed
+expire_logs_days = 30 <span class="hljs-comment">#超过30天的binlog删除</span>
+slow_query_log = 1
+bulk_insert_buffer_size = 8M
+myisam_max_sort_file_size = 10G
+myisam_repair_threads = 1
+interactive_timeout = 18800
+wait_timeout = 18800
+character_set_server=utf8 
+init_connect='SET NAMES utf8'
+default-storage-engine = InnoDB
+innodb_lock_wait_timeout = 120
+innodb_max_dirty_pages_pct = 90
+innodb_flush_log_at_trx_commit = 2
+innodb_purge_threads = 1
 [mysql]
-<span class="hljs-attr">default_character_set=utf8</span>
+default_character_set=utf8
 [client]
-<span class="hljs-attr">port</span> = <span class="hljs-number">3306</span></code></pre><h1 id="5."><a href="#5." class="headerlink" title="参考"></a>5. 参考</h1><p><a href="https://blog.linuxeye.com/379.html" target="_blank" rel="external">https://blog.linuxeye.com/379.html</a></p>
+port = 3306</code></pre><h1 id="5."><a href="#5." class="headerlink" title="参考"></a>5. 参考</h1><p><a href="https://blog.linuxeye.com/379.html" target="_blank" rel="external">https://blog.linuxeye.com/379.html</a></p>
 <p><a href="http://www.jb51.net/article/33569.htm" target="_blank" rel="external">http://www.jb51.net/article/33569.htm</a></p>
  
 </section>
@@ -158,7 +158,7 @@
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=28400858821"> </script>
+  <script src="/js/dist/custom.min.js?v=8052755869"> </script>
 
 
   </body>

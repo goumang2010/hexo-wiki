@@ -901,9 +901,9 @@ vm?: Component</code></pre><p>propOptions: $options.props 一般形式：</p>
 <li>def = prop.default为object，且在非生产环境下，警告不要使用Object/Array，而要使用一个工厂函数返回默认值。</li>
 <li>若prop.default为function，判断prop.type，为Function直接返回默认值，不是则返回<code>def.call(vm)</code></li>
 </ol>
-<h4 id="7.6.6.3."><a href="#7.6.6.3." class="headerlink" title="getType"></a>7.6.6.3. getType</h4><pre><code class="hljs "><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getType</span> <span class="hljs-params">(fn)</span> {</span>
-  const <span class="hljs-keyword">match</span> = fn &amp;&amp; fn.toString().<span class="hljs-keyword">match</span>(/^\s*<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(\w+)</span>/)</span>
-  <span class="hljs-keyword">return</span> <span class="hljs-keyword">match</span> &amp;&amp; <span class="hljs-keyword">match</span>[<span class="hljs-number">1</span>]
+<h4 id="7.6.6.3."><a href="#7.6.6.3." class="headerlink" title="getType"></a>7.6.6.3. getType</h4><pre><code class="hljs "><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getType</span> <span class="hljs-params">(fn)</span></span> {
+  const <span class="hljs-built_in">match</span> = fn &amp;&amp; fn.toString().<span class="hljs-built_in">match</span>(/^\s*<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(\w+)</span></span>/)
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">match</span> &amp;&amp; <span class="hljs-built_in">match</span>[<span class="hljs-number">1</span>]
 }</code></pre><h4 id="7.6.6.4."><a href="#7.6.6.4." class="headerlink" title="assertProp"></a>7.6.6.4. assertProp</h4><h2 id="7.7."><a href="#7.7." class="headerlink" title="vdom"></a>7.7. vdom</h2><h3 id="7.7.1."><a href="#7.7.1." class="headerlink" title="create-element.js"></a>7.7.1. create-element.js</h3><h4 id="7.7.1.1."><a href="#7.7.1.1." class="headerlink" title="createElement"></a>7.7.1.1. createElement</h4><p>检查data，调用_createElement并返回结果，返回结果为vnode对象</p>
 <h4 id="7.7.1.2."><a href="#7.7.1.2." class="headerlink" title="_createElement"></a>7.7.1.2. _createElement</h4><p>参数：</p>
 <pre><code class="hljs "><span class="hljs-string">context:</span> Component,
@@ -1409,7 +1409,7 @@ with(this){return _h('</span>b<span class="hljs-string">',[_t("default"),_s(test
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=62234617308"> </script>
+  <script src="/js/dist/custom.min.js?v=99418309121"> </script>
 
 
   </body>
