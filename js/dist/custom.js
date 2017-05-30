@@ -1,7 +1,3 @@
-/*
- * customMudule v0.0.0
- * (c) 2017 Chuune
- */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
 	typeof define === 'function' && define.amd ? define(factory) :
@@ -2283,3 +2279,4 @@ index.initialize(container, {
 // import 'babel-polyfill';
 
 })));
+//# sourceMappingURL=custom.js.map
