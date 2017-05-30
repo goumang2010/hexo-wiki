@@ -12,7 +12,7 @@
     "jsbuild": "node themes/wiki-i18n/source/js/build/build.js",
     "start": "node run.js",
     "hexo": "hexo clean && hexo generate && hexo serve --watch",
-    "deploy": "npm run jsbuild && npm run test && hexo clean && hexo generate && hexo deploy",
+    "deploy": "npm run jsbuild && hexo clean && hexo generate && hexo deploy",
     "lint": "eslint . && echo 'ESLint Passed!\\n'",
     "test": "npm run lint"
   },
