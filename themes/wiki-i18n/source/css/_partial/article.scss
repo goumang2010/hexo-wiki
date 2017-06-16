@@ -72,3 +72,8 @@
 .article .toc ul ul {
     margin: 3px 0 0 2em;
 }
+.article .markdown-body .highlight pre, .markdown-body pre {
+    background-color: #222;
+    border-radius: 0.2rem;
+    color: #eaeaea;
+}
