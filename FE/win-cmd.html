@@ -77,8 +77,8 @@
   win-cmd
   <article class="markdown-body article">
   <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">BCD命令</span></a></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">netstate</span></a><ul><li class="level-2"><a href="#2.1."><span class="tocnumber">2.1.</span>&nbsp<span class="toctext">查找端口被占用程序</span></a></li></ul></li><li class="level-1"><a href="#3."><span class="tocnumber">3.</span>&nbsp<span class="toctext">start</span></a><ul><li class="level-2"><a href="#3.1."><span class="tocnumber">3.1.</span>&nbsp<span class="toctext">打开并运行命令</span></a></li></ul></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="BCD命令"></a>1. BCD命令</h1><ul>
-<li>Win7及以上禁用驱动强制签名,其中win8及8.1需要配合快速启动达到保持禁用强制签名的效果<pre><code class="hljs ">bcdedit -<span class="hljs-keyword">set</span> loadoptions DDISABLE_INTEGRITY_CHECKS
-bcdedit -<span class="hljs-keyword">set</span> TESTSIGNING <span class="hljs-keyword">ON</span></code></pre></li>
+<li>Win7及以上禁用驱动强制签名,其中win8及8.1需要配合快速启动达到保持禁用强制签名的效果<pre><code class="hljs ">bcdedit -<span class="hljs-builtin-name">set</span> loadoptions DDISABLE_INTEGRITY_CHECKS
+bcdedit -<span class="hljs-builtin-name">set</span> TESTSIGNING ON</code></pre></li>
 </ul>
 <h1 id="2."><a href="#2." class="headerlink" title="netstate"></a>2. netstate</h1><h2 id="2.1."><a href="#2.1." class="headerlink" title="查找端口被占用程序"></a>2.1. 查找端口被占用程序</h2><p>如查看4000端口被占用情况：<code>netstat -aon|findstr &quot;4000&quot;</code></p>
 <h1 id="3."><a href="#3." class="headerlink" title="start"></a>3. start</h1><h2 id="3.1."><a href="#3.1." class="headerlink" title="打开并运行命令"></a>3.1. 打开并运行命令</h2><ul>
@@ -104,7 +104,7 @@ bcdedit -<span class="hljs-keyword">set</span> TESTSIGNING <span class="hljs-key
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=71589978511"> </script>
+  <script src="/js/dist/custom.min.js?v=35527904097"> </script>
 
 
   </body>

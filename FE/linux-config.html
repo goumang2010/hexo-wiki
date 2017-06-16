@@ -90,7 +90,7 @@
 <p><a href="http://blog.sina.com.cn/s/blog_8b5bb24f01016y3o.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_8b5bb24f01016y3o.html</a></p>
 <p><a href="http://blog.sina.com.cn/s/blog_4b4de658010006m7.html" target="_blank" rel="external">http://blog.sina.com.cn/s/blog_4b4de658010006m7.html</a></p>
 <h1 id="2."><a href="#2." class="headerlink" title="部署脚本"></a>2. 部署脚本</h1><h2 id="2.1."><a href="#2.1." class="headerlink" title="php网站"></a>2.1. php网站</h2><p>安装：</p>
-<pre><code class="hljs ">apt-get install apache2 mysql-server php5 php5-mysql phpmyadmin</code></pre><p>配置：[Apache部署]] [<a href="Apache部署]] [[MySQL安装配置">MySQL安装配置</a></p>
+<pre><code class="hljs ">apt-<span class="hljs-builtin-name">get</span> install apache2 mysql-server php5 php5-mysql phpmyadmin</code></pre><p>配置：[Apache部署]] [<a href="Apache部署]] [[MySQL安装配置">MySQL安装配置</a></p>
 <h2 id="2.2."><a href="#2.2." class="headerlink" title="node环境"></a>2.2. node环境</h2><p><a href="node安装">node安装</a></p>
 <h2 id="2.3."><a href="#2.3." class="headerlink" title="其他"></a>2.3. 其他</h2><ul>
 <li><a href="vsftpd">vsftpd</a></li>
@@ -99,8 +99,8 @@
 <li><a href="Ubuntu下安装github">Ubuntu下安装github</a></li>
 </ul>
 <h2 id="2.4."><a href="#2.4." class="headerlink" title="apt-get总安装命令"></a>2.4. apt-get总安装命令</h2><pre><code class="hljs ">apt-get <span class="hljs-keyword">install</span> apache2 mysql-<span class="hljs-keyword">server</span> mongodb  vsftpd  <span class="hljs-keyword">build</span>-essential autoconf libtool libssl-dev  openssh-<span class="hljs-keyword">server</span> openssh-<span class="hljs-keyword">client</span> git-core php5</code></pre><h2 id="2.5."><a href="#2.5." class="headerlink" title="备份脚本"></a>2.5. 备份脚本</h2><p>若在win下创建文件并编辑，需要在vim中做如下检查和修改：</p>
-<pre><code class="hljs ">:<span class="hljs-keyword">set</span> ff</code></pre><p>回车，显示fileformat=dos，重新设置下文件格式：</p>
-<pre><code class="hljs ">:<span class="hljs-keyword">set</span> ff=unix</code></pre><p>保存退出:</p>
+<pre><code class="hljs ">:<span class="hljs-builtin-name">set</span> ff</code></pre><p>回车，显示fileformat=dos，重新设置下文件格式：</p>
+<pre><code class="hljs ">:<span class="hljs-builtin-name">set</span> <span class="hljs-attribute">ff</span>=unix</code></pre><p>保存退出:</p>
 <pre><code class="hljs "><span class="hljs-symbol">:wq</span></code></pre><h3 id="2.5.1."><a href="#2.5.1." class="headerlink" title="程序备份"></a>2.5.1. 程序备份</h3><pre><code class="hljs "><span class="hljs-comment">##!/bin/bash</span>
 ----- create restore sh file<span class="hljs-comment">######</span>
 - save folder
@@ -157,7 +157,7 @@ mutt goumang2010@qq.com -a $filename -s “ParkBackup”</code></pre>
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=10855702740"> </script>
+  <script src="/js/dist/custom.min.js?v=5428961611"> </script>
 
 
   </body>

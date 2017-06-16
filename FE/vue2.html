@@ -1316,81 +1316,81 @@ export function cloneVNode (vnode: VNode): VNode {
       }).then(done)
     })
   })</code></pre><p>  结果及流程：</p>
-<pre><code class="hljs "><span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:p;children:test1slottt'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:test;children:[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingComponent:vue-component-1-test;children:[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:p;children:'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:div;children:[object Object],[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render complete:div'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'updating:div'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patch:div'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render and update by watcher'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render function:function anonymous() {
-with(this){return _h('</span>em<span class="hljs-string">',[_m(0),_h('</span>test2<span class="hljs-string">',[_m(1)])," t11111",_t("default")])}
-}'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:a;children:undefined'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:p;children:test1111inner'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:test2;children:[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingComponent:vue-component-2-test2;children:[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:em;children:[object Object],[object Object], t11111,[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render complete:em'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'updating:em'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patch:em'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render and update by watcher'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render function:function anonymous() {
-with(this){return _h('</span>b<span class="hljs-string">',[_t("default"),_s(testdata)])}
-}'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:b;children:[object Object],'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render complete:b'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'updating:b'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patch:b'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render completed-------------------------'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'$forceUpdate:undefined'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render and update by watcher'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render function:function anonymous() {
-with(this){return _h('</span>div<span class="hljs-string">',[(ok)?_h('</span>test<span class="hljs-string">',[_m(0)]):_e(),_h('</span>p<span class="hljs-string">',[_s(a.b)])])}
-}'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:test;children:[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingComponent:vue-component-1-test;children:[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:p;children:foo'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:div;children:[object Object],[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render complete:div'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'updating:div'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patch:div'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:div;data:undefined'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:vue-component-1-test;data:[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'prepatch:vue-component-1-test'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'_updateFromParent:vue-component-1-test'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'$forceUpdate:[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:p;data:undefined'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render and update by watcher'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render function:function anonymous() {
-with(this){return _h('</span>em<span class="hljs-string">',[_m(0),_h('</span>test2<span class="hljs-string">',[_m(1)])," t11111",_t("default")])}
-}'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:test2;children:[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingComponent:vue-component-2-test2;children:[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:em;children:[object Object],[object Object], t11111,[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render complete:em'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'updating:em'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patch:em'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:em;data:undefined'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:a;data:undefined'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:vue-component-2-test2;data:[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'prepatch:vue-component-2-test2'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'_updateFromParent:vue-component-2-test2'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'$forceUpdate:[object Object]'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:undefined;data:undefined'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:p;data:undefined'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render and update by watcher'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render function:function anonymous() {
-with(this){return _h('</span>b<span class="hljs-string">',[_t("default"),_s(testdata)])}
-}'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'creatingElement:b;children:[object Object],'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'render complete:b'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'updating:b'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patch:b'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:b;data:undefined'</span>
-<span class="hljs-built_in">LOG</span>: <span class="hljs-string">'patchVnode:p;data:undefined'</span></code></pre> 
+<pre><code class="hljs "><span class="hljs-built_in">LOG</span>: 'creatingElement:p;children:test1slottt'
+<span class="hljs-built_in">LOG</span>: 'creatingElement:test;children:[object Object]'
+<span class="hljs-built_in">LOG</span>: 'creatingComponent:vue-component-1-test;children:[object Object]'
+<span class="hljs-built_in">LOG</span>: 'creatingElement:p;children:'
+<span class="hljs-built_in">LOG</span>: 'creatingElement:div;children:[object Object],[object Object]'
+<span class="hljs-built_in">LOG</span>: 'render complete:div'
+<span class="hljs-built_in">LOG</span>: 'updating:div'
+<span class="hljs-built_in">LOG</span>: 'patch:div'
+<span class="hljs-built_in">LOG</span>: 'render and update by watcher'
+<span class="hljs-built_in">LOG</span>: 'render function:function anonymous() {
+with(this){return _h('em',[_m(0),_h('test2',[_m(1)])," t<span class="hljs-number">1111</span>1",_t("default")])}
+}'
+<span class="hljs-built_in">LOG</span>: 'creatingElement:a;children:undefined'
+<span class="hljs-built_in">LOG</span>: 'creatingElement:p;children:test<span class="hljs-number">1111</span>inner'
+<span class="hljs-built_in">LOG</span>: 'creatingElement:test2;children:[object Object]'
+<span class="hljs-built_in">LOG</span>: 'creatingComponent:vue-component-2-test2;children:[object Object]'
+<span class="hljs-built_in">LOG</span>: 'creatingElement:em;children:[object Object],[object Object], t<span class="hljs-number">1111</span>1,[object Object]'
+<span class="hljs-built_in">LOG</span>: 'render complete:em'
+<span class="hljs-built_in">LOG</span>: 'updating:em'
+<span class="hljs-built_in">LOG</span>: 'patch:em'
+<span class="hljs-built_in">LOG</span>: 'render and update by watcher'
+<span class="hljs-built_in">LOG</span>: 'render function:function anonymous() {
+with(this){return _h('b',[_t("default"),_s(testdata)])}
+}'
+<span class="hljs-built_in">LOG</span>: 'creatingElement:b;children:[object Object],'
+<span class="hljs-built_in">LOG</span>: 'render complete:b'
+<span class="hljs-built_in">LOG</span>: 'updating:b'
+<span class="hljs-built_in">LOG</span>: 'patch:b'
+<span class="hljs-built_in">LOG</span>: 'render completed-------------------------'
+<span class="hljs-built_in">LOG</span>: '$forceUpdate:undefined'
+<span class="hljs-built_in">LOG</span>: 'render and update by watcher'
+<span class="hljs-built_in">LOG</span>: 'render function:function anonymous() {
+with(this){return _h('div',[(ok)?_h('test',[_m(0)]):_e(),_h('p',[_s(a.b)])])}
+}'
+<span class="hljs-built_in">LOG</span>: 'creatingElement:test;children:[object Object]'
+<span class="hljs-built_in">LOG</span>: 'creatingComponent:vue-component-1-test;children:[object Object]'
+<span class="hljs-built_in">LOG</span>: 'creatingElement:p;children:foo'
+<span class="hljs-built_in">LOG</span>: 'creatingElement:div;children:[object Object],[object Object]'
+<span class="hljs-built_in">LOG</span>: 'render complete:div'
+<span class="hljs-built_in">LOG</span>: 'updating:div'
+<span class="hljs-built_in">LOG</span>: 'patch:div'
+<span class="hljs-built_in">LOG</span>: 'patchVnode:div;data:undefined'
+<span class="hljs-built_in">LOG</span>: 'patchVnode:vue-component-1-test;data:[object Object]'
+<span class="hljs-built_in">LOG</span>: 'prepatch:vue-component-1-test'
+<span class="hljs-built_in">LOG</span>: '_updateFromParent:vue-component-1-test'
+<span class="hljs-built_in">LOG</span>: '$forceUpdate:[object Object]'
+<span class="hljs-built_in">LOG</span>: 'patchVnode:p;data:undefined'
+<span class="hljs-built_in">LOG</span>: 'render and update by watcher'
+<span class="hljs-built_in">LOG</span>: 'render function:function anonymous() {
+with(this){return _h('em',[_m(0),_h('test2',[_m(1)])," t<span class="hljs-number">1111</span>1",_t("default")])}
+}'
+<span class="hljs-built_in">LOG</span>: 'creatingElement:test2;children:[object Object]'
+<span class="hljs-built_in">LOG</span>: 'creatingComponent:vue-component-2-test2;children:[object Object]'
+<span class="hljs-built_in">LOG</span>: 'creatingElement:em;children:[object Object],[object Object], t<span class="hljs-number">1111</span>1,[object Object]'
+<span class="hljs-built_in">LOG</span>: 'render complete:em'
+<span class="hljs-built_in">LOG</span>: 'updating:em'
+<span class="hljs-built_in">LOG</span>: 'patch:em'
+<span class="hljs-built_in">LOG</span>: 'patchVnode:em;data:undefined'
+<span class="hljs-built_in">LOG</span>: 'patchVnode:a;data:undefined'
+<span class="hljs-built_in">LOG</span>: 'patchVnode:vue-component-2-test2;data:[object Object]'
+<span class="hljs-built_in">LOG</span>: 'prepatch:vue-component-2-test2'
+<span class="hljs-built_in">LOG</span>: '_updateFromParent:vue-component-2-test2'
+<span class="hljs-built_in">LOG</span>: '$forceUpdate:[object Object]'
+<span class="hljs-built_in">LOG</span>: 'patchVnode:undefined;data:undefined'
+<span class="hljs-built_in">LOG</span>: 'patchVnode:p;data:undefined'
+<span class="hljs-built_in">LOG</span>: 'render and update by watcher'
+<span class="hljs-built_in">LOG</span>: 'render function:function anonymous() {
+with(this){return _h('b',[_t("default"),_s(testdata)])}
+}'
+<span class="hljs-built_in">LOG</span>: 'creatingElement:b;children:[object Object],'
+<span class="hljs-built_in">LOG</span>: 'render complete:b'
+<span class="hljs-built_in">LOG</span>: 'updating:b'
+<span class="hljs-built_in">LOG</span>: 'patch:b'
+<span class="hljs-built_in">LOG</span>: 'patchVnode:b;data:undefined'
+<span class="hljs-built_in">LOG</span>: 'patchVnode:p;data:undefined'</code></pre> 
 </section>
 
   <section class="footer">
@@ -1409,7 +1409,7 @@ with(this){return _h('</span>b<span class="hljs-string">',[_t("default"),_s(test
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=43410024005"> </script>
+  <script src="/js/dist/custom.min.js?v=84710780761"> </script>
 
 
   </body>

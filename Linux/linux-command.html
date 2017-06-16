@@ -77,15 +77,15 @@
   linux-command
   <article class="markdown-body article">
   <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">常用命令</span></a><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">系统运行情况</span></a></li><li class="level-2"><a href="#1.2."><span class="tocnumber">1.2.</span>&nbsp<span class="toctext">apt-get</span></a></li><li class="level-2"><a href="#1.3."><span class="tocnumber">1.3.</span>&nbsp<span class="toctext">kill</span></a></li><li class="level-2"><a href="#1.4."><span class="tocnumber">1.4.</span>&nbsp<span class="toctext">History</span></a></li><li class="level-2"><a href="#1.5."><span class="tocnumber">1.5.</span>&nbsp<span class="toctext">cd</span></a></li><li class="level-2"><a href="#1.6."><span class="tocnumber">1.6.</span>&nbsp<span class="toctext">netstat</span></a></li><li class="level-2"><a href="#1.7."><span class="tocnumber">1.7.</span>&nbsp<span class="toctext">cat</span></a></li><li class="level-2"><a href="#1.8."><span class="tocnumber">1.8.</span>&nbsp<span class="toctext">chmod</span></a></li></ul></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">快捷键</span></a><ul><li class="level-2"><a href="#2.1."><span class="tocnumber">2.1.</span>&nbsp<span class="toctext">复制粘贴</span></a></li></ul></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="常用命令"></a>1. 常用命令</h1><h2 id="1.1."><a href="#1.1." class="headerlink" title="系统运行情况"></a>1.1. 系统运行情况</h2><ul>
-<li>进程Pid及名称：<pre><code class="hljs ">ps <span class="hljs-_">-e</span></code></pre></li>
+<li>进程Pid及名称：<pre><code class="hljs "><span class="hljs-attribute">ps -e</span></code></pre></li>
 <li>查看总体运行及详细情况：<pre><code class="hljs "><span class="hljs-built_in">top</span></code></pre>-M为按照内存占用大小排序</li>
 <li>查看内存总体使用情况：<pre><code class="hljs "><span class="hljs-built_in">free</span> -m</code></pre></li>
 <li>查看详细内存使用情况：<pre><code class="hljs "><span class="hljs-symbol">cat</span> /<span class="hljs-meta">proc</span>/meminfo</code></pre></li>
 </ul>
 <h2 id="1.2."><a href="#1.2." class="headerlink" title="apt-get"></a>1.2. apt-get</h2><p>安装：</p>
-<pre><code class="hljs ">apt-<span class="hljs-keyword">get</span> install pkgname</code></pre><p>卸载：</p>
-<pre><code class="hljs ">apt-<span class="hljs-built_in">get</span> <span class="hljs-built_in">remove</span> pkgname</code></pre><p>完全卸载（删除配置文件）：</p>
-<pre><code class="hljs ">apt-<span class="hljs-keyword">get</span> purge pkgname</code></pre><h2 id="1.3."><a href="#1.3." class="headerlink" title="kill"></a>1.3. kill</h2><pre><code class="hljs "><span class="hljs-built_in">kill</span> pid</code></pre><p>pid替换为pid号</p>
+<pre><code class="hljs ">apt-<span class="hljs-builtin-name">get</span> install pkgname</code></pre><p>卸载：</p>
+<pre><code class="hljs ">apt-<span class="hljs-builtin-name">get</span> <span class="hljs-builtin-name">remove</span> pkgname</code></pre><p>完全卸载（删除配置文件）：</p>
+<pre><code class="hljs ">apt-<span class="hljs-builtin-name">get</span> purge pkgname</code></pre><h2 id="1.3."><a href="#1.3." class="headerlink" title="kill"></a>1.3. kill</h2><pre><code class="hljs "><span class="hljs-built_in">kill</span> pid</code></pre><p>pid替换为pid号</p>
 <h2 id="1.4."><a href="#1.4." class="headerlink" title="History"></a>1.4. History</h2><p>用于查看命令行输入历史，直接键入即可；<br>打开记录历史命令的文件：</p>
 <pre><code class="hljs ">vim ~<span class="hljs-string">/.bash_history</span></code></pre><p>复制文件到Share文件夹：</p>
 <pre><code class="hljs ">cp ~<span class="hljs-string">/.bash_history</span> ~<span class="hljs-string">/Share</span></code></pre><p>注意：若为FTP服务器，则FTP不支持.bash_history这种名称的文件 则需指定文件名：</p>
@@ -133,7 +133,7 @@
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=37324131667"> </script>
+  <script src="/js/dist/custom.min.js?v=10528440795"> </script>
 
 
   </body>
