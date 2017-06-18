@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>algorithm | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/algorithm.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/algorithm.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>algorithm</h2>
+  algorithm
+  <article class="markdown-body article">
+  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">查找</span></a><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">kmp</span></a><ul><li class="level-3"><a href="#1.1.1."><span class="tocnumber">1.1.1.</span>&nbsp<span class="toctext">examples</span></a><ul><li class="level-4"><a href="#1.1.1.1."><span class="tocnumber">1.1.1.1.</span>&nbsp<span class="toctext">js</span></a></li></ul></li></ul></li></ul></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">排序</span></a><ul><li class="level-2"><a href="#2.1."><span class="tocnumber">2.1.</span>&nbsp<span class="toctext">快排</span></a><ul><li class="level-3"><a href="#2.1.1."><span class="tocnumber">2.1.1.</span>&nbsp<span class="toctext">examples</span></a><ul><li class="level-4"><a href="#2.1.1.1."><span class="tocnumber">2.1.1.1.</span>&nbsp<span class="toctext">C++</span></a></li><li class="level-4"><a href="#2.1.1.2."><span class="tocnumber">2.1.1.2.</span>&nbsp<span class="toctext">js</span></a></li></ul></li></ul></li></ul></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="查找"></a>1. 查找</h1><h2 id="1.1."><a href="#1.1." class="headerlink" title="kmp"></a>1.1. kmp</h2><p>设： 输入字符串为haystack， 要查找的子串needle</p>
+<ol>
+<li>得到needle的回溯特征nextStack：<ul>
+<li>needle第一个字符的回溯位置为-1， 表示needle第2个字符不匹配时，haystack的上个位置需要与needle的-1位置对齐，即下一步要匹配haystack当前位置与needle头部。</li>
+<li>得到needle第n个字符的回溯位置：设n-1个字符的回溯位置为k，则查看needle[k + 1]与needle[n]的值是否相等，相等则说明第n个字符的回溯位置直接就是k+1</li>
+<li>若不想等，则继续回溯位置k的上个回溯位置j，再次匹配下个字符，以此类推。</li>
+</ul>
+</li>
+<li>匹配haystack：<ul>
+<li>两个游标代表haystack和needle匹配位置，均从0开始。</li>
+<li>游标所在位置字符相等，则同时前进；</li>
+<li>不匹配时， 若needle位置为0，则仅haystack向前。</li>
+<li>其他情况不匹配时，设当前haystack游标位置为hi, needle游标位置为ni,  查找最后匹配位置ni - 1的回溯位置， 并将ni设为该位置的下一个位置（ni = nextStack[ni - 1] + 1），hi不变，下一步即重新开始匹配needle[ni]和haystack[hi]</li>
+<li>needle匹配了最后一个位置后停止，计算并返回hi - needle.lenth</li>
+</ul>
+</li>
+</ol>
+<h3 id="1.1.1."><a href="#1.1.1." class="headerlink" title="examples"></a>1.1.1. examples</h3><h4 id="1.1.1.1."><a href="#1.1.1.1." class="headerlink" title="js"></a>1.1.1.1. js</h4><pre><code class="hljs js"><span class="hljs-keyword">var</span> strStr = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(haystack, needle)</span> </span>{
+    <span class="hljs-comment">// use kmp</span>
+    <span class="hljs-keyword">var</span> needleLenth = needle.length;
+    <span class="hljs-keyword">if</span>(needleLenth === <span class="hljs-number">0</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+    }
+    <span class="hljs-keyword">var</span> nextStack = {
+        <span class="hljs-number">0</span>: <span class="hljs-number">-1</span>
+    };
+    <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> hayLength = haystack.length;
+    <span class="hljs-keyword">for</span>(<span class="hljs-keyword">var</span> i = <span class="hljs-number">1</span>;i &lt; needleLenth; i++) {
+        index = nextStack[i - <span class="hljs-number">1</span>];
+        <span class="hljs-comment">// 回溯到后缀匹配的最近位置，此时，后缀的下个字符与当前位置i的字符匹配或是回溯位置为-1（需要从头开始）</span>
+        <span class="hljs-keyword">while</span>(index &gt;=<span class="hljs-number">0</span> &amp;&amp; needle[index + <span class="hljs-number">1</span>] !==  needle[i]) {
+            index = nextStack[index];
+        }
+        <span class="hljs-comment">// 后缀的下个字符与当前位置i的字符匹配， 将当前字符的回溯位置设为元后缀的下个字符位置</span>
+        <span class="hljs-keyword">if</span>(needle[index + <span class="hljs-number">1</span>] ===  needle[i]) {
+            nextStack[i] = index + <span class="hljs-number">1</span>;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// 无回溯位置</span>
+            nextStack[i] = <span class="hljs-number">-1</span>;
+        }
+    }
+    <span class="hljs-keyword">var</span> hayIndex = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">var</span> needleIndex = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">while</span>(hayIndex&lt; hayLength &amp;&amp; needleIndex &lt; needleLenth) {
+        <span class="hljs-keyword">if</span>(haystack[hayIndex] === needle[needleIndex]) {
+            hayIndex ++;
+            needleIndex++;
+        } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (needleIndex === <span class="hljs-number">0</span>) {
+            hayIndex++;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-comment">// 若不使用nextStack， 需要从hayIndex = hayIndex - needleIndex + 1 与needleIndex = 0重新匹配</span>
+            <span class="hljs-comment">// 使用nextStack， 则只要从hayIndex = hayIndex与needleIndex = nextStack[needleIndex - 1] + 1匹配</span>
+            <span class="hljs-comment">// 即是自动匹配了hayIndex之前的后缀与needle的前缀</span>
+            needleIndex = nextStack[needleIndex - <span class="hljs-number">1</span>] + <span class="hljs-number">1</span>;
+        }
+    }
+
+    <span class="hljs-keyword">if</span>(needleIndex === needleLenth) {
+        <span class="hljs-keyword">return</span> hayIndex - needleLenth;
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>;
+    }
+};</code></pre><h1 id="2."><a href="#2." class="headerlink" title="排序"></a>2. 排序</h1><h2 id="2.1."><a href="#2.1." class="headerlink" title="快排"></a>2.1. 快排</h2><p>输入： 数组a， 排序范围start - end</p>
+<ol>
+<li>定义比较大小并调换位置的函数compare</li>
+<li>数组a仅有一个元素，返回其本身。</li>
+<li>数组a有2个元素， 两个元素比较排序后返回。</li>
+<li>数组a有3个元素， 两两比较排序后返回。</li>
+<li>数组a多于3个元素，在中间位置的元素和两边元素，排序，并选取中间元素为pivot</li>
+<li>将pivot和倒数第二个元素（a[end -1]）调换位置。</li>
+<li>设置两个j, k游标分别从start + 1，end -2位置开始向中间移动，直到j &gt;= k, 当j移动到大于等于pivot元素，同时k移动到小于等于pivot的元素时，互换元素位置。</li>
+<li>循环结束后，将j所在的元素（大于等于pivot）和end-1位置的pivot互换位置，此时j左侧元素都比pivot小，右侧都比pivot大。</li>
+<li>递归排序[start, j-1] [j+1, end] 范围的元素。</li>
+</ol>
+<h3 id="2.1.1."><a href="#2.1.1." class="headerlink" title="examples"></a>2.1.1. examples</h3><h4 id="2.1.1.1."><a href="#2.1.1.1." class="headerlink" title="C++"></a>2.1.1.1. C++</h4><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">"stdafx.h"</span></span>
+<span class="hljs-meta">#<span class="hljs-meta-keyword">include</span> <span class="hljs-meta-string">&lt;vector&gt;</span></span>
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+<span class="hljs-keyword">namespace</span> AlgorithmPractice
+{
+
+    <span class="hljs-comment">//快速排序</span>
+    <span class="hljs-comment">//定义一项操作，使得以pivot为界，将数组分为两组，后一组元素比前一组的每个元素都要大</span>
+    <span class="hljs-comment">//继续对每组进行重复这样的操作，直到分无可分（每组只剩下一个元素），即完成了整个排序</span>
+    <span class="hljs-comment">//将pivot选为两边元素和中间元素的中值</span>
+    <span class="hljs-comment">//使用递归</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">QuickSort</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; &amp; a, <span class="hljs-keyword">int</span> start, <span class="hljs-keyword">int</span> end)</span>
+    </span>{
+        <span class="hljs-keyword">int</span> diff = end - start;
+        <span class="hljs-comment">//当有0个或1个元素时，直接返回</span>
+        <span class="hljs-keyword">if</span> (diff &lt;= <span class="hljs-number">0</span>)
+        {
+            <span class="hljs-keyword">return</span>;
+        }
+        <span class="hljs-keyword">else</span>
+        {
+            <span class="hljs-comment">//</span>
+            <span class="hljs-keyword">if</span> (diff == <span class="hljs-number">1</span> || diff == <span class="hljs-number">2</span>)
+            {
+                getPivot(a, start, end);
+                <span class="hljs-keyword">return</span>;
+            }
+        }
+        <span class="hljs-comment">//确定锚点</span>
+        <span class="hljs-comment">//此时锚点已经放置到end-1的位置</span>
+        <span class="hljs-keyword">int</span> pivot = getPivot(a, start, end);
+        <span class="hljs-comment">//使用两个游标j,k在[start+1,end-2]范围内分别游走，当j&gt;=k时表示游历完成</span>
+        <span class="hljs-comment">//游标分别寻找大于和小于pivot的位置，然后交换</span>
+        <span class="hljs-comment">//当结束时，jk会分别位于第一个大于/小于pivot的元素上</span>
+        <span class="hljs-keyword">int</span> j = start + <span class="hljs-number">1</span>;
+        <span class="hljs-keyword">int</span> k = end - <span class="hljs-number">2</span>;
+        <span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>)
+        {
+            <span class="hljs-comment">//找到第一个不符合要求的元素</span>
+            <span class="hljs-comment">//不需要担心越界，因为左右各自有比pivot小/大的数</span>
+            <span class="hljs-keyword">while</span> (a[j] &lt; pivot)
+            {
+                j++;
+            }
+            <span class="hljs-comment">//无需考虑等号，留在原地，其会最终靠在一起</span>
+            <span class="hljs-keyword">while</span> (a[k] &gt; pivot)
+            {
+                k--;
+            }
+            <span class="hljs-keyword">if</span> (j &gt;= k)
+            {z
+                <span class="hljs-keyword">break</span>;
+            }
+            <span class="hljs-keyword">else</span>
+            {
+                swapEle(a, j, k);
+            }
+        }
+        <span class="hljs-comment">//此时j的位置为第一个大于pivot的元素，把它和右边end-1位置上的pivot交换</span>
+        swapEle(a, j, end - <span class="hljs-number">1</span>);
+        <span class="hljs-comment">//这样pivot恰好位于中间位置，把数组分为[start,j-1][j+1,end]两部分</span>
+        <span class="hljs-comment">//使用递归，分别进行同样的操作</span>
+        QuickSort(a, start, j - <span class="hljs-number">1</span>);
+        QuickSort(a, j + <span class="hljs-number">1</span>, end);
+    }
+    <span class="hljs-comment">//交换数组中两个元素的位置</span>
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">swapEle</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; &amp; a, <span class="hljs-keyword">int</span> ia, <span class="hljs-keyword">int</span> ib)</span>
+    </span>{
+        <span class="hljs-keyword">int</span> tmp = a[ia];
+        a[ia] = a[ib];
+        a[ib] = tmp;
+    }
+    <span class="hljs-comment">//确定pivot</span>
+    <span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">getPivot</span><span class="hljs-params">(<span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt; &amp; a, <span class="hljs-keyword">int</span> ia, <span class="hljs-keyword">int</span> ib)</span>
+    </span>{
+        <span class="hljs-keyword">int</span> midi = (ia + ib) / <span class="hljs-number">2</span>;
+        <span class="hljs-comment">//比较左边和中间，确保左边相对小</span>
+        <span class="hljs-keyword">if</span> (a[ia] &gt; a[midi])
+        {
+            swapEle(a, ia, midi);
+        }
+        <span class="hljs-comment">//比较左边和右边，确保左边相对小</span>
+        <span class="hljs-keyword">if</span> (a[ia] &gt; a[ib])
+        {
+            swapEle(a, ia, ib);
+        }
+        <span class="hljs-comment">//比较中间和右边，确保中间相对小</span>
+        <span class="hljs-keyword">if</span> (a[midi] &gt; a[ib])
+        {
+            swapEle(a, midi, ib);
+        }
+        <span class="hljs-comment">//此时midi处的值选为pivot，但面临的问题是：</span>
+        <span class="hljs-comment">//1. pivot最终索引位置不确定</span>
+        <span class="hljs-comment">//2.可以确定的是ia，ib的元素位置都不需要再变动</span>
+        <span class="hljs-comment">//故先把pivot放于ib-1的位置，待分组完全后，再把其放到最终的中间位置</span>
+        swapEle(a, midi, ib - <span class="hljs-number">1</span>);
+        <span class="hljs-keyword">return</span> a[ib - <span class="hljs-number">1</span>];
+    }
+}</code></pre><h4 id="2.1.1.2."><a href="#2.1.1.2." class="headerlink" title="js"></a>2.1.1.2. js</h4><pre><code class="hljs js">function quicksort(mangleArr, left = <span class="hljs-number">0</span>, right = mangleArr.length - <span class="hljs-number">1</span>) {
+    <span class="hljs-keyword">if</span> ((right - left) &lt;= <span class="hljs-number">1</span>) {
+        switchPos(left, right, mangleArr);
+        return mangleArr;
+    }
+    let <span class="hljs-variable">_right</span> = right;
+    let <span class="hljs-variable">_left</span> = left;
+    let <span class="hljs-variable">_array</span> = mangleArr;
+    <span class="hljs-comment">// establish two flag</span>
+    let mid = Math.<span class="hljs-built_in">ceil</span>((left + right) / <span class="hljs-number">2</span>);
+    switchPos(<span class="hljs-variable">_left</span>, mid, <span class="hljs-variable">_array</span>);
+    switchPos(<span class="hljs-variable">_left</span>, <span class="hljs-variable">_right</span>, <span class="hljs-variable">_array</span>);
+    switchPos(mid, <span class="hljs-variable">_right</span>, <span class="hljs-variable">_array</span>);
+    let pivot = <span class="hljs-variable">_array</span>[mid];
+    switchPos(mid, <span class="hljs-variable">_right</span> - <span class="hljs-number">1</span>, <span class="hljs-variable">_array</span>, <span class="hljs-literal">true</span>);
+    <span class="hljs-variable">_right</span> -= <span class="hljs-number">2</span>;
+    <span class="hljs-variable">_left</span>++;
+    <span class="hljs-keyword">while</span> (<span class="hljs-literal">true</span>) {
+        <span class="hljs-keyword">while</span> (<span class="hljs-variable">_array</span>[<span class="hljs-variable">_left</span>] &lt; pivot) {
+            <span class="hljs-variable">_left</span>++;
+        }
+
+        <span class="hljs-keyword">while</span> (<span class="hljs-variable">_array</span>[<span class="hljs-variable">_right</span>] &gt; pivot) {
+            <span class="hljs-variable">_right</span>--;
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-variable">_left</span> &gt;= <span class="hljs-variable">_right</span>) {
+            break;
+        } <span class="hljs-keyword">else</span> {
+            switchPos(<span class="hljs-variable">_left</span>, <span class="hljs-variable">_right</span>, <span class="hljs-variable">_array</span>);
+        }
+    }
+    switchPos(<span class="hljs-variable">_left</span>, right - <span class="hljs-number">1</span>, <span class="hljs-variable">_array</span>, <span class="hljs-literal">true</span>);
+    quicksort(<span class="hljs-variable">_array</span>, left, <span class="hljs-variable">_left</span> - <span class="hljs-number">1</span>);
+    quicksort(<span class="hljs-variable">_array</span>, <span class="hljs-variable">_left</span> + <span class="hljs-number">1</span>, right);
+    return <span class="hljs-variable">_array</span>;
+}
+
+
+function switchPos(a, b, <span class="hljs-variable">_array</span>, force = <span class="hljs-literal">false</span>) {
+    <span class="hljs-keyword">if</span> (<span class="hljs-variable">_array</span>[a] &gt; <span class="hljs-variable">_array</span>[b] || force) {
+        let temp = <span class="hljs-variable">_array</span>[a];
+        <span class="hljs-variable">_array</span>[a] = <span class="hljs-variable">_array</span>[b];
+        <span class="hljs-variable">_array</span>[b] = temp;
+        return <span class="hljs-literal">true</span>;
+    } <span class="hljs-keyword">else</span> {
+        return <span class="hljs-literal">false</span>;
+    }
+}</code></pre> 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=92381453079"> </script>
+
+
+  </body>
+</html>

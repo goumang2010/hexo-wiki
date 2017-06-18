@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>https | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/https.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/https.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>https</h2>
+  https
+  <article class="markdown-body article">
+  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">握手原理</span></a><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">验证数字证书</span></a></li></ul></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">demo</span></a><ul><li class="level-2"><a href="#2.1."><span class="tocnumber">2.1.</span>&nbsp<span class="toctext">https服务</span></a></li></ul></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="握手原理"></a>1. 握手原理</h1><p><a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="external">http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html</a></p>
+<ol>
+<li>客户端请求，发送client random 及支持的cipher，比如TLS 1.0版</li>
+<li>服务端发送server random 及证书，证书中包含公钥，此时服务器也会生成session ID</li>
+<li>客户端验证证书并取出公钥，若验证通过，生成premaster secret(同样是随机数)， 并使用公钥加密，发送给服务端.</li>
+<li>服务端和客户端都通过协商好的cipher方法，根据client random， server random， premaster secret生成session key，为可同时加密解密的对称密钥，用于之后的会话。</li>
+</ol>
+<h2 id="1.1."><a href="#1.1." class="headerlink" title="验证数字证书"></a>1.1. 验证数字证书</h2><p><a href="http://www.cnblogs.com/zery/p/5164795.html" target="_blank" rel="external">http://www.cnblogs.com/zery/p/5164795.html</a></p>
+<ol>
+<li>验证证书是否在有效期内。</li>
+<li>验证证书是否被吊销了， 验证吊销有CRL(证书吊销列表)和OCSP(在线证书检查)两种方法。</li>
+<li>查询系统内信任的根证书， 验证证书是否是上级CA签发的，并取得CA公钥。</li>
+<li>证书是经过CA用自己的私钥，对服务端的公钥和一些相关信息一起加密，所以用CA公钥可解密并验证服务端公钥。</li>
+</ol>
+<h1 id="2."><a href="#2." class="headerlink" title="demo"></a>2. demo</h1><h2 id="2.1."><a href="#2.1." class="headerlink" title="https服务"></a>2.1. https服务</h2><p> <a href="https://gaboesquivel.com/blog/2014/nodejs-https-and-ssl-certificate-for-development/" target="_blank" rel="external">https://gaboesquivel.com/blog/2014/nodejs-https-and-ssl-certificate-for-development/</a></p>
+<ol>
+<li><p>安装openssl</p>
+</li>
+<li><p>生成私钥和自签名数字证书（使用自己私钥而非CA私钥签名的数字证书）</p>
+<pre><code class="hljs bash"> openssl genrsa -out key<span class="hljs-selector-class">.pem</span>
+ openssl req -new -key key<span class="hljs-selector-class">.pem</span> -out csr<span class="hljs-selector-class">.pem</span>
+ openssl x509 -req -days <span class="hljs-number">9999</span> -<span class="hljs-keyword">in</span> csr<span class="hljs-selector-class">.pem</span> -signkey key<span class="hljs-selector-class">.pem</span> -out cert<span class="hljs-selector-class">.pem</span>
+ rm csr.pem</code></pre></li>
+<li><p>node创建https</p>
+<pre><code class="hljs js"> <span class="hljs-comment">// https://nodejs.org/docs/latest/api/https.html#https_https_createserver_options_requestlistener</span>
+ <span class="hljs-comment">// https://nodejs.org/docs/latest/api/tls.html#tls_tls_createsecurecontext_options</span>
+ <span class="hljs-keyword">var</span> https = <span class="hljs-built_in">require</span>(<span class="hljs-string">'https'</span>);
+ <span class="hljs-keyword">var</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'fs'</span>);
+
+ <span class="hljs-keyword">var</span> pkey = fs.readFileSync(<span class="hljs-string">'key.pem'</span>);
+ <span class="hljs-keyword">var</span> pcert = fs.readFileSync(<span class="hljs-string">'cert.pem'</span>)
+
+ <span class="hljs-keyword">var</span> options = {
+     <span class="hljs-attr">key</span>: pkey,
+     <span class="hljs-attr">cert</span>: pcert
+ };
+
+ <span class="hljs-keyword">var</span> server = https.createServer(options, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">req, res</span>) </span>{
+     res.writeHead(<span class="hljs-number">200</span>);
+     res.end(<span class="hljs-string">"hello world\n"</span>);
+ }).listen(<span class="hljs-number">443</span>);</code></pre></li>
+</ol>
+ 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=60987764526"> </script>
+
+
+  </body>
+</html>
