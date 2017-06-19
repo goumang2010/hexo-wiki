@@ -201,40 +201,7 @@ http://www.cnblogs.com/lhb25/p/inside-block-formatting-ontext.html
 * 如果需要手动写动画，你认为最小时间间隔是多久，为什么？
 * display:inline-block 什么时候会显示间隙？
 * 实现轮播效果：
-
-```
-<div class="wrap">
-    <div class="carousel">
-        <div><img src="a.jpg" /></div>
-        <div><img src="b.jpg" /></div>
-        <div><img src="c.jpg" /></div>
-    </div>
-</div>
-<style>
-        .wrap {
-            width: 600px;
-            min-height:400px;
-            margin: 0 auto;
-            position: relative;
-            overflow: hidden;//隐藏超出的内容
-        }
-        .carousel {
-            position: absolute;//定位图片
-            transition: all 0.5s ease-in 0s;//轮播动画
-        }
-        img {
-            width: 100%;
-        }
-        .carousel div {
-            float: left;
-            width: 33.333%;
-            text-align: center;
-        }
-        .button {
-            text-align: center;
-        }
-    </style>
-```
+https://codepen.io/goumang2010/pen/MopOYd
 
 ## JS
 ### 概念
