@@ -54,7 +54,7 @@ categories:
 | 504 | Gateway Timeout | 由作为代理或网关的服务器使用，表示不能及时地从远程服务器获得应答。（HTTP 1.1新） |
 | 505 | HTTP Version Not Supported | 服务器不支持请求中所指明的HTTP版本。（HTTP 1.1新） |
 
-### demo
+### examples
 
 https://nodejs.org/docs/latest/api/http.html#http_http_status_codes
 
@@ -63,8 +63,8 @@ const http = require('http');
 console.log(JSON.stringify(http.STATUS_CODES, null, 4));
 ```
 
-## 例子
-
+## examples
+### 一个客户端的post请求报文
 ```
 POST/servlet/default.jsp HTTP/1.1 !--- 这是一个POST方法请求行，指出了所附加的消息的URL和所用的HTTP版本为1.1
 Accept-Language:zh-cn,zh !--- 指定客户端可以接受的语言
@@ -78,8 +78,8 @@ Connection:Keep-Alive !--- 指定采用持续连接方式
 user=winda＆pwd=1234 !--- 此行为向服务器提交的用户账户为winda，密码为1234
 ```
 
-### demo
-显示访问3000端口的报文
+### 显示请求报文
+
 
 ```js
 const http = require('http');
@@ -105,4 +105,72 @@ Host: localhost:3000
 Accept: */*
 Content-Length: 27
 Content-Type: application/x-www-form-urlencode
+```
+# 缓存
+
+http://www.tuicool.com/articles/zUZnUre
+https://my.oschina.net/leejun2005/blog/369148
+
+## 缓存存储策略
+Cache-Control 头里的 Public、Private、no-cache、max-age 、no-store 他们都是用来指明响应内容是否可以被客户端存储的，其中前4个都会缓存文件数据（关于 no-cache 应理解为“不建议使用本地缓存”，其仍然会缓存数据到本地），后者 no-store 则不会在客户端缓存任何响应数据。
+
+## 缓存过期策略
+max-age决定， no-cache视为Cache-Control：max-age=0 ，Cache-Control中的maxAge等同Expires：当前客户端时间 + maxAge， 但Expires和Cache-Control中的max-age同时存在时，以Cache-Control为准。
+缓存过期后，请求发出时会请求服务器，服务器会根据情况返回200或304。
+
+### 没有max-age或Expires时的策略
+以Date 和 Last-Modified 之间的时间差值，取其值的10%作为缓存时间周期
+
+## 缓存对比策略
+If-Modified-Since（由之前服务端设置的Last-Modified决定）、If-None-Match（由之前服务端设置的Etag决定）
+
+### 为何使用Etag
+Last-Modified标注的最后修改只能精确到秒级，如果某些文件在1秒钟以内，被修改多次的话，它将不能准确标注文件的修改时间
+如果某些文件会被定期生成，当有时内容并没有任何变化，但Last-Modified却改变了，导致文件没法使用缓存
+有可能存在服务器没有准确获取文件修改时间，或者与代理服务器时间不一致等情形
+
+## examples
+### no cache server
+
+```js
+const http = require('http');
+const testServer = http.createServer(function(req, res) {
+	res.writeHead(200, {
+		'Content-Type': 'text/plain',
+		'Cache-Control': 'private, no-cache, no-store, must-revalidate',
+		'Expires': '-1',
+		'Pragma': 'no-cache' // for http1.0 equivalent to Cache-Control
+	});
+	res.end('just test');
+}).listen(3000);
+```
+
+使用express：
+
+```js
+const express = require('express');
+const app = express();
+app.use(function(req, res, next) {
+	res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+	res.header('Expires', '-1');
+	res.header('Pragma', 'no-cache');
+	next();
+})
+app.all('/', function(req, res, next) {
+	res.end('just test')
+})
+const server = app.listen(3000);
+```
+
+### 公共缓存一年
+
+```js
+const http = require('http');
+const testServer = http.createServer(function(req, res) {
+	res.writeHead(200, {
+		'Content-Type': 'text/plain',
+		'Cache-Control': 'public, max-age=31557600'
+	});
+	res.end('just test');
+}).listen(3000);
 ```
