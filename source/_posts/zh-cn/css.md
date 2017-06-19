@@ -1,26 +1,71 @@
 ---
 title: CSS
-excerpt: CSS
+excerpt: All about CSS, including selector, layout, position
 categories: 
 - FE
 ---
 
-
-
 # 教程
-
 
 ## 编写
 http://www.w3school.com.cn/example/csse_examples.asp
+
+CSS语句由选择器和声明组成
+
+
+## 引入
+
+```
+<LINK rel="stylesheet" href="bach.css" type="text/css">
+```
+注意src与href区别，src用于替换当前元素，href是链接,href是并行处理,src串行处理
+```
+<script src="javascripts/resume.js"></script>
+```
+
 
 ## 选择器
 http://www.w3school.com.cn/cssref/css_selectors.asp
 
 * em是相对长度单位。相对于当前对象内文本的字体尺寸。如当前对行内文本的字体尺寸未被人为设置，则相对于浏览器的默认字体尺寸。
 
+http://www.w3.org/TR/2011/REC-CSS2-20110607/selector.html
+
+### 样式匹配
+* E[foo~="warning"]属性中以空格分隔的，包含warning单词
+* E[lang|="en"]属性中以连字符-分隔的，包含en单词
+* DIV.warning等同于 DIV[class~="warning"]用法同jade
+* E#myid用法同jade
+* E + F匹配在E旁边的F
+
+### 伪元素
+* :first-line第一行，只能应用于块级元素
+* :first-letter 第一个字母
+* :before and :after用于插入内容
+，在p元素note类前插入"Note: "
+http://www.w3.org/TR/2011/REC-CSS2-20110607/generate.html
+```
+p.note:before { content: "Note: " }
+```
 
 # 布局
 https://zhuanlan.zhihu.com/p/25565751
+
+## 定位
+
+### 水平居中
+- 行内元素：对父元素设置text-align:center; https://codepen.io/goumang2010/pen/EXWbzm
+- 定宽块状元素: 设置左右margin值为auto; https://codepen.io/goumang2010/pen/ZyeagO
+- 不定宽块状元素: 设置子元素为display:inline,然后在父元素上设置text-align:center; 
+- 通用方案: 对子元素设置position: relative; left: 50%;margin-left: 宽度一半 https://codepen.io/goumang2010/pen/PjpEwL
+- 通用方案: flex布局，对父元素设置display:flex;justify-content:center; https://codepen.io/goumang2010/pen/bRqabX
+
+### 垂直居中
+
+- 父元素一定，子元素为单行内联文本：设置父元素行高line-height等于父元素的height https://codepen.io/goumang2010/pen/eRvygW
+- 父元素一定，子元素为多行内联文本：设置父元素的display:table-cell，再设置vertical-align:middle； https://codepen.io/goumang2010/pen/gRmomJ
+- 块状元素:设置子元素position:absolute 并设置top、bottom为0，父元素要设置定位为static以外的值，margin:auto; https://codepen.io/goumang2010/pen/weJpPa
+- 通用方案: flex布局，给父元素设置{display:flex; align-items:center;}。
 
 ## 单列布局
 
@@ -64,7 +109,68 @@ https://codepen.io/goumang2010/pen/gRmGGg
 
 https://codepen.io/goumang2010/pen/ZyeXjV
 
-# 特殊概念
+# 概念
+http://www.w3.org/TR/2011/REC-CSS2-20110607/#minitoc
+
+
+## 盒子模型
+
+### box-sizing
+http://www.cnblogs.com/zhaoran/archive/2013/05/24/3097482.html
+
+- content-box，border和padding不计算入width之内
+- padding-box，padding计算入width内
+- border-box，border和padding计算入width之内，其实就是怪异模式
+
+https://codepen.io/goumang2010/pen/OgpOvB
+
+
+## 属性值的级联和继承
+http://www.w3.org/TR/2011/REC-CSS2-20110607/cascade.html
+
+### 几个值
+* Specified values指定值：如果有明确的指定值，则运用，否则寻找继承，没有继承则使用默认值
+* Computed values计算值：转化指定值中相对数值；
+* Used values使用值：考虑计算值依赖关系后形成结果；
+* Actual values实际值：考虑实际硬件情况，所渲染出的值；
+
+### 继承
+* 继承遵循文档树并且不会被匿名盒子打破；
+* 根节点的值将被视为初始值；
+
+### @import
+在css中引用其他的css
+```
+@import url("fineprint.css") print;
+@import url("bluish.css") projection, tv;
+```
+
+### 级联
+- 找 target media type
+- 找声明
+- 权重排序
+
+#### 选择器权重
+a b c d 逐级比较覆盖
+- a非选择器为1(内联style)，否则为0
+- b ID的数量
+- c 属性和伪类的数量
+- d 元素和伪元素的数量
+```
+ *             {}  /* a=0 b=0 c=0 d=0 -> specificity = 0,0,0,0 */
+ li            {}  /* a=0 b=0 c=0 d=1 -> specificity = 0,0,0,1 */
+ li:first-line {}  /* a=0 b=0 c=0 d=2 -> specificity = 0,0,0,2 */
+ ul li         {}  /* a=0 b=0 c=0 d=2 -> specificity = 0,0,0,2 */
+ ul ol+li      {}  /* a=0 b=0 c=0 d=3 -> specificity = 0,0,0,3 */
+ h1 + *[rel=up]{}  /* a=0 b=0 c=1 d=1 -> specificity = 0,0,1,1 */
+ ul ol li.red  {}  /* a=0 b=0 c=1 d=3 -> specificity = 0,0,1,3 */
+ li.red.level  {}  /* a=0 b=0 c=2 d=1 -> specificity = 0,0,2,1 */
+ #x34y         {}  /* a=0 b=1 c=0 d=0 -> specificity = 0,1,0,0 */
+ style=""          /* a=1 b=0 c=0 d=0 -> specificity = 1,0,0,0 */
+```
+
+### 其他
+html的非css的属性往往会被UA置于样式表的头部，而可能被样式表之后的内容所覆盖
 
 ## BFC
 http://web.jobbole.com/84808/
@@ -120,8 +226,35 @@ https://codepen.io/goumang2010/pen/jwyQjb
 - 一个 'height' 为 'auto' 并且 'min-height' 为 '0'的常规文档流元素的 margin-bottom 会与其最后一个常规文档流子元素的 margin-bottom 折叠，条件为父元素不包含 padding 和 border ，子元素的 margin-bottom 不与包含 clearance 的 margin-top 折叠。
 - 一个不包含border-top、border-bottom、padding-top、padding-bottom的常规文档流元素，并且其 'height' 为 0 或 'auto'， 'min-height' 为 '0'，其里面也不包含行盒(line box)，其自身的 margin-top 和 margin-bottom 会折叠。
 
+## Media types
+
+<table summary="Relationship between media groups and media types">
+<caption>Relationship between media groups and media types</caption>
+<tr><th>Media Types <th colspan="4">Media Groups
+<tr><th>&nbsp;
+    <th>continuous/paged
+    <th>visual/audio/speech/tactile
+    <th>grid/bitmap
+    <th>interactive/static
+<tr><th>braille<td align="center">continuous<td align="center">tactile<td align="center">grid<td align="center">both</tr>
+<tr><th>embossed<td align="center">paged<td align="center">tactile<td align="center">grid<td align="center">static</tr>
+<tr><th>handheld<td align="center">both<td align="center">visual, audio, speech<td align="center">both<td align="center">both</tr>
+<tr><th>print<td align="center">paged<td align="center">visual<td align="center">bitmap<td align="center">static</tr>
+<tr><th>projection<td align="center">paged<td align="center">visual<td align="center">bitmap<td align="center">interactive</tr>
+<tr><th>screen<td align="center">continuous<td align="center">visual, audio<td align="center">bitmap<td align="center">both</tr>
+<tr><th>speech<td align="center">continuous<td align="center">speech<td align="center">N/A<td align="center">both</tr>
+<tr><th>tty<td align="center">continuous<td align="center">visual<td align="center">grid<td align="center">both</tr>
+<tr><th>tv<td align="center">both<td align="center">visual, audio<td align="center">bitmap<td align="center">both</tr>
+</table>
+
 ## clearance
 
 https://codepen.io/goumang2010/pen/owBJza
 
 闭合浮动元素的clearance = 浮动元素上下边距高度 + 浮动元素height +浮动元素的上下边框高度+浮动元素的上下内边距高度。
+
+# 技巧
+
+## 文字省略
+
+https://codepen.io/goumang2010/pen/eRvGoa
