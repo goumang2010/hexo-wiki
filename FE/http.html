@@ -76,7 +76,7 @@
   <h2>http</h2>
   http
   <article class="markdown-body article">
-  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">报文</span></a><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">格式</span></a></li><li class="level-2"><a href="#1.2."><span class="tocnumber">1.2.</span>&nbsp<span class="toctext">状态码</span></a><ul><li class="level-3"><a href="#1.2.1."><span class="tocnumber">1.2.1.</span>&nbsp<span class="toctext">demo</span></a></li></ul></li><li class="level-2"><a href="#1.3."><span class="tocnumber">1.3.</span>&nbsp<span class="toctext">例子</span></a><ul><li class="level-3"><a href="#1.3.1."><span class="tocnumber">1.3.1.</span>&nbsp<span class="toctext">demo</span></a></li></ul></li></ul></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="报文"></a>1. 报文</h1><h2 id="1.1."><a href="#1.1." class="headerlink" title="格式"></a>1.1. 格式</h2><p><img src="/images/http-1.png" alt=""></p>
+  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">报文</span></a><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">格式</span></a></li><li class="level-2"><a href="#1.2."><span class="tocnumber">1.2.</span>&nbsp<span class="toctext">状态码</span></a><ul><li class="level-3"><a href="#1.2.1."><span class="tocnumber">1.2.1.</span>&nbsp<span class="toctext">examples</span></a></li></ul></li><li class="level-2"><a href="#1.3."><span class="tocnumber">1.3.</span>&nbsp<span class="toctext">examples</span></a><ul><li class="level-3"><a href="#1.3.1."><span class="tocnumber">1.3.1.</span>&nbsp<span class="toctext">一个客户端的post请求报文</span></a></li><li class="level-3"><a href="#1.3.2."><span class="tocnumber">1.3.2.</span>&nbsp<span class="toctext">显示请求报文</span></a></li></ul></li></ul></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">缓存</span></a><ul><li class="level-2"><a href="#2.1."><span class="tocnumber">2.1.</span>&nbsp<span class="toctext">缓存存储策略</span></a></li><li class="level-2"><a href="#2.2."><span class="tocnumber">2.2.</span>&nbsp<span class="toctext">缓存过期策略</span></a><ul><li class="level-3"><a href="#2.2.1."><span class="tocnumber">2.2.1.</span>&nbsp<span class="toctext">没有max-age或Expires时的策略</span></a></li></ul></li><li class="level-2"><a href="#2.3."><span class="tocnumber">2.3.</span>&nbsp<span class="toctext">缓存对比策略</span></a><ul><li class="level-3"><a href="#2.3.1."><span class="tocnumber">2.3.1.</span>&nbsp<span class="toctext">为何使用Etag</span></a></li></ul></li><li class="level-2"><a href="#2.4."><span class="tocnumber">2.4.</span>&nbsp<span class="toctext">examples</span></a><ul><li class="level-3"><a href="#2.4.1."><span class="tocnumber">2.4.1.</span>&nbsp<span class="toctext">no cache server</span></a></li><li class="level-3"><a href="#2.4.2."><span class="tocnumber">2.4.2.</span>&nbsp<span class="toctext">公共缓存一年</span></a></li></ul></li></ul></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="报文"></a>1. 报文</h1><h2 id="1.1."><a href="#1.1." class="headerlink" title="格式"></a>1.1. 格式</h2><p><img src="/images/http-1.png" alt=""></p>
 <h2 id="1.2."><a href="#1.2." class="headerlink" title="状态码"></a>1.2. 状态码</h2><p><img src="/images/http-2.png" alt=""></p>
 <table>
 <thead>
@@ -274,9 +274,9 @@
 </tr>
 </tbody>
 </table>
-<h3 id="1.2.1."><a href="#1.2.1." class="headerlink" title="demo"></a>1.2.1. demo</h3><p><a href="https://nodejs.org/docs/latest/api/http.html#http_http_status_codes" target="_blank" rel="external">https://nodejs.org/docs/latest/api/http.html#http_http_status_codes</a></p>
+<h3 id="1.2.1."><a href="#1.2.1." class="headerlink" title="examples"></a>1.2.1. examples</h3><p><a href="https://nodejs.org/docs/latest/api/http.html#http_http_status_codes" target="_blank" rel="external">https://nodejs.org/docs/latest/api/http.html#http_http_status_codes</a></p>
 <pre><code class="hljs js"><span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
-<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">JSON</span>.stringify(http.STATUS_CODES, <span class="hljs-literal">null</span>, <span class="hljs-number">4</span>));</code></pre><h2 id="1.3."><a href="#1.3." class="headerlink" title="例子"></a>1.3. 例子</h2><pre><code class="hljs ">POST/servlet/default.jsp HTTP/<span class="hljs-number">1.1</span> !<span class="hljs-comment">--- 这是一个POST方法请求行，指出了所附加的消息的URL和所用的HTTP版本为1.1</span>
+<span class="hljs-built_in">console</span>.log(<span class="hljs-built_in">JSON</span>.stringify(http.STATUS_CODES, <span class="hljs-literal">null</span>, <span class="hljs-number">4</span>));</code></pre><h2 id="1.3."><a href="#1.3." class="headerlink" title="examples"></a>1.3. examples</h2><h3 id="1.3.1."><a href="#1.3.1." class="headerlink" title="一个客户端的post请求报文"></a>1.3.1. 一个客户端的post请求报文</h3><pre><code class="hljs ">POST/servlet/default.jsp HTTP/<span class="hljs-number">1.1</span> !<span class="hljs-comment">--- 这是一个POST方法请求行，指出了所附加的消息的URL和所用的HTTP版本为1.1</span>
 <span class="hljs-keyword">Accept</span>-Language:zh-cn,zh !<span class="hljs-comment">--- 指定客户端可以接受的语言</span>
 <span class="hljs-keyword">Accept</span>-Charset:GB2312,utf-<span class="hljs-number">8</span> !<span class="hljs-comment">--- 指定客户端可以接受的字符集为GB2312和utf-8</span>
 <span class="hljs-keyword">Accept</span>:text/html,application/xhtml+xml,application/xml !<span class="hljs-comment">--- 指定客户端浏览器支持的MIME类型分别是text/html、application/xhtml+xml、application/xml</span>
@@ -285,8 +285,7 @@ User-Agent:Mozilla/<span class="hljs-number">5.0</span> !<span class="hljs-comme
 Host:www.<span class="hljs-number">51</span>cto.com !<span class="hljs-comment">--- 指定客户端要访问的服务器域名为www.51cto.com</span>
 Connection:Keep-Alive !<span class="hljs-comment">--- 指定采用持续连接方式</span>
 （这里有一个空行）
-user=winda＆pwd=<span class="hljs-number">1234</span> !<span class="hljs-comment">--- 此行为向服务器提交的用户账户为winda，密码为1234</span></code></pre><h3 id="1.3.1."><a href="#1.3.1." class="headerlink" title="demo"></a>1.3.1. demo</h3><p>显示访问3000端口的报文</p>
-<pre><code class="hljs js"><span class="hljs-keyword">const</span> http = require(<span class="hljs-string">'http'</span>);
+user=winda＆pwd=<span class="hljs-number">1234</span> !<span class="hljs-comment">--- 此行为向服务器提交的用户账户为winda，密码为1234</span></code></pre><h3 id="1.3.2."><a href="#1.3.2." class="headerlink" title="显示请求报文"></a>1.3.2. 显示请求报文</h3><pre><code class="hljs js"><span class="hljs-keyword">const</span> http = require(<span class="hljs-string">'http'</span>);
 <span class="hljs-keyword">const</span> testServer = http.createServer(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res)</span> <span class="hljs-comment">{
     res.end('just a test');
 }</span>).<span class="hljs-title">listen</span><span class="hljs-params">(3000)</span>;</span>
@@ -299,7 +298,41 @@ testServer.<span class="hljs-keyword">on</span>(<span class="hljs-string">'conne
 <span class="hljs-attribute">Host</span>: localhost:3000
 <span class="hljs-attribute">Accept</span>: */*
 <span class="hljs-attribute">Content-Length</span>: 27
-<span class="hljs-attribute">Content-Type</span>: application/x-www-form-urlencode</code></pre> 
+<span class="hljs-attribute">Content-Type</span>: application/x-www-form-urlencode</code></pre><h1 id="2."><a href="#2." class="headerlink" title="缓存"></a>2. 缓存</h1><p><a href="http://www.tuicool.com/articles/zUZnUre" target="_blank" rel="external">http://www.tuicool.com/articles/zUZnUre</a><br><a href="https://my.oschina.net/leejun2005/blog/369148" target="_blank" rel="external">https://my.oschina.net/leejun2005/blog/369148</a></p>
+<h2 id="2.1."><a href="#2.1." class="headerlink" title="缓存存储策略"></a>2.1. 缓存存储策略</h2><p>Cache-Control 头里的 Public、Private、no-cache、max-age 、no-store 他们都是用来指明响应内容是否可以被客户端存储的，其中前4个都会缓存文件数据（关于 no-cache 应理解为“不建议使用本地缓存”，其仍然会缓存数据到本地），后者 no-store 则不会在客户端缓存任何响应数据。</p>
+<h2 id="2.2."><a href="#2.2." class="headerlink" title="缓存过期策略"></a>2.2. 缓存过期策略</h2><p>max-age决定， no-cache视为Cache-Control：max-age=0 ，Cache-Control中的maxAge等同Expires：当前客户端时间 + maxAge， 但Expires和Cache-Control中的max-age同时存在时，以Cache-Control为准。<br>缓存过期后，请求发出时会请求服务器，服务器会根据情况返回200或304。</p>
+<h3 id="2.2.1."><a href="#2.2.1." class="headerlink" title="没有max-age或Expires时的策略"></a>2.2.1. 没有max-age或Expires时的策略</h3><p>以Date 和 Last-Modified 之间的时间差值，取其值的10%作为缓存时间周期</p>
+<h2 id="2.3."><a href="#2.3." class="headerlink" title="缓存对比策略"></a>2.3. 缓存对比策略</h2><p>If-Modified-Since（由之前服务端设置的Last-Modified决定）、If-None-Match（由之前服务端设置的Etag决定）</p>
+<h3 id="2.3.1."><a href="#2.3.1." class="headerlink" title="为何使用Etag"></a>2.3.1. 为何使用Etag</h3><p>Last-Modified标注的最后修改只能精确到秒级，如果某些文件在1秒钟以内，被修改多次的话，它将不能准确标注文件的修改时间<br>如果某些文件会被定期生成，当有时内容并没有任何变化，但Last-Modified却改变了，导致文件没法使用缓存<br>有可能存在服务器没有准确获取文件修改时间，或者与代理服务器时间不一致等情形</p>
+<h2 id="2.4."><a href="#2.4." class="headerlink" title="examples"></a>2.4. examples</h2><h3 id="2.4.1."><a href="#2.4.1." class="headerlink" title="no cache server"></a>2.4.1. no cache server</h3><pre><code class="hljs js"><span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
+<span class="hljs-keyword">const</span> testServer = http.createServer(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
+    res.writeHead(<span class="hljs-number">200</span>, {
+        <span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'text/plain'</span>,
+        <span class="hljs-string">'Cache-Control'</span>: <span class="hljs-string">'private, no-cache, no-store, must-revalidate'</span>,
+        <span class="hljs-string">'Expires'</span>: <span class="hljs-string">'-1'</span>,
+        <span class="hljs-string">'Pragma'</span>: <span class="hljs-string">'no-cache'</span> <span class="hljs-comment">// for http1.0 equivalent to Cache-Control</span>
+    });
+    res.end(<span class="hljs-string">'just test'</span>);
+}).listen(<span class="hljs-number">3000</span>);</code></pre><p>使用express：</p>
+<pre><code class="hljs js"><span class="hljs-keyword">const</span> express = <span class="hljs-keyword">require</span>(<span class="hljs-string">'express'</span>);
+<span class="hljs-keyword">const</span> app = express();
+app.<span class="hljs-keyword">use</span>(<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res, next)</span> </span>{
+    res.header(<span class="hljs-string">'Cache-Control'</span>, <span class="hljs-string">'private, no-cache, no-store, must-revalidate'</span>);
+    res.header(<span class="hljs-string">'Expires'</span>, <span class="hljs-string">'-1'</span>);
+    res.header(<span class="hljs-string">'Pragma'</span>, <span class="hljs-string">'no-cache'</span>);
+    next();
+})
+app.all(<span class="hljs-string">'/'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(req, res, next)</span> </span>{
+    res.end(<span class="hljs-string">'just test'</span>)
+})
+<span class="hljs-keyword">const</span> server = app.listen(<span class="hljs-number">3000</span>);</code></pre><h3 id="2.4.2."><a href="#2.4.2." class="headerlink" title="公共缓存一年"></a>2.4.2. 公共缓存一年</h3><pre><code class="hljs js"><span class="hljs-keyword">const</span> http = <span class="hljs-built_in">require</span>(<span class="hljs-string">'http'</span>);
+<span class="hljs-keyword">const</span> testServer = http.createServer(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">req, res</span>) </span>{
+    res.writeHead(<span class="hljs-number">200</span>, {
+        <span class="hljs-string">'Content-Type'</span>: <span class="hljs-string">'text/plain'</span>,
+        <span class="hljs-string">'Cache-Control'</span>: <span class="hljs-string">'public, max-age=31557600'</span>
+    });
+    res.end(<span class="hljs-string">'just test'</span>);
+}).listen(<span class="hljs-number">3000</span>);</code></pre> 
 </section>
 
   <section class="footer">
@@ -314,11 +347,11 @@ testServer.<span class="hljs-keyword">on</span>(<span class="hljs-string">'conne
 
   <script>
   window.HEXO_DATA = {
-    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"tag_generator":{"per_page":1000},"category_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=38824877308"> </script>
+  <script src="/js/dist/custom.min.js?v=3914811915"> </script>
 
 
   </body>
