@@ -20,7 +20,49 @@ http://www.w3school.com.cn/cssref/css_selectors.asp
 
 
 # 布局
+https://zhuanlan.zhihu.com/p/25565751
 
+## 单列布局
+
+- 同宽： https://codepen.io/goumang2010/pen/owZeoa
+
+- 不同宽： https://codepen.io/goumang2010/pen/gRmxzY
+
+## 二列&三列布局
+二列布局的特征是侧栏固定宽度，主栏自适应宽度。
+三列布局的特征是两侧两列固定宽度，中间列自适应宽度。 
+
+### 浮动布局
+设置两个侧栏分别向左向右浮动，中间列通过外边距给两个侧栏腾出空间，中间列的宽度根据浏览器窗口自适应。
+
+- 两栏： https://codepen.io/goumang2010/pen/GEWvwR
+- 三栏：https://codepen.io/goumang2010/pen/dRvzja
+
+### 绝对定位布局
+
+- 两栏： https://codepen.io/goumang2010/pen/zzZdVL
+- 三栏： https://codepen.io/goumang2010/pen/RgpZdb
+
+### 圣杯布局
+- 主面板设置宽度为100%，主面板与两个侧栏都设置浮动，常见为左浮动，这时两个侧栏会被主面板挤下去。
+- 通过负边距将浮动的侧栏拉上来，左侧栏的负边距为100%，刚好是窗口的宽度，因此会从主面板下面的左边跑到与主面板对齐的左边
+- 右侧栏此时浮动在主面板下面的左边，设置负边距为负的自身宽度刚好浮动到主面板对齐的右边
+- 为了避免侧栏遮挡主面板内容，在外层设置左右padding值为左右侧栏的宽度，给侧栏腾出空间，此时主面板的宽度减小
+- 使用相对布局，调整两个侧栏到相应的位置。使其不遮挡主面板的内容
+
+https://codepen.io/goumang2010/pen/yXMzOK
+
+当面板的main内容部分比两边的子面板宽度小的时候，布局就会乱掉。可以通过设置main的min-width属性或使用双飞翼布局避免问题。
+
+### 双飞翼布局
+
+双飞翼布局在圣杯布局上做了改进，在main元素上加了一层div（main-wrap）, 并设置margin,由于两侧栏的负边距都是相对于main-wrap而言，main的margin值变化便不会影响两个侧栏，因此省掉了对两侧栏设置相对布局的步骤。
+
+https://codepen.io/goumang2010/pen/gRmGGg
+
+### flex布局
+
+https://codepen.io/goumang2010/pen/ZyeXjV
 
 # 特殊概念
 
