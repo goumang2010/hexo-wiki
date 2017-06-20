@@ -159,3 +159,7 @@ chainOrder500.passRequest(2, true, 500); // 输出： 200 元定金预购， 得
 chainOrder500.passRequest(3, true, 500); // 输出： 普通购买， 无优惠券 
 chainOrder500.passRequest(1, false, 0); // 输出： 手机库存不足
 ```
+
+## 中介者模式
+
+充当指挥者和调度者，解耦客户对象间的关系
