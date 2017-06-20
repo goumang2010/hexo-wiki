@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>design-pattern | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/design-pattern.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/design-pattern.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>design-pattern</h2>
+  
+  <article class="markdown-body article">
+  <p>摘自：曾探. JavaScript设计模式与开发实践 (图灵原创) . 人民邮电出版社. Kindle 版本. </p>
+<div class="toc"><ul><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">单例模式</span></a></li><li class="level-2"><a href="#1.2."><span class="tocnumber">1.2.</span>&nbsp<span class="toctext">策略模式</span></a></li><li class="level-2"><a href="#1.3."><span class="tocnumber">1.3.</span>&nbsp<span class="toctext">代理模式</span></a><ul><li class="level-3"><a href="#1.3.1."><span class="tocnumber">1.3.1.</span>&nbsp<span class="toctext">图片加载</span></a></li><li class="level-3"><a href="#1.3.2."><span class="tocnumber">1.3.2.</span>&nbsp<span class="toctext">缓存</span></a></li></ul></li><li class="level-2"><a href="#1.4."><span class="tocnumber">1.4.</span>&nbsp<span class="toctext">观察者模式（发布-订阅）</span></a></li><li class="level-2"><a href="#1.5."><span class="tocnumber">1.5.</span>&nbsp<span class="toctext">命令模式</span></a></li><li class="level-2"><a href="#1.6."><span class="tocnumber">1.6.</span>&nbsp<span class="toctext">组合模式</span></a></li><li class="level-2"><a href="#1.7."><span class="tocnumber">1.7.</span>&nbsp<span class="toctext">职责链模式</span></a></li><li class="level-2"><a href="#1.8."><span class="tocnumber">1.8.</span>&nbsp<span class="toctext">中介者模式</span></a></li></ul></ul></div><h2 id="1.1."><a href="#1.1." class="headerlink" title="单例模式"></a>1.1. 单例模式</h2><pre><code class="hljs js"><span class="hljs-keyword">var</span> Singleton = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(name)</span> </span>{
+    <span class="hljs-keyword">this</span>.name = name;
+    <span class="hljs-keyword">this</span>.instance = <span class="hljs-literal">null</span>;
+};
+Singleton.prototype.getName = <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+    alert(<span class="hljs-keyword">this</span>.name);
+};
+<span class="hljs-comment">// 惰性单例</span>
+Singleton.getInstance = (<span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">var</span> instance = <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(name)</span> </span>{
+        <span class="hljs-keyword">if</span> (!instance) {
+            instance = <span class="hljs-keyword">new</span> Singleton(name);
+        }
+        <span class="hljs-keyword">return</span> instance;
+    }
+})();
+
+<span class="hljs-keyword">var</span> a = Singleton.getInstance(<span class="hljs-string">'sven1'</span>);
+<span class="hljs-keyword">var</span> b = Singleton.getInstance(<span class="hljs-string">'sven2'</span>);
+alert(a === b); <span class="hljs-comment">// true</span></code></pre><h2 id="1.2."><a href="#1.2." class="headerlink" title="策略模式"></a>1.2. 策略模式</h2><p>将行为封装成函数<br><a href="https://codepen.io/goumang2010/pen/weJQvm" target="_blank" rel="external">https://codepen.io/goumang2010/pen/weJQvm</a></p>
+<h2 id="1.3."><a href="#1.3." class="headerlink" title="代理模式"></a>1.3. 代理模式</h2><h3 id="1.3.1."><a href="#1.3.1." class="headerlink" title="图片加载"></a>1.3.1. 图片加载</h3><pre><code class="hljs js"><span class="hljs-keyword">var</span> myImage = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> imgNode = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'img'</span>);
+    <span class="hljs-built_in">document</span>.body.appendChild(imgNode);
+
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">setSrc</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">src</span>) </span>{
+            imgNode.src = src;
+        }
+    }
+})();
+<span class="hljs-keyword">var</span> proxyImage = (<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> img = <span class="hljs-keyword">new</span> Image;
+    img.onload = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        myImage.setSrc(<span class="hljs-keyword">this</span>.src);
+    }
+    <span class="hljs-keyword">return</span> {
+        <span class="hljs-attr">setSrc</span>: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">src</span>) </span>{
+            myImage.setSrc(<span class="hljs-string">'loading.gif'</span>);
+            img.src = src;
+        }
+    }
+})();
+proxyImage.setSrc(<span class="hljs-string">'realImage.jpg'</span>);</code></pre><h3 id="1.3.2."><a href="#1.3.2." class="headerlink" title="缓存"></a>1.3.2. 缓存</h3><pre><code class="hljs "><span class="hljs-keyword">var</span> createProxyFactory = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">fn</span>) </span>{
+    <span class="hljs-keyword">var</span> cache = {};
+    <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+        <span class="hljs-keyword">var</span> args = <span class="hljs-built_in">Array</span>.prototype.join.call(<span class="hljs-built_in">arguments</span>, <span class="hljs-string">','</span>);
+        <span class="hljs-keyword">if</span> (args <span class="hljs-keyword">in</span> cache) {
+            <span class="hljs-keyword">return</span> cache[args];
+        }
+        <span class="hljs-keyword">return</span> cache[args] = fn.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+    }
+};</code></pre><h2 id="1.4."><a href="#1.4." class="headerlink" title="观察者模式（发布-订阅）"></a>1.4. 观察者模式（发布-订阅）</h2><p><a href="https://codepen.io/goumang2010/pen/NgpEXe" target="_blank" rel="external">https://codepen.io/goumang2010/pen/NgpEXe</a></p>
+<h2 id="1.5."><a href="#1.5." class="headerlink" title="命令模式"></a>1.5. 命令模式</h2><p>将行为抽象封装成指令，要求行为都有相似的结构</p>
+<p><a href="https://codepen.io/goumang2010/pen/gRmQzK" target="_blank" rel="external">https://codepen.io/goumang2010/pen/gRmQzK</a></p>
+<h2 id="1.6."><a href="#1.6." class="headerlink" title="组合模式"></a>1.6. 组合模式</h2><p>把指令组合成树形结构 既可以执行单独命令，也可以执行组合后的命令，因为无论是单独命令还是组合命令，都部署了同样的执行接口</p>
+<p><a href="https://codepen.io/goumang2010/pen/zzZMyK" target="_blank" rel="external">https://codepen.io/goumang2010/pen/zzZMyK</a></p>
+<h2 id="1.7."><a href="#1.7." class="headerlink" title="职责链模式"></a>1.7. 职责链模式</h2><p>将分支流程的各个步骤拆分出函数</p>
+<pre><code class="hljs js">
+<span class="hljs-keyword">var</span> order500 = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">orderType, pay, stock</span>) </span>{
+    <span class="hljs-keyword">if</span> (orderType === <span class="hljs-number">1</span> &amp;&amp; pay === <span class="hljs-literal">true</span>) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'500 元定金预购， 得到100优惠券'</span>);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'nextSuccessor'</span>; 
+    }
+};
+
+<span class="hljs-keyword">var</span> order200 = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">orderType, pay, stock</span>) </span>{
+    <span class="hljs-keyword">if</span> (orderType === <span class="hljs-number">2</span> &amp;&amp; pay === <span class="hljs-literal">true</span>) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'200 元定金预购， 得到50优惠券'</span>);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'nextSuccessor'</span>;
+
+    }
+};
+<span class="hljs-keyword">var</span> orderNormal = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">orderType, pay, stock</span>) </span>{
+    <span class="hljs-keyword">if</span> (stock &gt; <span class="hljs-number">0</span>) {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'普通 购买， 无优惠券'</span>);
+    } <span class="hljs-keyword">else</span> {
+        <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'手机库存不足'</span>);
+    }
+};
+
+
+<span class="hljs-comment">// Chain. prototype. setNextSuccessor 指定 在 链 中的 下一个 节点 </span>
+<span class="hljs-comment">// Chain. prototype. passRequest 传递 请求 给 某个 节点 </span>
+<span class="hljs-keyword">var</span> Chain = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">fn</span>) </span>{
+    <span class="hljs-keyword">this</span>.fn = fn;
+    <span class="hljs-keyword">this</span>.successor = <span class="hljs-literal">null</span>;
+};
+Chain.prototype.setNextSuccessor = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">successor</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.successor = successor;
+};
+Chain.prototype.passRequest = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> ret = <span class="hljs-keyword">this</span>.fn.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
+    <span class="hljs-keyword">if</span> (ret === <span class="hljs-string">'nextSuccessor'</span>) {
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.successor &amp;&amp; <span class="hljs-keyword">this</span>.successor.passRequest.apply(<span class="hljs-keyword">this</span>.successor, <span class="hljs-built_in">arguments</span>);
+    }
+    <span class="hljs-keyword">return</span> ret;
+};
+
+<span class="hljs-keyword">var</span> chainOrder500 = <span class="hljs-keyword">new</span> Chain(order500);
+<span class="hljs-keyword">var</span> chainOrder200 = <span class="hljs-keyword">new</span> Chain(order200);
+<span class="hljs-keyword">var</span> chainOrderNormal = <span class="hljs-keyword">new</span> Chain(orderNormal);
+
+chainOrder500.setNextSuccessor(chainOrder200);
+chainOrder200.setNextSuccessor(chainOrderNormal);
+
+chainOrder500.passRequest(<span class="hljs-number">1</span>, <span class="hljs-literal">true</span>, <span class="hljs-number">500</span>); <span class="hljs-comment">// 输出： 500 元定金预购， 得到100优惠券 </span>
+chainOrder500.passRequest(<span class="hljs-number">2</span>, <span class="hljs-literal">true</span>, <span class="hljs-number">500</span>); <span class="hljs-comment">// 输出： 200 元定金预购， 得到50优惠 券 </span>
+chainOrder500.passRequest(<span class="hljs-number">3</span>, <span class="hljs-literal">true</span>, <span class="hljs-number">500</span>); <span class="hljs-comment">// 输出： 普通购买， 无优惠券 </span>
+chainOrder500.passRequest(<span class="hljs-number">1</span>, <span class="hljs-literal">false</span>, <span class="hljs-number">0</span>); <span class="hljs-comment">// 输出： 手机库存不足</span></code></pre><h2 id="1.8."><a href="#1.8." class="headerlink" title="中介者模式"></a>1.8. 中介者模式</h2><p>充当指挥者和调度者，解耦客户对象间的关系</p>
+ 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=80302539917"> </script>
+
+
+  </body>
+</html>
