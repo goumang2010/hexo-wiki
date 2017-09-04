@@ -125,8 +125,12 @@ git checkout <span class="hljs-keyword">new</span><span class="hljs-type">branch
 </ul>
 <h2 id="2.5."><a href="#2.5." class="headerlink" title="合并"></a>2.5. 合并</h2><h3 id="2.5.1."><a href="#2.5.1." class="headerlink" title="单个文件"></a>2.5.1. 单个文件</h3><pre><code class="hljs ">git checkout A
 git checkout <span class="hljs-comment">--patch B f</span></code></pre><p><a href="http://stackoverflow.com/questions/10784523/how-do-i-merge-changes-to-a-single-file-rather-than-merging-commits" target="_blank" rel="external">http://stackoverflow.com/questions/10784523/how-do-i-merge-changes-to-a-single-file-rather-than-merging-commits</a></p>
-<h3 id="2.5.2."><a href="#2.5.2." class="headerlink" title="强制合并"></a>2.5.2. 强制合并</h3><h4 id="2.5.2.1."><a href="#2.5.2.1." class="headerlink" title="保留当前"></a>2.5.2.1. 保留当前</h4><p><code>git merge -s ours branchB</code></p>
-<p>git pull类似：<br><code>git pull -s ours</code></p>
+<h3 id="2.5.2."><a href="#2.5.2." class="headerlink" title="强制合并"></a>2.5.2. 强制合并</h3><h4 id="2.5.2.1."><a href="#2.5.2.1." class="headerlink" title="保留当前"></a>2.5.2.1. 保留当前</h4><p><code>git merge -s recursive -X ours branchB</code></p>
+<p>git pull类似：</p>
+<p><code>git pull -s recursive -X ours</code></p>
+<p>注意： 如果使用：</p>
+<p><code>git pull -s ours</code></p>
+<p>将忽略传入方的所有历史</p>
 <h4 id="2.5.2.2."><a href="#2.5.2.2." class="headerlink" title="保留远程"></a>2.5.2.2. 保留远程</h4><p><code>git merge -s recursive -X theirs branchB</code></p>
 <p>git pull类似：<br><code>git pull -s recursive -X theirs</code></p>
 <p>如果连递归也不用，遇到不同直接采用他方的： <code>git merge -X theirs branchB</code></p>
@@ -158,11 +162,11 @@ git checkout <span class="hljs-comment">--patch B f</span></code></pre><p><a hre
 
   <script>
   window.HEXO_DATA = {
-    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"ignore":[],"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=21212889138"> </script>
+  <script src="/js/dist/custom.min.js?v=30872395207"> </script>
 
 
   </body>
