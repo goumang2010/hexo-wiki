@@ -92,10 +92,17 @@ http://stackoverflow.com/questions/10784523/how-do-i-merge-changes-to-a-single-f
 ### 强制合并
 #### 保留当前
 
-```git merge -s ours branchB```
+```git merge -s recursive -X ours branchB```
 
 git pull类似：
+
+```git pull -s recursive -X ours```
+
+注意： 如果使用：
+
 ```git pull -s ours```
+
+将忽略传入方的所有历史
 
 #### 保留远程
 
