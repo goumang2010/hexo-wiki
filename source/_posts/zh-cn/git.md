@@ -16,7 +16,7 @@ apt-get install git-core
 
 ## 生成ssh密钥
 - 输入命令： ssh-keygen -C 'goumang2010@live.com' -t rsa
-（'goumang2010@live.com' 是我的github邮箱）
+（'goumang2010@live.com' 是邮箱）
 -C为提供注释 -t rsa表示生成的类型为rsa
 一路回车即可
 
