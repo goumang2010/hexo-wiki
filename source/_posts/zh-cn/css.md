@@ -67,6 +67,10 @@ p.note:before { content: "Note: " }
 - 块状元素:设置子元素position:absolute 并设置top、bottom为0，父元素要设置定位为static以外的值，margin:auto; <https://codepen.io/goumang2010/pen/weJpPa>
 - 通用方案: flex布局，给父元素设置{display:flex; align-items:center;}。
 
+### 自适应高度
+
+<https://codepen.io/goumang2010/pen/yzKvRj>
+
 ## 单列布局
 
 - 同宽： <https://codepen.io/goumang2010/pen/owZeoa>
