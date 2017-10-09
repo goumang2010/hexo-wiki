@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "hexo": {
-    "version": "3.3.7"
+    "version": "3.3.8"
   },
   "scripts": {
     "postinstall": "cd themes&&cd wiki-i18n&&npm install&&cd ..&&cd ..",
@@ -17,7 +17,7 @@
     "test": "npm run lint"
   },
   "dependencies": {
-    "hexo": "^3.3.7",
+    "hexo": "^3.3.8",
     "hexo-deployer-git": "^0.2.0",
     "hexo-front-matter-excerpt": "^0.2.0",
     "hexo-generator-archive": "^0.1.4",
