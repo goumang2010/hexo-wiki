@@ -74,29 +74,51 @@
 
   <section class="container">
   <h2>shadowsocks</h2>
-  shadowsocks
+  shadowsocks安装方法
   <article class="markdown-body article">
-  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">安装</span></a><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">包管理器安装</span></a></li><li class="level-2"><a href="#1.2."><span class="tocnumber">1.2.</span>&nbsp<span class="toctext">编译安装</span></a><ul><li class="level-3"><a href="#1.2.1."><span class="tocnumber">1.2.1.</span>&nbsp<span class="toctext">安装git</span></a></li><li class="level-3"><a href="#1.2.2."><span class="tocnumber">1.2.2.</span>&nbsp<span class="toctext">安装编译工具</span></a></li><li class="level-3"><a href="#1.2.3."><span class="tocnumber">1.2.3.</span>&nbsp<span class="toctext">克隆shadowsocks-libev仓库</span></a></li><li class="level-3"><a href="#1.2.4."><span class="tocnumber">1.2.4.</span>&nbsp<span class="toctext">编译</span></a></li></ul></li></ul></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">创建配置文件</span></a></li><li class="level-1"><a href="#3."><span class="tocnumber">3.</span>&nbsp<span class="toctext">UDP转发并运行服务</span></a></li><li class="level-1"><a href="#4."><span class="tocnumber">4.</span>&nbsp<span class="toctext">设定开机自动运行</span></a></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="安装"></a>1. 安装</h1><h2 id="1.1."><a href="#1.1." class="headerlink" title="包管理器安装"></a>1.1. 包管理器安装</h2><p><a href="https://github.com/shadowsocks/shadowsocks-libev#debian--ubuntu" target="_blank" rel="external">https://github.com/shadowsocks/shadowsocks-libev#debian--ubuntu</a></p>
+  <div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">安装</span></a><ul><li class="level-2"><a href="#1.1."><span class="tocnumber">1.1.</span>&nbsp<span class="toctext">包管理器安装</span></a></li><li class="level-2"><a href="#1.2."><span class="tocnumber">1.2.</span>&nbsp<span class="toctext">编译安装</span></a><ul><li class="level-3"><a href="#1.2.1."><span class="tocnumber">1.2.1.</span>&nbsp<span class="toctext">安装git</span></a></li><li class="level-3"><a href="#1.2.2."><span class="tocnumber">1.2.2.</span>&nbsp<span class="toctext">安装编译工具</span></a><ul><li class="level-4"><a href="#1.2.2.1."><span class="tocnumber">1.2.2.1.</span>&nbsp<span class="toctext">Ubuntu/Debian</span></a></li><li class="level-4"><a href="#1.2.2.2."><span class="tocnumber">1.2.2.2.</span>&nbsp<span class="toctext">CentOS</span></a></li><li class="level-4"><a href="#1.2.2.3."><span class="tocnumber">1.2.2.3.</span>&nbsp<span class="toctext">Arch</span></a></li></ul></li><li class="level-3"><a href="#1.2.3."><span class="tocnumber">1.2.3.</span>&nbsp<span class="toctext">编译依赖</span></a><ul><li class="level-4"><a href="#1.2.3.1."><span class="tocnumber">1.2.3.1.</span>&nbsp<span class="toctext">libsodium</span></a></li><li class="level-4"><a href="#1.2.3.2."><span class="tocnumber">1.2.3.2.</span>&nbsp<span class="toctext">MbedTLS</span></a></li></ul></li><li class="level-3"><a href="#1.2.4."><span class="tocnumber">1.2.4.</span>&nbsp<span class="toctext">获取源代码</span></a></li><li class="level-3"><a href="#1.2.5."><span class="tocnumber">1.2.5.</span>&nbsp<span class="toctext">编译</span></a></li></ul></li></ul></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">创建配置文件</span></a></li><li class="level-1"><a href="#3."><span class="tocnumber">3.</span>&nbsp<span class="toctext">UDP转发并运行服务</span></a></li><li class="level-1"><a href="#4."><span class="tocnumber">4.</span>&nbsp<span class="toctext">设定开机自动运行</span></a></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="安装"></a>1. 安装</h1><h2 id="1.1."><a href="#1.1." class="headerlink" title="包管理器安装"></a>1.1. 包管理器安装</h2><p><a href="https://github.com/shadowsocks/shadowsocks-libev#debian--ubuntu" target="_blank" rel="external">https://github.com/shadowsocks/shadowsocks-libev#debian--ubuntu</a></p>
 <pre><code class="hljs ">sudo apt <span class="hljs-keyword">update</span>
-sudo apt <span class="hljs-keyword">install</span> shadowsocks-libev</code></pre><h2 id="1.2."><a href="#1.2." class="headerlink" title="编译安装"></a>1.2. 编译安装</h2><h3 id="1.2.1."><a href="#1.2.1." class="headerlink" title="安装git"></a>1.2.1. 安装git</h3><p>见<a href="Ubuntu下安装github">Ubuntu下安装github</a></p>
-<h3 id="1.2.2."><a href="#1.2.2." class="headerlink" title="安装编译工具"></a>1.2.2. 安装编译工具</h3><pre><code class="hljs "><span class="hljs-symbol">apt</span>-<span class="hljs-meta">get</span> install <span class="hljs-keyword">build-essential </span>autoconf libtool libssl-dev</code></pre><h3 id="1.2.3."><a href="#1.2.3." class="headerlink" title="克隆shadowsocks-libev仓库"></a>1.2.3. 克隆shadowsocks-libev仓库</h3><pre><code class="hljs ">git <span class="hljs-keyword">clone</span> <span class="hljs-title">https</span>://github.com/madeye/shadowsocks-libev.git</code></pre><h3 id="1.2.4."><a href="#1.2.4." class="headerlink" title="编译"></a>1.2.4. 编译</h3><pre><code class="hljs ">./configure
-<span class="hljs-built_in">make</span>
-<span class="hljs-built_in">make</span> install</code></pre><h1 id="2."><a href="#2." class="headerlink" title="创建配置文件"></a>2. 创建配置文件</h1><pre><code class="hljs ">sudo vim /etc/shadowsocks-libev/<span class="hljs-built_in">config</span>.json</code></pre><pre><code class="hljs ">{
+sudo apt <span class="hljs-keyword">install</span> shadowsocks-libev</code></pre><h2 id="1.2."><a href="#1.2." class="headerlink" title="编译安装"></a>1.2. 编译安装</h2><p>参照： <a href="https://github.com/shadowsocks/shadowsocks-libev" target="_blank" rel="external">https://github.com/shadowsocks/shadowsocks-libev</a></p>
+<h3 id="1.2.1."><a href="#1.2.1." class="headerlink" title="安装git"></a>1.2.1. 安装git</h3><p>见<a href="Ubuntu下安装github">Ubuntu下安装github</a></p>
+<h3 id="1.2.2."><a href="#1.2.2." class="headerlink" title="安装编译工具"></a>1.2.2. 安装编译工具</h3><h4 id="1.2.2.1."><a href="#1.2.2.1." class="headerlink" title="Ubuntu/Debian"></a>1.2.2.1. Ubuntu/Debian</h4><pre><code class="hljs bash">sudo apt-<span class="hljs-built_in">get</span> install --no-install-recommends gettext build-essential autoconf libtool libpcre3-<span class="hljs-built_in">dev</span> asciidoc xmlto libev-<span class="hljs-built_in">dev</span> libc-ares-<span class="hljs-built_in">dev</span> automake libmbedtls-<span class="hljs-built_in">dev</span> libsodium-<span class="hljs-built_in">dev</span></code></pre><h4 id="1.2.2.2."><a href="#1.2.2.2." class="headerlink" title="CentOS"></a>1.2.2.2. CentOS</h4><pre><code class="hljs bash">yum <span class="hljs-keyword">install</span> epel-<span class="hljs-keyword">release</span> -y
+yum <span class="hljs-keyword">install</span> gcc gettext autoconf libtool automake make pcre-devel asciidoc xmlto c-ares-devel libev-devel libsodium-devel mbedtls-devel -y</code></pre><h4 id="1.2.2.3."><a href="#1.2.2.3." class="headerlink" title="Arch"></a>1.2.2.3. Arch</h4><pre><code class="hljs bash"><span class="hljs-attribute">sudo pacman -S gettext gcc autoconf libtool automake make asciidoc xmlto c-ares libev</span></code></pre><h3 id="1.2.3."><a href="#1.2.3." class="headerlink" title="编译依赖"></a>1.2.3. 编译依赖</h3><h4 id="1.2.3.1."><a href="#1.2.3.1." class="headerlink" title="libsodium"></a>1.2.3.1. libsodium</h4><pre><code class="hljs bash"><span class="hljs-built_in">export</span> LIBSODIUM_VER=1.0.16
+wget https://download.libsodium.org/libsodium/releases/libsodium-<span class="hljs-variable">$LIBSODIUM_VER</span>.tar.gz
+tar xvf libsodium-<span class="hljs-variable">$LIBSODIUM_VER</span>.tar.gz
+<span class="hljs-built_in">pushd</span> libsodium-<span class="hljs-variable">$LIBSODIUM_VER</span>
+./configure --prefix=/usr &amp;&amp; make
+sudo make install
+<span class="hljs-built_in">popd</span>
+sudo ldconfig</code></pre><h4 id="1.2.3.2."><a href="#1.2.3.2." class="headerlink" title="MbedTLS"></a>1.2.3.2. MbedTLS</h4><pre><code class="hljs bash"><span class="hljs-built_in">export</span> MBEDTLS_VER=2.6.0
+wget https://tls.mbed.org/download/mbedtls-<span class="hljs-variable">$MBEDTLS_VER</span>-gpl.tgz
+tar xvf mbedtls-<span class="hljs-variable">$MBEDTLS_VER</span>-gpl.tgz
+<span class="hljs-built_in">pushd</span> mbedtls-<span class="hljs-variable">$MBEDTLS_VER</span>
+make SHARED=1 CFLAGS=<span class="hljs-string">"-O2 -fPIC"</span>
+sudo make DESTDIR=/usr install
+<span class="hljs-built_in">popd</span>
+sudo ldconfig</code></pre><h3 id="1.2.4."><a href="#1.2.4." class="headerlink" title="获取源代码"></a>1.2.4. 获取源代码</h3><pre><code class="hljs bash">git clone https:<span class="hljs-string">//github.com/shadowsocks/shadowsocks-libev.git</span>
+<span class="hljs-keyword">cd</span> shadowsocks-libev
+git submodule update <span class="hljs-params">--init</span> <span class="hljs-params">--recursive</span></code></pre><h3 id="1.2.5."><a href="#1.2.5." class="headerlink" title="编译"></a>1.2.5. 编译</h3><pre><code class="hljs ">./autogen.<span class="hljs-keyword">sh</span> &amp;&amp; ./configure &amp;&amp; <span class="hljs-keyword">make</span>
+sudo <span class="hljs-keyword">make</span> install</code></pre><h1 id="2."><a href="#2." class="headerlink" title="创建配置文件"></a>2. 创建配置文件</h1><pre><code class="hljs bash">sudo vi /etc/shadowsocks-libev/<span class="hljs-built_in">config</span>.json</code></pre><p><strong>Note：/etc/shadowsocks-libev/不存在，则需要使用mkdir创建</strong></p>
+<pre><code class="hljs json">{
 <span class="hljs-attr">"server"</span>:<span class="hljs-string">"0.0.0.0"</span>,
 <span class="hljs-attr">"server_port"</span>:port,
-<span class="hljs-attr">"local_address"</span>: <span class="hljs-string">"127.0.0.1"</span>,
 <span class="hljs-attr">"local_port"</span>:<span class="hljs-number">1080</span>,
 <span class="hljs-attr">"password"</span>:<span class="hljs-string">"password"</span>,
 <span class="hljs-attr">"timeout"</span>:<span class="hljs-number">300</span>,
 <span class="hljs-attr">"method"</span>:<span class="hljs-string">"aes-256-cfb"</span>,
 <span class="hljs-attr">"fast_open"</span>: <span class="hljs-literal">false</span>,
 <span class="hljs-attr">"workers"</span>: <span class="hljs-number">1</span>
-}</code></pre><p>port替换为任意设定的端口，不要和已有端口冲突，10000以下<br>password替换为设定的密码，8位以上<br>aes-256-cfb为加密方式，客户端上需要选择</p>
+}</code></pre><ul>
+<li>port替换为任意设定的端口，不要和已有端口冲突，10000以下;</li>
+<li>password替换为设定的密码，8位以上;</li>
+<li>aes-256-cfb为加密方式，客户端上需要选择;</li>
+<li>不要加入local_address字段。<a href="https://github.com/shadowsocks/shadowsocks-libev/issues/2141" target="_blank" rel="external">https://github.com/shadowsocks/shadowsocks-libev/issues/2141</a></li>
+</ul>
 <h1 id="3."><a href="#3." class="headerlink" title="UDP转发并运行服务"></a>3. UDP转发并运行服务</h1><p>找到ss-server位置</p>
-<pre><code class="hljs ">whereis ss-<span class="hljs-keyword">server</span></code></pre><p>得到位置如：<code>/usr/bin/ss-server</code></p>
-<pre><code class="hljs ">nohup <span class="hljs-regexp">/usr/</span>bin<span class="hljs-regexp">/ss-server -c /</span>etc<span class="hljs-regexp">/shadowsocks-libev/</span>config.json -u &amp;</code></pre><p>运行后可以使用Ctrl+C回到命令行，服务会在后台运行</p>
-<h1 id="4."><a href="#4." class="headerlink" title="设定开机自动运行"></a>4. 设定开机自动运行</h1><pre><code class="hljs ">vim /etc/rc.<span class="hljs-keyword">local</span></code></pre><p>加入：</p>
-<pre><code class="hljs ">nohup <span class="hljs-regexp">/usr/</span>bin<span class="hljs-regexp">/ss-server -c /</span>etc<span class="hljs-regexp">/shadowsocks-libev/</span>config.json -u &amp;</code></pre> 
+<pre><code class="hljs bash">whereis ss-<span class="hljs-keyword">server</span></code></pre><p>得到位置如：<code>/usr/bin/ss-server</code></p>
+<pre><code class="hljs bash">nohup <span class="hljs-regexp">/usr/</span>bin<span class="hljs-regexp">/ss-server -c /</span>etc<span class="hljs-regexp">/shadowsocks-libev/</span>config.json -u &amp;</code></pre><p>运行后可以使用Ctrl+C回到命令行，服务会在后台运行</p>
+<h1 id="4."><a href="#4." class="headerlink" title="设定开机自动运行"></a>4. 设定开机自动运行</h1><pre><code class="hljs bash">vi /etc/rc.<span class="hljs-keyword">local</span></code></pre><p>加入：</p>
+<pre><code class="hljs bash">nohup <span class="hljs-regexp">/usr/</span>bin<span class="hljs-regexp">/ss-server -c /</span>etc<span class="hljs-regexp">/shadowsocks-libev/</span>config.json -u &amp;</code></pre> 
 </section>
 
   <section class="footer">
@@ -115,7 +137,7 @@ sudo apt <span class="hljs-keyword">install</span> shadowsocks-libev</code></pre
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=80715645234"> </script>
+  <script src="/js/dist/custom.min.js?v=11711977431"> </script>
 
 
   </body>

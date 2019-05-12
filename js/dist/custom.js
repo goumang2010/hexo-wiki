@@ -1,6 +1,6 @@
 /*
  * customMudule v0.0.0
- * (c) 2017 Chuune
+ * (c) 2019 Chuune
  */
 (function (global, factory) {
 	typeof exports === 'object' && typeof module !== 'undefined' ? factory() :
