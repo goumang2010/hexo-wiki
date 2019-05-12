@@ -1,6 +1,6 @@
 ---
 title: shadowsocks
-excerpt: shadowsocks
+excerpt: shadowsocks安装方法
 categories: 
 - FE
 ---
