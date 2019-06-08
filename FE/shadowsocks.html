@@ -115,8 +115,9 @@ sudo <span class="hljs-keyword">make</span> install</code></pre><h1 id="2."><a h
 <li>不要加入local_address字段。<a href="https://github.com/shadowsocks/shadowsocks-libev/issues/2141" target="_blank" rel="external">https://github.com/shadowsocks/shadowsocks-libev/issues/2141</a></li>
 </ul>
 <h1 id="3."><a href="#3." class="headerlink" title="UDP转发并运行服务"></a>3. UDP转发并运行服务</h1><p>找到ss-server位置</p>
-<pre><code class="hljs bash">whereis ss-<span class="hljs-keyword">server</span></code></pre><p>得到位置如：<code>/usr/bin/ss-server</code></p>
-<pre><code class="hljs bash">nohup <span class="hljs-regexp">/usr/</span>bin<span class="hljs-regexp">/ss-server -c /</span>etc<span class="hljs-regexp">/shadowsocks-libev/</span>config.json -u &amp;</code></pre><p>运行后可以使用Ctrl+C回到命令行，服务会在后台运行</p>
+<pre><code class="hljs bash">whereis ss-<span class="hljs-keyword">server</span></code></pre><p>得到位置如：<code>/usr/bin/ss-server</code> 或是 <code>/usr/local/bin/ss-server</code></p>
+<pre><code class="hljs bash">nohup <span class="hljs-regexp">/usr/</span>bin<span class="hljs-regexp">/ss-server -c /</span>etc<span class="hljs-regexp">/shadowsocks-libev/</span>config.json -u &amp;</code></pre><p>或</p>
+<pre><code class="hljs bash">nohup <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/bin/</span>ss-server -c <span class="hljs-regexp">/etc/</span>shadowsocks-libev<span class="hljs-regexp">/config.json -u &amp;</span></code></pre><p>运行后可以使用Ctrl+C回到命令行，服务会在后台运行</p>
 <h1 id="4."><a href="#4." class="headerlink" title="设定开机自动运行"></a>4. 设定开机自动运行</h1><pre><code class="hljs bash">vi /etc/rc.<span class="hljs-keyword">local</span></code></pre><p>加入：</p>
 <pre><code class="hljs bash">nohup <span class="hljs-regexp">/usr/</span>bin<span class="hljs-regexp">/ss-server -c /</span>etc<span class="hljs-regexp">/shadowsocks-libev/</span>config.json -u &amp;</code></pre><h1 id="5."><a href="#5." class="headerlink" title="停止服务"></a>5. 停止服务</h1><pre><code class="hljs bash"><span class="hljs-keyword">ps</span> aux | <span class="hljs-keyword">grep</span> ss-server</code></pre><p>找到ss-server的pid，然后使用kill命令杀死进程。</p>
  
@@ -138,7 +139,7 @@ sudo <span class="hljs-keyword">make</span> install</code></pre><h1 id="2."><a h
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=62322370823"> </script>
+  <script src="/js/dist/custom.min.js?v=3919526594"> </script>
 
 
   </body>
