@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>shadowsocks | Chuune Wiki</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+  <script src="//apps.bdimg.com/libs/html5shiv/3.7/html5shiv.min.js"></script>
+  <link rel="shortcut icon" type="image/png" href="favicon.png"/>
+  <link rel="stylesheet" href="/css/index.css">
+</head>
+
+  <body>
+  <header class="header-page">
+    <div class="header-content">
+      <a id="main-nav-toggle" class="nav-icon"></a>
+      <h1 class="header-logo">
+        <a class="no-style header-link" href="
+        
+          /zh-cn
+        
+        ">Chuune Wiki</a>
+      </h1>
+      <div class="menu">
+        <a class="no-style header-link" href="/zh-cn/archives">索引</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/v2ray.md">编辑</a>
+        <a class="no-style header-link" href="/readme">README</a>
+        <a class="no-style header-link" target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+      </div>
+      <div id="header-search-div" class="header-search-div">
+        <input id="header-search-input" class="header-search-input" type="text" placeholder="搜索"/>
+        <div id="header-search-box" class="header-search-box"><ul id="header-search-list"></ul></div>
+      </div>
+      <div class="header-lang-select-wrap header-link menu">
+        <label>
+        
+          简体中文
+        
+        </label>
+        <select id="header-lang-select" class="header-lang-select">
+        
+          
+            <option
+              value=""
+              selected
+            >
+              简体中文
+            </option>
+          
+            <option
+              value=""
+              
+            >
+              English
+            </option>
+          
+        
+        </select>
+      </div>
+    </div>
+ <nav id="mobile-nav">
+    <a class="no-style header-link" href="
+    
+      /zh-cn
+    
+    ">首页</a>
+	<a href="/zh-cn/archives">索引</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki/edit/master/source/_posts/zh-cn/v2ray.md">编辑</a>
+	<a href="/readme">README</a>
+	<a target="_blank" href="https://github.com/goumang2010/hexo-wiki">GitHub</a>
+</nav>
+</header>
+
+  <section class="container">
+  <h2>shadowsocks</h2>
+  shadowsocks安装方法
+  <article class="markdown-body article">
+  <p>由于2019年6月开始，很多IP被封，所以需要使用cloudFlare中转wesocket流量，来实现原有shawdowSock的功能。</p>
+<p>参考： <a href="https://233blog.com/" target="_blank" rel="external">https://233blog.com/</a></p>
+<div class="toc"><ul><li class="level-1"><a href="#1."><span class="tocnumber">1.</span>&nbsp<span class="toctext">cloudFlare</span></a></li><li class="level-1"><a href="#2."><span class="tocnumber">2.</span>&nbsp<span class="toctext">v2ray安装</span></a></li><li class="level-1"><a href="#3."><span class="tocnumber">3.</span>&nbsp<span class="toctext">v2ray安装脚本</span></a></li></ul></div><h1 id="1."><a href="#1." class="headerlink" title="cloudFlare"></a>1. cloudFlare</h1><p>申请cloudFlare账号： <a href="https://www.cloudflare.com/" target="_blank" rel="external">https://www.cloudflare.com/</a></p>
+<p>在域名商那里，将DNS解析配置为cloudFlare指定的地址。</p>
+<p>在配置面板中，配置域名DNS解析。<a href="https://dash.cloudflare.com" target="_blank" rel="external">https://dash.cloudflare.com</a></p>
+<p>在crypto选项卡中，开启ssl。（full模式）</p>
+<h1 id="2."><a href="#2." class="headerlink" title="v2ray安装"></a>2. v2ray安装</h1><p>使用233boy的安装脚本：</p>
+<pre><code class="hljs bash">bash &lt;(<span class="hljs-name">curl</span> -s -L https<span class="hljs-symbol">://233blog</span>.com/v2ray.sh)</code></pre><p>按照提示进行安装。<br>注意安装前，需要kill掉所有监听80和443的应用。如果原来shadowsock使用的是443端口，也要杀掉：</p>
+<pre><code class="hljs bash"><span class="hljs-keyword">ps</span> aux | <span class="hljs-keyword">grep</span> ss-server</code></pre><p>找到ss-server的pid，然后使用kill命令杀死进程。</p>
+<h1 id="3."><a href="#3." class="headerlink" title="v2ray安装脚本"></a>3. v2ray安装脚本</h1><pre><code class="hljs bash"><span class="hljs-meta">#!/bin/bash
+</span>
+red=<span class="hljs-string">'\e[91m'</span>
+green=<span class="hljs-string">'\e[92m'</span>
+yellow=<span class="hljs-string">'\e[93m'</span>
+magenta=<span class="hljs-string">'\e[95m'</span>
+cyan=<span class="hljs-string">'\e[96m'</span>
+none=<span class="hljs-string">'\e[0m'</span>
+
+<span class="hljs-comment"># Root</span>
+[[ $(id -u) != 0 ]] &amp;&amp; <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\n 哎呀……请使用 <span class="hljs-variable">${red}</span>root <span class="hljs-variable">${none}</span>用户运行 <span class="hljs-variable">${yellow}</span>~(^_^) <span class="hljs-variable">${none}</span>\n"</span> &amp;&amp; <span class="hljs-built_in">exit</span> 1
+
+cmd=<span class="hljs-string">"apt-get"</span>
+
+sys_bit=$(uname -m)
+
+<span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$sys_bit</span> == <span class="hljs-string">"i386"</span> || <span class="hljs-variable">$sys_bit</span> == <span class="hljs-string">"i686"</span> ]]; <span class="hljs-keyword">then</span>
+    v2ray_bit=<span class="hljs-string">"32"</span>
+<span class="hljs-keyword">elif</span> [[ <span class="hljs-variable">$sys_bit</span> == <span class="hljs-string">"x86_64"</span> ]]; <span class="hljs-keyword">then</span>
+    v2ray_bit=<span class="hljs-string">"64"</span>
+<span class="hljs-keyword">else</span>
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">" 
+    哈哈……这个 <span class="hljs-variable">${red}</span>辣鸡脚本<span class="hljs-variable">${none}</span> 不支持你的系统。 <span class="hljs-variable">${yellow}</span>(-_-) <span class="hljs-variable">${none}</span>
+
+    备注: 仅支持 Ubuntu 16+ / Debian 8+ / CentOS 7+ 系统
+    "</span> &amp;&amp; <span class="hljs-built_in">exit</span> 1
+<span class="hljs-keyword">fi</span>
+
+<span class="hljs-comment"># 笨笨的检测方法</span>
+<span class="hljs-keyword">if</span> [[ -f /usr/bin/apt-get || -f /usr/bin/yum ]] &amp;&amp; [[ -f /bin/systemctl ]]; <span class="hljs-keyword">then</span>
+
+    <span class="hljs-keyword">if</span> [[ -f /usr/bin/yum ]]; <span class="hljs-keyword">then</span>
+
+        cmd=<span class="hljs-string">"yum"</span>
+
+    <span class="hljs-keyword">fi</span>
+
+<span class="hljs-keyword">else</span>
+
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">" 
+    哈哈……这个 <span class="hljs-variable">${red}</span>辣鸡脚本<span class="hljs-variable">${none}</span> 不支持你的系统。 <span class="hljs-variable">${yellow}</span>(-_-) <span class="hljs-variable">${none}</span>
+
+    备注: 仅支持 Ubuntu 16+ / Debian 8+ / CentOS 7+ 系统
+    "</span> &amp;&amp; <span class="hljs-built_in">exit</span> 1
+
+<span class="hljs-keyword">fi</span>
+
+uuid=$(cat /proc/sys/kernel/random/uuid)
+old_id=<span class="hljs-string">"e55c8d17-2cf3-b21a-bcf1-eeacb011ed79"</span>
+v2ray_server_config=<span class="hljs-string">"/etc/v2ray/config.json"</span>
+v2ray_client_config=<span class="hljs-string">"/etc/v2ray/233blog_v2ray_config.json"</span>
+backup=<span class="hljs-string">"/etc/v2ray/233blog_v2ray_backup.conf"</span>
+_v2ray_sh=<span class="hljs-string">"/usr/local/sbin/v2ray"</span>
+systemd=<span class="hljs-literal">true</span>
+<span class="hljs-comment"># _test=true</span>
+
+transport=(
+    TCP
+    TCP_HTTP
+    WebSocket
+    <span class="hljs-string">"WebSocket + TLS"</span>
+    HTTP/2
+    mKCP
+    mKCP_utp
+    mKCP_srtp
+    mKCP_wechat-video
+    mKCP_dtls
+    mKCP_wireguard
+    QUIC
+    QUIC_utp
+    QUIC_srtp
+    QUIC_wechat-video
+    QUIC_dtls
+    QUIC_wireguard
+    TCP_dynamicPort
+    TCP_HTTP_dynamicPort
+    WebSocket_dynamicPort
+    mKCP_dynamicPort
+    mKCP_utp_dynamicPort
+    mKCP_srtp_dynamicPort
+    mKCP_wechat-video_dynamicPort
+    mKCP_dtls_dynamicPort
+    mKCP_wireguard_dynamicPort
+    QUIC_dynamicPort
+    QUIC_utp_dynamicPort
+    QUIC_srtp_dynamicPort
+    QUIC_wechat-video_dynamicPort
+    QUIC_dtls_dynamicPort
+    QUIC_wireguard_dynamicPort
+)
+
+ciphers=(
+    aes-128-cfb
+    aes-256-cfb
+    chacha20
+    chacha20-ietf
+    aes-128-gcm
+    aes-256-gcm
+    chacha20-ietf-poly1305
+)
+
+<span class="hljs-function"><span class="hljs-title">_load</span></span>() {
+    <span class="hljs-built_in">local</span> _dir=<span class="hljs-string">"/etc/v2ray/233boy/v2ray/src/"</span>
+    . <span class="hljs-string">"<span class="hljs-variable">${_dir}</span><span class="hljs-variable">$@</span>"</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">v2ray_config</span></span>() {
+    <span class="hljs-comment"># clear</span>
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-keyword">while</span> :; <span class="hljs-keyword">do</span>
+        <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"请选择 "</span><span class="hljs-variable">$yellow</span><span class="hljs-string">"V2Ray"</span><span class="hljs-variable">$none</span><span class="hljs-string">" 传输协议 [<span class="hljs-variable">${magenta}</span>1-<span class="hljs-variable">${#transport[*]}</span><span class="hljs-variable">$none</span>]"</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-keyword">for</span> ((i = 1; i &lt;= <span class="hljs-variable">${#transport[*]}</span>; i++)); <span class="hljs-keyword">do</span>
+            Stream=<span class="hljs-string">"<span class="hljs-variable">${transport[$i - 1]}</span>"</span>
+            <span class="hljs-keyword">if</span> [[ <span class="hljs-string">"<span class="hljs-variable">$i</span>"</span> -le 9 ]]; <span class="hljs-keyword">then</span>
+                <span class="hljs-comment"># echo</span>
+                <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"<span class="hljs-variable">$yellow</span>  <span class="hljs-variable">$i</span>. <span class="hljs-variable">$none</span><span class="hljs-variable">${Stream}</span>"</span>
+            <span class="hljs-keyword">else</span>
+                <span class="hljs-comment"># echo</span>
+                <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"<span class="hljs-variable">$yellow</span> <span class="hljs-variable">$i</span>. <span class="hljs-variable">$none</span><span class="hljs-variable">${Stream}</span>"</span>
+            <span class="hljs-keyword">fi</span>
+        <span class="hljs-keyword">done</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"备注1: 含有 [dynamicPort] 的即启用动态端口.."</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"备注2: [utp | srtp | wechat-video | dtls | wireguard] 分别伪装成 [BT下载 | 视频通话 | 微信视频通话 | DTLS 1.2 数据包 | WireGuard 数据包]"</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">read</span> -p <span class="hljs-string">"<span class="hljs-variable">$(echo -e "(默认协议: ${cyan}TCP$none)</span>"</span>):<span class="hljs-string">" v2ray_transport
+        [ -z "</span><span class="hljs-variable">$v2ray_transport</span><span class="hljs-string">" ] &amp;&amp; v2ray_transport=1
+        case <span class="hljs-variable">$v2ray_transport</span> in
+        [1-9] | [1-2][0-9] | 3[0-2])
+            echo
+            echo
+            echo -e "</span><span class="hljs-variable">$yellow</span> V2Ray 传输协议 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">${transport[$v2ray_transport - 1]}</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+            echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+            echo
+            break
+            ;;
+        *)
+            error
+            ;;
+        esac
+    done
+    v2ray_port_config
+}
+v2ray_port_config() {
+    case <span class="hljs-variable">$v2ray_transport</span> in
+    4 | 5)
+        tls_config
+        ;;
+    *)
+        local random=<span class="hljs-variable">$(shuf -i20001-65535 -n1)</span>
+        while :; do
+            echo -e "</span>请输入 <span class="hljs-string">"<span class="hljs-variable">$yellow</span>"</span>V2Ray<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span> 端口 [<span class="hljs-string">"<span class="hljs-variable">$magenta</span>"</span>1-65535<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span>]<span class="hljs-string">"
+            read -p "</span>$(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"(默认端口: <span class="hljs-variable">${cyan}</span><span class="hljs-variable">${random}</span><span class="hljs-variable">$none</span>):"</span>)<span class="hljs-string">" v2ray_port
+            [ -z "</span><span class="hljs-variable">$v2ray_port</span><span class="hljs-string">" ] &amp;&amp; v2ray_port=<span class="hljs-variable">$random</span>
+            case <span class="hljs-variable">$v2ray_port</span> in
+            [1-9] | [1-9][0-9] | [1-9][0-9][0-9] | [1-9][0-9][0-9][0-9] | [1-5][0-9][0-9][0-9][0-9] | 6[0-4][0-9][0-9][0-9] | 65[0-4][0-9][0-9] | 655[0-3][0-5])
+                echo
+                echo
+                echo -e "</span><span class="hljs-variable">$yellow</span> V2Ray 端口 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$v2ray_port</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+                echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+                echo
+                break
+                ;;
+            *)
+                error
+                ;;
+            esac
+        done
+        if [[ <span class="hljs-variable">$v2ray_transport</span> -ge 18 ]]; then
+            v2ray_dynamic_port_start
+        fi
+        ;;
+    esac
+}
+
+v2ray_dynamic_port_start() {
+
+    while :; do
+        echo -e "</span>请输入 <span class="hljs-string">"<span class="hljs-variable">$yellow</span>"</span>V2Ray 动态端口开始 <span class="hljs-string">"<span class="hljs-variable">$none</span>"</span>范围 [<span class="hljs-string">"<span class="hljs-variable">$magenta</span>"</span>1-65535<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span>]<span class="hljs-string">"
+        read -p "</span>$(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"(默认开始端口: <span class="hljs-variable">${cyan}</span>10000<span class="hljs-variable">$none</span>):"</span>)<span class="hljs-string">" v2ray_dynamic_port_start_input
+        [ -z <span class="hljs-variable">$v2ray_dynamic_port_start_input</span> ] &amp;&amp; v2ray_dynamic_port_start_input=10000
+        case <span class="hljs-variable">$v2ray_dynamic_port_start_input</span> in
+        <span class="hljs-variable">$v2ray_port</span>)
+            echo
+            echo "</span> 不能和 V2Ray 端口一毛一样....<span class="hljs-string">"
+            echo
+            echo -e "</span> 当前 V2Ray 端口：<span class="hljs-variable">${cyan}</span><span class="hljs-variable">$v2ray_port</span><span class="hljs-variable">${none}</span><span class="hljs-string">"
+            error
+            ;;
+        [1-9] | [1-9][0-9] | [1-9][0-9][0-9] | [1-9][0-9][0-9][0-9] | [1-5][0-9][0-9][0-9][0-9] | 6[0-4][0-9][0-9][0-9] | 65[0-4][0-9][0-9] | 655[0-3][0-5])
+            echo
+            echo
+            echo -e "</span><span class="hljs-variable">$yellow</span> V2Ray 动态端口开始 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$v2ray_dynamic_port_start_input</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+            echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+            echo
+            break
+            ;;
+        *)
+            error
+            ;;
+        esac
+
+    done
+
+    if [[ <span class="hljs-variable">$v2ray_dynamic_port_start_input</span> -lt <span class="hljs-variable">$v2ray_port</span> ]]; then
+        lt_v2ray_port=true
+    fi
+
+    v2ray_dynamic_port_end
+}
+v2ray_dynamic_port_end() {
+
+    while :; do
+        echo -e "</span>请输入 <span class="hljs-string">"<span class="hljs-variable">$yellow</span>"</span>V2Ray 动态端口结束 <span class="hljs-string">"<span class="hljs-variable">$none</span>"</span>范围 [<span class="hljs-string">"<span class="hljs-variable">$magenta</span>"</span>1-65535<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span>]<span class="hljs-string">"
+        read -p "</span>$(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"(默认结束端口: <span class="hljs-variable">${cyan}</span>20000<span class="hljs-variable">$none</span>):"</span>)<span class="hljs-string">" v2ray_dynamic_port_end_input
+        [ -z <span class="hljs-variable">$v2ray_dynamic_port_end_input</span> ] &amp;&amp; v2ray_dynamic_port_end_input=20000
+        case <span class="hljs-variable">$v2ray_dynamic_port_end_input</span> in
+        [1-9] | [1-9][0-9] | [1-9][0-9][0-9] | [1-9][0-9][0-9][0-9] | [1-5][0-9][0-9][0-9][0-9] | 6[0-4][0-9][0-9][0-9] | 65[0-4][0-9][0-9] | 655[0-3][0-5])
+
+            if [[ <span class="hljs-variable">$v2ray_dynamic_port_end_input</span> -le <span class="hljs-variable">$v2ray_dynamic_port_start_input</span> ]]; then
+                echo
+                echo "</span> 不能小于或等于 V2Ray 动态端口开始范围<span class="hljs-string">"
+                echo
+                echo -e "</span> 当前 V2Ray 动态端口开始：<span class="hljs-variable">${cyan}</span><span class="hljs-variable">$v2ray_dynamic_port_start_input</span><span class="hljs-variable">${none}</span><span class="hljs-string">"
+                error
+            elif [ <span class="hljs-variable">$lt_v2ray_port</span> ] &amp;&amp; [[ <span class="hljs-variable">${v2ray_dynamic_port_end_input}</span> -ge <span class="hljs-variable">$v2ray_port</span> ]]; then
+                echo
+                echo "</span> V2Ray 动态端口结束范围 不能包括 V2Ray 端口...<span class="hljs-string">"
+                echo
+                echo -e "</span> 当前 V2Ray 端口：<span class="hljs-variable">${cyan}</span><span class="hljs-variable">$v2ray_port</span><span class="hljs-variable">${none}</span><span class="hljs-string">"
+                error
+            else
+                echo
+                echo
+                echo -e "</span><span class="hljs-variable">$yellow</span> V2Ray 动态端口结束 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$v2ray_dynamic_port_end_input</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+                echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+                echo
+                break
+            fi
+            ;;
+        *)
+            error
+            ;;
+        esac
+
+    done
+
+}
+
+tls_config() {
+
+    echo
+    local random=<span class="hljs-variable">$(shuf -i20001-65535 -n1)</span>
+    while :; do
+        echo -e "</span>请输入 <span class="hljs-string">"<span class="hljs-variable">$yellow</span>"</span>V2Ray<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span> 端口 [<span class="hljs-string">"<span class="hljs-variable">$magenta</span>"</span>1-65535<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span>]，不能选择 <span class="hljs-string">"<span class="hljs-variable">$magenta</span>"</span>80<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span> 或 <span class="hljs-string">"<span class="hljs-variable">$magenta</span>"</span>443<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span> 端口<span class="hljs-string">"
+        read -p "</span>$(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"(默认端口: <span class="hljs-variable">${cyan}</span><span class="hljs-variable">${random}</span><span class="hljs-variable">$none</span>):"</span>)<span class="hljs-string">" v2ray_port
+        [ -z "</span><span class="hljs-variable">$v2ray_port</span><span class="hljs-string">" ] &amp;&amp; v2ray_port=<span class="hljs-variable">$random</span>
+        case <span class="hljs-variable">$v2ray_port</span> in
+        80)
+            echo
+            echo "</span> ...都说了不能选择 80 端口了咯.....<span class="hljs-string">"
+            error
+            ;;
+        443)
+            echo
+            echo "</span> ..都说了不能选择 443 端口了咯.....<span class="hljs-string">"
+            error
+            ;;
+        [1-9] | [1-9][0-9] | [1-9][0-9][0-9] | [1-9][0-9][0-9][0-9] | [1-5][0-9][0-9][0-9][0-9] | 6[0-4][0-9][0-9][0-9] | 65[0-4][0-9][0-9] | 655[0-3][0-5])
+            echo
+            echo
+            echo -e "</span><span class="hljs-variable">$yellow</span> V2Ray 端口 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$v2ray_port</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+            echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+            echo
+            break
+            ;;
+        *)
+            error
+            ;;
+        esac
+    done
+
+    while :; do
+        echo
+        echo -e "</span>请输入一个 <span class="hljs-variable">$magenta</span>正确的域名<span class="hljs-variable">$none</span>，一定一定一定要正确，不！能！出！错！<span class="hljs-string">"
+        read -p "</span>(例如：233blog.com): <span class="hljs-string">" domain
+        [ -z "</span><span class="hljs-variable">$domain</span><span class="hljs-string">" ] &amp;&amp; error &amp;&amp; continue
+        echo
+        echo
+        echo -e "</span><span class="hljs-variable">$yellow</span> 你的域名 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$domain</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+        echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+        break
+    done
+    get_ip
+    echo
+    echo
+    echo -e "</span><span class="hljs-variable">$yellow</span> 请将 <span class="hljs-variable">$magenta</span><span class="hljs-variable">$domain</span><span class="hljs-variable">$none</span> <span class="hljs-variable">$yellow</span>解析到: <span class="hljs-variable">$cyan</span><span class="hljs-variable">$ip</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+    echo
+    echo -e "</span><span class="hljs-variable">$yellow</span> 请将 <span class="hljs-variable">$magenta</span><span class="hljs-variable">$domain</span><span class="hljs-variable">$none</span> <span class="hljs-variable">$yellow</span>解析到: <span class="hljs-variable">$cyan</span><span class="hljs-variable">$ip</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+    echo
+    echo -e "</span><span class="hljs-variable">$yellow</span> 请将 <span class="hljs-variable">$magenta</span><span class="hljs-variable">$domain</span><span class="hljs-variable">$none</span> <span class="hljs-variable">$yellow</span>解析到: <span class="hljs-variable">$cyan</span><span class="hljs-variable">$ip</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+    echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+    echo
+
+    while :; do
+
+        read -p "</span>$(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"(是否已经正确解析: [<span class="hljs-variable">${magenta}</span>Y<span class="hljs-variable">$none</span>]):"</span>) <span class="hljs-string">" record
+        if [[ -z "</span><span class="hljs-variable">$record</span><span class="hljs-string">" ]]; then
+            error
+        else
+            if [[ "</span><span class="hljs-variable">$record</span><span class="hljs-string">" == [Yy] ]]; then
+                domain_check
+                echo
+                echo
+                echo -e "</span><span class="hljs-variable">$yellow</span> 域名解析 = <span class="hljs-variable">${cyan}</span>我确定已经有解析了<span class="hljs-variable">$none</span><span class="hljs-string">"
+                echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+                echo
+                break
+            else
+                error
+            fi
+        fi
+
+    done
+
+    if [[ <span class="hljs-variable">$v2ray_transport</span> -ne 5 ]]; then
+        auto_tls_config
+    else
+        caddy=true
+        install_caddy_info="</span>打开<span class="hljs-string">"
+    fi
+
+    if [[ <span class="hljs-variable">$caddy</span> ]]; then
+        path_config_ask
+    fi
+}
+auto_tls_config() {
+    echo -e "</span>
+
+        安装 Caddy 来实现 自动配置 TLS
+
+        如果你已经安装 Nginx 或 Caddy
+
+        <span class="hljs-variable">$yellow</span>并且..自己能搞定配置 TLS<span class="hljs-variable">$none</span>
+
+        那么就不需要 打开自动配置 TLS
+        <span class="hljs-string">"
+    echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+    echo
+
+    while :; do
+
+        read -p "</span>$(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"(是否自动配置 TLS: [<span class="hljs-variable">${magenta}</span>Y/N<span class="hljs-variable">$none</span>]):"</span>) <span class="hljs-string">" auto_install_caddy
+        if [[ -z "</span><span class="hljs-variable">$auto_install_caddy</span><span class="hljs-string">" ]]; then
+            error
+        else
+            if [[ "</span><span class="hljs-variable">$auto_install_caddy</span><span class="hljs-string">" == [Yy] ]]; then
+                caddy=true
+                install_caddy_info="</span>打开<span class="hljs-string">"
+                echo
+                echo
+                echo -e "</span><span class="hljs-variable">$yellow</span> 自动配置 TLS = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$install_caddy_info</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+                echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+                echo
+                break
+            elif [[ "</span><span class="hljs-variable">$auto_install_caddy</span><span class="hljs-string">" == [Nn] ]]; then
+                install_caddy_info="</span>关闭<span class="hljs-string">"
+                echo
+                echo
+                echo -e "</span><span class="hljs-variable">$yellow</span> 自动配置 TLS = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$install_caddy_info</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+                echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+                echo
+                break
+            else
+                error
+            fi
+        fi
+
+    done
+}
+path_config_ask() {
+    echo
+    while :; do
+        echo -e "</span>是否开启 网站伪装 和 路径分流 [<span class="hljs-variable">${magenta}</span>Y/N<span class="hljs-variable">$none</span>]<span class="hljs-string">"
+        read -p "</span>$(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"(默认: [<span class="hljs-variable">${cyan}</span>N<span class="hljs-variable">$none</span>]):"</span>)<span class="hljs-string">" path_ask
+        [[ -z <span class="hljs-variable">$path_ask</span> ]] &amp;&amp; path_ask="</span>n<span class="hljs-string">"
+
+        case <span class="hljs-variable">$path_ask</span> in
+        Y | y)
+            path_config
+            break
+            ;;
+        N | n)
+            echo
+            echo
+            echo -e "</span><span class="hljs-variable">$yellow</span> 网站伪装 和 路径分流 = <span class="hljs-variable">$cyan</span>不想配置<span class="hljs-variable">$none</span><span class="hljs-string">"
+            echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+            echo
+            break
+            ;;
+        *)
+            error
+            ;;
+        esac
+    done
+}
+path_config() {
+    echo
+    while :; do
+        echo -e "</span>请输入想要 <span class="hljs-variable">${magenta}</span>用来分流的路径<span class="hljs-variable">$none</span> , 例如 /233blog , 那么只需要输入 233blog 即可<span class="hljs-string">"
+        read -p "</span>$(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"(默认: [<span class="hljs-variable">${cyan}</span>233blog<span class="hljs-variable">$none</span>]):"</span>)<span class="hljs-string">" path
+        [[ -z <span class="hljs-variable">$path</span> ]] &amp;&amp; path="</span>233blog<span class="hljs-string">"
+
+        case <span class="hljs-variable">$path</span> in
+        *[/$]*)
+            echo
+            echo -e "</span> 由于这个脚本太辣鸡了..所以分流的路径不能包含<span class="hljs-variable">$red</span> / <span class="hljs-variable">$none</span>或<span class="hljs-variable">$red</span> $ <span class="hljs-variable">$none</span>这两个符号.... <span class="hljs-string">"
+            echo
+            error
+            ;;
+        *)
+            echo
+            echo
+            echo -e "</span><span class="hljs-variable">$yellow</span> 分流的路径 = <span class="hljs-variable">${cyan}</span>/<span class="hljs-variable">${path}</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+            echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+            echo
+            break
+            ;;
+        esac
+    done
+    is_path=true
+    proxy_site_config
+}
+proxy_site_config() {
+    echo
+    while :; do
+        echo -e "</span>请输入 <span class="hljs-variable">${magenta}</span>一个正确的<span class="hljs-variable">$none</span> <span class="hljs-variable">${cyan}</span>网址<span class="hljs-variable">$none</span> 用来作为 <span class="hljs-variable">${cyan}</span>网站的伪装<span class="hljs-variable">$none</span> , 例如 https://liyafly.com<span class="hljs-string">"
+        echo -e "</span>举例...你当前的域名是 <span class="hljs-variable">$green</span><span class="hljs-variable">$domain</span><span class="hljs-variable">$none</span> , 伪装的网址的是 https://liyafly.com<span class="hljs-string">"
+        echo -e "</span>然后打开你的域名时候...显示出来的内容就是来自 https://liyafly.com 的内容<span class="hljs-string">"
+        echo -e "</span>其实就是一个反代...明白就好...<span class="hljs-string">"
+        echo -e "</span>如果不能伪装成功...可以使用 v2ray config 修改伪装的网址<span class="hljs-string">"
+        read -p "</span>$(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"(默认: [<span class="hljs-variable">${cyan}</span>https://liyafly.com<span class="hljs-variable">$none</span>]):"</span>)<span class="hljs-string">" proxy_site
+        [[ -z <span class="hljs-variable">$proxy_site</span> ]] &amp;&amp; proxy_site="</span>https://liyafly.com<span class="hljs-string">"
+
+        case <span class="hljs-variable">$proxy_site</span> in
+        *[#$]*)
+            echo
+            echo -e "</span> 由于这个脚本太辣鸡了..所以伪装的网址不能包含<span class="hljs-variable">$red</span> <span class="hljs-comment"># $none或$red $ $none这两个符号.... "</span>
+            <span class="hljs-built_in">echo</span>
+            error
+            ;;
+        *)
+            <span class="hljs-built_in">echo</span>
+            <span class="hljs-built_in">echo</span>
+            <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"<span class="hljs-variable">$yellow</span> 伪装的网址 = <span class="hljs-variable">${cyan}</span><span class="hljs-variable">${proxy_site}</span><span class="hljs-variable">$none</span>"</span>
+            <span class="hljs-built_in">echo</span> <span class="hljs-string">"----------------------------------------------------------------"</span>
+            <span class="hljs-built_in">echo</span>
+            <span class="hljs-built_in">break</span>
+            ;;
+        <span class="hljs-keyword">esac</span>
+    <span class="hljs-keyword">done</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">blocked_hosts</span></span>() {
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-keyword">while</span> :; <span class="hljs-keyword">do</span>
+        <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"是否开启广告拦截(会影响性能) [<span class="hljs-variable">${magenta}</span>Y/N<span class="hljs-variable">$none</span>]"</span>
+        <span class="hljs-built_in">read</span> -p <span class="hljs-string">"<span class="hljs-variable">$(echo -e "(默认 [${cyan}N$none])</span>:"</span>)<span class="hljs-string">" blocked_ad
+        [[ -z <span class="hljs-variable">$blocked_ad</span> ]] &amp;&amp; blocked_ad="</span>n<span class="hljs-string">"
+
+        case <span class="hljs-variable">$blocked_ad</span> in
+        Y | y)
+            blocked_ad_info="</span>开启<span class="hljs-string">"
+            ban_ad=true
+            echo
+            echo
+            echo -e "</span><span class="hljs-variable">$yellow</span> 广告拦截 = <span class="hljs-variable">$cyan</span>开启<span class="hljs-variable">$none</span><span class="hljs-string">"
+            echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+            echo
+            break
+            ;;
+        N | n)
+            blocked_ad_info="</span>关闭<span class="hljs-string">"
+            echo
+            echo
+            echo -e "</span><span class="hljs-variable">$yellow</span> 广告拦截 = <span class="hljs-variable">$cyan</span>关闭<span class="hljs-variable">$none</span><span class="hljs-string">"
+            echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+            echo
+            break
+            ;;
+        *)
+            error
+            ;;
+        esac
+    done
+}
+shadowsocks_config() {
+
+    echo
+
+    while :; do
+        echo -e "</span>是否配置 <span class="hljs-variable">${yellow}</span>Shadowsocks<span class="hljs-variable">${none}</span> [<span class="hljs-variable">${magenta}</span>Y/N<span class="hljs-variable">$none</span>]<span class="hljs-string">"
+        read -p "</span>$(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"(默认 [<span class="hljs-variable">${cyan}</span>N<span class="hljs-variable">$none</span>]):"</span>) <span class="hljs-string">" install_shadowsocks
+        [[ -z "</span><span class="hljs-variable">$install_shadowsocks</span><span class="hljs-string">" ]] &amp;&amp; install_shadowsocks="</span>n<span class="hljs-string">"
+        if [[ "</span><span class="hljs-variable">$install_shadowsocks</span><span class="hljs-string">" == [Yy] ]]; then
+            echo
+            shadowsocks=true
+            shadowsocks_port_config
+            break
+        elif [[ "</span><span class="hljs-variable">$install_shadowsocks</span><span class="hljs-string">" == [Nn] ]]; then
+            break
+        else
+            error
+        fi
+
+    done
+
+}
+
+shadowsocks_port_config() {
+    local random=<span class="hljs-variable">$(shuf -i20001-65535 -n1)</span>
+    while :; do
+        echo -e "</span>请输入 <span class="hljs-string">"<span class="hljs-variable">$yellow</span>"</span>Shadowsocks<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span> 端口 [<span class="hljs-string">"<span class="hljs-variable">$magenta</span>"</span>1-65535<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span>]，不能和 <span class="hljs-string">"<span class="hljs-variable">$yellow</span>"</span>V2Ray<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span> 端口相同<span class="hljs-string">"
+        read -p "</span>$(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"(默认端口: <span class="hljs-variable">${cyan}</span><span class="hljs-variable">${random}</span><span class="hljs-variable">$none</span>):"</span>) <span class="hljs-string">" ssport
+        [ -z "</span><span class="hljs-variable">$ssport</span><span class="hljs-string">" ] &amp;&amp; ssport=<span class="hljs-variable">$random</span>
+        case <span class="hljs-variable">$ssport</span> in
+        <span class="hljs-variable">$v2ray_port</span>)
+            echo
+            echo "</span> 不能和 V2Ray 端口一毛一样....<span class="hljs-string">"
+            error
+            ;;
+        [1-9] | [1-9][0-9] | [1-9][0-9][0-9] | [1-9][0-9][0-9][0-9] | [1-5][0-9][0-9][0-9][0-9] | 6[0-4][0-9][0-9][0-9] | 65[0-4][0-9][0-9] | 655[0-3][0-5])
+            if [[ <span class="hljs-variable">$v2ray_transport</span> == [45] ]]; then
+                local tls=ture
+            fi
+            if [[ <span class="hljs-variable">$tls</span> &amp;&amp; <span class="hljs-variable">$ssport</span> == "</span>80<span class="hljs-string">" ]] || [[ <span class="hljs-variable">$tls</span> &amp;&amp; <span class="hljs-variable">$ssport</span> == "</span>443<span class="hljs-string">" ]]; then
+                echo
+                echo -e "</span>由于你已选择了 <span class="hljs-string">"<span class="hljs-variable">$green</span>"</span>WebSocket + TLS <span class="hljs-variable">$none</span>或<span class="hljs-variable">$green</span> HTTP/2<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span> 传输协议.<span class="hljs-string">"
+                echo
+                echo -e "</span>所以不能选择 <span class="hljs-string">"<span class="hljs-variable">$magenta</span>"</span>80<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span> 或 <span class="hljs-string">"<span class="hljs-variable">$magenta</span>"</span>443<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span> 端口<span class="hljs-string">"
+                error
+            elif [[ <span class="hljs-variable">$v2ray_dynamic_port_start_input</span> == <span class="hljs-variable">$ssport</span> || <span class="hljs-variable">$v2ray_dynamic_port_end_input</span> == <span class="hljs-variable">$ssport</span> ]]; then
+                local multi_port="</span><span class="hljs-variable">${v2ray_dynamic_port_start_input}</span> - <span class="hljs-variable">${v2ray_dynamic_port_end_input}</span><span class="hljs-string">"
+                echo
+                echo "</span> 抱歉，此端口和 V2Ray 动态端口 冲突，当前 V2Ray 动态端口范围为：<span class="hljs-variable">$multi_port</span><span class="hljs-string">"
+                error
+            elif [[ <span class="hljs-variable">$v2ray_dynamic_port_start_input</span> -lt <span class="hljs-variable">$ssport</span> &amp;&amp; <span class="hljs-variable">$ssport</span> -le <span class="hljs-variable">$v2ray_dynamic_port_end_input</span> ]]; then
+                local multi_port="</span><span class="hljs-variable">${v2ray_dynamic_port_start_input}</span> - <span class="hljs-variable">${v2ray_dynamic_port_end_input}</span><span class="hljs-string">"
+                echo
+                echo "</span> 抱歉，此端口和 V2Ray 动态端口 冲突，当前 V2Ray 动态端口范围为：<span class="hljs-variable">$multi_port</span><span class="hljs-string">"
+                error
+            else
+                echo
+                echo
+                echo -e "</span><span class="hljs-variable">$yellow</span> Shadowsocks 端口 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$ssport</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+                echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+                echo
+                break
+            fi
+            ;;
+        *)
+            error
+            ;;
+        esac
+
+    done
+
+    shadowsocks_password_config
+}
+shadowsocks_password_config() {
+
+    while :; do
+        echo -e "</span>请输入 <span class="hljs-string">"<span class="hljs-variable">$yellow</span>"</span>Shadowsocks<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span> 密码<span class="hljs-string">"
+        read -p "</span>$(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"(默认密码: <span class="hljs-variable">${cyan}</span>233blog.com<span class="hljs-variable">$none</span>)"</span>): <span class="hljs-string">" sspass
+        [ -z "</span><span class="hljs-variable">$sspass</span><span class="hljs-string">" ] &amp;&amp; sspass="</span>233blog.com<span class="hljs-string">"
+        case <span class="hljs-variable">$sspass</span> in
+        *[/$]*)
+            echo
+            echo -e "</span> 由于这个脚本太辣鸡了..所以密码不能包含<span class="hljs-variable">$red</span> / <span class="hljs-variable">$none</span>或<span class="hljs-variable">$red</span> $ <span class="hljs-variable">$none</span>这两个符号.... <span class="hljs-string">"
+            echo
+            error
+            ;;
+        *)
+            echo
+            echo
+            echo -e "</span><span class="hljs-variable">$yellow</span> Shadowsocks 密码 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$sspass</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+            echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+            echo
+            break
+            ;;
+        esac
+
+    done
+
+    shadowsocks_ciphers_config
+}
+shadowsocks_ciphers_config() {
+
+    while :; do
+        echo -e "</span>请选择 <span class="hljs-string">"<span class="hljs-variable">$yellow</span>"</span>Shadowsocks<span class="hljs-string">"<span class="hljs-variable">$none</span>"</span> 加密协议 [<span class="hljs-variable">${magenta}</span>1-<span class="hljs-variable">${#ciphers[*]}</span><span class="hljs-variable">$none</span>]<span class="hljs-string">"
+        for ((i = 1; i &lt;= <span class="hljs-variable">${#ciphers[*]}</span>; i++)); do
+            ciphers_show="</span><span class="hljs-variable">${ciphers[$i - 1]}</span><span class="hljs-string">"
+            echo
+            echo -e "</span><span class="hljs-variable">$yellow</span> <span class="hljs-variable">$i</span>. <span class="hljs-variable">$none</span><span class="hljs-variable">${ciphers_show}</span><span class="hljs-string">"
+        done
+        echo
+        read -p "</span>$(<span class="hljs-built_in">echo</span> -e <span class="hljs-string">"(默认加密协议: <span class="hljs-variable">${cyan}</span><span class="hljs-variable">${ciphers[6]}</span><span class="hljs-variable">$none</span>)"</span>):<span class="hljs-string">" ssciphers_opt
+        [ -z "</span><span class="hljs-variable">$ssciphers_opt</span><span class="hljs-string">" ] &amp;&amp; ssciphers_opt=7
+        case <span class="hljs-variable">$ssciphers_opt</span> in
+        [1-7])
+            ssciphers=<span class="hljs-variable">${ciphers[$ssciphers_opt - 1]}</span>
+            echo
+            echo
+            echo -e "</span><span class="hljs-variable">$yellow</span> Shadowsocks 加密协议 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">${ssciphers}</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+            echo "</span>----------------------------------------------------------------<span class="hljs-string">"
+            echo
+            break
+            ;;
+        *)
+            error
+            ;;
+        esac
+
+    done
+    pause
+}
+
+install_info() {
+    clear
+    echo
+    echo "</span> ....准备安装了咯..看看有毛有配置正确了...<span class="hljs-string">"
+    echo
+    echo "</span>---------- 安装信息 -------------<span class="hljs-string">"
+    echo
+    echo -e "</span><span class="hljs-variable">$yellow</span> V2Ray 传输协议 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">${transport[$v2ray_transport - 1]}</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+
+    if [[ <span class="hljs-variable">$v2ray_transport</span> == [45] ]]; then
+        echo
+        echo -e "</span><span class="hljs-variable">$yellow</span> V2Ray 端口 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$v2ray_port</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+        echo
+        echo -e "</span><span class="hljs-variable">$yellow</span> 你的域名 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$domain</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+        echo
+        echo -e "</span><span class="hljs-variable">$yellow</span> 域名解析 = <span class="hljs-variable">${cyan}</span>我确定已经有解析了<span class="hljs-variable">$none</span><span class="hljs-string">"
+        echo
+        echo -e "</span><span class="hljs-variable">$yellow</span> 自动配置 TLS = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$install_caddy_info</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+
+        if [[ <span class="hljs-variable">$ban_ad</span> ]]; then
+            echo
+            echo -e "</span><span class="hljs-variable">$yellow</span> 广告拦截 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$blocked_ad_info</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+        fi
+        if [[ <span class="hljs-variable">$is_path</span> ]]; then
+            echo
+            echo -e "</span><span class="hljs-variable">$yellow</span> 路径分流 = <span class="hljs-variable">${cyan}</span>/<span class="hljs-variable">${path}</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+        fi
+    elif [[ <span class="hljs-variable">$v2ray_transport</span> -ge 18 ]]; then
+        echo
+        echo -e "</span><span class="hljs-variable">$yellow</span> V2Ray 端口 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$v2ray_port</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+        echo
+        echo -e "</span><span class="hljs-variable">$yellow</span> V2Ray 动态端口范围 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">${v2ray_dynamic_port_start_input}</span> - <span class="hljs-variable">${v2ray_dynamic_port_end_input}</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+
+        if [[ <span class="hljs-variable">$ban_ad</span> ]]; then
+            echo
+            echo -e "</span><span class="hljs-variable">$yellow</span> 广告拦截 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$blocked_ad_info</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+        fi
+    else
+        echo
+        echo -e "</span><span class="hljs-variable">$yellow</span> V2Ray 端口 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$v2ray_port</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+
+        if [[ <span class="hljs-variable">$ban_ad</span> ]]; then
+            echo
+            echo -e "</span><span class="hljs-variable">$yellow</span> 广告拦截 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$blocked_ad_info</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+        fi
+    fi
+    if [ <span class="hljs-variable">$shadowsocks</span> ]; then
+        echo
+        echo -e "</span><span class="hljs-variable">$yellow</span> Shadowsocks 端口 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$ssport</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+        echo
+        echo -e "</span><span class="hljs-variable">$yellow</span> Shadowsocks 密码 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">$sspass</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+        echo
+        echo -e "</span><span class="hljs-variable">$yellow</span> Shadowsocks 加密协议 = <span class="hljs-variable">$cyan</span><span class="hljs-variable">${ssciphers}</span><span class="hljs-variable">$none</span><span class="hljs-string">"
+    else
+        echo
+        echo -e "</span><span class="hljs-variable">$yellow</span> 是否配置 Shadowsocks = <span class="hljs-variable">${cyan}</span>未配置<span class="hljs-variable">${none}</span><span class="hljs-string">"
+    fi
+    echo
+    echo "</span>---------- END -------------<span class="hljs-string">"
+    echo
+    pause
+    echo
+}
+
+domain_check() {
+    # if [[ <span class="hljs-variable">$cmd</span> == "</span>yum<span class="hljs-string">" ]]; then
+    #     yum install bind-utils -y
+    # else
+    #     <span class="hljs-variable">$cmd</span> install dnsutils -y
+    # fi
+    # test_domain=<span class="hljs-variable">$(dig $domain +short)</span>
+    test_domain=<span class="hljs-variable">$(ping $domain -c 1 | grep -oE -m1 "([0-9]{1,3}\.)</span>{3}[0-9]{1,3}"</span>)
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$test_domain</span> != <span class="hljs-variable">$ip</span> ]]; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"<span class="hljs-variable">$red</span> 检测域名解析错误....<span class="hljs-variable">$none</span>"</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span> -e <span class="hljs-string">" 你的域名: <span class="hljs-variable">$yellow</span><span class="hljs-variable">$domain</span><span class="hljs-variable">$none</span> 未解析到: <span class="hljs-variable">$cyan</span><span class="hljs-variable">$ip</span><span class="hljs-variable">$none</span>"</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span> -e <span class="hljs-string">" 你的域名当前解析到: <span class="hljs-variable">$cyan</span><span class="hljs-variable">$test_domain</span><span class="hljs-variable">$none</span>"</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"备注...如果你的域名是使用 Cloudflare 解析的话..在 Status 那里点一下那图标..让它变灰"</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">exit</span> 1
+    <span class="hljs-keyword">fi</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">install_caddy</span></span>() {
+    <span class="hljs-comment"># download caddy file then install</span>
+    _load download-caddy.sh
+    _download_caddy_file
+    _install_caddy_service
+    caddy_config
+
+}
+<span class="hljs-function"><span class="hljs-title">caddy_config</span></span>() {
+    <span class="hljs-comment"># local email=$(shuf -i1-10000000000 -n1)</span>
+    _load caddy-config.sh
+
+    <span class="hljs-comment"># systemctl restart caddy</span>
+    do_service restart caddy
+}
+
+<span class="hljs-function"><span class="hljs-title">install_v2ray</span></span>() {
+    <span class="hljs-variable">$cmd</span> update -y
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$cmd</span> == <span class="hljs-string">"apt-get"</span> ]]; <span class="hljs-keyword">then</span>
+        <span class="hljs-variable">$cmd</span> install -y lrzsz git zip unzip curl wget qrencode libcap2-bin
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-comment"># $cmd install -y lrzsz git zip unzip curl wget qrencode libcap iptables-services</span>
+        <span class="hljs-variable">$cmd</span> install -y lrzsz git zip unzip curl wget qrencode libcap
+    <span class="hljs-keyword">fi</span>
+    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
+    [ -d /etc/v2ray ] &amp;&amp; rm -rf /etc/v2ray
+    date -s <span class="hljs-string">"<span class="hljs-variable">$(curl -sI g.cn | grep Date | cut -d' ' -f3-6)</span>Z"</span>
+
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$local_install</span> ]]; <span class="hljs-keyword">then</span>
+        <span class="hljs-keyword">if</span> [[ ! -d $(<span class="hljs-built_in">pwd</span>)/config ]]; <span class="hljs-keyword">then</span>
+            <span class="hljs-built_in">echo</span>
+            <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"<span class="hljs-variable">$red</span> 哎呀呀...安装失败了咯...<span class="hljs-variable">$none</span>"</span>
+            <span class="hljs-built_in">echo</span>
+            <span class="hljs-built_in">echo</span> -e <span class="hljs-string">" 请确保你有完整的上传 233v2.com 的 V2Ray 一键安装脚本 &amp; 管理脚本到当前 <span class="hljs-variable">${green}</span><span class="hljs-variable">$(pwd)</span> <span class="hljs-variable">$none</span>目录下"</span>
+            <span class="hljs-built_in">echo</span>
+            <span class="hljs-built_in">exit</span> 1
+        <span class="hljs-keyword">fi</span>
+        mkdir -p /etc/v2ray/233boy/v2ray
+        cp -rf $(<span class="hljs-built_in">pwd</span>)/* /etc/v2ray/233boy/v2ray
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">pushd</span> /tmp
+        git <span class="hljs-built_in">clone</span> https://github.com/233boy/v2ray -b <span class="hljs-string">"<span class="hljs-variable">$_gitbranch</span>"</span> /etc/v2ray/233boy/v2ray --depth=1
+        <span class="hljs-built_in">popd</span>
+
+    <span class="hljs-keyword">fi</span>
+
+    <span class="hljs-keyword">if</span> [[ ! -d /etc/v2ray/233boy/v2ray ]]; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"<span class="hljs-variable">$red</span> 哎呀呀...克隆脚本仓库出错了...<span class="hljs-variable">$none</span>"</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span> -e <span class="hljs-string">" 温馨提示..... 请尝试自行安装 Git: <span class="hljs-variable">${green}</span><span class="hljs-variable">$cmd</span> install -y git <span class="hljs-variable">$none</span> 之后再安装此脚本"</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">exit</span> 1
+    <span class="hljs-keyword">fi</span>
+
+    <span class="hljs-comment"># download v2ray file then install</span>
+    _load download-v2ray.sh
+    _download_v2ray_file
+    _install_v2ray_service
+    _mkdir_dir
+}
+
+<span class="hljs-function"><span class="hljs-title">open_port</span></span>() {
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$cmd</span> == <span class="hljs-string">"apt-get"</span> ]]; <span class="hljs-keyword">then</span>
+        <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$1</span> != <span class="hljs-string">"multiport"</span> ]]; <span class="hljs-keyword">then</span>
+
+            iptables -I INPUT -m state --state NEW -m tcp -p tcp --dport <span class="hljs-variable">$1</span> -j ACCEPT
+            iptables -I INPUT -m state --state NEW -m udp -p udp --dport <span class="hljs-variable">$1</span> -j ACCEPT
+            ip6tables -I INPUT -m state --state NEW -m tcp -p tcp --dport <span class="hljs-variable">$1</span> -j ACCEPT
+            ip6tables -I INPUT -m state --state NEW -m udp -p udp --dport <span class="hljs-variable">$1</span> -j ACCEPT
+
+            <span class="hljs-comment"># firewall-cmd --permanent --zone=public --add-port=$1/tcp</span>
+            <span class="hljs-comment"># firewall-cmd --permanent --zone=public --add-port=$1/udp</span>
+            <span class="hljs-comment"># firewall-cmd --reload</span>
+
+        <span class="hljs-keyword">else</span>
+
+            <span class="hljs-built_in">local</span> multiport=<span class="hljs-string">"<span class="hljs-variable">${v2ray_dynamic_port_start_input}</span>:<span class="hljs-variable">${v2ray_dynamic_port_end_input}</span>"</span>
+            iptables -I INPUT -p tcp --match multiport --dports <span class="hljs-variable">$multiport</span> -j ACCEPT
+            iptables -I INPUT -p udp --match multiport --dports <span class="hljs-variable">$multiport</span> -j ACCEPT
+            ip6tables -I INPUT -p tcp --match multiport --dports <span class="hljs-variable">$multiport</span> -j ACCEPT
+            ip6tables -I INPUT -p udp --match multiport --dports <span class="hljs-variable">$multiport</span> -j ACCEPT
+
+            <span class="hljs-comment"># local multi_port="${v2ray_dynamic_port_start_input}-${v2ray_dynamic_port_end_input}"</span>
+            <span class="hljs-comment"># firewall-cmd --permanent --zone=public --add-port=$multi_port/tcp</span>
+            <span class="hljs-comment"># firewall-cmd --permanent --zone=public --add-port=$multi_port/udp</span>
+            <span class="hljs-comment"># firewall-cmd --reload</span>
+
+        <span class="hljs-keyword">fi</span>
+        iptables-save &gt;/etc/iptables.rules.v4
+        ip6tables-save &gt;/etc/iptables.rules.v6
+        <span class="hljs-comment"># else</span>
+        <span class="hljs-comment">#     service iptables save &gt;/dev/null 2&gt;&amp;1</span>
+        <span class="hljs-comment">#     service ip6tables save &gt;/dev/null 2&gt;&amp;1</span>
+    <span class="hljs-keyword">fi</span>
+}
+<span class="hljs-function"><span class="hljs-title">del_port</span></span>() {
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$cmd</span> == <span class="hljs-string">"apt-get"</span> ]]; <span class="hljs-keyword">then</span>
+        <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$1</span> != <span class="hljs-string">"multiport"</span> ]]; <span class="hljs-keyword">then</span>
+            <span class="hljs-comment"># if [[ $cmd == "apt-get" ]]; then</span>
+            iptables -D INPUT -m state --state NEW -m tcp -p tcp --dport <span class="hljs-variable">$1</span> -j ACCEPT
+            iptables -D INPUT -m state --state NEW -m udp -p udp --dport <span class="hljs-variable">$1</span> -j ACCEPT
+            ip6tables -D INPUT -m state --state NEW -m tcp -p tcp --dport <span class="hljs-variable">$1</span> -j ACCEPT
+            ip6tables -D INPUT -m state --state NEW -m udp -p udp --dport <span class="hljs-variable">$1</span> -j ACCEPT
+            <span class="hljs-comment"># else</span>
+            <span class="hljs-comment">#     firewall-cmd --permanent --zone=public --remove-port=$1/tcp</span>
+            <span class="hljs-comment">#     firewall-cmd --permanent --zone=public --remove-port=$1/udp</span>
+            <span class="hljs-comment"># fi</span>
+        <span class="hljs-keyword">else</span>
+            <span class="hljs-comment"># if [[ $cmd == "apt-get" ]]; then</span>
+            <span class="hljs-built_in">local</span> ports=<span class="hljs-string">"<span class="hljs-variable">${v2ray_dynamicPort_start}</span>:<span class="hljs-variable">${v2ray_dynamicPort_end}</span>"</span>
+            iptables -D INPUT -p tcp --match multiport --dports <span class="hljs-variable">$ports</span> -j ACCEPT
+            iptables -D INPUT -p udp --match multiport --dports <span class="hljs-variable">$ports</span> -j ACCEPT
+            ip6tables -D INPUT -p tcp --match multiport --dports <span class="hljs-variable">$ports</span> -j ACCEPT
+            ip6tables -D INPUT -p udp --match multiport --dports <span class="hljs-variable">$ports</span> -j ACCEPT
+            <span class="hljs-comment"># else</span>
+            <span class="hljs-comment">#     local ports="${v2ray_dynamicPort_start}-${v2ray_dynamicPort_end}"</span>
+            <span class="hljs-comment">#     firewall-cmd --permanent --zone=public --remove-port=$ports/tcp</span>
+            <span class="hljs-comment">#     firewall-cmd --permanent --zone=public --remove-port=$ports/udp</span>
+            <span class="hljs-comment"># fi</span>
+        <span class="hljs-keyword">fi</span>
+        iptables-save &gt;/etc/iptables.rules.v4
+        ip6tables-save &gt;/etc/iptables.rules.v6
+        <span class="hljs-comment"># else</span>
+        <span class="hljs-comment">#     service iptables save &gt;/dev/null 2&gt;&amp;1</span>
+        <span class="hljs-comment">#     service ip6tables save &gt;/dev/null 2&gt;&amp;1</span>
+    <span class="hljs-keyword">fi</span>
+
+}
+
+<span class="hljs-function"><span class="hljs-title">config</span></span>() {
+    cp -f /etc/v2ray/233boy/v2ray/config/backup.conf <span class="hljs-variable">$backup</span>
+    cp -f /etc/v2ray/233boy/v2ray/v2ray.sh <span class="hljs-variable">$_v2ray_sh</span>
+    chmod +x <span class="hljs-variable">$_v2ray_sh</span>
+
+    v2ray_id=<span class="hljs-variable">$uuid</span>
+    alterId=233
+    ban_bt=<span class="hljs-literal">true</span>
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$v2ray_transport</span> -ge 18 ]]; <span class="hljs-keyword">then</span>
+        v2ray_dynamicPort_start=<span class="hljs-variable">${v2ray_dynamic_port_start_input}</span>
+        v2ray_dynamicPort_end=<span class="hljs-variable">${v2ray_dynamic_port_end_input}</span>
+    <span class="hljs-keyword">fi</span>
+    _load config.sh
+
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$cmd</span> == <span class="hljs-string">"apt-get"</span> ]]; <span class="hljs-keyword">then</span>
+        cat &gt;/etc/network/<span class="hljs-keyword">if</span>-pre-up.d/iptables &lt;&lt;-EOF
+<span class="hljs-meta">#!/bin/sh</span>
+/sbin/iptables-restore &lt; /etc/iptables.rules.v4
+/sbin/ip6tables-restore &lt; /etc/iptables.rules.v6
+    EOF
+        chmod +x /etc/network/<span class="hljs-keyword">if</span>-pre-up.d/iptables
+        <span class="hljs-comment"># else</span>
+        <span class="hljs-comment">#     [ $(pgrep "firewall") ] &amp;&amp; systemctl stop firewalld</span>
+        <span class="hljs-comment">#     systemctl mask firewalld</span>
+        <span class="hljs-comment">#     systemctl disable firewalld</span>
+        <span class="hljs-comment">#     systemctl enable iptables</span>
+        <span class="hljs-comment">#     systemctl enable ip6tables</span>
+        <span class="hljs-comment">#     systemctl start iptables</span>
+        <span class="hljs-comment">#     systemctl start ip6tables</span>
+    <span class="hljs-keyword">fi</span>
+
+    [[ <span class="hljs-variable">$shadowsocks</span> ]] &amp;&amp; open_port <span class="hljs-variable">$ssport</span>
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$v2ray_transport</span> == [45] ]]; <span class="hljs-keyword">then</span>
+        open_port <span class="hljs-string">"80"</span>
+        open_port <span class="hljs-string">"443"</span>
+        open_port <span class="hljs-variable">$v2ray_port</span>
+    <span class="hljs-keyword">elif</span> [[ <span class="hljs-variable">$v2ray_transport</span> -ge 18 ]]; <span class="hljs-keyword">then</span>
+        open_port <span class="hljs-variable">$v2ray_port</span>
+        open_port <span class="hljs-string">"multiport"</span>
+    <span class="hljs-keyword">else</span>
+        open_port <span class="hljs-variable">$v2ray_port</span>
+    <span class="hljs-keyword">fi</span>
+    <span class="hljs-comment"># systemctl restart v2ray</span>
+    do_service restart v2ray
+    backup_config
+
+}
+
+<span class="hljs-function"><span class="hljs-title">backup_config</span></span>() {
+    sed -i <span class="hljs-string">"18s/=1/=<span class="hljs-variable">$v2ray_transport</span>/; 21s/=2333/=<span class="hljs-variable">$v2ray_port</span>/; 24s/=<span class="hljs-variable">$old_id</span>/=<span class="hljs-variable">$uuid</span>/"</span> <span class="hljs-variable">$backup</span>
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$v2ray_transport</span> -ge 18 ]]; <span class="hljs-keyword">then</span>
+        sed -i <span class="hljs-string">"30s/=10000/=<span class="hljs-variable">$v2ray_dynamic_port_start_input</span>/; 33s/=20000/=<span class="hljs-variable">$v2ray_dynamic_port_end_input</span>/"</span> <span class="hljs-variable">$backup</span>
+    <span class="hljs-keyword">fi</span>
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$shadowsocks</span> ]]; <span class="hljs-keyword">then</span>
+        sed -i <span class="hljs-string">"42s/=/=true/; 45s/=6666/=<span class="hljs-variable">$ssport</span>/; 48s/=233blog.com/=<span class="hljs-variable">$sspass</span>/; 51s/=chacha20-ietf/=<span class="hljs-variable">$ssciphers</span>/"</span> <span class="hljs-variable">$backup</span>
+    <span class="hljs-keyword">fi</span>
+    [[ <span class="hljs-variable">$v2ray_transport</span> == [45] ]] &amp;&amp; sed -i <span class="hljs-string">"36s/=233blog.com/=<span class="hljs-variable">$domain</span>/"</span> <span class="hljs-variable">$backup</span>
+    [[ <span class="hljs-variable">$caddy</span> ]] &amp;&amp; sed -i <span class="hljs-string">"39s/=/=true/"</span> <span class="hljs-variable">$backup</span>
+    [[ <span class="hljs-variable">$ban_ad</span> ]] &amp;&amp; sed -i <span class="hljs-string">"54s/=/=true/"</span> <span class="hljs-variable">$backup</span>
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$is_path</span> ]]; <span class="hljs-keyword">then</span>
+        sed -i <span class="hljs-string">"57s/=/=true/; 60s/=233blog/=<span class="hljs-variable">$path</span>/"</span> <span class="hljs-variable">$backup</span>
+        sed -i <span class="hljs-string">"63s#=https://liyafly.com#=<span class="hljs-variable">$proxy_site</span>#"</span> <span class="hljs-variable">$backup</span>
+    <span class="hljs-keyword">fi</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">try_enable_bbr</span></span>() {
+    <span class="hljs-keyword">if</span> [[ $(uname -r | cut -b 1) -eq 4 ]]; <span class="hljs-keyword">then</span>
+        <span class="hljs-keyword">case</span> $(uname -r | cut -b 3-4) <span class="hljs-keyword">in</span>
+        9. | [1-9][0-9])
+            sed -i <span class="hljs-string">'/net.ipv4.tcp_congestion_control/d'</span> /etc/sysctl.conf
+            sed -i <span class="hljs-string">'/net.core.default_qdisc/d'</span> /etc/sysctl.conf
+            <span class="hljs-built_in">echo</span> <span class="hljs-string">"net.ipv4.tcp_congestion_control = bbr"</span> &gt;&gt;/etc/sysctl.conf
+            <span class="hljs-built_in">echo</span> <span class="hljs-string">"net.core.default_qdisc = fq"</span> &gt;&gt;/etc/sysctl.conf
+            sysctl -p &gt;/dev/null 2&gt;&amp;1
+            ;;
+        <span class="hljs-keyword">esac</span>
+    <span class="hljs-keyword">fi</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">get_ip</span></span>() {
+    ip=$(curl -s https://ipinfo.io/ip)
+    [[ -z <span class="hljs-variable">$ip</span> ]] &amp;&amp; ip=$(curl -s https://api.ip.sb/ip)
+    [[ -z <span class="hljs-variable">$ip</span> ]] &amp;&amp; ip=$(curl -s https://api.ipify.org)
+    [[ -z <span class="hljs-variable">$ip</span> ]] &amp;&amp; ip=$(curl -s https://ip.seeip.org)
+    [[ -z <span class="hljs-variable">$ip</span> ]] &amp;&amp; ip=$(curl -s https://ifconfig.co/ip)
+    [[ -z <span class="hljs-variable">$ip</span> ]] &amp;&amp; ip=$(curl -s https://api.myip.com | grep -oE <span class="hljs-string">"([0-9]{1,3}\.){3}[0-9]{1,3}"</span>)
+    [[ -z <span class="hljs-variable">$ip</span> ]] &amp;&amp; ip=$(curl -s icanhazip.com)
+    [[ -z <span class="hljs-variable">$ip</span> ]] &amp;&amp; ip=$(curl -s myip.ipip.net | grep -oE <span class="hljs-string">"([0-9]{1,3}\.){3}[0-9]{1,3}"</span>)
+    [[ -z <span class="hljs-variable">$ip</span> ]] &amp;&amp; <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\n<span class="hljs-variable">$red</span> 这垃圾小鸡扔了吧！<span class="hljs-variable">$none</span>\n"</span> &amp;&amp; <span class="hljs-built_in">exit</span>
+}
+
+<span class="hljs-function"><span class="hljs-title">error</span></span>() {
+
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"\n<span class="hljs-variable">$red</span> 输入错误！<span class="hljs-variable">$none</span>\n"</span>
+
+}
+
+<span class="hljs-function"><span class="hljs-title">pause</span></span>() {
+
+    <span class="hljs-built_in">read</span> -rsp <span class="hljs-string">"<span class="hljs-variable">$(echo -e "按$green Enter 回车键 $none继续....或按$red Ctrl + C $none取消.")</span>"</span> -d $<span class="hljs-string">'\n'</span>
+    <span class="hljs-built_in">echo</span>
+}
+<span class="hljs-function"><span class="hljs-title">do_service</span></span>() {
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$systemd</span> ]]; <span class="hljs-keyword">then</span>
+        systemctl <span class="hljs-variable">$1</span> <span class="hljs-variable">$2</span>
+    <span class="hljs-keyword">else</span>
+        service <span class="hljs-variable">$2</span> <span class="hljs-variable">$1</span>
+    <span class="hljs-keyword">fi</span>
+}
+<span class="hljs-function"><span class="hljs-title">show_config_info</span></span>() {
+    clear
+    _load v2ray-info.sh
+    _v2_args
+    _v2_info
+    _load ss-info.sh
+
+}
+
+<span class="hljs-function"><span class="hljs-title">install</span></span>() {
+    <span class="hljs-keyword">if</span> [[ -f /usr/bin/v2ray/v2ray &amp;&amp; -f /etc/v2ray/config.json ]] &amp;&amp; [[ -f <span class="hljs-variable">$backup</span> &amp;&amp; -d /etc/v2ray/233boy/v2ray ]]; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">" 大佬...你已经安装 V2Ray 啦...无需重新安装"</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span> -e <span class="hljs-string">" <span class="hljs-variable">$yellow</span>输入 <span class="hljs-variable">${cyan}</span>v2ray<span class="hljs-variable">${none}</span> <span class="hljs-variable">$yellow</span>即可管理 V2Ray<span class="hljs-variable">${none}</span>"</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">exit</span> 1
+    <span class="hljs-keyword">elif</span> [[ -f /usr/bin/v2ray/v2ray &amp;&amp; -f /etc/v2ray/config.json ]] &amp;&amp; [[ -f /etc/v2ray/233blog_v2ray_backup.txt &amp;&amp; -d /etc/v2ray/233boy/v2ray ]]; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span> <span class="hljs-string">"  如果你需要继续安装.. 请先卸载旧版本"</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span> -e <span class="hljs-string">" <span class="hljs-variable">$yellow</span>输入 <span class="hljs-variable">${cyan}</span>v2ray uninstall<span class="hljs-variable">${none}</span> <span class="hljs-variable">$yellow</span>即可卸载<span class="hljs-variable">${none}</span>"</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">exit</span> 1
+    <span class="hljs-keyword">fi</span>
+    v2ray_config
+    blocked_hosts
+    shadowsocks_config
+    install_info
+    try_enable_bbr
+    <span class="hljs-comment"># [[ $caddy ]] &amp;&amp; domain_check</span>
+    install_v2ray
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$caddy</span> || <span class="hljs-variable">$v2ray_port</span> == <span class="hljs-string">"80"</span> ]]; <span class="hljs-keyword">then</span>
+        <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$cmd</span> == <span class="hljs-string">"yum"</span> ]]; <span class="hljs-keyword">then</span>
+            [[ $(pgrep <span class="hljs-string">"httpd"</span>) ]] &amp;&amp; systemctl stop httpd
+            [[ $(<span class="hljs-built_in">command</span> -v httpd) ]] &amp;&amp; yum remove httpd -y
+        <span class="hljs-keyword">else</span>
+            [[ $(pgrep <span class="hljs-string">"apache2"</span>) ]] &amp;&amp; service apache2 stop
+            [[ $(<span class="hljs-built_in">command</span> -v apache2) ]] &amp;&amp; apt-get remove apache2* -y
+        <span class="hljs-keyword">fi</span>
+    <span class="hljs-keyword">fi</span>
+    [[ <span class="hljs-variable">$caddy</span> ]] &amp;&amp; install_caddy
+    get_ip
+    config
+    show_config_info
+}
+<span class="hljs-function"><span class="hljs-title">uninstall</span></span>() {
+
+    <span class="hljs-keyword">if</span> [[ -f /usr/bin/v2ray/v2ray &amp;&amp; -f /etc/v2ray/config.json ]] &amp;&amp; [[ -f <span class="hljs-variable">$backup</span> &amp;&amp; -d /etc/v2ray/233boy/v2ray ]]; <span class="hljs-keyword">then</span>
+        . <span class="hljs-variable">$backup</span>
+        <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$mark</span> ]]; <span class="hljs-keyword">then</span>
+            _load uninstall.sh
+        <span class="hljs-keyword">else</span>
+            <span class="hljs-built_in">echo</span>
+            <span class="hljs-built_in">echo</span> -e <span class="hljs-string">" <span class="hljs-variable">$yellow</span>输入 <span class="hljs-variable">${cyan}</span>v2ray uninstall<span class="hljs-variable">${none}</span> <span class="hljs-variable">$yellow</span>即可卸载<span class="hljs-variable">${none}</span>"</span>
+            <span class="hljs-built_in">echo</span>
+        <span class="hljs-keyword">fi</span>
+
+    <span class="hljs-keyword">elif</span> [[ -f /usr/bin/v2ray/v2ray &amp;&amp; -f /etc/v2ray/config.json ]] &amp;&amp; [[ -f /etc/v2ray/233blog_v2ray_backup.txt &amp;&amp; -d /etc/v2ray/233boy/v2ray ]]; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span>
+        <span class="hljs-built_in">echo</span> -e <span class="hljs-string">" <span class="hljs-variable">$yellow</span>输入 <span class="hljs-variable">${cyan}</span>v2ray uninstall<span class="hljs-variable">${none}</span> <span class="hljs-variable">$yellow</span>即可卸载<span class="hljs-variable">${none}</span>"</span>
+        <span class="hljs-built_in">echo</span>
+    <span class="hljs-keyword">else</span>
+        <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"
+        <span class="hljs-variable">$red</span> 大胸弟...你貌似毛有安装 V2Ray ....卸载个鸡鸡哦...<span class="hljs-variable">$none</span>
+
+        备注...仅支持卸载使用我 (233v2.com) 提供的 V2Ray 一键安装脚本
+        "</span> &amp;&amp; <span class="hljs-built_in">exit</span> 1
+    <span class="hljs-keyword">fi</span>
+
+}
+
+args=<span class="hljs-variable">$1</span>
+_gitbranch=<span class="hljs-variable">$2</span>
+[ -z <span class="hljs-variable">$1</span> ] &amp;&amp; args=<span class="hljs-string">"online"</span>
+<span class="hljs-keyword">case</span> <span class="hljs-variable">$args</span> <span class="hljs-keyword">in</span>
+online)
+    <span class="hljs-comment">#hello world</span>
+    [[ -z <span class="hljs-variable">$_gitbranch</span> ]] &amp;&amp; _gitbranch=<span class="hljs-string">"master"</span>
+    ;;
+<span class="hljs-built_in">local</span>)
+    local_install=<span class="hljs-literal">true</span>
+    ;;
+*)
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">" 你输入的这个参数 &lt;<span class="hljs-variable">$red</span> <span class="hljs-variable">$args</span> <span class="hljs-variable">$none</span>&gt; ...这个是什么鬼啊...脚本不认识它哇"</span>
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">" 这个辣鸡脚本仅支持输入<span class="hljs-variable">$green</span> local / online <span class="hljs-variable">$none</span>参数"</span>
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">" 输入<span class="hljs-variable">$yellow</span> local <span class="hljs-variable">$none</span>即是使用本地安装"</span>
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-built_in">echo</span> -e <span class="hljs-string">" 输入<span class="hljs-variable">$yellow</span> online <span class="hljs-variable">$none</span>即是使用在线安装 (默认)"</span>
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-built_in">exit</span> 1
+    ;;
+<span class="hljs-keyword">esac</span>
+
+clear
+<span class="hljs-keyword">while</span> :; <span class="hljs-keyword">do</span>
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"........... V2Ray 一键安装脚本 &amp; 管理脚本 by 233v2.com .........."</span>
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"帮助说明: https://233v2.com/post/1/"</span>
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">"搭建教程: https://233v2.com/post/2/"</span>
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">" 1. 安装"</span>
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-built_in">echo</span> <span class="hljs-string">" 2. 卸载"</span>
+    <span class="hljs-built_in">echo</span>
+    <span class="hljs-keyword">if</span> [[ <span class="hljs-variable">$local_install</span> ]]; <span class="hljs-keyword">then</span>
+        <span class="hljs-built_in">echo</span> -e <span class="hljs-string">"<span class="hljs-variable">$yellow</span> 温馨提示.. 本地安装已启用 ..<span class="hljs-variable">$none</span>"</span>
+        <span class="hljs-built_in">echo</span>
+    <span class="hljs-keyword">fi</span>
+    <span class="hljs-built_in">read</span> -p <span class="hljs-string">"<span class="hljs-variable">$(echo -e "请选择 [${magenta}1-2$none]:")</span>"</span> choose
+    <span class="hljs-keyword">case</span> <span class="hljs-variable">$choose</span> <span class="hljs-keyword">in</span>
+    1)
+        install
+        <span class="hljs-built_in">break</span>
+        ;;
+    2)
+        uninstall
+        <span class="hljs-built_in">break</span>
+        ;;
+    *)
+        error
+        ;;
+    <span class="hljs-keyword">esac</span>
+<span class="hljs-keyword">done</span></code></pre> 
+</section>
+
+  <section class="footer">
+  <div class="container">
+    <span class="footer-item">Text is available under <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></span>
+    <span class="footer-item">Created by <a href="null">ZN</a></span>
+    <span class="footer-item">Powered by <a href="https://hexo.io">Hexo</a></span>
+    <span class="footer-item">Themed by <a href="https://github.com/xcatliu/hexo-theme-wiki-i18n">wiki-i18n</a></span>
+    <span class="footer-item">Hosted by <a href="https://pages.github.com/">GitHub Pages</a></span>
+  </div>
+</section>
+
+  <script>
+  window.HEXO_DATA = {
+    config: {"title":"Chuune Wiki","subtitle":"Write something","description":null,"author":"ZN","language":["zh-cn","en","default"],"timezone":null,"url":"http://yoursite.com","root":"/","permalink":":category/:title.html","permalink_defaults":null,"source_dir":"source","public_dir":"public","tag_dir":"tags","archive_dir":"archives","category_dir":"categories","code_dir":"downloads/code","i18n_dir":":lang","skip_render":null,"new_post_name":":lang/:title.md","default_layout":"post","titlecase":false,"external_link":true,"filename_case":0,"render_drafts":false,"post_asset_folder":false,"relative_link":false,"future":true,"highlight":{"enable":false,"auto_detect":true,"line_number":false,"tab_replace":null},"default_category":"uncategorized","category_map":null,"tag_map":null,"date_format":"YYYY-MM-DD","time_format":"HH:mm:ss","per_page":1000,"pagination_dir":"page","theme":"wiki-i18n","deploy":{"type":"git","repo":"git@github.com:goumang2010/hexo-wiki.git","branch":"gh-pages","message":null},"ignore":[],"author_link":null,"github":"https://github.com/goumang2010/hexo-wiki","index_generator":{"per_page":10,"order_by":"-date"},"marked":{"gfm":true,"pedantic":false,"sanitize":false,"tables":true,"breaks":true,"smartLists":true,"smartypants":true},"jsonContent":{"meta":false,"pages":true,"posts":{"title":true,"date":true,"path":true,"text":true,"raw":false,"content":false,"slug":false,"updated":false,"comments":false,"link":false,"permalink":false,"excerpt":true,"categories":false,"tags":false}},"archive_generator":{"per_page":1000,"yearly":true,"monthly":true,"daily":false},"category_generator":{"per_page":1000},"tag_generator":{"per_page":1000},"server":{"port":4000,"log":false,"ip":"0.0.0.0","compress":false,"header":true}},
+  };
+</script>
+
+  <script src="/js/dist/custom.min.js?v=98978739558"> </script>
+
+
+  </body>
+</html>
