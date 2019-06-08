@@ -137,3 +137,13 @@ vi /etc/rc.local
 ```bash
 nohup /usr/bin/ss-server -c /etc/shadowsocks-libev/config.json -u &
 ```
+
+# 停止服务
+
+```bash
+ps aux | grep ss-server
+```
+
+找到ss-server的pid，然后使用kill命令杀死进程。
+
+
