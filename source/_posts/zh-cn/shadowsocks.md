@@ -119,10 +119,16 @@ sudo vi /etc/shadowsocks-libev/config.json
 whereis ss-server
 ```
 
-得到位置如：`/usr/bin/ss-server`
+得到位置如：`/usr/bin/ss-server` 或是 `/usr/local/bin/ss-server`
 
 ```bash
 nohup /usr/bin/ss-server -c /etc/shadowsocks-libev/config.json -u &
+```
+
+或
+
+```bash
+nohup /usr/local/bin/ss-server -c /etc/shadowsocks-libev/config.json -u &
 ```
 
 运行后可以使用Ctrl+C回到命令行，服务会在后台运行
