@@ -1,6 +1,6 @@
 ---
-title: shadowsocks
-excerpt: shadowsocks安装方法
+title: v2ray
+excerpt: v2ray
 categories: 
 - FE
 ---
