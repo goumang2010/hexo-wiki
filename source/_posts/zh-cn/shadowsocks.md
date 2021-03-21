@@ -100,15 +100,15 @@ sudo vi /etc/shadowsocks-libev/config.json
 "server_port":port,
 "local_port":1080,
 "password":"password",
+"method":"chacha20-ietf-poly1305",
 "timeout":300,
-"method":"aes-256-cfb",
 "fast_open": false,
 "workers": 1
 }
 ```
 * port替换为任意设定的端口，不要和已有端口冲突，10000以下;
 * password替换为设定的密码，8位以上;
-* aes-256-cfb为加密方式，客户端上需要选择;
+* chacha20-ietf-poly1305为加密方式，客户端上需要选择;
 * 不要加入local_address字段。<https://github.com/shadowsocks/shadowsocks-libev/issues/2141>
 
 # UDP转发并运行服务
