@@ -104,14 +104,14 @@ sudo <span class="hljs-keyword">make</span> install</code></pre><h1 id="2."><a h
 <span class="hljs-attr">"server_port"</span>:port,
 <span class="hljs-attr">"local_port"</span>:<span class="hljs-number">1080</span>,
 <span class="hljs-attr">"password"</span>:<span class="hljs-string">"password"</span>,
+<span class="hljs-attr">"method"</span>:<span class="hljs-string">"chacha20-ietf-poly1305"</span>,
 <span class="hljs-attr">"timeout"</span>:<span class="hljs-number">300</span>,
-<span class="hljs-attr">"method"</span>:<span class="hljs-string">"aes-256-cfb"</span>,
 <span class="hljs-attr">"fast_open"</span>: <span class="hljs-literal">false</span>,
 <span class="hljs-attr">"workers"</span>: <span class="hljs-number">1</span>
 }</code></pre><ul>
 <li>port替换为任意设定的端口，不要和已有端口冲突，10000以下;</li>
 <li>password替换为设定的密码，8位以上;</li>
-<li>aes-256-cfb为加密方式，客户端上需要选择;</li>
+<li>chacha20-ietf-poly1305为加密方式，客户端上需要选择;</li>
 <li>不要加入local_address字段。<a href="https://github.com/shadowsocks/shadowsocks-libev/issues/2141" target="_blank" rel="external">https://github.com/shadowsocks/shadowsocks-libev/issues/2141</a></li>
 </ul>
 <h1 id="3."><a href="#3." class="headerlink" title="UDP转发并运行服务"></a>3. UDP转发并运行服务</h1><p>找到ss-server位置</p>
@@ -139,7 +139,7 @@ sudo <span class="hljs-keyword">make</span> install</code></pre><h1 id="2."><a h
   };
 </script>
 
-  <script src="/js/dist/custom.min.js?v=33441147535"> </script>
+  <script src="/js/dist/custom.min.js?v=11827853912"> </script>
 
 
   </body>
